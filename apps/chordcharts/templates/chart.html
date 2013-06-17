@@ -1,0 +1,110 @@
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8" />
+
+        <title>Chord Charts</title>
+
+        {% compress css %}
+            <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}charts.less" />
+        {% endcompress %}
+
+        <script src="{{ STATIC_URL }}jquery-1.9.1.js"></script>
+        <script>
+
+            var settings = {
+                box_width: {{ settings.box_width }},
+                box_height: {{ settings.box_height }},
+                border_width: {{ settings.border_width }},
+                section_sidebar_width: {{ settings.section_sidebar_width }},
+            }
+
+            settings.sections = []
+
+            {% for section in sections %}
+                settings.sections.push({
+                    height: {{ section.boxed_chart.height }}
+                })
+            {% endfor %}
+
+        </script>
+        <script src="{{ STATIC_URL }}charts.js"></script>
+
+    </head>
+
+    <body>
+
+        <article>
+
+            <header>
+                <h1>{{ song_name }}</h1>
+            </header>
+
+            <div class="chord-chart">
+
+                {% for section in sections %}
+
+                    <div class="section" style="width: {{ chart_width }}px;">
+
+                        <div class="section-sidebar" style="height: {{ section.boxed_chart.height }}px;">
+                            <div class="section-sidebar-title" style="line-height: {{ section.boxed_chart.height }}px;">
+                                {{ section.name }}
+                            </div>
+                        </div>
+
+                        <div class="chord-boxes">
+
+                            <div class="line line-first">
+
+                                {% for box in section.boxed_chart.boxes %}
+
+                                    {% if box.starts_on_new_line %}
+                                        </div>
+                                        <div class="line">
+                                    {% endif %}
+
+                                    <div class="
+                                        box
+                                        box-beatschema-{{ box.beat_schema }}
+                                        {% if forloop.first or box.starts_on_new_line %}
+                                            box-first
+                                        {% endif %}
+                                    ">
+
+                                        {% if box.beat_schema == "4" %}
+                                            {{ box.items.0.chord }}
+                                        {% endif %}
+
+                                        {% if box.beat_schema == "2-2" %}
+                                            <div class="chord-first">{{ box.items.0.chord }}</div>
+                                            <div class="chord-second">{{ box.items.1.chord }}</div>
+                                        {% endif %}
+
+                                        {% if box.beat_schema == "2-1-1" %}
+                                            <div class="chord-first">{{ box.items.0.chord }}</div>
+                                            <div class="chord-second">{{ box.items.1.chord }}</div>
+                                            <div class="chord-third">{{ box.items.2.chord }}</div>
+                                        {% endif %}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </article>
+
+    </body>
+
+</html>

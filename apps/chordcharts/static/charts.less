@@ -1,0 +1,128 @@
+@box_width: 100px;
+@box_height: 100px;
+@border_width: 1px;
+@section_sidebar_width: 40px;
+@section_width: (@section_sidebar_width + (8 * (@box_width + @border_width)) + @border_width);
+
+body {
+    font-family: Helvetica;
+}
+
+header h1 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.chord-chart {
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+
+.section {
+    margin: 0 auto 15px;
+    overflow: hidden;
+}
+
+.section-sidebar {
+    position: relative;
+    float: left;
+    width: @section_sidebar_width;
+}
+
+.section-sidebar-title {
+    position: absolute;
+    width: @section_sidebar_width;
+    text-align: center;
+    font-size: 20px;
+    background: #FFF;
+}
+
+.chord-boxes {
+    float: left;
+}
+
+.line {
+    clear: both;
+}
+
+.box {
+    float: left;
+    height: @box_height;
+    width: @box_width;
+    border: solid @border_width #000;
+    border-width: 0 @border_width @border_width 0;
+}
+
+.line-first .box {
+    border-top-width: @border_width;
+}
+
+.box-first {
+    border-left-width: @border_width;
+}
+
+.box-full,
+.box-beatschema-4 {
+    line-height: @box_height;
+    text-align: center;
+    font-size: 27px;
+}
+
+.box-half-half,
+.box-beatschema-2-2 {
+    position: relative;
+}
+
+.box-half-half .chord-first,
+.box-beatschema-2-2 .chord-first {
+    position: absolute;
+    font-size: 20px;
+    line-height: round(@box_height * 0.6);
+    width: round(@box_width * 0.6);
+    text-align: center;
+}
+
+.box-half-half .chord-second,
+.box-beatschema-2-2 .chord-second {
+    position: absolute;
+    font-size: 20px;
+    line-height: round(@box_height * 0.6);
+    top: round(@box_height * 0.4);
+    left: round(@box_width * 0.4);
+    width: round(@box_width * 0.6);
+    text-align: center;
+}
+
+.box-half-quarter-quarter,
+.box-beatschema-2-1-1 {
+    position: relative;
+}
+
+.box-half-quarter-quarter .chord-first,
+.box-beatschema-2-1-1 .chord-first {
+    position: absolute;
+    font-size: 20px;
+    line-height: round(@box_height * 0.6);
+    width: round(@box_width * 0.6);
+    text-align: center;
+}
+
+.box-half-quarter-quarter .chord-second,
+.box-beatschema-2-1-1 .chord-second {
+    position: absolute;
+    font-size: 15px;
+    line-height: round(@box_height * 0.35);
+    width: @box_width;
+    top: round(@box_height * 0.65);
+    text-align: center;
+}
+
+.box-half-quarter-quarter .chord-third,
+.box-beatschema-2-1-1 .chord-third {
+    position: absolute;
+    font-size: 15px;
+    line-height: @box_height;
+    width: round(@box_width * 0.40);
+    left: round(@box_width * 0.60);
+    text-align: center;
+}

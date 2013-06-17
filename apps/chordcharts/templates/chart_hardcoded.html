@@ -1,0 +1,288 @@
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8" />
+
+        <title>Chord Charts</title>
+
+        {% compress css %}
+            <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}charts.less" />
+        {% endcompress %}
+
+        <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+        <script>
+
+            var settings = {
+                box_width: {{ settings.box_width }},
+                box_height: {{ settings.box_height }},
+                border_width: {{ settings.border_width }},
+                section_sidebar_width: {{ settings.section_sidebar_width }},
+                section_width: {{ settings.section_width }},
+            }
+
+            settings.sections = []
+
+            {% for section in settings.sections %}
+                settings.sections.push({
+                    height: {{ section.height }}
+                })
+            {% endfor %}
+
+        </script>
+        <script src="{{ STATIC_URL }}charts.js"></script>
+
+    </head>
+
+    <body>
+
+        <article>
+
+            <header>
+                <h1>J'attendrai</h1>
+            </header>
+
+            <div class="chord-chart">
+
+                <div class="section" style="width: {{ settings.section_width }}px;">
+
+                    <div class="section-sidebar" style="height: {{ settings.sections.0.height }}px;">
+                        <div class="section-sidebar-title" style="line-height: {{ settings.sections.0.height }}px;">
+                            A
+                        </div>
+                    </div>
+
+                    <div class="chord-boxes">
+
+                        <div class="line line-first">
+
+                            <div class="box box-first box-full">
+                                C6/9
+                            </div>
+
+                            <div class="box box-full">
+                                %
+                            </div>
+
+                            <div class="box box-full">
+                                %
+                            </div>
+
+                            <div class="box box-full">
+                                F9
+                            </div>
+
+                            <div class="box box-full">
+                                C△7
+                            </div>
+
+                            <div class="box box-half-quarter-quarter">
+                                <div class="chord-first">C△7</div>
+                                <div class="chord-second">C/E</div>
+                                <div class="chord-third">Eb°</div>
+                            </div>
+
+                            <div class="box box-full">
+                                D-7
+                            </div>
+
+                            <div class="box box-full">
+                                A9
+                            </div>
+
+                        </div>
+
+                        <div class="line">
+
+                            <div class="box box-first box-full">
+                                Dm
+                            </div>
+
+                            <div class="box box-full">
+                                D-△
+                            </div>
+
+                            <div class="box box-full">
+                                D-7
+                            </div>
+
+                            <div class="box box-full">
+                                G7
+                            </div>
+
+                            <div class="box box-full">
+                                Dm
+                            </div>
+
+                            <div class="box box-full">
+                                G7
+                            </div>
+
+                            <div class="box box-full">
+                                C6/9
+                            </div>
+
+                            <div class="box box-full">
+                                %
+                            </div>
+
+                        </div>
+
+                        <div class="line">
+
+                            <div class="box box-first box-full">
+                                C7
+                            </div>
+
+                            <div class="box box-full">
+                                %
+                            </div>
+
+                            <div class="box box-full">
+                                F6/9
+                            </div>
+
+                            <div class="box box-full">
+                                D0̸
+                            </div>
+
+                            <div class="box box-full">
+                                C6/9
+                            </div>
+
+                            <div class="box box-half-quarter-quarter">
+                                <div class="chord-first">C6/9</div>
+                                <div class="chord-second">E-7</div>
+                                <div class="chord-third">Eb-7</div>
+                            </div>
+
+                            <div class="box box-full">
+                                D-7
+                            </div>
+
+                            <div class="box box-full">
+                                G7
+                            </div>
+
+                        </div>
+
+                        <div class="line">
+
+                            <div class="box box-first box-full">
+                                C6/9
+                            </div>
+
+                            <div class="box box-full">
+                                G7+5
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="section" style="width: {{ settings.section_width }}px;">
+
+                    <div class="section-sidebar" style="height: {{ settings.sections.1.height }}px;">
+                        <div class="section-sidebar-title" style="line-height: {{ settings.sections.1.height }}px;">
+                            B
+                        </div>
+                    </div>
+
+                    <div class="chord-boxes">
+
+                        <div class="line line-first">
+
+                            <div class="box box-first box-half-half">
+                                <div class="chord-first">C6/9</div>
+                                <div class="chord-second">Am7</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">Dm7</div>
+                                <div class="chord-second">G7</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">C6/9</div>
+                                <div class="chord-second">A7+5</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">Dm7</div>
+                                <div class="chord-second">G7</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">Em</div>
+                                <div class="chord-second">A7+5</div>
+                            </div>
+
+                            <div class="box box-full">
+                                D7
+                            </div>
+
+                            <div class="box box-full">
+                                Dm7
+                            </div>
+
+                            <div class="box box-full">
+                                G7
+                            </div>
+
+                        </div>
+
+                        <div class="line">
+
+                            <div class="box box-first box-half-half">
+                                <div class="chord-first">C6/9</div>
+                                <div class="chord-second">Am7</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">Dm7</div>
+                                <div class="chord-second">G7</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">C6/9</div>
+                                <div class="chord-second">A7+5</div>
+                            </div>
+
+                            <div class="box box-half-half">
+                                <div class="chord-first">A7</div>
+                                <div class="chord-second">Dm7</div>
+                            </div>
+
+                            <div class="box box-full">
+                                F
+                            </div>
+
+                            <div class="box box-full">
+                                F#°
+                            </div>
+
+                            <div class="box box-full">
+                                G7
+                            </div>
+
+                            <div class="box box-full">
+                                %
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </body>
+
+</html>

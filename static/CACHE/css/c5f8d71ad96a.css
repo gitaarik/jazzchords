@@ -1,0 +1,104 @@
+body {
+  font-family: Helvetica;
+}
+header h1 {
+  font-size: 30px;
+  text-align: center;
+}
+.chord-chart {
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+.section {
+  margin: 0 auto 15px;
+  overflow: hidden;
+}
+.section-sidebar {
+  position: relative;
+  float: left;
+  width: 40px;
+}
+.section-sidebar-title {
+  position: absolute;
+  width: 40px;
+  text-align: center;
+  font-size: 20px;
+  background: #FFF;
+}
+.chord-boxes {
+  float: left;
+}
+.line {
+  clear: both;
+}
+.box {
+  float: left;
+  height: 100px;
+  width: 100px;
+  border: solid 1px #000000;
+  border-width: 0 1px 1px 0;
+}
+.line-first .box {
+  border-top-width: 1px;
+}
+.box-first {
+  border-left-width: 1px;
+}
+.box-full,
+.box-beatschema-4 {
+  line-height: 100px;
+  text-align: center;
+  font-size: 27px;
+}
+.box-half-half,
+.box-beatschema-2-2 {
+  position: relative;
+}
+.box-half-half .chord-first,
+.box-beatschema-2-2 .chord-first {
+  position: absolute;
+  font-size: 20px;
+  line-height: 60px;
+  width: 60px;
+  text-align: center;
+}
+.box-half-half .chord-second,
+.box-beatschema-2-2 .chord-second {
+  position: absolute;
+  font-size: 20px;
+  line-height: 60px;
+  top: 40px;
+  left: 40px;
+  width: 60px;
+  text-align: center;
+}
+.box-half-quarter-quarter,
+.box-beatschema-2-1-1 {
+  position: relative;
+}
+.box-half-quarter-quarter .chord-first,
+.box-beatschema-2-1-1 .chord-first {
+  position: absolute;
+  font-size: 20px;
+  line-height: 60px;
+  width: 60px;
+  text-align: center;
+}
+.box-half-quarter-quarter .chord-second,
+.box-beatschema-2-1-1 .chord-second {
+  position: absolute;
+  font-size: 15px;
+  line-height: 35px;
+  width: 100px;
+  top: 65px;
+  text-align: center;
+}
+.box-half-quarter-quarter .chord-third,
+.box-beatschema-2-1-1 .chord-third {
+  position: absolute;
+  font-size: 15px;
+  line-height: 100px;
+  width: 40px;
+  left: 60px;
+  text-align: center;
+}

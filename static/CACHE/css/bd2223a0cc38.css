@@ -1,0 +1,96 @@
+body {
+  font-family: Helvetica;
+}
+header h1 {
+  font-size: 30px;
+  text-align: center;
+}
+.chord-chart {
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+.section {
+  margin: 0 auto 15px;
+  overflow: hidden;
+}
+.section-sidebar {
+  position: relative;
+  float: left;
+  width: 40 px;
+}
+.section-sidebar-title {
+  position: absolute;
+  width: 40 px;
+  text-align: center;
+  font-size: 20px;
+  background: #FFF;
+}
+.chord-boxes {
+  float: left;
+}
+.line {
+  clear: both;
+}
+.box {
+  float: left;
+  height: 100 px;
+  width: 100 px;
+  border: solid 1 px #000000;
+  border-width: 0 1 px 1 px 0;
+}
+.line-first .box {
+  border-top-width: 1 px;
+}
+.box-first {
+  border-left-width: 1 px;
+}
+.box-full {
+  line-height: 100 px;
+  text-align: center;
+  font-size: 27px;
+}
+.box-half-half {
+  position: relative;
+}
+.box-half-half .chord-first {
+  position: absolute;
+  font-size: 20px;
+  line-height: 60 px;
+  width: 60 px;
+  text-align: center;
+}
+.box-half-half .chord-second {
+  position: absolute;
+  font-size: 20px;
+  line-height: 60 px;
+  top: 40 px;
+  left: 40 px;
+  width: 60 px;
+  text-align: center;
+}
+.box-half-quarter-quarter {
+  position: relative;
+}
+.box-half-quarter-quarter .chord-first {
+  position: absolute;
+  font-size: 20px;
+  line-height: 60 px;
+  width: 60 px;
+  text-align: center;
+}
+.box-half-quarter-quarter .chord-second {
+  position: absolute;
+  font-size: 15px;
+  line-height: 35 px;
+  width: 100 px;
+  top: 65 px;
+  text-align: center;
+}
+.box-half-quarter-quarter .chord-third {
+  position: absolute;
+  font-size: 15px;
+  line-height: 100 px;
+  width: 40 px;
+  left: 60 px;
+  text-align: center;
+}
