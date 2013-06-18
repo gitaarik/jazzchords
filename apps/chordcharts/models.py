@@ -25,17 +25,7 @@ class Chart(models.Model):
 
 class Key(models.Model):
 
-    TONALITY_MAJOR = 1
-    TONALITY_MINOR = 2
-    TONALITY_CHOICES = (
-        (TONALITY_MAJOR, 'Major'),
-        (TONALITY_MINOR, 'Minor'),
-    )
-
     name = models.CharField(max_length=25)
-    symbol = models.CharField(max_length=5)
-    tonality = models.PositiveSmallIntegerField(choices=TONALITY_CHOICES)
-    distance_from_c = models.PositiveSmallIntegerField()
 
     def tone(self, distance_from_root, accidental=0):
         return self.pitch_set.get(distance_from_root=distance_from_root).name
@@ -92,13 +82,6 @@ class Section(models.Model):
         (KEY_A, 'A'),
         (KEY_B_FLAT, 'Bb'),
         (KEY_B, 'B'),
-    )
-
-    TONALITY_MAJOR = 1
-    TONALITY_MINOR = 2
-    TONALITY_CHOICES = (
-        (TONALITY_MAJOR, 'Major'),
-        (TONALITY_MINOR, 'Minor'),
     )
 
     name = models.CharField(max_length=10)
