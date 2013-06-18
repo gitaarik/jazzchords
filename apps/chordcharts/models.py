@@ -37,18 +37,22 @@ class Key(models.Model):
     tonality = models.PositiveSmallIntegerField(choices=TONALITY_CHOICES)
     distance_from_c = models.PositiveSmallIntegerField()
 
+    def tone(self, distance_from_root, accidental=0):
+        return self.pitch_set.get(distance_from_root=distance_from_root).name
+
+    def resolve_accidentals(self, pitch, accidental):
+        return (pitch, accidental)
+
     def __unicode__(self):
         return self.name
 
 
 class Pitch(models.Model):
 
-    name = models.CharField(max_length=1)
+    name = models.CharField(max_length=2)
     key = models.ForeignKey(Key)
     distance_from_root = models.PositiveSmallIntegerField()
-    accidental = models.SmallIntegerField(default=0, help_text=
-        '0 is neutral, -1 if flat, 1 is sharp, -2 is double flat, 2 is double '
-        'sharp, and so on.')
+    key_tone = models.BooleanField()
 
     def __unicode__(self):
         return self.name
@@ -137,9 +141,6 @@ class Item(models.Model):
     beats = models.PositiveSmallIntegerField(default=4)
     chord_type = models.ForeignKey(ChordType)
     chord_pitch = models.PositiveSmallIntegerField()
-    chord_accidental = models.SmallIntegerField(default=0, help_text=
-        '0 is neutral, -1 if flat, 1 is sharp, -2 is double flat, 2 is double '
-        'sharp, and so on.')
     alternative_bass_tone = models.PositiveSmallIntegerField(default=0,
         help_text='If the chord has an alternative tone in the bass, specify '
         'this tone here. Otherwise, leave blank')
@@ -153,19 +154,13 @@ class Item(models.Model):
 
     def chord_name(self):
 
-        if self.chord_accidental:
-            if self.chord_accidental > 0:
-                accidental = '#' * (1 * self.chord_accidental)
-            else:
-                accidental = 'b' * (-1 * self.chord_accidental)
+        if self.alternative_bass_tone:
+            alt_base = '/{}'.format(
+                self.chart_section.key.tone(self.alternative_bass_tone))
         else:
-            accidental = ''
+            alt_base = ''
 
-        return u'{}{}{}'.format(
-            self.chord_key_pitch().name,
-            accidental,
-            self.chord_type.symbol)
-
-    def chord_key_pitch(self):
-        return self.chart_section.key.pitch_set.get(
-            distance_from_root=self.chord_pitch)
+        return u''.join([
+            self.chart_section.key.tone(self.chord_pitch),
+            self.chord_type.symbol,
+            alt_base])

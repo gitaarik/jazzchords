@@ -4,9 +4,9 @@ from .models import Chart
 from .settings import BOXED_CHART
 
 
-def chart(request):
+def chart(request, song_slug):
 
-    chart = Chart.objects.get(song__slug='jattendrai')
+    chart = Chart.objects.get(song__slug=song_slug)
 
     settings = BOXED_CHART
 
