@@ -1,40 +1,30 @@
+# coding=utf8
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
 from .chartsections.boxed import BoxedChartSection
-
-
-class Chart(models.Model):
-
-    song = models.ForeignKey(Song)
-
-    def __unicode__(self):
-        return unicode(self.song)
-
-    def boxed_chart_width(self):
-
-        width = 0
-
-        for section in self.section_set.all():
-            section_width = section.boxed_chart().width
-            if section_width > width:
-                width = section_width
-
-        return width
+from .exceptions import SectionKeyDoesNotExist
 
 
 class Key(models.Model):
 
+    TONALITY_MAJOR = 1
+    TONALITY_MINOR = 1
+    TONALITY_CHOICES = (
+        (TONALITY_MAJOR, 'Major'),
+        (TONALITY_MINOR, 'Minor')
+    )
+
     name = models.CharField(max_length=25)
-
-    def tone(self, distance_from_root, accidental=0):
-        return self.pitch_set.get(distance_from_root=distance_from_root).name
-
-    def resolve_accidentals(self, pitch, accidental):
-        return (pitch, accidental)
+    tonality = models.PositiveSmallIntegerField(choices=TONALITY_CHOICES)
+    distance_from_c = models.PositiveSmallIntegerField()
 
     def __unicode__(self):
         return self.name
+
+    def tone(self, distance_from_root, accidental=0):
+        return self.pitch_set.get(distance_from_root=distance_from_root).name
 
 
 class Pitch(models.Model):
@@ -50,6 +40,28 @@ class Pitch(models.Model):
     class Meta:
         verbose_name_plural = 'Pitches'
         ordering = ('distance_from_root',)
+
+
+class Chart(models.Model):
+
+    song = models.ForeignKey(Song)
+    key = models.ForeignKey(Key, help_text='''The key the chart is in. If the
+        some sections of the song have deviating keys you can overwrite this in
+        the section.''')
+
+    def __unicode__(self):
+        return unicode(self.song)
+
+    def boxed_chart_width(self):
+
+        width = 0
+
+        for section in self.section_set.all():
+            section_width = section.boxed_chart().width
+            if section_width > width:
+                width = section_width
+
+        return width
 
 
 class Section(models.Model):
@@ -86,7 +98,9 @@ class Section(models.Model):
 
     name = models.CharField(max_length=10)
     chart = models.ForeignKey(Chart)
-    key = models.ForeignKey(Key)
+    key_distance_from_chart = models.PositiveSmallIntegerField(default=0,
+        help_text='''If this section is in a different key than the default key
+        for the chart, you can specify the distance from the chart key here''')
     line_width = models.PositiveSmallIntegerField(default=8)
     position = models.PositiveSmallIntegerField()
 
@@ -98,6 +112,25 @@ class Section(models.Model):
     class Meta:
         ordering = ('position',)
         unique_together = ('chart', 'position')
+
+    def key(self):
+
+        if self.key_distance_from_chart == 0:
+            return self.chart.key
+        else:
+
+            key_distance_from_c = (
+                self.chart.key.distance_from_c +
+                self.key_distance_from_chart) % 12
+
+            try:
+                key = Key.objects.get(
+                    distance_from_c=key_distance_from_c,
+                    tonality=self.chart.key.tonality)
+            except ObjectDoesNotExist:
+                raise SectionKeyDoesNotExist
+
+            return key
 
     def boxed_chart(self):
         if not self._boxed_chart:
@@ -137,13 +170,23 @@ class Item(models.Model):
 
     def chord_name(self):
 
-        if self.alternative_bass_tone:
-            alt_base = '/{}'.format(
-                self.chart_section.key.tone(self.alternative_bass_tone))
-        else:
+        try:
+            section_key = self.chart_section.key()
+        except SectionKeyDoesNotExist:
+            note = u'�'
             alt_base = ''
+        else:
+
+            note = section_key.tone(self.chord_pitch)
+
+            if self.alternative_bass_tone:
+                alt_base = u'/{}'.format(
+                    section_key.tone(self.alternative_bass_tone))
+            else:
+                alt_base = ''
+
 
         return u''.join([
-            self.chart_section.key.tone(self.chord_pitch),
+            note,
             self.chord_type.symbol,
             alt_base])

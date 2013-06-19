@@ -10,7 +10,8 @@ class ItemAdmin(admin.TabularInline):
 
 
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'chart', 'key', 'position')
+    list_display = ('name', 'chart', 'key', 'position',
+        'key_distance_from_chart')
     inlines = (ItemAdmin,)
 
 
@@ -39,6 +40,7 @@ class SectionInline(admin.StackedInline):
 
 
 class ChartAdmin(admin.ModelAdmin):
+    list_display = ('song', 'key')
     inlines = (SectionInline,)
 
 
