@@ -1,7 +1,7 @@
 from django.core import urlresolvers
 from django.contrib import admin
 
-from models import Chart, Section, ChordType, Item, Pitch, Key
+from models import Chart, Section, ChordType, Item, Note, Key
 
 
 class ItemAdmin(admin.TabularInline):
@@ -48,13 +48,13 @@ class ChordTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'symbol')
 
 
-class PitchInline(admin.TabularInline):
-    model = Pitch
+class NoteInline(admin.TabularInline):
+    model = Note
     extra = 0
 
 
 class KeyAdmin(admin.ModelAdmin):
-    inlines = (PitchInline,)
+    inlines = (NoteInline,)
 
 
 admin.site.register(Chart, ChartAdmin)
