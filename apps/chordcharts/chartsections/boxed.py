@@ -41,7 +41,7 @@ class BoxedChartSection(object):
         self.box_progress = 0
         self.line_count = 1
         self.box_count = 0
-        self.last_chord_name = None
+        self.last_chord_notation = None
 
         self.current_box = self.new_box()
         self.generate_boxes()
@@ -140,14 +140,14 @@ class BoxedChartSection(object):
         Add item to box.
         '''
 
-        chord_name = self.current_item.chord_name
+        chord_notation = self.current_item.chord_notation
 
-        if beats == 4 and chord_name == self.last_chord_name:
+        if beats == 4 and chord_notation == self.last_chord_notation:
             chart_chord = '%'
         else:
-            chart_chord = chord_name
+            chart_chord = chord_notation
 
-        self.last_chord_name = chord_name
+        self.last_chord_notation = chord_notation
 
         self.current_box.items.append({
             'chord': chart_chord,

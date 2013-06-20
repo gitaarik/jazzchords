@@ -136,7 +136,7 @@ class Section(models.Model):
         all the sections in a correct order. Should etart from 0.''')
 
     def __unicode__(self):
-        return self.name
+        return self.name()
 
     class Meta:
         ordering = ('position',)
@@ -176,42 +176,86 @@ class Section(models.Model):
     def boxed_chart(self):
         '''
         Get the boxed chart for this section. This is a way to represent the
-        section.
+        section in a boxed format.
         '''
         return BoxedChartSection(self)
 
 
 class ChordType(models.Model):
+    '''
+    The type of a chord.
 
-    name = models.CharField(max_length=50)
-    symbol = models.CharField(max_length=10, blank=True)
+    This defines the intervals of the chord. For example, Major, Major Seven,
+    Ninth, Diminished etc.
+
+    This definition is only used to be understandable for humans (who will read
+    the chord charts) and not the code. There's no need for the code to
+    understand this because at the moment there are no features that need this.
+    '''
+
+    name = models.CharField(max_length=50, help_text=
+        '''The human understandable name that descripes the chord type. For
+        example: Major, Major Seven, Ninth, Diminished etc.''')
+    symbol = models.CharField(max_length=10, blank=True, help_text=
+        '''The symbol for the chord type.  For example: 7 (for Seventh), 9 (for
+        Ninth), m (for Minor) This will be used for the chord representation in
+        the chart. Use any symbol you think would be appropriate to represent
+        the chord.''')
 
     def __unicode__(self):
-        return self.symbol
+        return u'{} ({})'.format(self.name, self.symbol)
 
     class Meta:
         ordering = ('name',)
 
 
 class Item(models.Model):
+    '''
+    An item in a section of a chart.
 
-    section = models.ForeignKey(Section)
-    position = models.PositiveSmallIntegerField()
-    beats = models.PositiveSmallIntegerField(default=4)
-    chord_type = models.ForeignKey(ChordType)
-    chord_pitch = models.PositiveSmallIntegerField()
+    This contains the chords and information about it, like position, duration
+    and more.
+    '''
+
+    section = models.ForeignKey(Section, help_text=
+        '''The section this item belongs to.''')
+    position = models.PositiveSmallIntegerField(help_text='''The position for
+        the item. Will be used to determine the order of the items.''')
+    beats = models.PositiveSmallIntegerField(default=4, help_text='''
+        The number of beats the item should be played. The current chord chart
+        representations only support 4/4 measures.''')
+    chord_type = models.ForeignKey(ChordType, help_text='''The type of the
+        chord. This defines the intervals inside the chord.''')
+    chord_pitch = models.PositiveSmallIntegerField(help_text=
+        '''The relative pitch for the chord. This is the amount of half notes
+        the chord note is away from the root of the key the item will be
+        presented in. These half steps should be upwards in the scale.''')
+    alternative_bass = models.BooleanField(help_text='''Indicates if the chord
+        has an alternative tone in the bass.''')
     alternative_bass_pitch = models.PositiveSmallIntegerField(default=0,
-        help_text='If the chord should have an alternative note in the bass, '
-        'specify the pitch here. Otherwise, leave blank')
+        help_text='''The alternative bass tone in the chord. As with the Chord
+        Pitch, it is the amount of half notes the chord note is away from the
+        root of the key the item will be presented in. These half steps should
+        be upwards in the scale. It will only be used if `Use Alternative Bass`
+        is set.''')
 
     def __unicode__(self):
-        return self.chord_name()
+        return self.chord_notation()
 
     class Meta:
         ordering = ('position',)
         unique_together = ('section', 'position')
 
-    def chord_name(self):
+    def chord_notation(self):
+        '''
+        The notation for the chord.
+
+        This is a build up with these components:
+        - The chord tone (based on the key), this includes any flats or sharps
+          too.
+        - The symbol of the chord type.
+        - Possibly the alternative base note (based on the key).
+        '''
 
         try:
             section_key = self.section.key()
@@ -222,7 +266,7 @@ class Item(models.Model):
 
             note = section_key.note(self.chord_pitch)
 
-            if self.alternative_bass_pitch:
+            if self.alternative_bass:
                 alt_base = u'/{}'.format(
                     section_key.note(self.alternative_bass_pitch))
             else:
