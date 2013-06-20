@@ -32,7 +32,8 @@ def chart(request, song_slug):
     context = {
         'settings': BOXED_CHART,
         'song_name': chart.song.name,
-        'chart_width': chart.boxed_chart_width(),
+        'chart_key': chart.key,
+        'boxed_chart': chart.boxed_chart(),
         'sections': chart.section_set.all(),
     }
 

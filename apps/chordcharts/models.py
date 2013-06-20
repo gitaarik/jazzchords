@@ -3,7 +3,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
-from .chartsections.boxed import BoxedChartSection
+from .chartsections.boxed import BoxedChart, BoxedChartSection
 from .exceptions import SectionKeyDoesNotExist
 
 
@@ -52,16 +52,8 @@ class Chart(models.Model):
     def __unicode__(self):
         return unicode(self.song)
 
-    def boxed_chart_width(self):
-
-        width = 0
-
-        for section in self.section_set.all():
-            section_width = section.boxed_chart().width
-            if section_width > width:
-                width = section_width
-
-        return width
+    def boxed_chart(self):
+        return BoxedChart(self)
 
 
 class Section(models.Model):
@@ -104,8 +96,6 @@ class Section(models.Model):
     line_width = models.PositiveSmallIntegerField(default=8)
     position = models.PositiveSmallIntegerField()
 
-    _boxed_chart = None
-
     def __unicode__(self):
         return self.name
 
@@ -133,9 +123,7 @@ class Section(models.Model):
             return key
 
     def boxed_chart(self):
-        if not self._boxed_chart:
-            self._boxed_chart = BoxedChartSection(self)
-        return self._boxed_chart
+        return BoxedChartSection(self)
 
 
 class ChordType(models.Model):

@@ -1,6 +1,29 @@
 from ..settings import BOXED_CHART
 
 
+class BoxedChart(object):
+
+    def __init__(self, chart):
+        self.chart = chart
+
+    def total_width(self):
+        return self.chart_width() + self.section_sidebar_width()
+
+    def chart_width(self):
+
+        widest_section = 0
+
+        for section in self.chart.section_set.all():
+            section_width = section.boxed_chart().width
+            if section_width > widest_section:
+                widest_section = section_width
+
+        return widest_section
+
+    def section_sidebar_width(self):
+        return BOXED_CHART['section_sidebar_width']
+
+
 class BoxedChartSection(object):
     '''
     Get a boxed chart for the given section.
@@ -141,7 +164,6 @@ class BoxedChartSection(object):
     def calculate_width(self):
 
         self.width = (
-            BOXED_CHART['section_sidebar_width'] +
             (self.section.line_width *
                 (BOXED_CHART['box_width'] + BOXED_CHART['border_width'])) +
             BOXED_CHART['border_width']

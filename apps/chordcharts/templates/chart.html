@@ -37,17 +37,20 @@
 
     <body>
 
-        <article>
+        <article class="chord-chart" style="width: {{ boxed_chart.total_width }}px;">
 
             <header>
                 <h1>{{ song_name }}</h1>
+                <div class="chart_key" style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
+                    Key of {{ chart_key }}
+                </div>
             </header>
 
-            <div class="chord-chart">
+            <div class="boxed-chart">
 
                 {% for section in sections %}
 
-                    <div class="section" style="width: {{ chart_width }}px;">
+                    <div class="section" style="width: {{ boxed_chart.total_width }}px;">
 
                         <div class="section-sidebar" style="height: {{ section.boxed_chart.height }}px;">
                             <div class="section-sidebar-title" style="line-height: {{ section.boxed_chart.height }}px;">
