@@ -257,6 +257,8 @@ class Item(models.Model):
         - Possibly the alternative base note (based on the key).
         '''
 
+        # It could be that the section key doesn't exist because the section's
+        # key deviates (by interval) from the charts key.
         try:
             section_key = self.section.key()
         except SectionKeyDoesNotExist:
