@@ -2,14 +2,28 @@ from ..settings import BOXED_CHART
 
 
 class BoxedChart(object):
+    '''
+    A boxed chart.
+
+    This object provides global information about the boxed chart
+    representation of the chart.
+    '''
 
     def __init__(self, chart):
         self.chart = chart
 
     def total_width(self):
+        '''
+        The total width the boxed chart will be.
+
+        This includes the width of the section sidebar.
+        '''
         return self.chart_width() + self.section_sidebar_width()
 
     def chart_width(self):
+        '''
+        The width of the chart without the section sidebar.
+        '''
 
         widest_section = 0
 
@@ -21,20 +35,36 @@ class BoxedChart(object):
         return widest_section
 
     def section_sidebar_width(self):
+        '''
+        The width of the section sidebar.
+        '''
         return BOXED_CHART['section_sidebar_width']
 
 
 class BoxedChartSection(object):
     '''
-    Get a boxed chart for the given section.
+    A boxed chart for a certain section.
 
-    Useful variables:
-    self.boxes      - the boxes in this section
-    self.height     - the height of the html output of this section
-    self.width      - the width of the html output of this section
+    On initialization of this object, the object will calculate the following
+    variables:
+    self.boxes          - The boxes, this is a list of ChartBox objects.
+    self.height         - The height.
+    self.width          - The width.
+    self.box_count      - The number of boxes.
+    self.line_count     - The number of lines.
     '''
 
     def __init__(self, section):
+        '''
+        Initializes the object based on the given section.
+
+        This will calculate the following variables:
+        self.boxes          - The boxes, this is a list of ChartBox objects.
+        self.height         - The height.
+        self.width          - The width.
+        self.box_count      - The number of boxes.
+        self.line_count     - The number of lines.
+        '''
 
         self.section = section
         self.boxes = []
@@ -45,8 +75,8 @@ class BoxedChartSection(object):
 
         self.current_box = self.new_box()
         self.generate_boxes()
-        self.calculate_height()
-        self.calculate_width()
+        self.height = self.calculate_height()
+        self.width = self.calculate_width()
 
     def generate_boxes(self):
         '''
@@ -148,22 +178,18 @@ class BoxedChartSection(object):
             chart_chord = chord_notation
 
         self.last_chord_notation = chord_notation
-
-        self.current_box.items.append({
-            'chord': chart_chord,
-            'beats': beats
-        })
+        self.current_box.items.append(ChartBoxItem(chart_chord, beats))
 
     def calculate_height(self):
 
-        self.height = ((
+        return ((
             self.line_count *
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 
     def calculate_width(self):
 
-        self.width = (
+        return (
             (self.section.line_width *
                 (BOXED_CHART['box_width'] + BOXED_CHART['border_width'])) +
             BOXED_CHART['border_width']
@@ -171,16 +197,43 @@ class BoxedChartSection(object):
 
 
 class ChartBox(object):
+    '''
+    This represents a box in the boxed chart.
+
+    Variables on this object:
+    self.position                   - The position of the box. This defines the
+                                      order of the boxes.
+    self.starts_on_new_line         - Indicates if the box should start on a
+                                      new line.
+    self.items                      - The ChartBoxItems in this ChartBox.
+    '''
 
     def __init__(self, position):
         self.items = []
         self.position = position
 
     def beat_schema(self):
+        '''
+        A representation of the durations of the items in this box.
 
-        beats = []
+        The format is: each duration represented as a number, seperated by
+        dashes. For example:
+        2-2     - First item 2 beats, second item two beats.
+        2-1-1   - First item 2 beats, second item 1 beat, third item 1 beat.
+        4       - First (and only) item 4 beats.
+        '''
+        return u'-'.join([unicode(item.beats) for item in self.items])
 
-        for item in self.items:
-            beats.append(str(item['beats']))
 
-        return '-'.join(beats)
+class ChartBoxItem(object):
+    '''
+    This represents an item in a chart box.
+
+    Variables on this object:
+    self.chord      - The chord.
+    self.beats      - The amount of beats the chord should be played.
+    '''
+
+    def __init__(self, chord, beats):
+        self.chord = chord
+        self.beats = beats

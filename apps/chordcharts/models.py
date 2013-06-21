@@ -5,7 +5,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
-from .chartsections.boxed import BoxedChart, BoxedChartSection
+from .charts.boxed import BoxedChart, BoxedChartSection
 from .exceptions import SectionKeyDoesNotExist
 
 
@@ -133,7 +133,7 @@ class Section(models.Model):
         of 4.''')
     position = models.PositiveSmallIntegerField(help_text=
         '''The position the section has in the chart. This will be used to put
-        all the sections in a correct order. Should etart from 0.''')
+        all the sections in a correct order. Should start from 0.''')
 
     def __unicode__(self):
         return self.name()
@@ -273,7 +273,6 @@ class Item(models.Model):
                     section_key.note(self.alternative_bass_pitch))
             else:
                 alt_base = ''
-
 
         return u''.join([
             note,
