@@ -79,18 +79,18 @@
                                     ">
 
                                         {% if box.beat_schema == "4" %}
-                                            {{ box.items.0.chord }}
+                                            {{ box.parts.0.chord }}
                                         {% endif %}
 
                                         {% if box.beat_schema == "2-2" %}
-                                            <div class="chord-first">{{ box.items.0.chord }}</div>
-                                            <div class="chord-second">{{ box.items.1.chord }}</div>
+                                            <div class="chord-first">{{ box.parts.0.chord }}</div>
+                                            <div class="chord-second">{{ box.parts.1.chord }}</div>
                                         {% endif %}
 
                                         {% if box.beat_schema == "2-1-1" %}
-                                            <div class="chord-first">{{ box.items.0.chord }}</div>
-                                            <div class="chord-second">{{ box.items.1.chord }}</div>
-                                            <div class="chord-third">{{ box.items.2.chord }}</div>
+                                            <div class="chord-first">{{ box.parts.0.chord }}</div>
+                                            <div class="chord-second">{{ box.parts.1.chord }}</div>
+                                            <div class="chord-third">{{ box.parts.2.chord }}</div>
                                         {% endif %}
 
                                     </div>

@@ -23,8 +23,8 @@ class Key(models.Model):
     TONALITY_MAJOR = 1
     TONALITY_MINOR = 1
     TONALITY_CHOICES = (
-        (TONALITY_MAJOR, 'Major'),
-        (TONALITY_MINOR, 'Minor')
+        (TONALITY_MAJOR, u'Major'),
+        (TONALITY_MINOR, u'Minor')
     )
 
     name = models.CharField(max_length=25, help_text=
@@ -263,7 +263,7 @@ class Item(models.Model):
             section_key = self.section.key()
         except SectionKeyDoesNotExist:
             note = u'�'
-            alt_base = ''
+            alt_base = u''
         else:
 
             note = section_key.note(self.chord_pitch)
