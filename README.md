@@ -45,6 +45,4 @@ Installation
 
         ./manage.py runserver
 
-    You can access the admin panel from:
-    http://localhost:8000/admin/
-    Log in with credentials created in step 5
+    You can access the admin panel from: [http://localhost:8000/admin/](http://localhost:8000/admin/). Log in with credentials created in step 5
