@@ -1,15 +1,18 @@
 Chordcharts
 ===========
 
-Requirements:
--------------
+Create and share good looking chord charts.
+
+Requirements
+------------
+
 - Python 2.7 (http://www.python.org/)
 - pip (http://www.pip-installer.org/)
 - virtualenv (http://www.virtualenv.org/)
 - less (http://lesscss.org/)
 
-Installation:
--------------
+Installation
+------------
 
 1. Create a directory for the project and cd there
 
