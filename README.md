@@ -14,22 +14,22 @@ Requirements
 Installation
 ------------
 
-1. Create a directory for the project and cd there
+1. Create a directory for the project and cd there.
 
         mkdir chordcharts
         cd chordcharts
 
-2. Create a virtual env and activate it
+2. Create a virtual environment and activate it.
 
         virtualenv --distribute env
         . env/bin/activate
 
-3. Clone the project in the src dir and cd there
+3. Clone the project in the src dir and cd there.
 
         git clone git@github.com:gitaarik/chordcharts.git src
         cd src
 
-4. Install requirements in virtual env, this could take some time
+4. Install requirements in virtual environment, this could take some time.
 
         pip install -r dev/requirements.txt
 
@@ -37,10 +37,14 @@ Installation
 
         ./manage.py syncdb --migrate
 
-5. Load the developer database
+5. Load the developer database.
 
         ./manage.py loaddata dev/db-dump.json
 
-6. You're done! You can now run the development server
+6. You're done! You can now run the development server.
 
         ./manage.py runserver
+
+    You can access the admin panel from:
+    http://localhost:8000/admin/
+    Log in with credentials created in step 5
