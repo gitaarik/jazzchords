@@ -1,0 +1,24 @@
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Chord Charts</title>
+        {% compress css %}
+            {% block css %}{% endblock %}
+        {% endcompress %}
+    </head>
+
+    <body>
+
+        {% block content %}{% endblock %} 
+
+        {% compress js %}
+            <script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"></script>
+            {% block javascript %}{% endblock %}
+        {% endcompress %}
+
+    </body>
+
+</html>
