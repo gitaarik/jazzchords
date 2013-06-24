@@ -9,7 +9,7 @@ Requirements
 - Python 2.7 (http://www.python.org/)
 - pip (http://www.pip-installer.org/)
 - virtualenv (http://www.virtualenv.org/)
-- less (http://lesscss.org/)
+- LESS (http://lesscss.org/)
 
 Installation
 ------------
