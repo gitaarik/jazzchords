@@ -6,10 +6,10 @@ Create and share good looking chord charts.
 Requirements
 ------------
 
-- Python 2.7 (http://www.python.org/)
-- pip (http://www.pip-installer.org/)
-- virtualenv (http://www.virtualenv.org/)
-- LESS (http://lesscss.org/)
+- Python 2.7 - http://www.python.org/
+- pip - http://www.pip-installer.org/
+- virtualenv - http://www.virtualenv.org/
+- LESS (server-side) - http://lesscss.org/
 
 Installation
 ------------
