@@ -6,6 +6,7 @@
         <meta charset="utf-8" />
         <title>Chord Charts</title>
         {% compress css %}
+            <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}global/less/base.less" />
             {% block css %}{% endblock %}
         {% endcompress %}
     </head>
@@ -15,7 +16,7 @@
         {% block content %}{% endblock %} 
 
         {% compress js %}
-            <script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"></script>
+            <script src="{{ STATIC_URL }}global/js/jquery-2.0.2.min.js"></script>
             {% block javascript %}{% endblock %}
         {% endcompress %}
 

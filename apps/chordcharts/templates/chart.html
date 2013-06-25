@@ -2,7 +2,6 @@
 {% load compress %}
 
 {% block css %}
-    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}chordcharts/settings.less" />
     <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}chordcharts/charts.less" />
 {% endblock %}
 
@@ -35,10 +34,22 @@
     <article class="chord-chart" style="width: {{ boxed_chart.total_width }}px;">
 
         <header>
+
             <h1>{{ song_name }}</h1>
-            <div class="chart_key" style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
-                Key of {{ chart_key }}
+
+            <div class="key_select" style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
+                <div class="closed">
+                    Key of {{ chart_key }}
+                </div>
+                <div class="open">
+                    <ul>
+                        <li>F Major</li>
+                        <li>D Major</li>
+                        <li>G Major</li>
+                    </ul>
+                </div>
             </div>
+
         </header>
 
         <div class="boxed-chart">
