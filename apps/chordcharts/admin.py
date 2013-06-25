@@ -54,7 +54,8 @@ class NoteInline(admin.TabularInline):
 
 
 class KeyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tone', 'tonality', 'distance_from_c')
+    list_display = ('name', 'slug', 'tone', 'tonality', 'distance_from_c')
+    prepopulated_fields = {'slug': ('name',)}
     inlines = (NoteInline,)
 
 

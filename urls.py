@@ -13,11 +13,10 @@ if settings.DEBUG:
         }),
     )
 
-
 urlpatterns += patterns('',
     url(
         r'^chart/(?P<song_slug>[a-z-_]*)/'
-         '(?:(?P<key_tone>[A-Z][#b]?)/)?$',
+         '(?:(?P<key_slug>[a-z-_]*)/)?$',
         'chordcharts.views.chart',
         name='chart'
     ),

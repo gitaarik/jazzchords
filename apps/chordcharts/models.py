@@ -37,7 +37,12 @@ class Key(models.Model):
 
     name = models.CharField(max_length=25, help_text=
         'Appropriate name for this key.')
-    tone = models.CharField(max_length=2, choices=NOTES_CHOICES)
+    slug = models.SlugField(max_length=25, unique=True, help_text=
+        '''Lowercase name for the key with dashes instead of spaces. Will be
+        used in URL's.''')
+    tone = models.CharField(max_length=2, choices=NOTES_CHOICES, help_text=
+        '''The tone for the key. Will be used for displaying the possible keys
+        for a certain tonality.''')
     tonality = models.PositiveSmallIntegerField(choices=TONALITY_CHOICES,
         help_text='''The tonality for this key. Will be used for finding the
         right key when transposing, because we want to transpose to the same

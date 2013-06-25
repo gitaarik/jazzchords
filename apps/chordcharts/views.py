@@ -4,12 +4,12 @@ from .models import (Chart, Key)
 from .settings import BOXED_CHART
 
 
-def chart(request, song_slug, key_tone=None):
+def chart(request, song_slug, key_slug=None):
 
     chart = Chart.objects.get(song__slug=song_slug)
 
-    if key_tone:
-        chart.key = Key.objects.get(tone=key_tone)
+    if key_slug:
+        chart.key = Key.objects.get(slug=key_slug)
 
     other_keys = (Key.objects
         .filter(tonality=chart.key.tonality)

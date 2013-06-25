@@ -22,9 +22,11 @@
             .current-key {
                 cursor: pointer;
                 &:after {
+                    display: inline-block;
+                    position: absolute;
                     content: '\25BF';
                     font-size: 20px;
-                    padding-left: 6px;
+                    padding: 0 6px;
                     top: -6px;
                 }
             }
@@ -45,11 +47,13 @@
                 border-radius: 5px;
                 box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
                 z-index: 10;
+                width: 200px;
 
                 .current-key {
                     margin-bottom: 10px;
                     &:after {
-                        content: '\25BF';
+                        transform: rotate(180deg);
+                        top: 9px;
                     }
                 }
 
@@ -59,15 +63,26 @@
                     list-style: none;
                     padding: 0;
 
-                    li a {
-                        float: left;
-                        padding: 10px 13px;
-                        border: solid 1px #000;
-                        border-radius: 5px;
-                        box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-                        margin: 0 5px 5px 0;
-                        color: #000;
-                        text-decoration: none;
+                    li {
+
+                        a {
+                            float: left;
+                            width: 30px;
+                            height: 30px;
+                            line-height: 30px;
+                            text-align: center;
+                            border: solid 1px #000;
+                            border-radius: 5px;
+                            box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+                            margin: 0 5px 5px 0;
+                            color: #000;
+                            text-decoration: none;
+                        }
+
+                        &:last-child a {
+                            margin: 0;
+                        }
+
                     }
 
                 }
