@@ -20,6 +20,14 @@ class Key(models.Model):
         note_set - The notes for this key.
     '''
 
+    NOTES_CHOICES = (
+        ('Cb', 'Cb'), ('C', 'C'), ('C#', 'C#'), ('Db', 'Db'), ('D', 'D'),
+        ('D#', 'D#'), ('Eb', 'Eb'), ('E', 'E'), ('E#', 'E#'), ('Fb', 'Fb'),
+        ('F', 'F'), ('F#', 'F#'), ('Gb', 'Gb'), ('G', 'G'), ('G#', 'G#'),
+        ('Ab', 'Ab'), ('A', 'A'), ('A#', 'A#'), ('Bb', 'Bb'), ('B', 'B'),
+        ('B#', 'B#')
+    )
+
     TONALITY_MAJOR = 1
     TONALITY_MINOR = 1
     TONALITY_CHOICES = (
@@ -29,6 +37,7 @@ class Key(models.Model):
 
     name = models.CharField(max_length=25, help_text=
         'Appropriate name for this key.')
+    tone = models.CharField(max_length=2, choices=NOTES_CHOICES)
     tonality = models.PositiveSmallIntegerField(choices=TONALITY_CHOICES,
         help_text='''The tonality for this key. Will be used for finding the
         right key when transposing, because we want to transpose to the same
@@ -41,6 +50,9 @@ class Key(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ('tone', 'name')
 
     def note(self, distance_from_root, accidental=0):
         '''

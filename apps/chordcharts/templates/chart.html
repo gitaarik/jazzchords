@@ -2,30 +2,35 @@
 {% load compress %}
 
 {% block css %}
-    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}chordcharts/charts.less" />
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}chordcharts/less/charts.less" />
 {% endblock %}
 
 {% block javascript %}
 
-        <script>
+    {{ block.super }}
 
-            var settings = {
-                box_width: {{ settings.box_width }},
-                box_height: {{ settings.box_height }},
-                border_width: {{ settings.border_width }},
-                section_sidebar_width: {{ settings.section_sidebar_width }},
-            }
+    <script>
 
-            settings.sections = []
+        var settings = {
+            box_width: {{ settings.box_width }},
+            box_height: {{ settings.box_height }},
+            border_width: {{ settings.border_width }},
+            section_sidebar_width: {{ settings.section_sidebar_width }},
+        }
 
-            {% for section in sections %}
-                settings.sections.push({
-                    height: {{ section.boxed_chart.height }}
-                })
-            {% endfor %}
+        settings.sections = []
 
-        </script>
-        <script src="{{ STATIC_URL }}chordcharts/charts.js"></script>
+        {% for section in sections %}
+            settings.sections.push({
+                height: {{ section.boxed_chart.height }}
+            })
+        {% endfor %}
+
+    </script>
+    <script src="{{ STATIC_URL }}chordcharts/js/boxes-draw.js"></script>
+    <script src="{{ STATIC_URL }}chordcharts/js/sections-draw.js"></script>
+    <script src="{{ STATIC_URL }}chordcharts/js/key-change.js"></script>
 
 {% endblock %}
 
@@ -37,15 +42,17 @@
 
             <h1>{{ song_name }}</h1>
 
-            <div class="key_select" style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
+            <div class="key-select" style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
                 <div class="closed">
-                    Key of {{ chart_key }}
+                    <div class="current-key">Key of {{ chart_key }}</div>
                 </div>
                 <div class="open">
+                    <div class="current-key">Key of {{ chart_key }}</div>
+                    <div>Transpose to:</div>
                     <ul>
-                        <li>F Major</li>
-                        <li>D Major</li>
-                        <li>G Major</li>
+                        {% for key in other_keys %}
+                            <li><a href="{% url "chart" song_slug=song_slug key_tone=key.tone %}">{{ key.tone }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

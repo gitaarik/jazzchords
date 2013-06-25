@@ -15,7 +15,12 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-    url(r'^chart/(?P<song_slug>[a-z-_]*)/$', 'chordcharts.views.chart', name='chart'),
+    url(
+        r'^chart/(?P<song_slug>[a-z-_]*)/'
+         '(?:(?P<key_tone>[A-Z][#b]?)/)?$',
+        'chordcharts.views.chart',
+        name='chart'
+    ),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

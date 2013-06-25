@@ -54,6 +54,7 @@ class NoteInline(admin.TabularInline):
 
 
 class KeyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'tone', 'tonality', 'distance_from_c')
     inlines = (NoteInline,)
 
 

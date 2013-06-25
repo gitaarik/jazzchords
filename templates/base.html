@@ -6,6 +6,7 @@
         <meta charset="utf-8" />
         <title>Chord Charts</title>
         {% compress css %}
+            <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}global/css/normalize.css" />
             <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}global/less/base.less" />
             {% block css %}{% endblock %}
         {% endcompress %}
