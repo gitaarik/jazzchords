@@ -11,9 +11,7 @@ def chart(request, song_slug, key_slug=None):
     if key_slug:
         chart.key = Key.objects.get(slug=key_slug)
 
-    other_keys = (Key.objects
-        .filter(tonality=chart.key.tonality)
-        .exclude(pk=chart.key.pk))
+    all_keys = Key.objects.filter(tonality=chart.key.tonality)
 
     context = {
         'settings': BOXED_CHART,
@@ -22,7 +20,7 @@ def chart(request, song_slug, key_slug=None):
         'chart_key': chart.key,
         'boxed_chart': chart.boxed_chart(),
         'sections': chart.section_set.all(),
-        'other_keys': other_keys
+        'all_keys': all_keys
     }
 
     return render(request, 'chart.html', context)

@@ -47,7 +47,7 @@
                 border-radius: 5px;
                 box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
                 z-index: 10;
-                width: 200px;
+                width: 146px;
 
                 .current-key {
                     margin-bottom: 10px;
@@ -67,20 +67,24 @@
 
                         a {
                             float: left;
-                            width: 30px;
-                            height: 30px;
-                            line-height: 30px;
+                            width: 40px;
+                            height: 40px;
+                            line-height: 40px;
                             text-align: center;
                             border: solid 1px #000;
                             border-radius: 5px;
                             box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-                            margin: 0 5px 5px 0;
+                            margin: 0 10px 10px 0;
                             color: #000;
                             text-decoration: none;
                         }
 
-                        &:last-child a {
+                        &:nth-child(3n) a {
                             margin: 0;
+                        }
+
+                        &:nth-child(3n+1) a {
+                            clear: both;
                         }
 
                     }

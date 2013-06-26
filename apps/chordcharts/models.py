@@ -52,12 +52,15 @@ class Key(models.Model):
         should be expressed in the amount of half notes to go up to reach the
         C. If the root not is C this will be 0. It will be used for finding the
         right key when transposing.''')
+    order = models.PositiveSmallIntegerField(help_text='''The order the keys of
+        a certain tonality should appear in.''')
 
     def __unicode__(self):
         return self.name
 
     class Meta:
-        ordering = ('tone', 'name')
+        ordering = ('order',)
+        unique_together = ('tonality', 'order')
 
     def note(self, distance_from_root, accidental=0):
         '''
