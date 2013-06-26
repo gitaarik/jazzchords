@@ -1,3 +1,6 @@
+from .general import MIDDLEWARE_CLASSES
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -9,3 +12,8 @@ DATABASES = {
         'PASSWORD': '',
     }
 }
+
+MIDDLEWARE_CLASSES = (
+    MIDDLEWARE_CLASSES +
+    ('middleware.south_unran_migration_check.SouthUnranMigrationCheck',)
+)
