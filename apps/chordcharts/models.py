@@ -154,6 +154,13 @@ class Section(models.Model):
     position = models.PositiveSmallIntegerField(help_text=
         '''The position the section has in the chart. This will be used to put
         all the sections in a correct order. Should start from 0.''')
+    alt_title = models.CharField(max_length=25, blank=True, help_text='''
+        Alternative title for the section. Normally a section get's assigned a
+        letter (starting with A, next B etc.) which is displayed left of the
+        section's boxed chart. If you fill in this "alternative title" this
+        title will be shown on top of the section's boxed chart. This is
+        appropriate for an intro, outro or maybe a bridge which isn't a
+        regularry repeating section in the song.''')
 
     def __unicode__(self):
         return self.name()
@@ -168,7 +175,10 @@ class Section(models.Model):
         uppercase letter from the alphabet.
         0 = A, 1 = B, 2 = C, etc.
         '''
-        return string.uppercase[self.position]
+        if self.alt_title:
+            return self.alt_title
+        else:
+            return string.uppercase[self.chart.section_set.filter(alt_title='', position__lt=self.position).count()]
 
     def key(self):
         '''
@@ -223,7 +233,10 @@ class ChordType(models.Model):
         the chord.''')
 
     def __unicode__(self):
-        return u'{} ({})'.format(self.name, self.symbol)
+        if self.symbol:
+            return u'{} ({})'.format(self.name, self.symbol)
+        else:
+            return u'{}'.format(self.name)
 
     class Meta:
         ordering = ('name',)

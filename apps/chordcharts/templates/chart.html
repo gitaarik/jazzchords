@@ -23,6 +23,7 @@
 
         {% for section in sections %}
             settings.sections.push({
+                alt_title: '{{ section.alt_title }}',
                 height: {{ section.boxed_chart.height }}
             })
         {% endfor %}
@@ -64,12 +65,20 @@
 
             {% for section in sections %}
 
-                <div class="section" style="width: {{ boxed_chart.total_width }}px;">
+                <section class="section" style="width: {{ boxed_chart.total_width }}px;">
+
+                    {% if section.alt_title %}
+                        <header>
+                            {{ section.alt_title }}
+                        </header>
+                    {% endif %}
 
                     <div class="section-sidebar" style="height: {{ section.boxed_chart.height }}px;">
-                        <div class="section-sidebar-title" style="line-height: {{ section.boxed_chart.height }}px;">
-                            {{ section.name }}
-                        </div>
+                        {% if not section.alt_title %}
+                            <div class="section-sidebar-title" style="line-height: {{ section.boxed_chart.height }}px;">
+                                {{ section.name }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="chord-boxes">
@@ -114,7 +123,7 @@
 
                     </div>
 
-                </div>
+                </section>
 
             {% endfor %}
 
