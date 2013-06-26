@@ -44,4 +44,6 @@ Installation
 
         ./manage.py runserver
 
+    A song I use for development: [http://localhost:8000/chart/jattendrai/](http://localhost:8000/chart/jattendrai/).
+    
     You can access the admin panel from: [http://localhost:8000/admin/](http://localhost:8000/admin/). Log in with credentials created in step 5.
