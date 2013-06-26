@@ -6,6 +6,7 @@ $(function() {
         var section_obj = settings.sections[i]
         var canvas = document.createElement('canvas')
         var context = canvas.getContext('2d')
+        var line_margin = 0.15
 
         canvas.style.position = 'absolute'
         canvas.width = settings.section_sidebar_width 
@@ -19,11 +20,11 @@ $(function() {
             context.beginPath()
             context.moveTo(
                 settings.section_sidebar_width / 2,
-                Math.round(settings.box_height * 0.1))
+                Math.round(settings.box_height * line_margin))
             context.lineTo(
                 settings.section_sidebar_width / 2,
                 (settings.sections[i].height
-                 - Math.round(settings.box_height * 0.1)))
+                 - Math.round(settings.box_height * line_margin)))
             context.stroke()
 
         }
@@ -33,10 +34,10 @@ $(function() {
             context.beginPath()
             context.moveTo(
                 settings.section_sidebar_width / 2,
-                Math.round(settings.box_height * 0.1))
+                Math.round(settings.box_height * line_margin))
             context.lineTo(settings.section_sidebar_width / 2,
                 ((settings.sections[i].height / 2) - 5
-                 - Math.round(settings.box_height * 0.1)))
+                 - Math.round(settings.box_height * line_margin)))
             context.stroke()
 
             // from title to bottom
@@ -44,11 +45,11 @@ $(function() {
             context.moveTo(
                 settings.section_sidebar_width / 2,
                 (settings.sections[i].height / 2) + 5
-                + Math.round(settings.box_height * 0.1))
+                + Math.round(settings.box_height * line_margin))
             context.lineTo(
                 settings.section_sidebar_width / 2,
                 (settings.sections[i].height
-                 - Math.round(settings.box_height * 0.1)))
+                 - Math.round(settings.box_height * line_margin)))
             context.stroke()
 
         }
@@ -57,10 +58,10 @@ $(function() {
         context.beginPath()
         context.moveTo(
             settings.section_sidebar_width / 2,
-            Math.round(settings.box_height * 0.1))
+            Math.round(settings.box_height * line_margin))
         context.lineTo(
             settings.section_sidebar_width - 5,
-            Math.round(settings.box_height * 0.1))
+            Math.round(settings.box_height * line_margin))
         context.stroke()
 
         // from bottom to right
@@ -68,11 +69,11 @@ $(function() {
         context.moveTo(
             settings.section_sidebar_width / 2 ,
             (settings.sections[i].height -
-             Math.round(settings.box_height * 0.1)))
+             Math.round(settings.box_height * line_margin)))
         context.lineTo(
             settings.section_sidebar_width - 5,
             (settings.sections[i].height -
-             Math.round(settings.box_height * 0.1)))
+             Math.round(settings.box_height * line_margin)))
         context.stroke()
 
         section_element.append(canvas)
