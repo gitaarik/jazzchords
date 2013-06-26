@@ -3,7 +3,7 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}chordcharts/less/charts.less" />
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}chordcharts/css/charts.less" />
 {% endblock %}
 
 {% block javascript %}
@@ -39,24 +39,32 @@
 
     <article class="chord-chart" style="width: {{ boxed_chart.total_width }}px;">
 
-        <header>
+        <header style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
 
             <h1>{{ song_name }}</h1>
 
-            <div class="key-select" style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
-                <div class="closed">
-                    <div class="current-key">Key of {{ chart_key }}</div>
+            <div class="header-bar">
+
+                <div class="key-select">
+                    <div class="closed">
+                        <div class="current-key">Key of {{ chart_key }}</div>
+                    </div>
+                    <div class="open">
+                        <div class="current-key">Key of {{ chart_key }}</div>
+                        <hr>
+                        <div>Transpose to:</div>
+                        <ul>
+                            {% for key in all_keys %}
+                                <li><a href="{% url "chart" song_slug=song_slug key_slug=key.slug %}">{{ key.tone }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-                <div class="open">
-                    <div class="current-key">Key of {{ chart_key }}</div>
-                    <hr>
-                    <div>Transpose to:</div>
-                    <ul>
-                        {% for key in all_keys %}
-                            <li><a href="{% url "chart" song_slug=song_slug key_slug=key.slug %}">{{ key.tone }}</a></li>
-                        {% endfor %}
-                    </ul>
+
+                <div class="edit">
+                    <a href="#">Edit</a>
                 </div>
+
             </div>
 
         </header>

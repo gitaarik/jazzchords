@@ -1,14 +1,11 @@
+from django.conf import global_settings
+
 import os
 import sys
 
 
 DJANGO_ROOT = os.path.join(os.path.dirname(__file__), os.path.pardir)
 sys.path.insert(0, os.path.join(DJANGO_ROOT, 'apps'))
-
-COMPRESS_ENABLED = True
-COMPRESS_PRECOMPILERS = (
-    ('text/less', 'lessc {infile} {outfile}'),
-)
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -91,6 +88,10 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'context_processors.settings.settings',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -158,3 +159,13 @@ LOGGING = {
     }
 }
 
+COMPRESS_ENABLED = True
+COMPRESS_PRECOMPILERS = (
+    (
+        'text/less',
+        'lessc {} {} --rootpath={}'.format(
+            '{infile}',
+            '{outfile}',
+            STATIC_URL)
+    ),
+)

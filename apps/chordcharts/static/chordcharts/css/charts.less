@@ -14,80 +14,102 @@
             margin: 0;
         }
 
-        .key-select {
+        .header-bar {
 
-            position: relative;
             height: 25px;
             border-bottom: solid 1px #000;
 
-            .current-key {
-                cursor: pointer;
-                &:after {
-                    display: inline-block;
-                    position: absolute;
-                    content: '\25BF';
-                    font-size: 20px;
-                    padding: 0 6px;
-                    top: -6px;
-                }
-            }
+            .key-select {
 
-            .closed, .open {
-                position: absolute;
-                top: 0;
-            }
-
-            .open {
-
-                top: -11px; // padding + border
-                left: -11px; // padding + border
-                display: none;
-                background: #FFF;
-                border: solid 1px #000;
-                padding: 10px;
-                border-radius: 5px;
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-                z-index: 10;
-                width: 146px;
+                position: relative;
 
                 .current-key {
-                    margin-bottom: 10px;
+                    cursor: pointer;
                     &:after {
-                        transform: rotate(180deg);
-                        top: 9px;
+                        display: inline-block;
+                        position: absolute;
+                        content: '\25BF';
+                        font-size: 20px;
+                        padding: 0 6px;
+                        top: -6px;
                     }
                 }
 
-                ul {
+                .closed, .open {
+                    position: absolute;
+                    top: 0;
+                }
 
-                    margin-top: 10px;
-                    list-style: none;
-                    padding: 0;
+                .open {
 
-                    li {
+                    top: -11px; // padding + border
+                    left: -11px; // padding + border
+                    display: none;
+                    background: #FFF;
+                    border: solid 1px #000;
+                    padding: 10px;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+                    z-index: 10;
+                    width: 146px;
 
-                        a {
-                            float: left;
-                            width: 40px;
-                            height: 40px;
-                            line-height: 40px;
-                            text-align: center;
-                            border: solid 1px #000;
-                            border-radius: 5px;
-                            box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-                            margin: 0 10px 10px 0;
-                            color: #000;
-                            text-decoration: none;
+                    .current-key {
+                        margin-bottom: 10px;
+                        &:after {
+                            transform: rotate(180deg);
+                            top: 9px;
+                        }
+                    }
+
+                    ul {
+
+                        margin-top: 10px;
+                        list-style: none;
+                        padding: 0;
+
+                        li {
+
+                            a {
+                                float: left;
+                                width: 40px;
+                                height: 40px;
+                                line-height: 40px;
+                                text-align: center;
+                                border: solid 1px #000;
+                                border-radius: 5px;
+                                box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+                                margin: 0 10px 10px 0;
+                                color: #000;
+                                text-decoration: none;
+                            }
+
+                            &:nth-child(3n) a {
+                                margin: 0;
+                            }
+
+                            &:nth-child(3n+1) a {
+                                clear: both;
+                            }
+
                         }
 
-                        &:nth-child(3n) a {
-                            margin: 0;
-                        }
+                    }
 
-                        &:nth-child(3n+1) a {
-                            clear: both;
-                        }
+                }
 
+            }
+
+            .edit {
+
+                a {
+
+                    float: right;
+                    text-decoration: none;
+                    color: #000;
+
+                    &:after {
+                        margin-left: 5px;
+                        content: url(images/icons/edit.png);
                     }
 
                 }
