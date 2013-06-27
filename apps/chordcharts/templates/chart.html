@@ -61,8 +61,12 @@
                     </div>
                 </div>
 
-                <div class="edit">
-                    <a href="#">Edit</a>
+                <div class="right">
+                    {% if edit %}
+                        <a class="save" href="{% url "chart" song_slug=song_slug key_slug=chart_key.slug %}">Save</a>
+                    {% else %}
+                        <a class="edit" href="{% url "chart_edit" song_slug=song_slug key_slug=chart_key.slug %}">Edit</a>
+                    {% endif %}
                 </div>
 
             </div>

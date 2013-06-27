@@ -99,17 +99,28 @@
 
             }
 
-            .edit {
+            .right {
+
+                float: right;
 
                 a {
 
-                    float: right;
+                    position: relative;
                     text-decoration: none;
                     color: #000;
+                    padding-right: 20px;
 
                     &:after {
-                        margin-left: 5px;
-                        content: url(images/icons/edit.png);
+                        position: absolute;
+                        right: 0;
+                    }
+
+                    &.edit:after {
+                        content: url(http://docs.colabolo.com/docs/download/attachments/2065185/icon_edit_small.png);
+                    }
+
+                    &.save:after {
+                        content: url(http://www.mricons.com/store/png/88003_14881_16_document_save_icon.png);
                     }
 
                 }

@@ -4,12 +4,15 @@ from .models import (Chart, Key)
 from .settings import BOXED_CHART
 
 
-def chart(request, song_slug, key_slug=None):
+def chart(request, song_slug, key_slug=None, edit=False):
 
     chart = Chart.objects.get(song__slug=song_slug)
 
     if key_slug:
-        chart.key = Key.objects.get(slug=key_slug)
+        try:
+            chart.key = Key.objects.get(slug=key_slug)
+        except:
+            pass
 
     all_keys = Key.objects.filter(tonality=chart.key.tonality)
 
@@ -20,9 +23,8 @@ def chart(request, song_slug, key_slug=None):
         'chart_key': chart.key,
         'boxed_chart': chart.boxed_chart(),
         'sections': chart.section_set.all(),
-        'all_keys': all_keys
+        'all_keys': all_keys,
+        'edit': edit
     }
 
     return render(request, 'chart.html', context)
-
-
