@@ -16,9 +16,14 @@
                 less = {
                     rootpath: "{{ STATIC_URL }}"
                 }
+                var console_backup = console
+                console = { log: function(){} }
             </script>
             <script src="{{ STATIC_URL }}js/less-1.3.3.min.js"></script>
             {% if LESS_WATCH %}<script>less.watch()</script>{% endif %}
+            <script>
+                console = console_backup
+            </script>
         {% endif %}
 
     </head>

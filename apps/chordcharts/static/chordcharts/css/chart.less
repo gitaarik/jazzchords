@@ -42,12 +42,12 @@
 
                 .open {
 
+                    display: none;
                     top: -11px; // padding + border
                     left: -11px; // padding + border
-                    display: none;
-                    background: #FFF;
-                    border: solid 1px #000;
                     padding: 10px;
+                    border: solid 1px #000;
+                    background: #FFF;
                     border-radius: 5px;
                     box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
                     z-index: 10;
@@ -172,11 +172,45 @@
             }
 
             .box {
+
                 float: left;
                 height: @box_height;
                 width: @box_width;
                 border: solid @border_width #000;
                 border-width: 0 @border_width @border_width 0;
+                position: relative;
+
+                &.box-beatschema-4 {
+
+                    .chord-container {
+                        line-height: @box_height;
+                        text-align: center;
+                    }
+
+                    .chord-name {
+                        font-size: 27px;
+                    }
+
+                }
+
+                &.edit-on .chord-container {
+                    cursor: pointer;
+                }
+
+                .chord-edit {
+
+                    display: none;
+                    position: absolute;
+                    padding: 10px;
+                    border: solid 1px #000;
+                    background: #FFF;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+                    z-index: 10;
+                    width: 146px;
+
+                }
+
             }
 
             .line-first .box {
@@ -185,12 +219,6 @@
 
             .box-first {
                 border-left-width: @border_width;
-            }
-
-            .box-beatschema-4 {
-                line-height: @box_height;
-                text-align: center;
-                font-size: 27px;
             }
 
             .box-beatschema-2-2 {
