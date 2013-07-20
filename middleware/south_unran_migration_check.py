@@ -5,14 +5,18 @@ from south.models import MigrationHistory
 class SouthUnranMigrationCheck(object):
 
     def process_request(self, request):
+        '''
+        Checks if you ran all South migrations. If not, it will throw an
+        exception (DidNotApplyAllMigrations).
+        '''
 
         unapplied_migrations = self.unapplied_migrations()
 
         if len(unapplied_migrations) > 0:
 
-            message = 'You haven\'t run the following migrations: {}'.format(
-                ''.join(
-                    ['\n  "{}" in app "{}".'.format(name, app)
+            message = u'You haven\'t run the following migrations: {}'.format(
+                u''.join(
+                    [u'\n  "{}" in app "{}".'.format(name, app)
                     for name, app in unapplied_migrations]
                 )
             )
@@ -20,6 +24,10 @@ class SouthUnranMigrationCheck(object):
             raise DidNotApplyAllMigrations(message)
 
     def unapplied_migrations(self):
+        '''
+        Returns a list of tuples of unapplied migrations. The tuples consist of
+        a migration name and an app label.
+        '''
 
         applied_migrations = self.applied_migrations()
         unapplied_migrations = []
@@ -49,10 +57,14 @@ class SouthUnranMigrationCheck(object):
             if applied_migration.app_name not in applied_migrations:
                 applied_migrations[applied_migration.app_name] = []
 
-            applied_migrations[applied_migration.app_name].append(applied_migration.migration)
+            applied_migrations[applied_migration.app_name].append(
+                applied_migration.migration)
 
         return applied_migrations
 
 
 class DidNotApplyAllMigrations(Exception):
+    '''
+    Exception that indicates that you havent run all migrations.
+    '''
     pass

@@ -14,7 +14,7 @@ $('.box-beatschema-2-2').each(function() {
     context.lineTo(0, settings.box_height)
     context.stroke()
 
-    $(this).append(canvas)
+    $(this).prepend(canvas)
 
 })
 
@@ -39,6 +39,6 @@ $('.box-beatschema-2-1-1').each(function() {
     context.lineTo(settings.box_width, settings.box_height)
     context.stroke()
 
-    $(this).append(canvas)
+    $(this).prepend(canvas)
 
 })

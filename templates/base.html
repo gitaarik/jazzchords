@@ -6,24 +6,21 @@
         <meta charset="utf-8" />
         <title>Chord Charts</title>
         {% compress css %}
-            <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css" />
-            <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/base.less" />
+            <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/global/normalize.css" />
+            <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/fonts/oxygen.css" />
+            <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/global/base.less" />
             {% block css %}{% endblock %}
         {% endcompress %}
 
         {% if DEBUG %}
             <script>
                 less = {
-                    rootpath: "{{ STATIC_URL }}"
+                    rootpath: '{{ STATIC_URL }}',
+                    log_level: 0
                 }
-                var console_backup = console
-                console = { log: function(){} }
             </script>
-            <script src="{{ STATIC_URL }}js/less-1.3.3.min.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/less-1.4.0.js"></script>
             {% if LESS_WATCH %}<script>less.watch()</script>{% endif %}
-            <script>
-                console = console_backup
-            </script>
         {% endif %}
 
     </head>
@@ -32,8 +29,14 @@
 
         {% block content %}{% endblock %} 
 
+        <div id="js-templates">
+            {% block js_templates %}{% endblock %}
+        </div>
+
         {% compress js %}
-            <script src="{{ STATIC_URL }}js/jquery-2.0.2.min.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/jquery-2.0.2.min.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/underscore-min.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/backbone-min.js"></script>
             {% block javascript %}{% endblock %}
         {% endcompress %}
 

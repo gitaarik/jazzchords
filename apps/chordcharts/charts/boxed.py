@@ -12,6 +12,32 @@ class BoxedChart(object):
     def __init__(self, chart):
         self.chart = chart
 
+    def client_data(self):
+        '''
+        Get the data required for a client side application. For example,
+        a webapp or an Android app.
+
+        It will return a dictionary with the following keys:
+        sections - a list of sections
+        '''
+
+        return {
+            'sections': [section.client_data()
+                for section in self.sections()]
+        }
+
+    def sections(self):
+        '''
+        The `BoxedChartSection`s in this BoxedChart.
+        '''
+
+        sections = []
+
+        for section in self.chart.section_set.all():
+            sections.append(section.boxed_chart())
+
+        return sections
+
     def total_width(self):
         '''
         The total width the boxed chart will be.
@@ -47,11 +73,11 @@ class BoxedChartSection(object):
 
     On initialization of this object, the object will calculate the following
     variables:
-    self.boxes          - The boxes, this is a list of ChartBox objects.
+    self.lines          - The lines, this is a list with lists of ChartBox
+                          objects.
     self.height         - The height.
     self.width          - The width.
     self.box_count      - The number of boxes.
-    self.line_count     - The number of lines.
     '''
 
     def __init__(self, section):
@@ -59,24 +85,44 @@ class BoxedChartSection(object):
         Initializes the object based on the given section.
 
         This will calculate the following variables:
-        self.boxes          - The boxes, this is a list of ChartBox objects.
+        self.lines          - The lines, this is a list with lists of ChartBox
+                              objects.
         self.height         - The height.
         self.width          - The width.
         self.box_count      - The number of boxes.
-        self.line_count     - The number of lines.
         '''
 
         self.section = section
-        self.boxes = []
-        self.box_progress = 0
-        self.line_count = 1
-        self.box_count = 0
-        self.last_chord_notation = None
+        self.lines = []
+        self.box_progress = 0 # the progress of generating a box
+        self.box_count = 0 # the total number of boxes
+        self.line_box_count = 0 # the number of boxes on the current line
+        self.current_line = [] # the current line (will be appended to
+                               # self.lines)
+        self.last_box = None # last box that was created, used for determining
+                             # when repeat sign ( % ) should show up.
 
         self.current_box = self.new_box()
         self.generate_section()
         self.height = self.calculate_height()
         self.width = self.calculate_width()
+
+    def client_data(self):
+        '''
+        Get the data required for a client side application. For example,
+        a webapp or an Android app.
+
+        It will return a dictionary with the following keys:
+        lines - a list of lines
+        '''
+
+        return {
+            'key': self.section.key().client_data(),
+            'lines': [
+                {'boxes': [box.client_data() for box in line]}
+                for line in self.lines
+            ]
+        }
 
     def generate_section(self):
         '''
@@ -87,6 +133,8 @@ class BoxedChartSection(object):
 
         for item in self.section.item_set.all():
             self.generate_boxes(item)
+
+        self.lines.append(self.current_line)
 
     def new_box(self):
         '''
@@ -99,9 +147,9 @@ class BoxedChartSection(object):
 
         # ChartBox's __init__ function takes `position` as first argument.
         # `self.box_count` starts with 0 and will only increase when the box is
-        # added to the chart (in add_current_box_to_chart), and a new box is
-        # only created when the previous box has been added. So we can use
-        # `self.box_count` here to determin the position of the box in the
+        # added to the chart (in add_current_box_to_current_line), and a new
+        # box is only created when the previous box has been added. So we can
+        # use `self.box_count` here to determin the position of the box in the
         # chart.
         return ChartBox(self.box_count)
 
@@ -124,20 +172,29 @@ class BoxedChartSection(object):
         self.box_progress = (self.box_progress + item.beats) % 4
 
         if self.box_progress == 0 and len(self.current_box.parts):
-            self.add_current_box_to_chart()
+            self.add_current_box_to_current_line()
             self.current_box = self.new_box()
 
-    def add_current_box_to_chart(self):
+    def add_current_box_to_current_line(self):
+        '''
+        Add the current box to the current line.
+        '''
 
-        if (self.box_count > 0 # first box is already on new line
-            and self.box_count % self.section.line_width == 0):
-            self.current_box.starts_on_new_line = True
-            self.line_count += 1
-        else:
-            self.current_box.starts_on_new_line = False
+        # if line is full, start new line
+        if (self.line_box_count > 0 # first box is already on new line
+            and self.line_box_count % self.section.line_width == 0):
+            self.lines.append(self.current_line)
+            self.current_line = []
+            self.line_box_count = 0
 
         self.box_count += 1
-        self.boxes.append(self.current_box)
+        self.line_box_count += 1
+        self.current_line.append(self.current_box)
+
+        # self.current_box is appended so set self.last_box to self.current_box
+        # and self.current_box to a new box
+        self.last_box = self.current_box
+        self.current_box = self.new_box()
 
     def add_multiple_boxes(self, item):
         '''
@@ -149,8 +206,6 @@ class BoxedChartSection(object):
         # if current box is not finished yet, finish it
         if self.box_progress:
             beats = self.finish_box(item, beats)
-            # previous box is finished so create new box
-            self.current_box = self.new_box()
 
         if beats > 3:
             self.add_full_boxes(item, beats)
@@ -169,7 +224,7 @@ class BoxedChartSection(object):
 
         beats_to_finish = 4 - self.box_progress
         self.box_add_part(item, beats_to_finish)
-        self.add_current_box_to_chart()
+        self.add_current_box_to_current_line()
 
         return beats - beats_to_finish
 
@@ -180,23 +235,29 @@ class BoxedChartSection(object):
 
         for i in range(beats / 4):
             self.box_add_part(item, 4)
-            self.add_current_box_to_chart()
-            self.current_box = self.new_box()
+            self.add_current_box_to_current_line()
 
     def box_add_part(self, item, beats):
         '''
         Add part to box.
         '''
 
-        chord_notation = item.chord_notation
+        chord_notation = item.chord_notation()
+        chart_output = chord_notation
+        note = item.note()
+        alt_base_note = item.alternative_base_note()
 
-        if beats == 4 and chord_notation == self.last_chord_notation:
-            chart_chord = '%'
-        else:
-            chart_chord = chord_notation
+        # If self.current_item has 4 beats (thus is a full box) and isn't the
+        # first item on a line and self.last_box was a full box too and had the
+        # same chord_notation, then the chart_output will be a '%' (which is
+        # the repeat sign).
+        if (beats == 4 and self.line_box_count > 0 and self.last_box and
+            self.last_box.beat_schema() == '4' and
+            chord_notation == self.last_box.parts[0].chord_notation):
+            chart_output = '%'
 
-        self.last_chord_notation = chord_notation
-        self.current_box.parts.append(ChartBoxPart(chart_chord, beats))
+        self.current_box.parts.append(ChartBoxPart(
+            chord_notation, chart_output, note, alt_base_note, beats))
 
     def calculate_height(self):
         '''
@@ -204,7 +265,7 @@ class BoxedChartSection(object):
         '''
 
         return ((
-            self.line_count *
+            len(self.lines) *
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 
@@ -227,14 +288,20 @@ class ChartBox(object):
     Variables on this object:
     self.position                   - The position of the box. This defines the
                                       order of the boxes.
-    self.starts_on_new_line         - Indicates if the box should start on a
-                                      new line.
     self.parts                      - The `ChartBoxPart`s in this `ChartBox`.
     '''
 
     def __init__(self, position):
         self.parts = []
         self.position = position
+
+    def client_data(self):
+
+        return {
+            'position': self.position,
+            'beat_schema': self.beat_schema(),
+            'parts': [part.client_data() for part in self.parts]
+        }
 
     def beat_schema(self):
         '''
@@ -258,6 +325,13 @@ class ChartBoxPart(object):
     self.beats      - The amount of beats the chord should be played.
     '''
 
-    def __init__(self, chord, beats):
-        self.chord = chord
+    def __init__(self, chord_notation, chart_output, note, alt_base_note,
+        beats):
+        self.chord_notation = chord_notation
+        self.chart_output = chart_output
+        self.note = note
+        self.alt_base_note = alt_base_note
         self.beats = beats
+
+    def client_data(self):
+        return self.__dict__

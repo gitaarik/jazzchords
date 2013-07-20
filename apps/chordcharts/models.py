@@ -62,6 +62,11 @@ class Key(models.Model):
         ordering = ('order',)
         unique_together = ('tonality', 'order')
 
+    def client_data(self):
+        return {
+            'notes': [note.client_data() for note in self.note_set.all()]
+        }
+
     def note(self, distance_from_root, accidental=0):
         '''
         Get the note of this key at `distance_from_root`.
@@ -98,6 +103,11 @@ class Note(models.Model):
 
     class Meta:
         ordering = ('distance_from_root',)
+
+    def client_data(self):
+        return {
+            'name': self.name,
+        }
 
 
 class Chart(models.Model):
@@ -290,24 +300,39 @@ class Item(models.Model):
         - Possibly the alternative base note (based on the key).
         '''
 
+        if self.alternative_bass:
+            return u''.join([
+                self.note(),
+                self.chord_type.symbol,
+                '/',
+                self.alternative_base_note()])
+        else:
+            return u''.join([self.note(), self.chord_type.symbol])
+
+    def note(self):
+
         # It could be that the section key doesn't exist because the section's
         # key deviates (by interval) from the charts key.
         try:
             section_key = self.section.key()
         except SectionKeyDoesNotExist:
-            note = u'�'
-            alt_base = u''
+            return u'�'
         else:
+            return section_key.note(self.chord_pitch)
 
-            note = section_key.note(self.chord_pitch)
+    def alternative_base_note(self):
 
-            if self.alternative_bass:
-                alt_base = u'/{}'.format(
-                    section_key.note(self.alternative_bass_pitch))
+        if self.alternative_bass:
+
+            # It could be that the section key doesn't exist because the
+            # section's key deviates (by interval) from the charts key.
+            try:
+                section_key = self.section.key()
+            except SectionKeyDoesNotExist:
+                return u'�'
             else:
-                alt_base = ''
+                return u'{}'.format(
+                    section_key.note(self.alternative_bass_pitch))
 
-        return u''.join([
-            note,
-            self.chord_type.symbol,
-            alt_base])
+        else:
+            return u''

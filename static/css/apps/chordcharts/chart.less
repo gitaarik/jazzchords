@@ -1,4 +1,5 @@
 @import "settings";
+@import "../../includes/images";
 
 .chord-chart {
 
@@ -69,8 +70,10 @@
 
                         li {
 
+                            float: left;
+
                             a {
-                                float: left;
+                                display: block;
                                 width: 40px;
                                 height: 40px;
                                 line-height: 40px;
@@ -116,11 +119,11 @@
                     }
 
                     &.edit:after {
-                        content: url(http://docs.colabolo.com/docs/download/attachments/2065185/icon_edit_small.png);
+                        content: url(@edit_icon);
                     }
 
                     &.save:after {
-                        content: url(http://www.mricons.com/store/png/88003_14881_16_document_save_icon.png);
+                        content: url(@save_icon);
                     }
 
                 }
@@ -182,37 +185,18 @@
 
                 &.box-beatschema-4 {
 
-                    .chord-container {
+                    .part {
                         line-height: @box_height;
                         text-align: center;
-                    }
-
-                    .chord-name {
-                        font-size: 27px;
+                        .chord-name {
+                            font-size: 27px;
+                        }
                     }
 
                 }
 
-                &.edit-on .chord-container {
+                &.edit-on .part .chord-name {
                     cursor: pointer;
-                }
-
-                .chord-edit {
-
-                    display: none;
-                    position: absolute;
-                    padding: 10px;
-                    border: solid 1px #000;
-                    background: #FFF;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-                    z-index: 10;
-                    width: 146px;
-
-                    .chord-name {
-                        cursor: pointer;
-                    }
-
                 }
 
             }
@@ -229,7 +213,7 @@
 
                 position: relative;
 
-                .chord-first {
+                .part-first {
                     position: absolute;
                     font-size: 20px;
                     line-height: round(@box_height * 0.6);
@@ -237,7 +221,7 @@
                     text-align: center;
                 }
 
-                .chord-second {
+                .part-second {
                     position: absolute;
                     font-size: 20px;
                     line-height: round(@box_height * 0.6);
@@ -253,7 +237,7 @@
 
                 position: relative;
 
-                .chord-first {
+                .part-first {
                     position: absolute;
                     font-size: 20px;
                     line-height: round(@box_height * 0.6);
@@ -261,7 +245,7 @@
                     text-align: center;
                 }
 
-                .chord-second {
+                .part-second {
                     position: absolute;
                     font-size: 15px;
                     line-height: round(@box_height * 0.35);
@@ -270,7 +254,7 @@
                     text-align: center;
                 }
 
-                .chord-third {
+                .part-third {
                     position: absolute;
                     font-size: 15px;
                     line-height: @box_height;
@@ -284,5 +268,58 @@
         }
 
     }
+
+    .chord-edit {
+
+        display: none;
+        position: absolute;
+        z-index: 10;
+        padding: 10px;
+        border: solid 1px #000;
+        background: #FFF;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+        z-index: 10;
+        width: 146px;
+
+        .chord-name {
+            cursor: pointer;
+        }
+
+        ul.tone-choices {
+
+            margin-top: 10px;
+            list-style: none;
+            padding: 0;
+
+            li {
+
+                float: left;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                border: solid 1px #000;
+                border-radius: 5px;
+                box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+                margin: 0 10px 10px 0;
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+
+                &:nth-child(3n) {
+                    margin: 0;
+                }
+
+                &:nth-child(3n+1) {
+                    clear: both;
+                }
+
+            }
+
+        }
+
+    }
+
 
 }
