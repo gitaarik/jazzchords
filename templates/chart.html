@@ -43,14 +43,12 @@
 
 {% block js_templates %}
 
-    <script type="text/template"  class="box">
-        <div>chord name</div>
-    </script>
-
-    <script type="text/template" class="chord-edit">
-        <span class="chord-name"><%= chord_name %></span>
-        <ul class="tone-choices"></ul>
-    </script>
+    {% if edit %}
+        <script type="text/template" class="chord-edit">
+            <span class="chord-name"><%= chord_name %></span>
+            <ul class="tone-choices"></ul>
+        </script>
+    {% endif %}
 
 {% endblock %}
 

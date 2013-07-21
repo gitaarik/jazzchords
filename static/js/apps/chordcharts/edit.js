@@ -21,8 +21,6 @@ $(function() {
         },
         openEditWidget: function(event) {
 
-            event.stopPropagation()
-
             chord_name = this.$el.find('.chord-name')
 
             editWidgetModel.set({
@@ -143,11 +141,6 @@ $(function() {
         initialize: function() {
             this.listenTo(this.model, 'change', this.render);
         },
-        events: {
-            'click': function(event) {
-                event.stopPropagation()
-            }
-        },
         render: function() {
 
             if(this.model.get('visible')) {
@@ -247,8 +240,33 @@ $(function() {
 
     // Other event listeners
 
-    $('html').on('click', function() {
-        editWidgetModel.set('visible', false)
+    $('html').on('click', function(event) {
+
+        // close the edit widget if there was a click outside the edit widget
+
+        if(editWidgetModel.get('visible')) {
+
+            // check if the click wasn't a click to open the widget, or a click
+            // inside the widget
+
+            var target = $(event.target)
+
+            if(!(
+                (
+                    // check if click was to open the widget
+                    target.hasClass('chord-name') &&
+                    target.closest('.boxed-chart').length
+                ) || (
+                    // check if click was in the widget
+                    target.closest('.chord-edit').length &&
+                    target.closest('.chord-chart').length
+                )
+            )) {
+                // close the widget
+                editWidgetModel.set('visible', false)
+            }
+
+        }
     })
 
 })
