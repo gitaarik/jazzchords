@@ -3,8 +3,8 @@ $(function() {
     var BoxedChart = {}
     BoxedChart.Models = {}
     BoxedChart.Views = {}
-    BoxedChart.Templates = {}
     BoxedChart.Collections = {}
+
 
 
     // BoxPart
@@ -23,19 +23,22 @@ $(function() {
 
             chord_name = this.$el.find('.chord-name')
 
-            editWidgetModel.set({
+            editWidget.open({
                 visible: true,
-                chord_name: this.model.get('chart_output'),
+                box: this.$el,
+                note: this.model.get('note'),
+                note_choices: this.model.get('box').model.get('line').model
+                    .get('section').model.get('key').notes,
+                chord_type: this.model.get('chord_type'),
                 offset_top: $(event.target).offset().top - 11,
                 offset_left: $(event.target).offset().left - 11,
                 font_size: chord_name.css('font-size'),
                 letter_spacing: chord_name.css('letter-spacing')
             })
 
-            this.$el.closest('.section').trigger('edit-widget-open')
-
         }
     })
+
 
 
     // Box
@@ -75,6 +78,7 @@ $(function() {
     })
 
 
+
     // Section
 
     BoxedChart.Models.Section = Backbone.Model.extend({
@@ -89,30 +93,9 @@ $(function() {
     })
 
     BoxedChart.Views.Section = Backbone.View.extend({
-        className: 'section',
-        initialize: function(data) {
-
-            notes = this.model.get('key').notes
-            note_names = []
-
-            for(i in notes) {
-                note_names.push(notes[i].name)
-            }
-
-            this.model.set('note_list',
-                '<li>' + note_names.join('</li><li>') + '</li>')
-
-        },
-        events: {
-            'edit-widget-open': function() {
-
-                $('.chord-chart .chord-edit .tone-choices').html(
-                    this.model.get('note_list')
-                )
-
-            }
-        }
+        className: 'section'
     })
+
 
 
     // BoxedChart
@@ -128,55 +111,109 @@ $(function() {
         }
     })
 
+
+
     // Edit widget
 
     BoxedChart.Models.editWidget = Backbone.Model.extend()
 
-    BoxedChart.Templates.editWidget = _.template(
-        $('#js-templates .chord-edit').html())
-
     BoxedChart.Views.editWidget = Backbone.View.extend({
+
         el: '.chord-chart .chord-edit',
-        template: BoxedChart.Templates.editWidget,
-        initialize: function() {
-            this.listenTo(this.model, 'change', this.render);
+        model: BoxedChart.Models.editWidget,
+
+        chordName: function() {
+            return this.model.get('note').name + this.model.get('chord_type').symbol
         },
+
+        open: function(data) {
+            this.model.set(data)
+            this.render()
+        },
+
+        setNote: function(note) {
+            this.model.set('note', note)
+            this.$el.find('.chord-name').html(this.chordName())
+        },
+
         render: function() {
 
             if(this.model.get('visible')) {
 
-                this.$el.html(this.template({
-                    chord_name: this.model.get('chord_name')
-                }))
-                .css({
+                this.$el.css({
                     'top': this.model.get('offset_top'),
                     'left': this.model.get('offset_left')
                 })
                 .show()
-                .find('.chord-name').css({
+                .find('.chord-name').html(this.chordName()).css({
                     'font-size': this.model.get('font_size'),
                     'letter-spacing': this.model.get('letter_spacing')
                 })
+
+                var tone_choices = this.$el.find('.tone-choices')
+                tone_choices.html('')
+
+                _.each(this.model.get('note_choices'), function(note) {
+
+                    tone_choices.append(
+                        new BoxedChart.Views.editWidgetNote({
+                            model: new BoxedChart.Models.editWidgetNote({
+                                note: note,
+                                editWidget: this
+                            })
+                        }).render().el
+                    )
+
+                }, this)
 
             }
             else {
                 this.$el.hide()
             }
 
+            return this
+
         }
     })
 
+
+
+    // Edit widget - Note
+
+    BoxedChart.Models.editWidgetNote = Backbone.Model.extend()
+
+    BoxedChart.Views.editWidgetNote = Backbone.View.extend({
+        tagName: 'li',
+        model: BoxedChart.Models.editWidgetNote,
+        events: {
+            'click': 'chooseNote'
+        },
+        chooseNote: function() {
+            this.model.get('editWidget').setNote(this.model.get('note'))
+        },
+        render: function() {
+            this.$el.html(this.model.get('note').name)
+            return this
+        }
+    })
+
+
+
+    // Create edit widget
+
     var editWidgetModel = new BoxedChart.Models.editWidget()
 
-    new BoxedChart.Views.editWidget({
+    var editWidget = new BoxedChart.Views.editWidget({
         model: editWidgetModel
     })
+
 
 
     // Bind data from server to models/collections
 
     var boxed_chart_model = new BoxedChart.Models.BoxedChart(
         boxed_chart_data)
+
 
 
     // Bind views and models to existing HTML
@@ -194,6 +231,7 @@ $(function() {
             el: this,
             model: boxed_chart_model.get('sections').models[section_number]
         })
+        section.model.set('boxed_chart', boxed_chart)
         boxed_chart.$el.append(section)
 
         section.$el.find('.chord-boxes .line').each(function() {
@@ -203,6 +241,7 @@ $(function() {
                 el: this,
                 model: section.model.get('lines').models[line_number]
             })
+            line.model.set('section', section)
             section.$el.append(line)
 
             line.$el.find('.box').each(function() {
@@ -212,6 +251,7 @@ $(function() {
                     el: this,
                     model: line.model.get('boxes').models[box_number]
                 })
+                box.model.set('line', line)
                 line.$el.append(box)
 
                 box.$el.find('.part').each(function() {
@@ -220,6 +260,7 @@ $(function() {
                         el: this,
                         model: box.model.get('parts').models[part_number]
                     })
+                    boxPart.model.set('box', box)
                     part_number++
 
                 })

@@ -64,14 +64,14 @@ class Key(models.Model):
 
     def client_data(self):
         return {
-            'notes': [note.client_data() for note in self.note_set.all()]
+            'notes': {note.pk: note.client_data() for note in self.note_set.all()}
         }
 
     def note(self, distance_from_root, accidental=0):
         '''
         Get the note of this key at `distance_from_root`.
         '''
-        return self.note_set.get(distance_from_root=distance_from_root).name
+        return self.note_set.get(distance_from_root=distance_from_root)
 
 
 class Note(models.Model):
@@ -106,6 +106,7 @@ class Note(models.Model):
 
     def client_data(self):
         return {
+            'id': self.pk,
             'name': self.name,
         }
 
@@ -251,6 +252,13 @@ class ChordType(models.Model):
     class Meta:
         ordering = ('name',)
 
+    def client_data(self):
+        return {
+            'id': self.pk,
+            'name': self.name,
+            'symbol': self.symbol
+        }
+
 
 class Item(models.Model):
     '''
@@ -302,37 +310,19 @@ class Item(models.Model):
 
         if self.alternative_bass:
             return u''.join([
-                self.note(),
+                self.note().name,
                 self.chord_type.symbol,
                 '/',
-                self.alternative_base_note()])
+                self.alternative_base_note().name])
         else:
-            return u''.join([self.note(), self.chord_type.symbol])
+            return u''.join([self.note().name, self.chord_type.symbol])
 
     def note(self):
-
-        # It could be that the section key doesn't exist because the section's
-        # key deviates (by interval) from the charts key.
-        try:
-            section_key = self.section.key()
-        except SectionKeyDoesNotExist:
-            return u'�'
-        else:
-            return section_key.note(self.chord_pitch)
+        return self.section.key().note(self.chord_pitch)
 
     def alternative_base_note(self):
 
         if self.alternative_bass:
-
-            # It could be that the section key doesn't exist because the
-            # section's key deviates (by interval) from the charts key.
-            try:
-                section_key = self.section.key()
-            except SectionKeyDoesNotExist:
-                return u'�'
-            else:
-                return u'{}'.format(
-                    section_key.note(self.alternative_bass_pitch))
-
+            return self.section.key().note(self.alternative_bass_pitch)
         else:
-            return u''
+            return False
