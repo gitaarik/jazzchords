@@ -41,17 +41,6 @@
 
 {% endblock %}
 
-{% block js_templates %}
-
-    {% if edit %}
-        <script type="text/template" class="chord-edit">
-            <span class="chord-name"><%= chord_name %></span>
-            <ul class="tone-choices"></ul>
-        </script>
-    {% endif %}
-
-{% endblock %}
-
 {% block content %}
 
     <article class="chord-chart" style="width: {{ boxed_chart.total_width }}px;">
@@ -174,7 +163,23 @@
 
         </div>
 
-        <div class="chord-edit"></div>
+        {% if edit %}
+
+            <section class="chord-edit">
+
+                <header>
+                    <span class="chord-name"></span>
+                    <div class="controls">
+                        <div class="apply"></div>
+                        <div class="discard"></div>
+                    </div>
+                </header>
+
+                <ul class="tone-choices"></ul>
+
+            </section>
+
+        {% endif %}
 
     </article>
 

@@ -119,11 +119,11 @@
                     }
 
                     &.edit:after {
-                        content: url(@edit_icon);
+                        content: url(@edit-icon);
                     }
 
                     &.save:after {
-                        content: url(@save_icon);
+                        content: url(@save-icon);
                     }
 
                 }
@@ -282,8 +282,35 @@
         z-index: 10;
         width: 146px;
 
-        .chord-name {
-            cursor: pointer;
+        header {
+
+            margin: 0;
+
+            .chord-name {
+                cursor: pointer;
+            }
+
+            .controls {
+
+                float: right;
+
+                .apply, .discard {
+                    float: left;
+                    width: 16px;
+                    height: 16px;
+                }
+
+                .apply {
+                    background: url(@done-icon);
+                    margin-right: 10px;
+                }
+
+                .discard {
+                    background: url(@discard-icon);
+                }
+
+            }
+
         }
 
         ul.tone-choices {

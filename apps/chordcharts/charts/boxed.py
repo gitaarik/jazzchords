@@ -245,6 +245,7 @@ class BoxedChartSection(object):
         chord_notation = item.chord_notation()
         chart_output = chord_notation
         note = item.note()
+        chord_type = item.chord_type
         alt_base_note = item.alternative_base_note()
 
         # If self.current_item has 4 beats (thus is a full box) and isn't the
@@ -256,8 +257,8 @@ class BoxedChartSection(object):
             chord_notation == self.last_box.parts[0].chord_notation):
             chart_output = '%'
 
-        self.current_box.parts.append(ChartBoxPart(
-            chord_notation, chart_output, note, alt_base_note, beats))
+        self.current_box.parts.append(ChartBoxPart(chord_notation,
+            chart_output, note, chord_type, alt_base_note, beats))
 
     def calculate_height(self):
         '''
@@ -321,17 +322,36 @@ class ChartBoxPart(object):
     This represents an item in a chart box.
 
     Variables on this object:
-    self.chord      - The chord.
-    self.beats      - The amount of beats the chord should be played.
+    self.chord_notation         - the full notation of the chord
+    self.chart_output           - the notation of the chord as it appears in
+                                  the output (here a repeat sign '%' could be
+                                  used)
+    self.note                   - the root note of the chord
+    self.chord_type             - the type of chord
+    self.alt_base_note          - alternative base note if there is one
+    self.beats                  - the beats the chord should be played
     '''
 
-    def __init__(self, chord_notation, chart_output, note, alt_base_note,
-        beats):
+    def __init__(self, chord_notation, chart_output, note, chord_type,
+        alt_base_note, beats):
         self.chord_notation = chord_notation
         self.chart_output = chart_output
         self.note = note
+        self.chord_type = chord_type
         self.alt_base_note = alt_base_note
         self.beats = beats
 
     def client_data(self):
-        return self.__dict__
+
+        client_data = {
+            'note': self.note.client_data(),
+            'chord_type': self.chord_type.client_data(),
+            'beats': self.beats
+        }
+
+        if self.alt_base_note:
+            client_data['alt_base_note'] = self.alt_base_note.client_data()
+        else:
+            client_data['alt_base_note'] = False
+
+        return client_data
