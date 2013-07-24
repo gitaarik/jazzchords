@@ -107,6 +107,7 @@ class Note(models.Model):
     def client_data(self):
         return {
             'id': self.pk,
+            'distance_from_root': self.distance_from_root,
             'name': self.name,
         }
 
