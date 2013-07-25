@@ -177,7 +177,8 @@ $(function() {
         },
 
         events: {
-            'click .controls .apply': 'applyChanges'
+            'click .controls .apply': 'applyChanges',
+            'click .controls .discard': 'discardChanges'
         },
 
         applyChanges: function() {
@@ -188,6 +189,10 @@ $(function() {
 
             this.model.set('visible', false)
 
+        },
+
+        discardChanges: function() {
+            this.model.set('visible', false)
         },
 
         render: function() {
