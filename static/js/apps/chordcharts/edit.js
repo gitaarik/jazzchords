@@ -9,7 +9,14 @@ $(function() {
 
     // BoxPart
 
-    BoxedChart.Models.BoxPart = Backbone.Model.extend()
+    BoxedChart.Models.BoxPart = Backbone.Model.extend({
+        chordName: function() {
+            return (
+                this.get('note').name +
+                this.get('chord_type').symbol
+            )
+        }
+    })
 
     BoxedChart.Collections.BoxPart = Backbone.Collection.extend({
         model: BoxedChart.Models.BoxPart
@@ -18,6 +25,11 @@ $(function() {
     BoxedChart.Views.BoxPart = Backbone.View.extend({
 
         model: BoxedChart.Models.BoxPart,
+
+        initialize: function() {
+            this.listenTo(this.model, 'change', this.render);
+        },
+
         events: {
             'click .chord-name': 'openEditWidget'
         },
@@ -26,7 +38,7 @@ $(function() {
 
             var chord_name = this.$el.find('.chord-name')
 
-            editWidget.model.set({
+            editWidget.set({
                 visible: true,
                 boxPart: this.model,
                 chord_name_offset: chord_name.offset(),
@@ -34,6 +46,31 @@ $(function() {
                 letter_spacing: chord_name.css('letter-spacing')
             })
 
+        },
+
+        chartOutput: function() {
+
+            // If this box and the previous box's box_schema are both '4' and
+            // had the same chord, use the repetition sign ( % )
+            if(
+                this.model.get('beats') == 4 &&
+                this.model.get('box').has('prev_box') &&
+                this.model.get('box').get('prev_box')
+                    .get('beat_schema') == '4' &&
+                this.model.get('box').get('prev_box').get('parts')
+                .first().chordName() == this.model.chordName()
+            ) {
+                return '%'
+            }
+            else {
+                return this.model.chordName()
+            }
+
+        },
+
+        render: function() {
+            this.$el.find('.chord-name').html(
+                this.chartOutput())
         }
 
     })
@@ -115,10 +152,19 @@ $(function() {
     // Edit widget
 
     BoxedChart.Models.editWidget = Backbone.Model.extend({
+
         defaults: {
             last_note_choices: null,
             last_boxPart: null
-        }
+        },
+
+        chordName: function() {
+            return (
+                this.get('note').name +
+                this.get('chord_type').symbol
+            )
+        },
+
     })
 
     BoxedChart.Views.editWidget = Backbone.View.extend({
@@ -134,18 +180,13 @@ $(function() {
             'click .controls .apply': 'applyChanges'
         },
 
-        chordName: function() {
-            return (
-                this.model.get('note').name +
-                this.model.get('chord_type').symbol
-            )
-        },
-
         applyChanges: function() {
 
             this.model.get('boxPart').set({
                 note: this.model.get('note')
             })
+
+            this.model.set('visible', false)
 
         },
 
@@ -166,10 +207,10 @@ $(function() {
                 }
 
                 this.$el.css({
-                    'top': this.model.get('chord_name_offset').top - 12,
+                    'top': this.model.get('chord_name_offset').top - 11,
                     'left': this.model.get('chord_name_offset').left - 11
                 })
-                .find('.chord-name').html(this.chordName()).css({
+                .find('.chord-name').html(this.model.chordName()).css({
                     'font-size': this.model.get('font_size'),
                     'letter-spacing': this.model.get('letter_spacing')
                 })
@@ -237,10 +278,10 @@ $(function() {
 
     // Create edit widget
 
-    var editWidgetModel = new BoxedChart.Models.editWidget()
+    var editWidget = new BoxedChart.Models.editWidget()
 
-    var editWidget = new BoxedChart.Views.editWidget({
-        model: editWidgetModel
+    new BoxedChart.Views.editWidget({
+        model: editWidget
     })
 
 
@@ -259,6 +300,7 @@ $(function() {
     })
 
     var section_number = 0
+    var last_box = null
 
     boxed_chart.$el.find('.section').each(function() {
 
@@ -288,6 +330,13 @@ $(function() {
                     model: line.model.get('boxes').models[box_number]
                 })
                 box.model.set('line', line.model)
+
+                if(last_box) {
+                    box.model.set('prev_box', last_box.model)
+                    last_box.model.set('next_box', box.model)
+                }
+
+                last_box = box
                 line.$el.append(box)
 
                 box.$el.find('.part').each(function() {
@@ -321,7 +370,7 @@ $(function() {
 
         // close the edit widget if there was a click outside the edit widget
 
-        if(editWidgetModel.get('visible')) {
+        if(editWidget.get('visible')) {
 
             // check if the click wasn't a click to open the widget, or a click
             // inside the widget
@@ -340,7 +389,7 @@ $(function() {
                 )
             )) {
                 // close the widget
-                editWidgetModel.set('visible', false)
+                editWidget.set('visible', false)
             }
 
         }
