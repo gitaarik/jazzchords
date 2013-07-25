@@ -51,10 +51,13 @@ $(function() {
         chartOutput: function() {
 
             // If this box and the previous box's box_schema are both '4' and
-            // had the same chord, use the repetition sign ( % )
+            // are on the same line and had the same chord, use the repetition
+            // sign ( % )
             if(
                 this.model.get('beats') == 4 &&
                 this.model.get('box').has('prev_box') &&
+                this.model.get('box').get('line') == this.model.get('box')
+                    .get('prev_box').get('line') &&
                 this.model.get('box').get('prev_box')
                     .get('beat_schema') == '4' &&
                 this.model.get('box').get('prev_box').get('parts')
