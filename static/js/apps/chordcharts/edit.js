@@ -12,27 +12,29 @@ $(function() {
     BoxedChart.Models.BoxPart = Backbone.Model.extend({
 
         initialize: function(attributes) {
-            this.listenTo(this, 'change', this.change)
+            this.listenTo(this, 'change', this.parse_next_box)
         },
 
-        change: function() {
-            // If this and the next box have beat_schema '4' and they're both
-            // the same, also change the chord on the next box.
+        parse_next_box: function() {
+            // If this and the next box are on the same line and both have
+            // beat_schema '4' and both have the same chord, also change the
+            // chord on the next box.
 
             if(
                 this.get('beats') == 4 &&
                 this.get('box').has('next_box') &&
-                this.get('box').get('next_box').get('beat_schema') == '4'
+                this.get('box').get('next_box').get('beat_schema') == '4' &&
+                this.get('box').get('line') == this.get('box').get('next_box').get('line')
             ) {
 
                 var next_box_part = this.get('box').get('next_box')
                     .get('parts').first()
-                var last_attributes = this.previousAttributes()
+                var prev_attr = this.previousAttributes()
 
                 if(
-                    _.isEqual(next_box_part.get('note'), last_attributes.note) &&
-                    _.isEqual(next_box_part.get('chord_type'), last_attributes.chord_type) &&
-                    _.isEqual(next_box_part.get('alt_base_note'), last_attributes.alt_base_note)
+                    _.isEqual(next_box_part.get('note'), prev_attr.note) &&
+                    _.isEqual(next_box_part.get('chord_type'), prev_attr.chord_type) &&
+                    _.isEqual(next_box_part.get('alt_base_note'), prev_attr.alt_base_note)
                 ) {
                     this.get('box').get('next_box').get('parts').first().set({
                         'note': this.get('note'),
