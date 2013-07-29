@@ -4,7 +4,8 @@ import os
 import sys
 
 
-DJANGO_ROOT = os.path.join(os.path.dirname(__file__), os.path.pardir)
+DJANGO_ROOT = os.path.abspath(os.path.join(
+    os.path.dirname(__file__), os.path.pardir))
 sys.path.insert(0, os.path.join(DJANGO_ROOT, 'apps'))
 
 DEBUG = False
@@ -89,7 +90,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'context_processors.settings.settings',
+    'core.context_processors.settings',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -125,6 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'south',
+    'core',
     'compressor',
     'songs',
     'chordcharts',
