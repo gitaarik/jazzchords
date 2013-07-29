@@ -17,8 +17,12 @@ $(function() {
 
         parse_next_box: function() {
             // If this and the next box are on the same line and both have
-            // beat_schema '4' and both have the same chord, also change the
-            // chord on the next box.
+            // beat_schema '4' then:
+            // - If the chords are the same NOW, then next box will display the
+            //   repeat sign ( % ).
+            // - If the chord before the change of this box and the next chord
+            //   were the same, then change the chord of the next box to the
+            //   chord of the current box.
 
             if(
                 this.get('beats') == 4 &&
@@ -31,12 +35,13 @@ $(function() {
                     .get('parts').first()
 
                 if(
+                    // Check if chords are the same NOW
                     _.isEqual(next_box_part.get('note'), this.attributes.note) &&
                     _.isEqual(next_box_part.get('chord_type'), this.attributes.chord_type) &&
                     _.isEqual(next_box_part.get('alt_base_note'), this.attributes.alt_base_note)
                 ) {
                     // Trigger the `render()` by setting timestamp in
-                    // milliseconds in 'changed' attribute
+                    // milliseconds in `changed` attribute
                     this.get('box').get('next_box').get('parts').first()
                         .set('changed', new Date().getTime())
                 }
@@ -45,6 +50,8 @@ $(function() {
                     var prev_attr = this.previousAttributes()
 
                     if(
+                        // Check if the current box's chord before the change
+                        // is the same as the next box's chord
                         _.isEqual(next_box_part.get('note'), prev_attr.note) &&
                         _.isEqual(next_box_part.get('chord_type'), prev_attr.chord_type) &&
                         _.isEqual(next_box_part.get('alt_base_note'), prev_attr.alt_base_note)
