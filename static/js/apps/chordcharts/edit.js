@@ -48,10 +48,7 @@ $(function() {
         },
 
         chordName: function() {
-            return (
-                this.get('note').name +
-                this.get('chord_type').symbol
-            )
+            return this.get('note').name + this.get('chord_type').symbol
         }
 
     })
