@@ -5,3 +5,31 @@ Better initialization:
     Look into possibilities of not having to call set on backbone models, only
     set the data at model initialization, so that the 'change' won't be
     triggered on the model.
+
+Choose chord type and bass tone:
+    Make it possible to choose a chord type and a bass tone in the chord edit
+    widget.
+
+Add box:
+    Be able to add a box on a line.
+
+Add line:
+    Be able to add a line in a section.
+
+Add section:
+    Be able to add a section.
+
+Move section:
+    Be able to move a section.
+
+Save song:
+    Be able to save a song after editing.
+
+Add song:
+    Be able to add a song.
+
+How to read:
+    Make a how to read information popup that you can open on the page. Should
+    explain things like how to read the boxes and the different chord symbols.
+    Would be nice if you can move it to the side so you can still read the
+    chord chart.
