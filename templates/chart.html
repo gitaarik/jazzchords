@@ -167,7 +167,7 @@
 
             <section class="chord-edit">
 
-                <header>
+                <header class="padding">
                     <span class="chord-name"></span>
                     <div class="controls">
                         <div class="apply"></div>
@@ -175,7 +175,19 @@
                     </div>
                 </header>
 
-                <ul class="tone-choices"></ul>
+                <nav>
+                    <ul class="tabs padding">
+                        <li class="active" data-key="note">Note</li>
+                        <li data-key="type">Type</li>
+                        <li data-key="bass">Bass</li>
+                    </ul>
+                </nav>
+
+                <div class="chord-settings padding">
+                    <ul class="note"></ul>
+                    <ul class="type"><li>types</li></ul>
+                    <ul class="bass"><li>bass</li></ul>
+                </div>
 
             </section>
 

@@ -219,7 +219,8 @@ $(function() {
 
         events: {
             'click .controls .apply': 'applyChanges',
-            'click .controls .discard': 'discardChanges'
+            'click .controls .discard': 'discardChanges',
+            'click .tabs li': 'switchTab'
         },
 
         applyChanges: function() {
@@ -234,6 +235,19 @@ $(function() {
 
         discardChanges: function() {
             this.model.set('visible', false)
+        },
+
+        switchTab: function(obj) {
+
+            var tab = $(obj.currentTarget)
+
+            tab.parent().find('li').removeClass('active')
+                .parent().find('li[data-key=' + tab.data('key') + ']')
+                .addClass('active')
+
+            this.$el.find('.chord-settings ul').hide().parent().find(
+                'ul.' + tab.data('key')).show()
+
         },
 
         render: function() {
@@ -264,12 +278,12 @@ $(function() {
                 if(this.model.get('note_choices') !=
                    this.model.get('last_note_choices')) {
 
-                    var tone_choices = this.$el.find('.tone-choices')
-                    tone_choices.html('')
+                    var note_choices = this.$el.find('.chord-settings .note')
+                    note_choices.html('')
 
                     _.each(this.model.get('note_choices'), function(note) {
 
-                        tone_choices.append(
+                        note_choices.append(
                             new BoxedChart.Views.editWidgetNote({
                                 model: new BoxedChart.Models.editWidgetNote({
                                     note: note,

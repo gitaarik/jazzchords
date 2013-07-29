@@ -274,13 +274,17 @@
         display: none;
         position: absolute;
         z-index: 10;
-        padding: 10px;
         border: solid 1px #000;
         background: #FFF;
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
         z-index: 10;
-        width: 146px;
+        width: 166px;
+        padding: 10px 0;
+
+        .padding {
+            padding: 0 10px;
+        }
 
         header {
 
@@ -314,33 +318,84 @@
 
         }
 
-        ul.tone-choices {
+        nav ul {
 
-            margin-top: 10px;
             list-style: none;
-            padding: 0;
+            overflow: hidden;
+            margin: 10px 0;
+            border: solid #000;
+            border-width: 0 0 1px 0;
+            box-shadow: 0 5px 5px #EEE;
 
             li {
 
                 float: left;
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
-                text-align: center;
+                margin-right: 4px;
                 border: solid 1px #000;
-                border-radius: 5px;
-                box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-                margin: 0 10px 10px 0;
-                color: #000;
-                text-decoration: none;
+                border-width: 1px 1px 0 1px;
+                border-radius: 5px 5px 0 0;
+                padding: 4px;
+                margin-top: 4px;
+                background: #EEE;
+                color: #777;
                 cursor: pointer;
 
-                &:nth-child(3n) {
-                    margin: 0;
+                &:last-child {
+                    margin-right: 0;
                 }
 
-                &:nth-child(3n+1) {
-                    clear: both;
+                &.active {
+                    background: #FFF;
+                    color: #000;
+                    margin-top: 0;
+                    padding-bottom: 6px;
+                    padding-top: 6px;
+                }
+
+            }
+
+        }
+
+        .chord-settings {
+
+            ul {
+
+                padding: 0;
+
+                &.note {
+
+                    margin-top: 10px;
+                    list-style: none;
+
+                    li {
+
+                        float: left;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border: solid 1px #000;
+                        border-radius: 5px;
+                        box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+                        margin: 0 10px 10px 0;
+                        color: #000;
+                        text-decoration: none;
+                        cursor: pointer;
+
+                        &:nth-child(3n) {
+                            margin: 0;
+                        }
+
+                        &:nth-child(3n+1) {
+                            clear: both;
+                        }
+
+                    }
+
+                }
+
+                &.type, &.bass {
+                    display: none;
                 }
 
             }
@@ -348,6 +403,5 @@
         }
 
     }
-
 
 }
