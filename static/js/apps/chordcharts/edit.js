@@ -29,18 +29,33 @@ $(function() {
 
                 var next_box_part = this.get('box').get('next_box')
                     .get('parts').first()
-                var prev_attr = this.previousAttributes()
 
                 if(
-                    _.isEqual(next_box_part.get('note'), prev_attr.note) &&
-                    _.isEqual(next_box_part.get('chord_type'), prev_attr.chord_type) &&
-                    _.isEqual(next_box_part.get('alt_base_note'), prev_attr.alt_base_note)
+                    _.isEqual(next_box_part.get('note'), this.attributes.note) &&
+                    _.isEqual(next_box_part.get('chord_type'), this.attributes.chord_type) &&
+                    _.isEqual(next_box_part.get('alt_base_note'), this.attributes.alt_base_note)
                 ) {
-                    this.get('box').get('next_box').get('parts').first().set({
-                        'note': this.get('note'),
-                        'chord_type': this.get('chord_type'),
-                        'alt_base_note': this.get('alt_base_note')
-                    })
+                    // Trigger the `render()` by setting timestamp in
+                    // milliseconds in 'changed' attribute
+                    this.get('box').get('next_box').get('parts').first()
+                        .set('changed', new Date().getTime())
+                }
+                else {
+
+                    var prev_attr = this.previousAttributes()
+
+                    if(
+                        _.isEqual(next_box_part.get('note'), prev_attr.note) &&
+                        _.isEqual(next_box_part.get('chord_type'), prev_attr.chord_type) &&
+                        _.isEqual(next_box_part.get('alt_base_note'), prev_attr.alt_base_note)
+                    ) {
+                        this.get('box').get('next_box').get('parts').first().set({
+                            'note': this.get('note'),
+                            'chord_type': this.get('chord_type'),
+                            'alt_base_note': this.get('alt_base_note')
+                        })
+                    }
+
                 }
 
             }
