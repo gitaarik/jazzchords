@@ -32,4 +32,5 @@ How to read:
     Make a how to read information popup that you can open on the page. Should
     explain things like how to read the boxes and the different chord symbols.
     Would be nice if you can move it to the side so you can still read the
-    chord chart.
+    chord chart. Would also be nice to maybe have a link to a website where
+    you can see how to play the chord on a certain instrument.
