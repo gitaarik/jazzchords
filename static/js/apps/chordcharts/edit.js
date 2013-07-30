@@ -424,31 +424,37 @@ $(function() {
     boxed_chart.$el.find('.section').each(function() {
 
         var line_number = 0
+        var section_model = boxed_chart_model.get('sections').models[section_number]
+        section_model.set('boxed_chart', boxed_chart.model)
+
         var section = new BoxedChart.Views.Section({
             el: this,
-            model: boxed_chart_model.get('sections').models[section_number]
+            model: section_model
         })
-        section.model.set('boxed_chart', boxed_chart.model)
         boxed_chart.$el.append(section)
 
         section.$el.find('.chord-boxes .line').each(function() {
 
             var box_number = 0
+            var line_model = section.model.get('lines').models[line_number]
+            line_model.set('section', section.model)
+
             var line = new BoxedChart.Views.Line({
                 el: this,
-                model: section.model.get('lines').models[line_number]
+                model: line_model
             })
-            line.model.set('section', section.model)
             section.$el.append(line)
 
             line.$el.find('.box').each(function() {
 
                 var part_number = 0
+                var box_model = line.model.get('boxes').models[box_number]
+                box_model.set('line', line.model)
+
                 var box = new BoxedChart.Views.Box({
                     el: this,
-                    model: line.model.get('boxes').models[box_number]
+                    model: box_model
                 })
-                box.model.set('line', line.model)
 
                 if(last_box) {
                     box.model.set('prev_box', last_box.model)
@@ -460,11 +466,13 @@ $(function() {
 
                 box.$el.find('.part').each(function() {
 
+                    var boxPart_model = box.model.get('parts').models[part_number]
+                    boxPart_model.set('box', box.model)
+
                     var boxPart = new BoxedChart.Views.BoxPart({
                         el: this,
-                        model: box.model.get('parts').models[part_number]
+                        model: boxPart_model
                     })
-                    boxPart.model.set('box', box.model)
                     part_number++
 
                 })

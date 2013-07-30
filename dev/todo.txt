@@ -1,8 +1,3 @@
-Better initialization:
-    Look into possibilities of not having to call set on backbone models, only
-    set the data at model initialization, so that the 'change' won't be
-    triggered on the model.
-
 Choose chord type and bass tone:
     Make it possible to choose a chord type and a bass tone in the chord edit
     widget.
