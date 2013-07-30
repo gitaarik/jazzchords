@@ -119,11 +119,9 @@
                                     ">
 
                                         {% if box.beat_schema == "4" %}
-
                                             <div class="part">
                                                 <span class="chord-name">{{ box.parts.0.chart_output }}</span>
                                             </div>
-
                                         {% endif %}
 
                                         {% if box.beat_schema == "2-2" %}
@@ -185,7 +183,11 @@
 
                 <div class="chord-settings padding">
                     <ul class="note"></ul>
-                    <ul class="type"><li>types</li></ul>
+                    <ul class="type">
+                        {% for chord_type in chord_types %}
+                            <li>{{ chord_type.symbol }}</li>
+                        {% endfor %}
+                    </ul>
                     <ul class="bass"><li>bass</li></ul>
                 </div>
 

@@ -45,7 +45,7 @@ class ChartAdmin(admin.ModelAdmin):
 
 
 class ChordTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'symbol')
+    list_display = ('name', 'symbol', 'chord_output', 'order')
 
 
 class NoteInline(admin.TabularInline):

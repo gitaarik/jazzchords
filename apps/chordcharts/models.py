@@ -238,11 +238,18 @@ class ChordType(models.Model):
     name = models.CharField(max_length=50, help_text=
         '''The human understandable name that descripes the chord type. For
         example: Major, Major Seven, Ninth, Diminished etc.''')
-    symbol = models.CharField(max_length=10, blank=True, help_text=
-        '''The symbol for the chord type.  For example: 7 (for Seventh), 9 (for
-        Ninth), m (for Minor) This will be used for the chord representation in
-        the chart. Use any symbol you think would be appropriate to represent
-        the chord.''')
+    symbol = models.CharField(max_length=10, help_text='''The symbol for the
+        chord type. For example: m (for Major), m (for Minor), 7 (for Seventh).
+        This will be used for choosing a chord type in the edit widget.''')
+    chord_output = models.CharField(max_length=10, blank=True, help_text=
+        '''The way the symbol will be displayed when used in a chord. Usually
+        this is the same as the normal symbol, but for some chords it might be
+        different. For example, a Major chord is usually written without a
+        symbol. This will be used for the chord representation in the chart.
+        ''')
+    order = models.PositiveSmallIntegerField(help_text='''The order in which
+        the chord types will appear. This is used in the edit widget. More used
+        chords should appear before lesser used chords.''')
 
     def __unicode__(self):
         if self.symbol:
@@ -251,13 +258,14 @@ class ChordType(models.Model):
             return u'{}'.format(self.name)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('order',)
 
     def client_data(self):
         return {
             'id': self.pk,
             'name': self.name,
-            'symbol': self.symbol
+            'symbol': self.symbol,
+            'chord_output': self.chord_output
         }
 
 
@@ -312,11 +320,11 @@ class Item(models.Model):
         if self.alternative_bass:
             return u''.join([
                 self.note().name,
-                self.chord_type.symbol,
+                self.chord_type.chord_output,
                 '/',
                 self.alternative_base_note().name])
         else:
-            return u''.join([self.note().name, self.chord_type.symbol])
+            return u''.join([self.note().name, self.chord_type.chord_output])
 
     def note(self):
         return self.section.key().note(self.chord_pitch)

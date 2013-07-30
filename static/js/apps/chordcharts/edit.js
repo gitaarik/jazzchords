@@ -82,7 +82,7 @@ $(function() {
                 bass_note = ''
             }
 
-            return this.get('note').name + this.get('chord_type').symbol
+            return this.get('note').name + this.get('chord_type').chord_output
                 + bass_note
 
         }
@@ -240,7 +240,7 @@ $(function() {
                 bass_note = ''
             }
 
-            return this.get('note').name + this.get('chord_type').symbol
+            return this.get('note').name + this.get('chord_type').chord_output
                 + bass_note
 
         },
