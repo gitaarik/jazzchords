@@ -38,7 +38,7 @@ $(function() {
                     // Check if chords are the same NOW
                     _.isEqual(next_box_part.get('note'), this.attributes.note) &&
                     _.isEqual(next_box_part.get('chord_type'), this.attributes.chord_type) &&
-                    _.isEqual(next_box_part.get('alt_base_note'), this.attributes.alt_base_note)
+                    _.isEqual(next_box_part.get('alt_bass_note'), this.attributes.alt_bass_note)
                 ) {
                     // Trigger the `render()` by setting timestamp in
                     // milliseconds in `changed` attribute
@@ -54,12 +54,12 @@ $(function() {
                         // is the same as the next box's chord
                         _.isEqual(next_box_part.get('note'), prev_attr.note) &&
                         _.isEqual(next_box_part.get('chord_type'), prev_attr.chord_type) &&
-                        _.isEqual(next_box_part.get('alt_base_note'), prev_attr.alt_base_note)
+                        _.isEqual(next_box_part.get('alt_bass_note'), prev_attr.alt_bass_note)
                     ) {
                         this.get('box').get('next_box').get('parts').first().set({
                             'note': this.get('note'),
                             'chord_type': this.get('chord_type'),
-                            'alt_base_note': this.get('alt_base_note')
+                            'alt_bass_note': this.get('alt_bass_note')
                         })
                     }
 
@@ -70,7 +70,18 @@ $(function() {
         },
 
         chordName: function() {
+
+            var bass_note
+            if(this.get('alt_bass_note')) {
+                bass_note = '/' + this.get('alt_bass_note').name
+            }
+            else {
+                bass_note = ''
+            }
+
             return this.get('note').name + this.get('chord_type').symbol
+                + bass_note
+
         }
 
     })
@@ -213,16 +224,19 @@ $(function() {
 
     BoxedChart.Models.editWidget = Backbone.Model.extend({
 
-        defaults: {
-            last_note_choices: null,
-            last_boxPart: null
-        },
-
         chordName: function() {
-            return (
-                this.get('note').name +
-                this.get('chord_type').symbol
-            )
+
+            var bass_note
+            if(this.get('alt_bass_note')) {
+                bass_note = '/' + this.get('alt_bass_note').name
+            }
+            else {
+                bass_note = ''
+            }
+
+            return this.get('note').name + this.get('chord_type').symbol
+                + bass_note
+
         },
 
     })
@@ -272,60 +286,67 @@ $(function() {
         render: function() {
 
             if(this.model.get('visible')) {
-
-                var boxPart = this.model.get('boxPart')
-
-                if(this.model.get('last_boxPart') != boxPart) {
-                    this.model.set({
-                        note: boxPart.get('note'),
-                        chord_type: boxPart.get('chord_type'),
-                        note_choices: boxPart.get('box').get('line')
-                            .get('section').get('key').notes,
-                        last_boxPart: boxPart
-                    })
-                }
-
-                this.$el.css({
-                    'top': this.model.get('chord_name_offset').top - 11,
-                    'left': this.model.get('chord_name_offset').left - 11
-                })
-                .find('.chord-name').html(this.model.chordName()).css({
-                    'font-size': this.model.get('font_size'),
-                    'letter-spacing': this.model.get('letter_spacing')
-                })
-
-                if(this.model.get('note_choices') !=
-                   this.model.get('last_note_choices')) {
-
-                    var note_choices = this.$el.find('.chord-settings .note')
-                    note_choices.html('')
-
-                    _.each(this.model.get('note_choices'), function(note) {
-
-                        note_choices.append(
-                            new BoxedChart.Views.editWidgetNote({
-                                model: new BoxedChart.Models.editWidgetNote({
-                                    note: note,
-                                    editWidget: this
-                                })
-                            }).render().el
-                        )
-
-                    }, this)
-
-                    this.model.set('last_note_choices',
-                        this.model.get('note_choices'))
-
-                }
-
-                this.$el.show()
-
+                this.show()
             }
             else {
                 this.$el.hide()
             }
 
             return this
+
+        },
+
+        show: function() {
+
+            // If the edit widget opens on a different boxPart than the
+            // last one, set the data for this boxPart on the model.
+
+            if(this.model.previousAttributes().boxPart !=
+               this.model.get('boxPart')) {
+
+                var boxPart = this.model.get('boxPart')
+
+                this.model.set({
+                    note: boxPart.get('note'),
+                    chord_type: boxPart.get('chord_type'),
+                    alt_bass_note: boxPart.get('alt_bass_note'),
+                    note_choices: boxPart.get('box').get('line')
+                        .get('section').get('key').notes
+                })
+
+            }
+
+            this.$el.css({
+                'top': this.model.get('chord_name_offset').top - 11,
+                'left': this.model.get('chord_name_offset').left - 11
+            })
+            .find('.chord-name').html(this.model.chordName()).css({
+                'font-size': this.model.get('font_size'),
+                'letter-spacing': this.model.get('letter_spacing')
+            })
+
+            if(this.model.get('note_choices') !=
+               this.model.previousAttributes().note_choices) {
+
+                var note_choices = this.$el.find('.chord-settings .note')
+                note_choices.html('')
+
+                _.each(this.model.get('note_choices'), function(note) {
+
+                    note_choices.append(
+                        new BoxedChart.Views.editWidgetNote({
+                            model: new BoxedChart.Models.editWidgetNote({
+                                note: note,
+                                editWidget: this
+                            })
+                        }).render().el
+                    )
+
+                }, this)
+
+            }
+
+            this.$el.show()
 
         }
 

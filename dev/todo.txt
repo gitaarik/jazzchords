@@ -1,6 +1,3 @@
-Bass tone:
-    Currently the bass tone is not rendered in a boxpart
-
 Better initialization:
     Look into possibilities of not having to call set on backbone models, only
     set the data at model initialization, so that the 'change' won't be

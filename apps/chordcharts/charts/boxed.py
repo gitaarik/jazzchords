@@ -246,7 +246,7 @@ class BoxedChartSection(object):
         chart_output = chord_notation
         note = item.note()
         chord_type = item.chord_type
-        alt_base_note = item.alternative_base_note()
+        alt_bass_note = item.alternative_base_note()
 
         # If self.current_item has 4 beats (thus is a full box) and isn't the
         # first item on a line and self.last_box was a full box too and had the
@@ -258,7 +258,7 @@ class BoxedChartSection(object):
             chart_output = '%'
 
         self.current_box.parts.append(ChartBoxPart(chord_notation,
-            chart_output, note, chord_type, alt_base_note, beats))
+            chart_output, note, chord_type, alt_bass_note, beats))
 
     def calculate_height(self):
         '''
@@ -328,17 +328,17 @@ class ChartBoxPart(object):
                                   used)
     self.note                   - the root note of the chord
     self.chord_type             - the type of chord
-    self.alt_base_note          - alternative base note if there is one
+    self.alt_bass_note          - alternative base note if there is one
     self.beats                  - the beats the chord should be played
     '''
 
     def __init__(self, chord_notation, chart_output, note, chord_type,
-        alt_base_note, beats):
+        alt_bass_note, beats):
         self.chord_notation = chord_notation
         self.chart_output = chart_output
         self.note = note
         self.chord_type = chord_type
-        self.alt_base_note = alt_base_note
+        self.alt_bass_note = alt_bass_note
         self.beats = beats
 
     def client_data(self):
@@ -349,9 +349,9 @@ class ChartBoxPart(object):
             'beats': self.beats
         }
 
-        if self.alt_base_note:
-            client_data['alt_base_note'] = self.alt_base_note.client_data()
+        if self.alt_bass_note:
+            client_data['alt_bass_note'] = self.alt_bass_note.client_data()
         else:
-            client_data['alt_base_note'] = False
+            client_data['alt_bass_note'] = False
 
         return client_data
