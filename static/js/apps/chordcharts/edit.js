@@ -16,6 +16,8 @@ $(function() {
         },
 
         parse_next_box: function() {
+            // Parses the next box based on this box
+            //
             // If this and the next box are on the same line and both have
             // beat_schema '4' then:
             // - If the chords are the same NOW, then next box will display the
@@ -70,6 +72,7 @@ $(function() {
         },
 
         chordName: function() {
+            // Returns the full chord name for this boxPart
 
             var bass_note
             if(this.get('alt_bass_note')) {
@@ -103,6 +106,7 @@ $(function() {
         },
 
         openEditWidget: function() {
+            // Opens the edit widget for this boxPart
 
             var chord_name = this.$el.find('.chord-name')
 
@@ -117,10 +121,12 @@ $(function() {
         },
 
         chartOutput: function() {
+            // Returns the string that should be outputted on the chart. This
+            // is usually the chordName but in some cases the repeat sign ( % )
 
             // If this box and the previous box's box_schema are both '4' and
-            // are on the same line and had the same chord, use the repetition
-            // sign ( % )
+            // are on the same line and had the same chord, use the repeat sign
+            // ( % ). Otherwise use the chordName.
             if(
                 this.model.get('beats') == 4 &&
                 this.model.get('box').has('prev_box') &&
@@ -140,8 +146,7 @@ $(function() {
         },
 
         render: function() {
-            this.$el.find('.chord-name').html(
-                this.chartOutput())
+            this.$el.find('.chord-name').html(this.chartOutput())
         }
 
     })
@@ -225,6 +230,7 @@ $(function() {
     BoxedChart.Models.editWidget = Backbone.Model.extend({
 
         chordName: function() {
+            // Returns the chordName for this editWidget
 
             var bass_note
             if(this.get('alt_bass_note')) {
@@ -257,6 +263,7 @@ $(function() {
         },
 
         applyChanges: function() {
+            // Applies the changes made in the edit widget to the boxPart
 
             this.model.get('boxPart').set({
                 note: this.model.get('note')
@@ -267,10 +274,14 @@ $(function() {
         },
 
         discardChanges: function() {
+            // Closes the edit widget without applying the changes to the
+            // boxPart
             this.model.set('visible', false)
         },
 
         switchTab: function(obj) {
+            // Switches to a tab in the edit widget
+            // like 'note', 'type' and 'bass'
 
             var tab = $(obj.currentTarget)
 
@@ -285,6 +296,9 @@ $(function() {
 
         render: function() {
 
+            // Only show the edit widget when 'visible' is true,
+            // otherwise, hide the edit widget.
+
             if(this.model.get('visible')) {
                 this.show()
             }
@@ -297,6 +311,8 @@ $(function() {
         },
 
         show: function() {
+            // Parses the settings on the model and render the html
+            // accordingly
 
             // If the edit widget opens on a different boxPart than the
             // last one, set the data for this boxPart on the model.
@@ -365,6 +381,7 @@ $(function() {
             'click': 'chooseNote'
         },
         chooseNote: function() {
+            // Sets the chosen note on the editWidget
             this.model.get('editWidget').model.set('note',
                 this.model.get('note'))
         },
@@ -402,6 +419,8 @@ $(function() {
     var section_number = 0
     var last_box = null
 
+    // Loop through HTML elements and create appropriate views/models for these
+    // elements
     boxed_chart.$el.find('.section').each(function() {
 
         var line_number = 0
