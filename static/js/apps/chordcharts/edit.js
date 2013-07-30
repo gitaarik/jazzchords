@@ -260,8 +260,7 @@ $(function() {
             'click .controls .apply': 'applyChanges',
             'click .controls .discard': 'discardChanges',
             'click .tabs li': 'switchTab',
-            'click .chord-settings .setting.type .more': 'chordTypesMore',
-            'click .chord-settings .setting.type .back': 'chordTypesBack'
+            'click .chord-settings .setting.type .toggle': 'toggleTypesMore',
         },
 
         applyChanges: function() {
@@ -296,16 +295,19 @@ $(function() {
 
         },
 
-        chordTypesMore: function(obj) {
-            var chord_type = this.$el.find('.chord-settings .setting.type')
-            chord_type.find('.type-1').hide()
-            chord_type.find('.type-2').show()
-        },
+        toggleTypesMore: function(obj) {
 
-        chordTypesBack: function(obj) {
             var chord_type = this.$el.find('.chord-settings .setting.type')
-            chord_type.find('.type-2').hide()
-            chord_type.find('.type-1').show()
+
+            if(chord_type.find('.type-1').is(':visible')) {
+                chord_type.find('.type-1').hide()
+                chord_type.find('.type-2').show()
+            }
+            else {
+                chord_type.find('.type-2').hide()
+                chord_type.find('.type-1').show()
+            }
+
         },
 
         render: function() {

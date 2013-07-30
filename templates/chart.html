@@ -193,14 +193,20 @@
 
                                 <ul>
                                     {% for chord_type in chord_types %}
-                                        <li>{{ chord_type.symbol }}</li>
+                                        <li
+                                            {% if chord_type.symbol|length > 4 %}
+                                                class="small-font"
+                                            {% endif %}
+                                        >
+                                            {{ chord_type.symbol }}
+                                        </li>
                                     {% endfor %}
                                 </ul>
 
                                 {% if forloop.counter == 1 %}
-                                    <div class="more">more &rsaquo;</div>
+                                    <div class="toggle">more &rsaquo;</div>
                                 {% else %}
-                                    <div class="back">&lsaquo; back</div>
+                                    <div class="toggle">&lsaquo; back</div>
                                 {% endif %}
 
                             </div>
