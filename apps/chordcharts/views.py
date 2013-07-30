@@ -30,7 +30,7 @@ def chart(request, song_slug, key_slug=None, edit=False):
         'sections': chart.section_set.all(),
         'all_keys': all_keys,
         'edit': edit,
-        'chord_types': chord_types,
+        'chord_types_sets': (chord_types[:12], chord_types[12:]),
         'chord_types_json': [chord_type.client_data()
             for chord_type in chord_types]
     }

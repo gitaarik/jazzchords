@@ -182,13 +182,35 @@
                 </nav>
 
                 <div class="chord-settings padding">
-                    <ul class="note"></ul>
-                    <ul class="type">
-                        {% for chord_type in chord_types %}
-                            <li>{{ chord_type.symbol }}</li>
+
+                    <ul class="setting note"></ul>
+
+                    <div class="setting type">
+
+                        {% for chord_types in chord_types_sets %}
+
+                            <div class="type-{{ forloop.counter }}">
+
+                                <ul>
+                                    {% for chord_type in chord_types %}
+                                        <li>{{ chord_type.symbol }}</li>
+                                    {% endfor %}
+                                </ul>
+
+                                {% if forloop.counter == 1 %}
+                                    <div class="more">more &rsaquo;</div>
+                                {% else %}
+                                    <div class="back">&lsaquo; back</div>
+                                {% endif %}
+
+                            </div>
+
                         {% endfor %}
-                    </ul>
-                    <ul class="bass"><li>bass</li></ul>
+
+                    </div>
+
+                    <ul class="setting bass"><li>bass</li></ul>
+
                 </div>
 
             </section>

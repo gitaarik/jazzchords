@@ -259,7 +259,9 @@ $(function() {
         events: {
             'click .controls .apply': 'applyChanges',
             'click .controls .discard': 'discardChanges',
-            'click .tabs li': 'switchTab'
+            'click .tabs li': 'switchTab',
+            'click .chord-settings .setting.type .more': 'chordTypesMore',
+            'click .chord-settings .setting.type .back': 'chordTypesBack'
         },
 
         applyChanges: function() {
@@ -289,9 +291,21 @@ $(function() {
                 .parent().find('li[data-key=' + tab.data('key') + ']')
                 .addClass('active')
 
-            this.$el.find('.chord-settings ul').hide().parent().find(
-                'ul.' + tab.data('key')).show()
+            this.$el.find('.chord-settings .setting').hide().parent().find(
+                '.setting.' + tab.data('key')).show()
 
+        },
+
+        chordTypesMore: function(obj) {
+            var chord_type = this.$el.find('.chord-settings .setting.type')
+            chord_type.find('.type-1').hide()
+            chord_type.find('.type-2').show()
+        },
+
+        chordTypesBack: function(obj) {
+            var chord_type = this.$el.find('.chord-settings .setting.type')
+            chord_type.find('.type-2').hide()
+            chord_type.find('.type-1').show()
         },
 
         render: function() {
