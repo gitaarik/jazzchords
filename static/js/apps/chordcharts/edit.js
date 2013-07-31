@@ -253,6 +253,7 @@ $(function() {
         model: BoxedChart.Models.editWidget,
 
         initialize: function() {
+            this.chord_type = this.$el.find('.chord-settings .setting.type')
             this.listenTo(this.model, 'change', this.render)
         },
 
@@ -260,7 +261,7 @@ $(function() {
             'click .controls .apply': 'applyChanges',
             'click .controls .discard': 'discardChanges',
             'click .tabs li': 'switchTab',
-            'click .chord-settings .setting.type .toggle': 'toggleTypesMore',
+            'click .chord-settings .setting.type .toggle': 'toggleChordTypes',
         },
 
         applyChanges: function() {
@@ -285,29 +286,39 @@ $(function() {
             // like 'note', 'type' and 'bass'
 
             var tab = $(obj.currentTarget)
-
-            tab.parent().find('li').removeClass('active')
-                .parent().find('li[data-key=' + tab.data('key') + ']')
-                .addClass('active')
-
-            this.$el.find('.chord-settings .setting').hide().parent().find(
-                '.setting.' + tab.data('key')).show()
+            this.openTab(tab.data('key'))
 
         },
 
-        toggleTypesMore: function(obj) {
+        openTab: function(key) {
+            // Opens tab matching provided key
 
-            var chord_type = this.$el.find('.chord-settings .setting.type')
+            this.$el.find('.tabs li').removeClass('active')
+                .parent().find('li[data-key=' + key + ']')
+                .addClass('active')
 
-            if(chord_type.find('.type-1').is(':visible')) {
-                chord_type.find('.type-1').hide()
-                chord_type.find('.type-2').show()
+            this.$el.find('.chord-settings .setting').hide().parent().find(
+                '.setting.' + key).show()
+
+        },
+
+        toggleChordTypes: function(obj) {
+            // Toggles between the two pages of chord type options
+
+            if(this.chord_type.find('.type-part-1').is(':visible')) {
+                this.showChordTypePart(2)
             }
             else {
-                chord_type.find('.type-2').hide()
-                chord_type.find('.type-1').show()
+                this.showChordTypePart(1)
             }
 
+        },
+
+        showChordTypePart: function(number) {
+            // Shows the chord type part of the provided number
+            // The chord type choices are in these parts
+            this.chord_type.find('.type-part').hide()
+            this.chord_type.find('.type-part-' + number).show()
         },
 
         render: function() {
@@ -331,21 +342,11 @@ $(function() {
             // accordingly
 
             // If the edit widget opens on a different boxPart than the
-            // last one, set the data for this boxPart on the model.
+            // last one, then reset the editWidget.
 
             if(this.model.previousAttributes().boxPart !=
                this.model.get('boxPart')) {
-
-                var boxPart = this.model.get('boxPart')
-
-                this.model.set({
-                    note: boxPart.get('note'),
-                    chord_type: boxPart.get('chord_type'),
-                    alt_bass_note: boxPart.get('alt_bass_note'),
-                    note_choices: boxPart.get('box').get('line')
-                        .get('section').get('key').notes
-                })
-
+                this.reset()
             }
 
             this.$el.css({
@@ -379,6 +380,27 @@ $(function() {
             }
 
             this.$el.show()
+
+        },
+
+        reset: function() {
+            // Reset the edit widget to the "start state"
+            //
+            // For example, the chosen chord is the chord the edit is on and
+            // the selected tab is the note tab.
+
+            var boxPart = this.model.get('boxPart')
+
+            this.model.set({
+                note: boxPart.get('note'),
+                chord_type: boxPart.get('chord_type'),
+                alt_bass_note: boxPart.get('alt_bass_note'),
+                note_choices: boxPart.get('box').get('line')
+                    .get('section').get('key').notes
+            })
+
+            this.showChordTypePart(1)
+            this.openTab('note')
 
         }
 
