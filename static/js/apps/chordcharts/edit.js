@@ -6,13 +6,22 @@ $(function() {
     BoxedChart.Collections = {}
 
 
+    // ChordType
+
+    BoxedChart.Models.ChordType = Backbone.Model.extend()
+
 
     // BoxPart
 
     BoxedChart.Models.BoxPart = Backbone.Model.extend({
 
         initialize: function(attributes) {
+
+            this.set('chord_type', new BoxedChart.Models.ChordType(
+                this.get('chord_type')))
+
             this.listenTo(this, 'change', this.parse_next_box)
+
         },
 
         parse_next_box: function() {
@@ -55,8 +64,10 @@ $(function() {
                         // Check if the current box's chord before the change
                         // is the same as the next box's chord
                         _.isEqual(next_box_part.get('note'), prev_attr.note) &&
-                        _.isEqual(next_box_part.get('chord_type'), prev_attr.chord_type) &&
-                        _.isEqual(next_box_part.get('alt_bass_note'), prev_attr.alt_bass_note)
+                        _.isEqual(next_box_part.get('chord_type').attributes,
+                            prev_attr.chord_type.attributes) &&
+                        _.isEqual(next_box_part.get('alt_bass_note'),
+                            prev_attr.alt_bass_note)
                     ) {
                         this.get('box').get('next_box').get('parts').first().set({
                             'note': this.get('note'),
@@ -82,8 +93,8 @@ $(function() {
                 bass_note = ''
             }
 
-            return this.get('note').name + this.get('chord_type').chord_output
-                + bass_note
+            return this.get('note').name +
+                this.get('chord_type').get('chord_output') + bass_note
 
         }
 
@@ -240,8 +251,8 @@ $(function() {
                 bass_note = ''
             }
 
-            return this.get('note').name + this.get('chord_type').chord_output
-                + bass_note
+            return this.get('note').name +
+                this.get('chord_type').get('chord_output') + bass_note
 
         },
 
@@ -252,11 +263,6 @@ $(function() {
         el: '.chord-chart .chord-edit',
         model: BoxedChart.Models.editWidget,
 
-        initialize: function() {
-            this.chord_type = this.$el.find('.chord-settings .setting.type')
-            this.listenTo(this.model, 'change', this.render)
-        },
-
         events: {
             'click .controls .apply': 'applyChanges',
             'click .controls .discard': 'discardChanges',
@@ -264,11 +270,42 @@ $(function() {
             'click .chord-settings .setting.type .toggle': 'toggleChordTypes',
         },
 
+        initialize: function() {
+            this.chord_type = this.$el.find('.chord-settings .setting.type')
+            this.initChordTypes()
+            this.listenTo(this.model, 'change', this.render)
+        },
+
+        initChordTypes: function() {
+            // Creates the views for the chord type choices and binds them to
+            // the existing HTML
+
+            var that = this
+            var chordType_number = 0
+            var chord_types = []
+
+            this.chord_type.find('li').each(function() {
+
+                var chord_type_model = editWidget_chordTypes.models[chordType_number]
+                chord_type_model.set('editWidget', that.model)
+
+                new BoxedChart.Views.editWidgetChordType({
+                    el: this,
+                    model: chord_type_model
+                })
+
+                chordType_number++
+
+            })
+
+        },
+
         applyChanges: function() {
             // Applies the changes made in the edit widget to the boxPart
 
             this.model.get('boxPart').set({
-                note: this.model.get('note')
+                note: this.model.get('note'),
+                chord_type: this.model.get('chord_type')
             })
 
             this.model.set('visible', false)
@@ -431,12 +468,29 @@ $(function() {
 
 
 
-    // Create edit widget
+    // Edit widget - Chord type
 
-    var editWidget = new BoxedChart.Models.editWidget()
+    BoxedChart.Collections.editWidgetChordType = Backbone.Collection.extend({
+        model: BoxedChart.Models.ChordType
+    })
 
-    new BoxedChart.Views.editWidget({
-        model: editWidget
+    BoxedChart.Views.editWidgetChordType = Backbone.View.extend({
+
+        model: BoxedChart.Models.editWidgetChordType,
+
+        events: {
+            'click': 'chooseSymbol'
+        },
+
+        chooseSymbol: function() {
+            this.model.get('editWidget').set('chord_type',
+                this.model)
+        },
+
+        render: function() {
+            this.$el.html(this.model.get('symbol'))
+        }
+
     })
 
 
@@ -445,6 +499,9 @@ $(function() {
 
     var boxed_chart_model = new BoxedChart.Models.BoxedChart(
         boxed_chart_data)
+
+    var editWidget_chordTypes = new BoxedChart.Collections.editWidgetChordType(
+        chord_types_data)
 
 
 
@@ -527,6 +584,15 @@ $(function() {
 
     })
 
+
+
+    // Create edit widget
+
+    var editWidget = new BoxedChart.Models.editWidget()
+
+    new BoxedChart.Views.editWidget({
+        model: editWidget
+    })
 
 
     // Other event listeners

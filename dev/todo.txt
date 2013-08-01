@@ -1,3 +1,6 @@
+Optimize
+    Next boxes are being parsed at startup, this shouldn't happen, right?
+
 Choose chord type and bass tone:
     Make it possible to choose a chord type and a bass tone in the chord edit
     widget.

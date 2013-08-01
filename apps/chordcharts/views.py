@@ -31,8 +31,8 @@ def chart(request, song_slug, key_slug=None, edit=False):
         'all_keys': all_keys,
         'edit': edit,
         'chord_types_sets': (chord_types[:12], chord_types[12:]),
-        'chord_types_json': [chord_type.client_data()
-            for chord_type in chord_types]
+        'chord_types_json': json.dumps([chord_type.client_data()
+            for chord_type in chord_types])
     }
 
     return render(request, 'chart.html', context)
