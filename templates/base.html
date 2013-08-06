@@ -19,7 +19,7 @@
                     log_level: 0
                 }
             </script>
-            <script src="{{ STATIC_URL }}js/libs/less-1.4.2.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/less.js"></script>
             {% if LESS_WATCH %}<script>less.watch()</script>{% endif %}
         {% endif %}
 
@@ -34,9 +34,9 @@
         </div>
 
         {% compress js %}
-            <script src="{{ STATIC_URL }}js/libs/jquery-2.0.2.min.js"></script>
-            <script src="{{ STATIC_URL }}js/libs/underscore-min.js"></script>
-            <script src="{{ STATIC_URL }}js/libs/backbone-min.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/jquery.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/underscore.js"></script>
+            <script src="{{ STATIC_URL }}js/libs/backbone.js"></script>
             {% block javascript %}{% endblock %}
         {% endcompress %}
 

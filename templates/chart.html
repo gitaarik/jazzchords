@@ -37,7 +37,7 @@
     <script src="{{ STATIC_URL }}js/apps/chordcharts/key-change.js"></script>
 
     {% if edit %}
-        <script src="{{ STATIC_URL }}js/apps/chordcharts/edit.js"></script>
+        <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
     {% endif %}
 
 {% endblock %}
