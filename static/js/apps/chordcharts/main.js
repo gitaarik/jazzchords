@@ -2,38 +2,29 @@ require(
     [
         'collections/edit_widget_chord_types',
         'models/chart',
-        'models/edit_widget',
         'views/chart',
         'views/section',
         'views/line',
         'views/box',
         'views/box_part',
-        'views/edit_widget'
+        'init/edit_widget',
+        'init/key_change_widget'
     ],
     function(
         EditWidgetChordTypes,
         Chart,
-        EditWidget,
         ChartView,
         SectionView,
         LineView,
         BoxView,
         BoxPartView,
-        EditWidgetView
+        editWidget,
+        keyChangeWidget
     ) {
-
-        // Create edit widget
-
-        var editWidget = new EditWidget()
-
-        new EditWidgetView({
-            model: editWidget
-        })
-
 
         // Bind data from server to models/collections
 
-        var chart = new Chart(boxed_chart_data)
+        var chart = new Chart(GLOBALS.boxed_chart_data)
 
 
         // Bind views and models to existing HTML
@@ -115,39 +106,6 @@ require(
             })
 
             section_number++
-
-        })
-
-
-        // Other event listeners
-
-        $('html').on('click', function(event) {
-
-            // close the edit widget if there was a click outside the edit widget
-
-            if(editWidget.get('visible')) {
-
-                // check if the click wasn't a click to open the widget, or a click
-                // inside the widget
-
-                var target = $(event.target)
-
-                if(!(
-                    (
-                        // check if click was to open the widget
-                        target.hasClass('chord-name') &&
-                        target.closest('.boxed-chart').length
-                    ) || (
-                        // check if click was in the widget
-                        target.closest('.chord-edit').length &&
-                        target.closest('.chord-chart').length
-                    )
-                )) {
-                    // close the widget
-                    editWidget.set('visible', false)
-                }
-
-            }
 
         })
 
