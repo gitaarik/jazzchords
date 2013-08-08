@@ -23,7 +23,11 @@ class BoxedChart(object):
 
         return {
             'sections': [section.client_data()
-                for section in self.sections()]
+                for section in self.sections()],
+            'box_width': self.box_width(),
+            'box_height': self.box_height(),
+            'border_width': self.border_width(),
+            'section_sidebar_width': self.section_sidebar_width()
         }
 
     def sections(self):
@@ -65,6 +69,15 @@ class BoxedChart(object):
         The width of the section sidebar.
         '''
         return BOXED_CHART['section_sidebar_width']
+
+    def box_width(self):
+        return BOXED_CHART['box_width']
+
+    def box_height(self):
+        return BOXED_CHART['box_height']
+
+    def border_width(self):
+        return BOXED_CHART['border_width']
 
 
 class BoxedChartSection(object):
@@ -118,6 +131,10 @@ class BoxedChartSection(object):
 
         return {
             'key': self.section.key().client_data(),
+            'alt_title': self.section.alt_title
+                if self.section.alt_title else None,
+            'height': self.height,
+            'width': self.width,
             'lines': [
                 {'boxes': [box.client_data() for box in line]}
                 for line in self.lines

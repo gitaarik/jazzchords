@@ -42,13 +42,14 @@ require(
 
             var line_number = 0
             var section = chart.get('sections').models[section_number]
-            section.set('boxed_chart', chart)
+            section.set('chart', chart)
 
             var sectionView = new SectionView({
                 el: this,
                 model: section
             })
             chartView.$el.append(sectionView)
+            sectionView.drawIndicatorLines()
 
             sectionView.$el.find('.chord-boxes .line').each(function() {
 
@@ -80,6 +81,7 @@ require(
 
                     last_box = box
                     lineView.$el.append(boxView)
+                    boxView.drawSeperationLines()
 
                     boxView.$el.find('.part').each(function() {
 
