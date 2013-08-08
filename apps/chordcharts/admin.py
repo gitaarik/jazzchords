@@ -1,18 +1,27 @@
 from django.core import urlresolvers
 from django.contrib import admin
 
-from models import Chart, Section, ChordType, Item, Note, Key
+from models import Chart, Section, Measure, Chord, ChordType, Note, Key
 
 
-class ItemAdmin(admin.TabularInline):
-    model = Item
+class ChordInline(admin.TabularInline):
+    model = Chord
+    extra = 0
+
+
+class MeasureAdmin(admin.ModelAdmin):
+    inlines = (ChordInline,)
+
+
+class MeasureInline(admin.TabularInline):
+    model = Measure
     extra = 0
 
 
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'chart', 'key', 'position',
         'key_distance_from_chart')
-    inlines = (ItemAdmin,)
+    inlines = (MeasureInline,)
 
 
 class SectionInline(admin.StackedInline):
