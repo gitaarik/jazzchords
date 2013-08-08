@@ -8,46 +8,28 @@
 
 {% block javascript %}
 
-    {% comment %}
     {{ block.super }}
 
     <script>
 
         var GLOBALS = {
-            boxed_chart_data: {{ boxed_chart_json|safe }},
-            chord_types_data: {{ chord_types_json|safe }}
+            chart_data: {{ chart_json|safe }},
+            chord_types: {{ chord_types_json|safe }}
         }
-
-        var settings = {
-            box_width: {{ settings.box_width }},
-            box_height: {{ settings.box_height }},
-            border_width: {{ settings.border_width }},
-            section_sidebar_width: {{ settings.section_sidebar_width }},
-        }
-
-        settings.sections = []
-
-        {% for section in sections %}
-            settings.sections.push({
-                alt_title: '{{ section.alt_title }}',
-                height: {{ section.boxed_chart.height }}
-            })
-        {% endfor %}
 
     </script>
 
     {% if edit %}
         <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
     {% endif %}
-    {% endcomment %}
 
 {% endblock %}
 
 {% block content %}
 
-    <article class="chord-chart" style="width: {{ settings.chart_width }}px;">
+    <article class="chord-chart">
 
-        <header style="margin-left: {{ settings.section_sidebar_width }}px;">
+        <header>
 
             <h1>{{ chart.song.name }}</h1>
 
@@ -85,7 +67,7 @@
 
             {% for section in chart.sections %}
 
-                <section class="section" style="width: {{ boxed_chart.total_width }}px;">
+                <section class="section" style="width: {{ chart.width }}px;">
 
                     {% if section.alt_title %}
                         <header>

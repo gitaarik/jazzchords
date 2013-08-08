@@ -24,7 +24,7 @@ require(
 
         // Bind data from server to models/collections
 
-        var chart = new Chart(GLOBALS.boxed_chart_data)
+        var chart = new Chart(GLOBALS.chart_data)
 
 
         // Bind views and models to existing HTML

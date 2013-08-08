@@ -109,8 +109,7 @@ class Note(models.Model):
     def client_data(self):
         return {
             'id': self.pk,
-            'distance_from_root': self.distance_from_root,
-            'name': self.name,
+            'name': self.name
         }
 
 
@@ -182,8 +181,24 @@ class Chart(models.Model):
         return {
             'song': self.song.client_data(),
             'key': self.key.client_data(),
+            'width': self.width(),
+            'section_sidebar_width': self.section_sidebar_width(),
+            'box_width': self.box_width(),
+            'box_height': self.box_height(),
             'sections': [s.client_data() for s in self.sections.all()]
         }
+
+    def width(self):
+        return BOXED_CHART['chart_width']
+
+    def section_sidebar_width(self):
+        return BOXED_CHART['section_sidebar_width']
+
+    def box_width(self):
+        return BOXED_CHART['box_width']
+
+    def box_height(self):
+        return BOXED_CHART['box_height']
 
 
 class Section(models.Model):
@@ -225,6 +240,7 @@ class Section(models.Model):
         return {
             'number': self.number,
             'alt_title': self.alt_title,
+            'height': self.height(),
             'lines': [l.client_data() for l in self.lines.all()]
         }
 
@@ -265,7 +281,7 @@ class Section(models.Model):
 
     def height(self):
         return ((
-            len(self.lines) *
+            self.lines.count() *
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 

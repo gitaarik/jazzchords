@@ -37,7 +37,7 @@ define(
                 // the existing HTML
 
                 var that = this
-                var editWidget_chordTypes = new EditWidgetChordTypes(GLOBALS.chord_types_data)
+                var editWidget_chordTypes = new EditWidgetChordTypes(GLOBALS.chord_types)
                 var chordType_number = 0
                 var chord_types = []
 
