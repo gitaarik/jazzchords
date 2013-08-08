@@ -1,3 +1,8 @@
+new backend layout:
+    The layout of the models in the backend is very different from the layout
+    in the frontend. If we make it the same the whole project will become
+    easier to develop, understand and optimize.
+
 Repeat sign bug:
     If you reload the page, then change third chord in row of repeating chords,
     then change first chord to same chord, third chord should change to repeat
