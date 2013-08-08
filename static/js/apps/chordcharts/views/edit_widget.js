@@ -58,9 +58,9 @@ define(
             },
 
             applyChanges: function() {
-                // Applies the changes made in the edit widget to the boxPart
+                // Applies the changes made in the edit widget to the chord
 
-                this.model.get('boxPart').set({
+                this.model.get('chord').set({
                     note: this.model.get('note'),
                     chord_type: this.model.get('chord_type')
                 })
@@ -71,7 +71,7 @@ define(
 
             discardChanges: function() {
                 // Closes the edit widget without applying the changes to the
-                // boxPart
+                // chord
                 this.model.set('visible', false)
             },
 
@@ -135,11 +135,11 @@ define(
                 // Parses the settings on the model and render the html
                 // accordingly
 
-                // If the edit widget opens on a different boxPart than the
+                // If the edit widget opens on a different chord than the
                 // last one, then reset the editWidget.
 
-                if(this.model.previousAttributes().boxPart !=
-                   this.model.get('boxPart')) {
+                if(this.model.previousAttributes().chord !=
+                   this.model.get('chord')) {
                     this.reset()
                 }
 
@@ -183,13 +183,14 @@ define(
                 // For example, the chosen chord is the chord the edit is on and
                 // the selected tab is the note tab.
 
-                var boxPart = this.model.get('boxPart')
+                var chord = this.model.get('chord')
 
+                    console.log(chord.get('measure'))
                 this.model.set({
-                    note: boxPart.get('note'),
-                    chord_type: boxPart.get('chord_type'),
-                    alt_bass_note: boxPart.get('alt_bass_note'),
-                    note_choices: boxPart.get('box').get('line')
+                    note: chord.get('note'),
+                    chord_type: chord.get('chord_type'),
+                    alt_bass_note: chord.get('alt_bass_note'),
+                    note_choices: chord.get('measure').get('line')
                         .get('section').get('key').notes
                 })
 

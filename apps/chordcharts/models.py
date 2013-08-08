@@ -241,6 +241,7 @@ class Section(models.Model):
             'number': self.number,
             'alt_title': self.alt_title,
             'height': self.height(),
+            'key': self.key().client_data(),
             'lines': [l.client_data() for l in self.lines.all()]
         }
 

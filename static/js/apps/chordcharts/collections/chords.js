@@ -1,9 +1,9 @@
 define(
-    ['models/box'],
-    function(Box) {
+    ['models/chord'],
+    function(Chord) {
 
         return Backbone.Collection.extend({
-            model: Box
+            model: Chord
         })
 
     }

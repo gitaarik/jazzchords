@@ -24,7 +24,7 @@ define(
                 if(!(
                     (
                         // click was inside chord chart
-                        target.closest('.boxed-chart').length &&
+                        target.closest('.chord-chart').length &&
                         // click was to open the widget
                         target.hasClass('chord-name')
                     ) || (

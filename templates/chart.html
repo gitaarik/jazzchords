@@ -63,7 +63,7 @@
 
         </header>
 
-        <div class="boxed-chart">
+        <div class="chart">
 
             {% for section in chart.sections %}
 
@@ -83,7 +83,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="chord-boxes">
+                    <div class="lines">
 
                         {% for line in section.lines %}
 
@@ -92,10 +92,10 @@
                                 {% for measure in line.measures %}
 
                                     <div class="
-                                        box
-                                        box-beatschema-{{ measure.beat_schema }}
+                                        measure
+                                        measure-beatschema-{{ measure.beat_schema }}
                                         {% if forloop.first %}
-                                            box-first
+                                            measure-first
                                         {% endif %}
                                         {% if edit %}
                                             edit-on
@@ -103,28 +103,28 @@
                                     ">
 
                                         {% if measure.beat_schema == "4" %}
-                                            <div class="part">
+                                            <div class="chord">
                                                 <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
                                         {% endif %}
 
                                         {% if measure.beat_schema == "2-2" %}
-                                            <div class="part part-first">
+                                            <div class="chord chord-first">
                                                 <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
-                                            <div class="part part-second">
+                                            <div class="chord chord-second">
                                                 <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
                                             </div>
                                         {% endif %}
 
                                         {% if measure.beat_schema == "2-1-1" %}
-                                            <div class="part part-first">
+                                            <div class="chord chord-first">
                                                 <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
-                                            <div class="part part-second">
+                                            <div class="chord chord-second">
                                                 <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
                                             </div>
-                                            <div class="part part-third">
+                                            <div class="chord chord-third">
                                                 <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
                                             </div>
                                         {% endif %}

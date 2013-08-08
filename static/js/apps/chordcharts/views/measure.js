@@ -1,19 +1,19 @@
 define(
-    ['models/box'],
-    function(Box) {
+    ['models/measure'],
+    function(Measure) {
 
         return Backbone.View.extend({
 
-            className: 'box',
-            model: Box,
+            className: 'measure',
+            model: Measure,
 
             drawSeperationLines: function() {
-                // Draws the lines that seperate the different box parts inside
-                // the box
+                // Draws the lines that seperate the different measure parts
+                // inside the measure
 
                 var chart = this.model.get('line').get('section').get('chart')
-                var box_width = chart.box_width
-                var box_height = chart.box_height
+                var measure_width = chart.measure_width
+                var measure_height = chart.measure_height
                 var border_width = chart.border_width
 
                 switch(this.model.get('beat_schema')) {
@@ -24,14 +24,14 @@ define(
                         var context = canvas.getContext('2d')
 
                         canvas.style.position = 'absolute'
-                        canvas.width = box_width 
-                        canvas.height = box_height 
+                        canvas.width = measure_width 
+                        canvas.height = measure_height 
 
                         context.lineWidth = border_width 
 
                         context.beginPath()
-                        context.moveTo(box_width, 0)
-                        context.lineTo(0, box_height)
+                        context.moveTo(measure_width, 0)
+                        context.lineTo(0, measure_height)
                         context.stroke()
 
                         this.$el.prepend(canvas)
@@ -44,19 +44,19 @@ define(
                         var context = canvas.getContext('2d')
 
                         canvas.style.position = 'absolute'
-                        canvas.width = box_width 
-                        canvas.height = box_height
+                        canvas.width = measure_width 
+                        canvas.height = measure_height
 
                         context.lineWidth = border_width 
 
                         context.beginPath()
-                        context.moveTo(box_width, 0)
-                        context.lineTo(0, box_height)
+                        context.moveTo(measure_width, 0)
+                        context.lineTo(0, measure_height)
                         context.stroke()
 
                         context.beginPath()
-                        context.moveTo(box_width / 2, box_height / 2)
-                        context.lineTo(box_width, box_height)
+                        context.moveTo(measure_width / 2, measure_height / 2)
+                        context.lineTo(measure_width, measure_height)
                         context.stroke()
 
                         this.$el.prepend(canvas)
