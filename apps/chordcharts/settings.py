@@ -5,5 +5,9 @@ BOXED_CHART = {
     'box_width': 100,
     'box_height': 100,
     'border_width': 1,
-    'section_sidebar_width': 40
+    'section_sidebar_width': 40,
 }
+
+BOXED_CHART['chart_width'] = (
+    8 * (BOXED_CHART['box_width'] + BOXED_CHART['border_width']) +
+    BOXED_CHART['border_width'] + BOXED_CHART['section_sidebar_width'])

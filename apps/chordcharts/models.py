@@ -5,8 +5,8 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
-from .charts.boxed import BoxedChart, BoxedChartSection
 from .exceptions import SectionKeyDoesNotExist
+from .settings import BOXED_CHART
 
 
 class Key(models.Model):
@@ -16,27 +16,27 @@ class Key(models.Model):
     This will define what notes will be used for the relative note indications
     in the chart.
 
-    Sets on this object:
-        note_set - The notes for this key.
+    Sets on this model:
+        notes - The notes for this key.
     """
 
     NOTES_CHOICES = (
-        ('Cb', 'Cb'), ('C', 'C'), ('C#', 'C#'), ('Db', 'Db'), ('D', 'D'),
-        ('D#', 'D#'), ('Eb', 'Eb'), ('E', 'E'), ('E#', 'E#'), ('Fb', 'Fb'),
-        ('F', 'F'), ('F#', 'F#'), ('Gb', 'Gb'), ('G', 'G'), ('G#', 'G#'),
-        ('Ab', 'Ab'), ('A', 'A'), ('A#', 'A#'), ('Bb', 'Bb'), ('B', 'B'),
-        ('B#', 'B#')
+        ("Cb", "Cb"), ("C", "C"), ("C#", "C#"), ("Db", "Db"), ("D", "D"),
+        ("D#", "D#"), ("Eb", "Eb"), ("E", "E"), ("E#", "E#"), ("Fb", "Fb"),
+        ("F", "F"), ("F#", "F#"), ("Gb", "Gb"), ("G", "G"), ("G#", "G#"),
+        ("Ab", "Ab"), ("A", "A"), ("A#", "A#"), ("Bb", "Bb"), ("B", "B"),
+        ("B#", "B#")
     )
 
     TONALITY_MAJOR = 1
     TONALITY_MINOR = 1
     TONALITY_CHOICES = (
-        (TONALITY_MAJOR, u'Major'),
-        (TONALITY_MINOR, u'Minor')
+        (TONALITY_MAJOR, u"Major"),
+        (TONALITY_MINOR, u"Minor")
     )
 
     name = models.CharField(max_length=25, help_text=
-        'Appropriate name for this key.')
+        "Appropriate name for this key.")
     slug = models.SlugField(max_length=25, unique=True, help_text=
         """Lowercase name for the key with dashes instead of spaces. Will be
         used in URL's.""")
@@ -64,14 +64,16 @@ class Key(models.Model):
 
     def client_data(self):
         return {
-            'notes': {note.pk: note.client_data() for note in self.note_set.all()}
+            'name': self.name,
+            'slug': self.slug,
+            'notes': {note.pk: note.client_data() for note in self.notes.all()}
         }
 
     def note(self, distance_from_root, accidental=0):
         """
         Get the note of this key at `distance_from_root`.
         """
-        return self.note_set.get(distance_from_root=distance_from_root)
+        return self.notes.get(distance_from_root=distance_from_root)
 
 
 class Note(models.Model):
@@ -84,13 +86,13 @@ class Note(models.Model):
     use the same representation of out-of-key notes.
     """
 
-    name = models.CharField(max_length=2, help_text=
-        """The name for the note. Should be a letter from A to G and possibly a
-        flat (b) or sharp (#) sign.""")
-    key = models.ForeignKey(Key, help_text=
+    key = models.ForeignKey(Key, related_name='notes', help_text=
         """The key this note belongs to. Doesn't necessarily have to be a note
         IN the key. We also specify out-of-key notes so the system won't have
         to guess how to represend them.""")
+    name = models.CharField(max_length=2, help_text=
+        """The name for the note. Should be a letter from A to G and possibly a
+        flat (b) or sharp (#) sign.""")
     distance_from_root = models.PositiveSmallIntegerField(help_text=
         """The distance this note has from the root note of the associated key.
         If this IS the root note, the distance is 0.""")
@@ -142,9 +144,9 @@ class ChordType(models.Model):
 
     def __unicode__(self):
         if self.symbol:
-            return u'{} ({})'.format(self.name, self.symbol)
+            return u"{} ({})".format(self.name, self.symbol)
         else:
-            return u'{}'.format(self.name)
+            return u"{}".format(self.name)
 
     class Meta:
         ordering = ('order',)
@@ -164,11 +166,11 @@ class Chart(models.Model):
 
     All information about the chord chart is accessible on this object.
 
-    Sets on this object:
-        section_set - The sections on this chart.
+    Sets on this model:
+        sections - The sections on this chart.
     """
 
-    song = models.ForeignKey(Song, help_text='The song this chart descripes.')
+    song = models.ForeignKey(Song, help_text="The song this chart descripes.")
     key = models.ForeignKey(Key, help_text="""The key the chart is in. If the
         some sections of the song have deviating keys you can overwrite this in
         the section.""")
@@ -176,13 +178,12 @@ class Chart(models.Model):
     def __unicode__(self):
         return unicode(self.song)
 
-    def boxed_chart(self):
-        """
-        Get the boxed chart representation for this chart.
-        In the future we could add different types of chart representations.
-        The boxed chart is just the first one we created.
-        """
-        return BoxedChart(self)
+    def client_data(self):
+        return {
+            'song': self.song.client_data(),
+            'key': self.key.client_data(),
+            'sections': [s.client_data() for s in self.sections.all()]
+        }
 
 
 class Section(models.Model):
@@ -193,25 +194,18 @@ class Section(models.Model):
     to the different parts in a song. They can have a deviating key from the
     chart, indicated by `key_distance_from_chart`.
 
-    Sets on this object:
-        item_set - The items in this section. These hold the chords and
-                   information about them, like position, duration and more.
+    Sets on this model:
+        lines - The lines in this section.
     """
 
-    chart = models.ForeignKey(Chart, help_text='The chart this section is in.')
+    chart = models.ForeignKey(Chart, related_name='sections',
+        help_text="The chart this section is in.")
     key_distance_from_chart = models.PositiveSmallIntegerField(default=0,
         help_text="""The distance (in half notes) the key of this section is
         relative to the key of the chart. If the section is in the same key
         this will be 0.""")
-    line_width = models.PositiveSmallIntegerField(default=8, help_text=
-        """The default width for a line in the section. The definition of a
-        line is specified by the kind of chart (like BoxedChart) but it is
-        generally the width of beats the line allows, so that every line
-        has the same length in time musicwise. This is usually 4 or a multiple
-        of 4.""")
-    position = models.PositiveSmallIntegerField(help_text=
-        """The position the section has in the chart. This will be used to put
-        all the sections in a correct order. Should start from 0.""")
+    number = models.PositiveSmallIntegerField(help_text=
+        """The section number. Will be used to put the sections in order""")
     alt_title = models.CharField(max_length=25, blank=True, help_text="""
         Alternative title for the section. Normally a section get's assigned a
         letter (starting with A, next B etc.) which is displayed left of the
@@ -224,19 +218,27 @@ class Section(models.Model):
         return self.name()
 
     class Meta:
-        ordering = ('position',)
-        unique_together = ('chart', 'position')
+        ordering = ('number',)
+        unique_together = ('chart', 'number')
+
+    def client_data(self):
+        return {
+            'number': self.number,
+            'alt_title': self.alt_title,
+            'lines': [l.client_data() for l in self.lines.all()]
+        }
 
     def name(self):
         """
-        The name of the section. According to `self.position` it will get an
+        The name of the section. According to `self.number` it will get an
         uppercase letter from the alphabet.
         0 = A, 1 = B, 2 = C, etc.
         """
         if self.alt_title:
             return self.alt_title
         else:
-            return string.uppercase[self.chart.section_set.filter(alt_title='', position__lt=self.position).count()]
+            return string.uppercase[self.chart.sections.filter(
+                alt_title='', number__lt=self.number).count()]
 
     def key(self):
         """
@@ -261,21 +263,41 @@ class Section(models.Model):
 
             return key
 
-    def boxed_chart(self):
-        """
-        Get the boxed chart for this section. This is a way to represent the
-        section in a boxed format.
-        """
-        return BoxedChartSection(self)
+    def height(self):
+        return ((
+            len(self.lines) *
+            (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
+        ) + BOXED_CHART['border_width'])
 
 
 class Line(models.Model):
     """
     A line in a section.
+
+    A line is a collection of measures that should be presented on one phisical
+    line. A line usually contains 8 measures, but can be shorter (but not
+    longer).
+
+    Sets on this model:
+        measures - The measures in this line.
     """
 
-    section = models.ForeignKey(Section, help_text=
+    number = models.PositiveSmallIntegerField(help_text="""The number for
+        the line. Will be used to determine the order of the lines.""")
+    section = models.ForeignKey(Section, related_name='lines', help_text=
         """The section this line belongs to.""")
+
+    def __unicode__(self):
+        return "Line {}".format(self.number)
+
+    class Meta:
+        ordering = ('number',)
+
+    def client_data(self):
+        return {
+            'number': self.number,
+            'measures': [m.client_data() for m in self.measures.all()]
+        }
 
     def key(self):
         """
@@ -289,13 +311,37 @@ class Line(models.Model):
 class Measure(models.Model):
     """
     A measure in a line.
+
+    Represents a musical measure (or bar).
+
+    Sets on this model:
+        chords - The chords in this measure.
     """
 
-    line = models.ForeignKey(Line, help_text=
+    line = models.ForeignKey(Line, related_name='measures', help_text=
         """The line this measure belongs to.""")
-    position = models.PositiveSmallIntegerField(help_text="""The position for
+    number = models.PositiveSmallIntegerField(help_text="""The number for
         the measure. Will be used to determine the order of the measures.""")
-    beat_schema = models.CharField(max_length=13)
+    beat_schema = models.CharField(max_length=13, help_text="""The type of
+        beatschema for this measure. This is related to the chords that are in
+        the measure. If the measure has one chord that is played for 4 beats,
+        the beatschema is "4", if the measure has two chords that are both
+        played for 2 beats, the beatschema is "2-2", if the measure has three
+        chords where the first one is played 2 beats and the other two one 1
+        beat, the beatschema is "2-1-1" etc.""")
+
+    def __unicode__(self):
+        return "Measure {}".format(self.number)
+
+    class Meta:
+        ordering = ('number',)
+
+    def client_data(self):
+        return {
+            'number': self.number,
+            'beat_schema': self.beat_schema,
+            'chords': [c.client_data() for c in self.chords.all()]
+        }
 
     def key(self):
         """
@@ -311,8 +357,8 @@ class Chord(models.Model):
     A chord in a measure.
     """
 
-    measure = models.ForeignKey(Line, help_text=
-        """The measure this chord belongs to.""")
+    measure = models.ForeignKey(Measure, related_name='chords',
+        help_text= """The measure this chord belongs to.""")
     beats = models.PositiveSmallIntegerField(default=4, help_text="""
         The number of beats the item should be played. The current chord chart
         representations only support 4/4 measures.""")
@@ -330,15 +376,25 @@ class Chord(models.Model):
         root of the key the item will be presented in. These half steps should
         be upwards in the scale. It will only be used if `Use Alternative Bass`
         is set.""")
-    position = models.PositiveSmallIntegerField(help_text="""The position for
+    order = models.PositiveSmallIntegerField(help_text="""The order for
         the chord. Will be used to determine the order of the chords.""")
 
     def __unicode__(self):
         return self.chord_notation()
 
     class Meta:
-        ordering = ('position',)
-        unique_together = ('measure', 'position')
+        ordering = ('order',)
+        unique_together = ('measure', 'order')
+
+    def client_data(self):
+        return {
+            'order': self.order,
+            'beats': self.beats,
+            'note': self.note().client_data(),
+            'chord_type': self.chord_type.client_data(),
+            'alternative_base_note': self.alternative_base_note(),
+            'chart_output': self.chart_output()
+        }
 
     def chord_notation(self):
         """
@@ -358,6 +414,9 @@ class Chord(models.Model):
                 self.alternative_base_note().name])
         else:
             return u''.join([self.note().name, self.chord_type.chord_output])
+
+    def chart_output(self):
+        return self.chord_notation()
 
     def key(self):
         """
