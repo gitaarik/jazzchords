@@ -201,6 +201,15 @@ class Chart(models.Model):
         return BOXED_CHART['box_height']
 
 
+class TimeSignature(models.Model):
+
+    beats = models.PositiveSmallIntegerField()
+    beat_unit = models.PositiveSmallIntegerField()
+
+    def __unicode__(self):
+        return '{}/{}'.format(self.beats, self.beat_unit)
+
+
 class Section(models.Model):
     """
     A section in a chart.
@@ -228,6 +237,7 @@ class Section(models.Model):
         title will be shown on top of the section's boxed chart. This is
         appropriate for an intro, outro or maybe a bridge which isn't a
         regularry repeating section in the song.""")
+    time_signature = models.ForeignKey(TimeSignature)
 
     def __unicode__(self):
         return self.name()
@@ -325,6 +335,9 @@ class Line(models.Model):
         """
         return self.section.key()
 
+    def time_signature(self):
+        return self.section.time_signature
+
 
 class Measure(models.Model):
     """
@@ -369,6 +382,19 @@ class Measure(models.Model):
         """
         return self.line.key()
 
+    def time_signature(self):
+        return self.line.time_signature()
+
+    def previous(self):
+        """
+        Returns the previous measure.
+        """
+
+        try:
+            return self.line.measures.filter(number__lt=self.number)[0]
+        except IndexError:
+            return None
+
 
 class Chord(models.Model):
     """
@@ -380,12 +406,12 @@ class Chord(models.Model):
     beats = models.PositiveSmallIntegerField(default=4, help_text="""
         The number of beats the item should be played. The current chord chart
         representations only support 4/4 measures.""")
-    chord_type = models.ForeignKey(ChordType, help_text="""The type of the
-        chord. This defines the intervals inside the chord.""")
     chord_pitch = models.PositiveSmallIntegerField(help_text=
         """The relative pitch for the chord. This is the amount of half notes
         the chord note is away from the root of the key the item will be
         presented in. These half steps should be upwards in the scale.""")
+    chord_type = models.ForeignKey(ChordType, help_text="""The type of the
+        chord. This defines the intervals inside the chord.""")
     alt_bass = models.BooleanField(help_text="""Indicates if the chord
         has an alternative tone in the bass.""")
     alt_bass_pitch = models.PositiveSmallIntegerField(default=0,
@@ -439,6 +465,28 @@ class Chord(models.Model):
         The way the chord will be displayed on the chart. This can either be
         the original chord notation or the repeat sign.
         """
+
+        time_signature_beats = self.time_signature().beats
+
+        if self.beats == time_signature_beats and self.measure.previous():
+
+            prev_chord = self.measure.previous().chords.all()[0]
+
+            if (
+                prev_chord.beats == time_signature_beats and
+                self.chord_pitch == prev_chord.chord_pitch and
+                self.chord_type == prev_chord.chord_type and
+                (
+                    not self.alt_bass or
+                    (
+                        self.alt_bass and
+                        self.alt_bass_pitch == prev_chord.alt_bass_note
+                    )
+                )
+            ):
+                return '%'
+
+
         return self.chord_notation()
 
     def key(self):
@@ -448,6 +496,9 @@ class Chord(models.Model):
         This will be the same as the key of the measure the chord is in.
         """
         return self.measure.key()
+
+    def time_signature(self):
+        return self.measure.time_signature()
 
     def note(self):
         """

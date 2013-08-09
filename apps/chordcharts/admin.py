@@ -1,7 +1,8 @@
 from django.core import urlresolvers
 from django.contrib import admin
 
-from models import Chart, Section, Line, Measure, Chord, ChordType, Note, Key
+from models import (Chart, Section, Line, Measure, Chord, ChordType, Note,
+    Key, TimeSignature)
 
 
 class ChordInline(admin.StackedInline):
@@ -111,9 +112,14 @@ class KeyAdmin(admin.ModelAdmin):
     inlines = (NoteInline,)
 
 
+class TimeSignatureAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Chart, ChartAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Line, LineAdmin)
 admin.site.register(Measure, MeasureAdmin)
 admin.site.register(ChordType, ChordTypeAdmin)
 admin.site.register(Key, KeyAdmin)
+admin.site.register(TimeSignature, TimeSignatureAdmin)
