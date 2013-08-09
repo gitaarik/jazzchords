@@ -17,6 +17,11 @@ define(
             openEditWidget: function() {
                 // Opens the edit widget for this chord
 
+                if(!GLOBALS.edit) {
+                    // If not in edit mode, return
+                    return
+                }
+
                 var chord_name = this.$el.find('.chord-name')
 
                 this.model.get('editWidget').set({

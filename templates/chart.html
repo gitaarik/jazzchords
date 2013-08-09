@@ -13,15 +13,13 @@
     <script>
 
         var GLOBALS = {
+            edit: {% if edit %}true{% else %}false{% endif %},
             chart_data: {{ chart_json|safe }},
             chord_types: {{ chord_types_json|safe }}
         }
 
     </script>
-
-    {% if edit %}
-        <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
-    {% endif %}
+    <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
 
 {% endblock %}
 
