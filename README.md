@@ -28,7 +28,7 @@ Installation
         git clone git@github.com:gitaarik/chordcharts.git src
         cd src
 
-4. Install requirements in virtual environment, this could take some time.
+4. Install requirements in virtual environment. This could take some time.
 
         pip install -r dev/requirements.txt
 
