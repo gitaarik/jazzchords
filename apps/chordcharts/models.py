@@ -409,7 +409,8 @@ class Chord(models.Model):
             'beats': self.beats,
             'note': self.note().client_data(),
             'chord_type': self.chord_type.client_data(),
-            'alt_base_note': self.alt_base_note(),
+            'alt_bass_note': self.alt_bass_note().client_data()
+                if self.alt_bass else False,
             'chart_output': self.chart_output()
         }
 
@@ -420,7 +421,7 @@ class Chord(models.Model):
         This is a build up with these components:
         - The chord note, this includes any flats or sharps too.
         - The symbol of the chord type.
-        - Possibly the alternative base note.
+        - Possibly the alternative bass note.
         """
 
         if self.alt_bass:
@@ -428,11 +429,15 @@ class Chord(models.Model):
                 self.note().name,
                 self.chord_type.chord_output,
                 '/',
-                self.alt_base_note().name])
+                self.alt_bass_note().name])
         else:
             return u''.join([self.note().name, self.chord_type.chord_output])
 
     def chart_output(self):
+        """
+        The way the chord will be displayed on the chart. This can either be
+        the original chord notation or the repeat sign.
+        """
         return self.chord_notation()
 
     def key(self):
@@ -449,7 +454,7 @@ class Chord(models.Model):
         """
         return self.key().note(self.chord_pitch)
 
-    def alt_base_note(self):
+    def alt_bass_note(self):
         """
         The alternative bass note for this chord.
 
