@@ -38,6 +38,7 @@ class MeasureInline(admin.StackedInline):
 
 
 class LineAdmin(admin.ModelAdmin):
+    list_display = ('number', 'section')
     inlines = (MeasureInline,)
 
 
