@@ -239,6 +239,7 @@ class Section(models.Model):
     def client_data(self):
         return {
             'number': self.number,
+            'name': self.name(),
             'alt_title': self.alt_title,
             'height': self.height(),
             'key': self.key().client_data(),
