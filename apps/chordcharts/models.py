@@ -385,9 +385,9 @@ class Chord(models.Model):
         """The relative pitch for the chord. This is the amount of half notes
         the chord note is away from the root of the key the item will be
         presented in. These half steps should be upwards in the scale.""")
-    alternative_bass = models.BooleanField(help_text="""Indicates if the chord
+    alt_bass = models.BooleanField(help_text="""Indicates if the chord
         has an alternative tone in the bass.""")
-    alternative_bass_pitch = models.PositiveSmallIntegerField(default=0,
+    alt_bass_pitch = models.PositiveSmallIntegerField(default=0,
         help_text="""The alternative bass tone in the chord. As with the Chord
         Pitch, it is the amount of half notes the chord note is away from the
         root of the key the item will be presented in. These half steps should
@@ -409,7 +409,7 @@ class Chord(models.Model):
             'beats': self.beats,
             'note': self.note().client_data(),
             'chord_type': self.chord_type.client_data(),
-            'alternative_base_note': self.alternative_base_note(),
+            'alt_base_note': self.alt_base_note(),
             'chart_output': self.chart_output()
         }
 
@@ -423,12 +423,12 @@ class Chord(models.Model):
         - Possibly the alternative base note.
         """
 
-        if self.alternative_bass:
+        if self.alt_bass:
             return u''.join([
                 self.note().name,
                 self.chord_type.chord_output,
                 '/',
-                self.alternative_base_note().name])
+                self.alt_base_note().name])
         else:
             return u''.join([self.note().name, self.chord_type.chord_output])
 
@@ -449,14 +449,14 @@ class Chord(models.Model):
         """
         return self.key().note(self.chord_pitch)
 
-    def alternative_base_note(self):
+    def alt_base_note(self):
         """
         The alternative bass note for this chord.
 
         If there is no alternative bass note, it will return `False`.
         """
 
-        if self.alternative_bass:
-            return self.key().note(self.alternative_bass_pitch)
+        if self.alt_bass:
+            return self.key().note(self.alt_bass_pitch)
         else:
             return False

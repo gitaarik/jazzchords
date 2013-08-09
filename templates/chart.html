@@ -45,7 +45,7 @@
                         <div>Transpose to:</div>
                         <ul>
                             {% for key in all_keys %}
-                                <li><a href="{% url "chart" song_slug=chart.song.slug key_slug=chart.key.slug %}">{{ key.tone }}</a></li>
+                                <li><a href="{% url "chart" song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>

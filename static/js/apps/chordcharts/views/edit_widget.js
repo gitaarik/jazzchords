@@ -185,7 +185,6 @@ define(
 
                 var chord = this.model.get('chord')
 
-                    console.log(chord.get('measure'))
                 this.model.set({
                     note: chord.get('note'),
                     chord_type: chord.get('chord_type'),
