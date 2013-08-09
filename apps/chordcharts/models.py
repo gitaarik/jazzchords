@@ -391,7 +391,8 @@ class Measure(models.Model):
         """
 
         try:
-            return self.line.measures.filter(number__lt=self.number)[0]
+            return self.line.measures.filter(
+                number__lt=self.number).reverse()[0]
         except IndexError:
             return None
 
