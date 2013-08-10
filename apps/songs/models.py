@@ -8,3 +8,9 @@ class Song(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def client_data(self):
+        return {
+            'name': self.name,
+            'slug': self.slug
+        }

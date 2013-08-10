@@ -1,10 +1,10 @@
 define(
-    ['collections/boxes'],
-    function(Boxes) {
+    ['collections/measures'],
+    function(Measures) {
 
         return Backbone.Model.extend({
             initialize: function() {
-                this.set('boxes', new Boxes(this.get('boxes')))
+                this.set('measures', new Measures(this.get('measures')))
             }
         })
 

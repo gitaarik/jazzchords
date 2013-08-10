@@ -5,8 +5,8 @@ require(
         'views/chart',
         'views/section',
         'views/line',
-        'views/box',
-        'views/box_part',
+        'views/measure',
+        'views/chord',
         'init/edit_widget',
         'init/key_change_widget'
     ],
@@ -16,25 +16,25 @@ require(
         ChartView,
         SectionView,
         LineView,
-        BoxView,
-        BoxPartView,
+        MeasureView,
+        ChordView,
         editWidget,
         keyChangeWidget
     ) {
 
         // Bind data from server to models/collections
 
-        var chart = new Chart(GLOBALS.boxed_chart_data)
+        var chart = new Chart(GLOBALS.chart_data)
 
 
         // Bind views and models to existing HTML
 
         var chartView = new ChartView({
-            el: '.chord-chart .boxed-chart'
+            el: '.chord-chart .chart'
         })
 
         var section_number = 0
-        var last_box = null
+        var last_measure = null
 
         // Loop through HTML elements and create appropriate views/models for these
         // elements
@@ -51,9 +51,9 @@ require(
             chartView.$el.append(sectionView)
             sectionView.drawIndicatorLines()
 
-            sectionView.$el.find('.chord-boxes .line').each(function() {
+            sectionView.$el.find('.lines .line').each(function() {
 
-                var box_number = 0
+                var measure_number = 0
                 var line = section.get('lines').models[line_number]
                 line.set('section', section)
 
@@ -63,43 +63,43 @@ require(
                 })
                 sectionView.$el.append(lineView)
 
-                lineView.$el.find('.box').each(function() {
+                lineView.$el.find('.measure').each(function() {
 
-                    var part_number = 0
-                    var box = line.get('boxes').models[box_number]
-                    box.set('line', line)
+                    var chord_number = 0
+                    var measure = line.get('measures').models[measure_number]
+                    measure.set('line', line)
 
-                    var boxView = new BoxView({
+                    var measureView = new MeasureView({
                         el: this,
-                        model: box
+                        model: measure
                     })
 
-                    if(last_box) {
-                        box.set('prev_box', last_box)
-                        last_box.set('next_box', box)
+                    if(last_measure) {
+                        measure.set('prev_measure', last_measure)
+                        last_measure.set('next_measure', measure)
                     }
 
-                    last_box = box
-                    lineView.$el.append(boxView)
-                    boxView.drawSeperationLines()
+                    last_measure = measure
+                    lineView.$el.append(measureView)
+                    measureView.drawSeperationLines()
 
-                    boxView.$el.find('.part').each(function() {
+                    measureView.$el.find('.chord').each(function() {
 
-                        var boxPart = box.get('parts').models[part_number]
-                        boxPart.set({
-                            box: box,
+                        var chord = measure.get('chords').models[chord_number]
+                        chord.set({
+                            measure: measure,
                             editWidget: editWidget
                         })
 
-                        new BoxPartView({
+                        new ChordView({
                             el: this,
-                            model: boxPart
+                            model: chord
                         })
-                        part_number++
+                        chord_number++
 
                     })
 
-                    box_number++
+                    measure_number++
 
                 })
 

@@ -13,55 +13,37 @@
     <script>
 
         var GLOBALS = {
-            boxed_chart_data: {{ boxed_chart_json|safe }},
-            chord_types_data: {{ chord_types_json|safe }}
+            edit: {% if edit %}true{% else %}false{% endif %},
+            chart_data: {{ chart_json|safe }},
+            chord_types: {{ chord_types_json|safe }}
         }
-
-        var settings = {
-            box_width: {{ settings.box_width }},
-            box_height: {{ settings.box_height }},
-            border_width: {{ settings.border_width }},
-            section_sidebar_width: {{ settings.section_sidebar_width }},
-        }
-
-        settings.sections = []
-
-        {% for section in sections %}
-            settings.sections.push({
-                alt_title: '{{ section.alt_title }}',
-                height: {{ section.boxed_chart.height }}
-            })
-        {% endfor %}
 
     </script>
-
-    {% if edit %}
-        <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
-    {% endif %}
+    <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
 
 {% endblock %}
 
 {% block content %}
 
-    <article class="chord-chart" style="width: {{ boxed_chart.total_width }}px;">
+    <article class="chord-chart">
 
-        <header style="margin-left: {{ boxed_chart.section_sidebar_width }}px;">
+        <header>
 
-            <h1>{{ song_name }}</h1>
+            <h1>{{ chart.song.name }}</h1>
 
             <div class="header-bar">
 
                 <div class="key-select">
                     <div class="closed">
-                        <div class="current-key">Key of {{ chart_key }}</div>
+                        <div class="current-key">Key of {{ chart.key.name }}</div>
                     </div>
                     <div class="open">
-                        <div class="current-key">Key of {{ chart_key }}</div>
+                        <div class="current-key">Key of {{ chart.key.name }}</div>
                         <hr>
                         <div>Transpose to:</div>
                         <ul>
                             {% for key in all_keys %}
-                                <li><a href="{% url "chart" song_slug=song_slug key_slug=key.slug %}">{{ key.tone }}</a></li>
+                                <li><a href="{% url "chart" song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -69,9 +51,9 @@
 
                 <div class="right">
                     {% if edit %}
-                        <a class="save" href="{% url "chart" song_slug=song_slug key_slug=chart_key.slug %}">Save</a>
+                        <a class="save" href="{% url "chart" song_slug=chart.song.slug key_slug=chart.key.slug %}">Save</a>
                     {% else %}
-                        <a class="edit" href="{% url "chart_edit" song_slug=song_slug key_slug=chart_key.slug %}">Edit</a>
+                        <a class="edit" href="{% url "chart_edit" song_slug=chart.song.slug key_slug=chart.key.slug %}">Edit</a>
                     {% endif %}
                 </div>
 
@@ -79,11 +61,11 @@
 
         </header>
 
-        <div class="boxed-chart">
+        <div class="chart">
 
-            {% for section in sections %}
+            {% for section in chart.sections %}
 
-                <section class="section" style="width: {{ boxed_chart.total_width }}px;">
+                <section class="section" style="width: {{ chart.width }}px;">
 
                     {% if section.alt_title %}
                         <header>
@@ -91,57 +73,57 @@
                         </header>
                     {% endif %}
 
-                    <div class="section-sidebar" style="height: {{ section.boxed_chart.height }}px;">
+                    <div class="section-sidebar" style="height: {{ section.height }}px;">
                         {% if not section.alt_title %}
-                            <div class="section-sidebar-title" style="line-height: {{ section.boxed_chart.height }}px;">
+                            <div class="section-sidebar-title" style="line-height: {{ section.height }}px;">
                                 {{ section.name }}
                             </div>
                         {% endif %}
                     </div>
 
-                    <div class="chord-boxes">
+                    <div class="lines">
 
-                        {% for line in section.boxed_chart.lines %}
+                        {% for line in section.lines %}
 
                             <div class="line{% if forloop.first %} line-first{% endif %}">
 
-                                {% for box in line %}
+                                {% for measure in line.measures %}
 
                                     <div class="
-                                        box
-                                        box-beatschema-{{ box.beat_schema }}
+                                        measure
+                                        measure-beatschema-{{ measure.beat_schema }}
                                         {% if forloop.first %}
-                                            box-first
+                                            measure-first
                                         {% endif %}
                                         {% if edit %}
                                             edit-on
                                         {% endif %}
                                     ">
 
-                                        {% if box.beat_schema == "4" %}
-                                            <div class="part">
-                                                <span class="chord-name">{{ box.parts.0.chart_output }}</span>
+                                        {% if measure.beat_schema == "4" %}
+                                            <div class="chord">
+                                                <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
                                         {% endif %}
 
-                                        {% if box.beat_schema == "2-2" %}
-                                            <div class="part part-first">
-                                                <span class="chord-name">{{ box.parts.0.chart_output }}</span>
+                                        {% if measure.beat_schema == "2-2" %}
+                                            <div class="chord chord-first">
+                                                <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
-                                            <div class="part part-second">
-                                                <span class="chord-name">{{ box.parts.1.chart_output }}</span>
+                                            <div class="chord chord-second">
+                                                <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
                                             </div>
                                         {% endif %}
 
-                                        {% if box.beat_schema == "2-1-1" %}
-                                            <div class="part part-first">
-                                                <span class="chord-name">{{ box.parts.0.chart_output }}</span>
+                                        {% if measure.beat_schema == "2-1-1" %}
+                                            <div class="chord chord-first">
+                                                <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
-                                            <div class="part part-second">
-                                                <span class="chord-name">{{ box.parts.1.chart_output }}</span>
+                                            <div class="chord chord-second">
+                                                <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
                                             </div>
-                                            <div class="part part-third">
-                                                <span class="chord-name">{{ box.parts.2.chart_output }}</span>
+                                            <div class="chord chord-third">
+                                                <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
                                             </div>
                                         {% endif %}
 

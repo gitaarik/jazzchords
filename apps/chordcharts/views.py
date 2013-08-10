@@ -16,18 +16,13 @@ def chart(request, song_slug, key_slug=None, edit=False):
             pass
 
     all_keys = Key.objects.filter(tonality=chart.key.tonality)
-
-    boxed_chart = chart.boxed_chart()
     chord_types = ChordType.objects.all()
+    chart_data = chart.client_data()
 
     context = {
         'settings': BOXED_CHART,
-        'song_name': chart.song.name,
-        'song_slug': chart.song.slug,
-        'chart_key': chart.key,
-        'boxed_chart': boxed_chart,
-        'boxed_chart_json': json.dumps(boxed_chart.client_data()),
-        'sections': chart.section_set.all(),
+        'chart': chart_data,
+        'chart_json': json.dumps(chart_data),
         'all_keys': all_keys,
         'edit': edit,
         'chord_types_sets': (chord_types[:12], chord_types[12:]),

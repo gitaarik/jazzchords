@@ -1,8 +1,3 @@
-Repeat sign bug:
-    If you reload the page, then change third chord in row of repeating chords,
-    then change first chord to same chord, third chord should change to repeat
-    sign.
-
 Optimize
     Next boxes are being parsed at startup, this shouldn't happen, right?
 

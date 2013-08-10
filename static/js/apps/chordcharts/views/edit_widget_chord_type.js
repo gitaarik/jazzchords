@@ -12,7 +12,7 @@ define(
 
             chooseSymbol: function() {
                 this.model.get('editWidget').set('chord_type',
-                    this.model)
+                    this.model.get('chord_type'))
             },
 
             render: function() {

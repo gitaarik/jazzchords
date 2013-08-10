@@ -4,10 +4,11 @@
 .chord-chart {
 
     margin: 0 auto;
+    width: @chart_width;
 
     header {
 
-        margin: 30px auto 20px;
+        margin: 30px auto 20px @section_sidebar_width;
 
         h1 {
             font-size: 30px;
@@ -134,7 +135,7 @@
 
     }
 
-    .boxed-chart {
+    .chart {
 
         overflow: hidden;
         letter-spacing: 1px;
@@ -166,7 +167,7 @@
                 background: #FFF;
             }
 
-            .chord-boxes {
+            .lines {
                 float: left;
             }
 
@@ -174,19 +175,19 @@
                 clear: both;
             }
 
-            .box {
+            .measure {
 
                 float: left;
-                height: @box_height;
-                width: @box_width;
+                height: @measure_height;
+                width: @measure_width;
                 border: solid @border_width #000;
                 border-width: 0 @border_width @border_width 0;
                 position: relative;
 
-                &.box-beatschema-4 {
+                &.measure-beatschema-4 {
 
-                    .part {
-                        line-height: @box_height;
+                    .chord {
+                        line-height: @measure_height;
                         text-align: center;
                         .chord-name {
                             font-size: 27px;
@@ -195,71 +196,71 @@
 
                 }
 
-                &.edit-on .part .chord-name {
+                &.edit-on .chord .chord-name {
                     cursor: pointer;
                 }
 
             }
 
-            .line-first .box {
+            .line-first .measure {
                 border-top-width: @border_width;
             }
 
-            .box-first {
+            .measure-first {
                 border-left-width: @border_width;
             }
 
-            .box-beatschema-2-2 {
+            .measure-beatschema-2-2 {
 
                 position: relative;
 
-                .part-first {
+                .chord-first {
                     position: absolute;
                     font-size: 20px;
-                    line-height: round(@box_height * 0.6);
-                    width: round(@box_width * 0.6);
+                    line-height: round(@measure_height * 0.6);
+                    width: round(@measure_width * 0.6);
                     text-align: center;
                 }
 
-                .part-second {
+                .chord-second {
                     position: absolute;
                     font-size: 20px;
-                    line-height: round(@box_height * 0.6);
-                    top: round(@box_height * 0.4);
-                    left: round(@box_width * 0.4);
-                    width: round(@box_width * 0.6);
+                    line-height: round(@measure_height * 0.6);
+                    top: round(@measure_height * 0.4);
+                    left: round(@measure_width * 0.4);
+                    width: round(@measure_width * 0.6);
                     text-align: center;
                 }
 
             }
 
-            .box-beatschema-2-1-1 {
+            .measure-beatschema-2-1-1 {
 
                 position: relative;
 
-                .part-first {
+                .chord-first {
                     position: absolute;
                     font-size: 20px;
-                    line-height: round(@box_height * 0.6);
-                    width: round(@box_width * 0.6);
+                    line-height: round(@measure_height * 0.6);
+                    width: round(@measure_width * 0.6);
                     text-align: center;
                 }
 
-                .part-second {
+                .chord-second {
                     position: absolute;
                     font-size: 15px;
-                    line-height: round(@box_height * 0.35);
-                    width: @box_width;
-                    top: round(@box_height * 0.65);
+                    line-height: round(@measure_height * 0.35);
+                    width: @measure_width;
+                    top: round(@measure_height * 0.65);
                     text-align: center;
                 }
 
-                .part-third {
+                .chord-third {
                     position: absolute;
                     font-size: 15px;
-                    line-height: @box_height;
-                    width: round(@box_width * 0.40);
-                    left: round(@box_width * 0.60);
+                    line-height: @measure_height;
+                    width: round(@measure_width * 0.40);
+                    left: round(@measure_width * 0.60);
                     text-align: center;
                 }
 
