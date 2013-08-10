@@ -27,18 +27,18 @@ define(
                     this.get('measure').get('line') == this.get('measure').get('next_measure').get('line')
                 ) {
 
-                    var next_measure_part = this.get('measure').get('next_measure')
-                        .get('parts').first()
+                    var next_chord = this.get('measure').get('next_measure')
+                        .get('chords').first()
 
                     if(
                         // Check if chords are the same NOW
-                        _.isEqual(next_measure_part.get('note'), this.attributes.note) &&
-                        _.isEqual(next_measure_part.get('chord_type'), this.attributes.chord_type) &&
-                        _.isEqual(next_measure_part.get('alt_bass_note'), this.attributes.alt_bass_note)
+                        _.isEqual(next_chord.get('note'), this.attributes.note) &&
+                        _.isEqual(next_chord.get('chord_type'), this.attributes.chord_type) &&
+                        _.isEqual(next_chord.get('alt_bass_note'), this.attributes.alt_bass_note)
                     ) {
                         // Trigger the `render()` by setting timestamp in
                         // milliseconds in `changed` attribute
-                        this.get('measure').get('next_measure').get('parts').first()
+                        this.get('measure').get('next_measure').get('chords').first()
                             .set('changed', new Date().getTime())
                     }
                     else {
@@ -48,13 +48,13 @@ define(
                         if(
                             // Check if the current measure's chord before the change
                             // is the same as the next measure's chord
-                            _.isEqual(next_measure_part.get('note'), prev_attr.note) &&
-                            _.isEqual(next_measure_part.get('chord_type').attributes,
+                            _.isEqual(next_chord.get('note'), prev_attr.note) &&
+                            _.isEqual(next_chord.get('chord_type').attributes,
                                 prev_attr.chord_type.attributes) &&
-                            _.isEqual(next_measure_part.get('alt_bass_note'),
+                            _.isEqual(next_chord.get('alt_bass_note'),
                                 prev_attr.alt_bass_note)
                         ) {
-                            this.get('measure').get('next_measure').get('parts').first().set({
+                            this.get('measure').get('next_measure').get('chords').first().set({
                                 'note': this.get('note'),
                                 'chord_type': this.get('chord_type'),
                                 'alt_bass_note': this.get('alt_bass_note')
