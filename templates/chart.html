@@ -18,13 +18,6 @@
             chord_types: {{ chord_types_json|safe }}
         }
 
-        {% if DEBUG %}
-            // will prevent browser from caching scripts loaded by requirejs
-            var require = {
-                urlArgs: "bust=" + (new Date()).getTime()
-            }
-        {% endif %}
-
     </script>
     <script data-main="{{ STATIC_URL }}js/apps/chordcharts/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
 
