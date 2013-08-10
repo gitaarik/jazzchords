@@ -32,9 +32,11 @@ define(
 
                     if(
                         // Check if chords are the same NOW
-                        _.isEqual(next_chord.get('note'), this.attributes.note) &&
-                        _.isEqual(next_chord.get('chord_type'), this.attributes.chord_type) &&
-                        _.isEqual(next_chord.get('alt_bass_note'), this.attributes.alt_bass_note)
+                        _.isEqual(next_chord.get('note'), this.get('note')) &&
+                        _.isEqual(next_chord.get('chord_type').attributes,
+                            this.get('chord_type').attributes) &&
+                        _.isEqual(next_chord.get('alt_bass_note'),
+                            this.get('alt_bass_note'))
                     ) {
                         // Trigger the `render()` by setting timestamp in
                         // milliseconds in `changed` attribute. Then `render()`
