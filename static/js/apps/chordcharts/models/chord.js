@@ -37,7 +37,8 @@ define(
                         _.isEqual(next_chord.get('alt_bass_note'), this.attributes.alt_bass_note)
                     ) {
                         // Trigger the `render()` by setting timestamp in
-                        // milliseconds in `changed` attribute
+                        // milliseconds in `changed` attribute. Then `render()`
+                        // will put the repeat sign ( % ) in.
                         this.get('measure').get('next_measure').get('chords').first()
                             .set('changed', new Date().getTime())
                     }
@@ -54,7 +55,7 @@ define(
                             _.isEqual(next_chord.get('alt_bass_note'),
                                 prev_attr.alt_bass_note)
                         ) {
-                            this.get('measure').get('next_measure').get('chords').first().set({
+                            next_chord.set({
                                 'note': this.get('note'),
                                 'chord_type': this.get('chord_type'),
                                 'alt_bass_note': this.get('alt_bass_note')
