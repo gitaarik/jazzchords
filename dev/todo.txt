@@ -1,8 +1,11 @@
 Choose bass tone:
     Make it possible to choose a bass tone in the chord edit widget.
 
-Add box:
-    Be able to add a box on a line.
+Edit measure beat schema:
+    Be able to change the beat schema of the measure.
+
+Add measure:
+    Be able to add a measure on a line.
 
 Add line:
     Be able to add a line in a section.
@@ -21,10 +24,9 @@ Add song:
 
 How to read:
     Make a how to read information popup that you can open on the page. Should
-    explain things like how to read the boxes and the different chord symbols.
-    Would be nice if you can move it to the side so you can still read the
-    chord chart. Would also be nice to maybe have a link to a website where
-    you can see how to play the chord on a certain instrument.
+    explain things like how to read the measures and the different chord
+    symbols. Would be nice if you can move it to the side so you can still
+    read the chord chart.
 
 Optimize
     Next boxes are being parsed at startup, this shouldn't happen, right?
