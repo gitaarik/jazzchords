@@ -69,7 +69,8 @@ define(
 
                 this.model.get('chord').set({
                     note: this.model.get('note'),
-                    chord_type: this.model.get('chord_type')
+                    chord_type: this.model.get('chord_type'),
+                    alt_bass_note: this.model.get('alt_bass_note')
                 })
 
                 this.model.set('visible', false)
@@ -84,7 +85,7 @@ define(
 
             switchTab: function(obj) {
                 // Switches to a tab in the edit widget
-                // like 'note', 'type' and 'bass'
+                // like 'note', 'type' and 'alt_bass_bass'
 
                 var tab = $(obj.currentTarget)
                 this.openTab(tab.data('key'))
@@ -162,21 +163,31 @@ define(
                 if(this.model.get('note_choices') !=
                    this.model.previousAttributes().note_choices) {
 
-                    var note_choices = this.$el.find('.chord-settings .note')
-                    note_choices.html('')
+                    var note_types = ['note', 'alt_bass_note']
 
-                    _.each(this.model.get('note_choices'), function(note) {
+                    var that = this
 
-                        note_choices.append(
-                            new EditWidgetNoteView({
-                                model: new EditWidgetNote({
-                                    note: note,
-                                    editWidget: this
-                                })
-                            }).render().el
-                        )
+                    _.each(note_types, function(note_type) {
 
-                    }, this)
+                        var note_choices = that.$el.find(
+                            '.chord-settings .' + note_type)
+                        note_choices.html('')
+
+                        _.each(that.model.get('note_choices'), function(note) {
+
+                            note_choices.append(
+                                new EditWidgetNoteView({
+                                    model: new EditWidgetNote({
+                                        note: note,
+                                        note_type: note_type,
+                                        editWidget: that.model
+                                    })
+                                }).render().el
+                            )
+
+                        })
+
+                    })
 
                 }
 

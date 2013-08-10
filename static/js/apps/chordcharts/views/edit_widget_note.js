@@ -10,7 +10,8 @@ define(
             },
             chooseNote: function() {
                 // Sets the chosen note on the editWidget
-                this.model.get('editWidget').model.set('note',
+                this.model.get('editWidget').set(
+                    this.model.get('note_type'),
                     this.model.get('note'))
             },
             render: function() {
