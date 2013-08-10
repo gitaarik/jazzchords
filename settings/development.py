@@ -23,6 +23,5 @@ DATABASES = {
 MIDDLEWARE_CLASSES = (
     MIDDLEWARE_CLASSES + (
         'core.middleware.south_unran_migration_check.SouthUnranMigrationCheck',
-        'core.middleware.cache_control.CacheControl',
     )
 )
