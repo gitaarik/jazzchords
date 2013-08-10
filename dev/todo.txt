@@ -1,9 +1,5 @@
-Optimize
-    Next boxes are being parsed at startup, this shouldn't happen, right?
-
-Choose chord type and bass tone:
-    Make it possible to choose a chord type and a bass tone in the chord edit
-    widget.
+Choose bass tone:
+    Make it possible to choose a bass tone in the chord edit widget.
 
 Add box:
     Be able to add a box on a line.
@@ -29,3 +25,6 @@ How to read:
     Would be nice if you can move it to the side so you can still read the
     chord chart. Would also be nice to maybe have a link to a website where
     you can see how to play the chord on a certain instrument.
+
+Optimize
+    Next boxes are being parsed at startup, this shouldn't happen, right?
