@@ -1,5 +1,6 @@
 define(
     [
+        'collections/edit_widget_notes',
         'collections/edit_widget_chord_types',
         'models/edit_widget',
         'models/edit_widget_note',
@@ -7,6 +8,7 @@ define(
         'views/edit_widget_chord_type'
     ],
     function(
+        EditWidgetNotes,
         EditWidgetChordTypes,
         EditWidget,
         EditWidgetNote,
@@ -160,28 +162,42 @@ define(
                     'letter-spacing': this.model.get('letter_spacing')
                 })
 
+                this.parseNotes()
+
+            },
+
+            parseNotes: function() {
+
+                var that = this
+                var note_types = ['note', 'alt_bass_note']
+
                 if(this.model.get('note_choices') !=
                    this.model.previousAttributes().note_choices) {
 
-                    var note_types = ['note', 'alt_bass_note']
-
-                    var that = this
+                    that.editWidgetNotes = []
 
                     _.each(note_types, function(note_type) {
 
+                        that.editWidgetNotes[note_type] = new EditWidgetNotes()
+                        var editWidgetNote
                         var note_choices = that.$el.find(
                             '.chord-settings .' + note_type)
                         note_choices.html('')
 
                         _.each(that.model.get('note_choices'), function(note) {
 
+                            editWidgetNote = new EditWidgetNote({
+                                note_id: note.id, // used for `findWhere`
+                                note: note,
+                                note_type: note_type,
+                                editWidget: that.model
+                            })
+
+                            that.editWidgetNotes[note_type].add(editWidgetNote)
+
                             note_choices.append(
                                 new EditWidgetNoteView({
-                                    model: new EditWidgetNote({
-                                        note: note,
-                                        note_type: note_type,
-                                        editWidget: that.model
-                                    })
+                                    model: editWidgetNote
                                 }).render().el
                             )
 
@@ -190,6 +206,33 @@ define(
                     })
 
                 }
+
+                _.each(note_types, function(note_type) {
+
+                    var current_selected = that.editWidgetNotes[note_type]
+                        .findWhere({ selected: true })
+
+                    if(current_selected) {
+                        current_selected.set('selected', false)
+                    }
+
+                    if(that.model.get(note_type)) {
+
+                        that.editWidgetNotes[note_type].findWhere({
+                            note_id: that.model.get(note_type).id
+                        }).set('selected', true)
+
+                    }
+
+                })
+
+
+                /*if(_.isEqual(that.model.get(note_type), note)) {
+                    selected = true
+                }
+                else {
+                    selected = false
+                }*/
 
                 this.$el.show()
 
