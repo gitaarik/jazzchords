@@ -39,10 +39,11 @@ define(
                 // the existing HTML
 
                 var that = this
-                var editWidget_chordTypes = new EditWidgetChordTypes()
+                this.editWidget_chordTypes = new EditWidgetChordTypes()
 
                 _.each(GLOBALS.chord_types, function(chord_type) {
-                    editWidget_chordTypes.add({
+                    that.editWidget_chordTypes.add({
+                        chord_type_id: chord_type.id, // used for `findWhere` later on
                         chord_type: chord_type
                     })
                 })
@@ -52,7 +53,7 @@ define(
 
                 this.chord_type.find('li').each(function() {
 
-                    var chord_type_model = editWidget_chordTypes.models[chordType_number]
+                    var chord_type_model = that.editWidget_chordTypes.models[chordType_number]
                     chord_type_model.set('editWidget', that.model)
 
                     new EditWidgetChordTypeView({
@@ -163,14 +164,18 @@ define(
                 })
 
                 this.parseNotes()
+                this.parseTypes()
 
             },
 
             parseNotes: function() {
+                // Parses the note and the alt bass note choices
 
                 var that = this
                 var note_types = ['note', 'alt_bass_note']
 
+                // If the notes are different from the last time, regenerate
+                // the models/views.
                 if(this.model.get('note_choices') !=
                    this.model.previousAttributes().note_choices) {
 
@@ -187,7 +192,7 @@ define(
                         _.each(that.model.get('note_choices'), function(note) {
 
                             editWidgetNote = new EditWidgetNote({
-                                note_id: note.id, // used for `findWhere`
+                                note_id: note.id, // used for `findWhere` later on
                                 note: note,
                                 note_type: note_type,
                                 editWidget: that.model
@@ -207,8 +212,10 @@ define(
 
                 }
 
+                // Select the correct note
                 _.each(note_types, function(note_type) {
 
+                    // Deselect last selected if it exists
                     var current_selected = that.editWidgetNotes[note_type]
                         .findWhere({ selected: true })
 
@@ -216,6 +223,8 @@ define(
                         current_selected.set('selected', false)
                     }
 
+                    // Select note if it is set (bass note doesn't have to be
+                    // set)
                     if(that.model.get(note_type)) {
 
                         that.editWidgetNotes[note_type].findWhere({
@@ -226,15 +235,23 @@ define(
 
                 })
 
-
-                /*if(_.isEqual(that.model.get(note_type), note)) {
-                    selected = true
-                }
-                else {
-                    selected = false
-                }*/
-
                 this.$el.show()
+
+            },
+
+            parseTypes: function() {
+
+                var current_selected = this.editWidget_chordTypes.findWhere({
+                    selected: true
+                })
+
+                if(current_selected) {
+                    current_selected.set('selected', false)
+                }
+
+                this.editWidget_chordTypes.findWhere({
+                    chord_type_id: this.model.get('chord_type').id
+                }).set('selected', true)
 
             },
 
@@ -254,7 +271,19 @@ define(
                         .get('section').get('key').notes
                 })
 
-                this.showChordTypePart(1)
+                // Show the chord type part that has the curent selected chord
+                // type.
+                var current_chord_type = this.editWidget_chordTypes.findWhere({
+                    chord_type_id: this.model.get('chord_type').id
+                })
+
+                if(this.editWidget_chordTypes.indexOf(current_chord_type) > 11) {
+                    this.showChordTypePart(2)
+                }
+                else {
+                    this.showChordTypePart(1)
+                }
+
                 this.openTab('note')
 
             }

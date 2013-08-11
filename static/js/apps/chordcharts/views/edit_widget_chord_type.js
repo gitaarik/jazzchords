@@ -6,6 +6,10 @@ define(
 
             model: EditWidgetChordType,
 
+            initialize: function() {
+                this.listenTo(this.model, 'change', this.render)
+            },
+
             events: {
                 'click': 'chooseSymbol'
             },
@@ -16,7 +20,16 @@ define(
             },
 
             render: function() {
+
                 this.$el.html(this.model.get('symbol'))
+
+                if(this.model.get('selected')) {
+                    this.$el.addClass('selected')
+                }
+                else {
+                    this.$el.removeClass('selected')
+                }
+
             }
 
         })
