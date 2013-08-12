@@ -10,10 +10,8 @@ urlpatterns = patterns('', )
 
 if settings.DEBUG:
 
-    serve_static_nocache = never_cache(serve_static)
-
     urlpatterns += patterns('',
-        url(r'^static/(?P<path>.*)$', serve_static_nocache, {
+        url(r'^static/(?P<path>.*)$', never_cache(serve_static), {
             'document_root': settings.STATIC_ROOT,
         }),
     )
