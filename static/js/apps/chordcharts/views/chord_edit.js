@@ -1,25 +1,25 @@
 define(
     [
-        'collections/edit_widget_notes',
-        'collections/edit_widget_chord_types',
-        'models/edit_widget',
-        'models/edit_widget_note',
-        'views/edit_widget_note',
-        'views/edit_widget_chord_type'
+        'collections/chord_edit_notes',
+        'collections/chord_edit_chord_types',
+        'models/chord_edit',
+        'models/chord_edit_note',
+        'views/chord_edit_note',
+        'views/chord_edit_chord_type'
     ],
     function(
-        EditWidgetNotes,
-        EditWidgetChordTypes,
-        EditWidget,
-        EditWidgetNote,
-        EditWidgetNoteView,
-        EditWidgetChordTypeView
+        ChordEditNotes,
+        ChordEditChordTypes,
+        ChordEdit,
+        ChordEditNote,
+        ChordEditNoteView,
+        ChordEditChordTypeView
     ) {
 
         return Backbone.View.extend({
 
             el: '.chord-chart .chord-edit',
-            model: EditWidget,
+            model: ChordEdit,
 
             events: {
                 'click .controls .apply': 'applyChanges',
@@ -40,7 +40,7 @@ define(
                 // the existing HTML
 
                 var that = this
-                this.editWidget_chordTypes = new EditWidgetChordTypes()
+                this.editWidget_chordTypes = new ChordEditChordTypes()
 
                 _.each(GLOBALS.chord_types, function(chord_type) {
                     that.editWidget_chordTypes.add({
@@ -57,7 +57,7 @@ define(
                     var chord_type_model = that.editWidget_chordTypes.models[chordType_number]
                     chord_type_model.set('editWidget', that.model)
 
-                    new EditWidgetChordTypeView({
+                    new ChordEditChordTypeView({
                         el: this,
                         model: chord_type_model
                     })
@@ -188,7 +188,7 @@ define(
 
                     _.each(note_types, function(note_type) {
 
-                        that.editWidgetNotes[note_type] = new EditWidgetNotes()
+                        that.editWidgetNotes[note_type] = new ChordEditNotes()
                         var editWidgetNote
                         var note_choices = that.$el.find('.chord-settings ' +
                             '.setting[data-key=' + note_type + '] ul')
@@ -196,7 +196,7 @@ define(
 
                         _.each(that.model.get('note_choices'), function(note) {
 
-                            editWidgetNote = new EditWidgetNote({
+                            editWidgetNote = new ChordEditNote({
                                 note_id: note.id, // used for `findWhere` later on
                                 note: note,
                                 note_type: note_type,
@@ -206,7 +206,7 @@ define(
                             that.editWidgetNotes[note_type].add(editWidgetNote)
 
                             note_choices.append(
-                                new EditWidgetNoteView({
+                                new ChordEditNoteView({
                                     model: editWidgetNote
                                 }).render().el
                             )

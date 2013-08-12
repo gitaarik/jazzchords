@@ -1,12 +1,12 @@
 define(
-    ['models/edit_widget', 'views/edit_widget'],
-    function(EditWidget, EditWidgetView) {
+    ['models/chord_edit', 'views/chord_edit'],
+    function(ChordEdit, ChordEditView) {
 
         // Create edit widget
 
-        var editWidget = new EditWidget()
+        var editWidget = new ChordEdit()
 
-        new EditWidgetView({
+        new ChordEditView({
             model: editWidget
         })
 

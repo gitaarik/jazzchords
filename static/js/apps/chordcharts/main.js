@@ -1,17 +1,17 @@
 require(
     [
-        'collections/edit_widget_chord_types',
+        'collections/chord_edit_chord_types',
         'models/chart',
         'views/chart',
         'views/section',
         'views/line',
         'views/measure',
         'views/chord',
-        'init/edit_widget',
+        'init/chord_edit',
         'init/key_change_widget'
     ],
     function(
-        EditWidgetChordTypes,
+        ChordEditChordTypes,
         Chart,
         ChartView,
         SectionView,

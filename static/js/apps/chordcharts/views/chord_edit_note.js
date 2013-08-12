@@ -1,11 +1,11 @@
 define(
-    ['models/edit_widget_note'],
-    function(EditWidgetNote) {
+    ['models/chord_edit_note'],
+    function(ChordEditNote) {
 
         return Backbone.View.extend({
 
             tagName: 'li',
-            model: EditWidgetNote,
+            model: ChordEditNote,
 
             initialize: function() {
                 this.listenTo(this.model, 'change', this.render)

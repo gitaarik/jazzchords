@@ -1,10 +1,10 @@
 define(
-    ['models/edit_widget_chord_type'],
-    function(EditWidgetChordType) {
+    ['models/chord_edit_chord_type'],
+    function(ChordEditChordType) {
 
         return Backbone.View.extend({
 
-            model: EditWidgetChordType,
+            model: ChordEditChordType,
 
             initialize: function() {
                 this.listenTo(this.model, 'change', this.render)
