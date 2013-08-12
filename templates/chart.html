@@ -165,9 +165,11 @@
 
                 <div class="chord-settings padding">
 
-                    <ul class="setting note"></ul>
+                    <div class="setting note" data-key="note">
+                        <ul></ul>
+                    </div>
 
-                    <div class="setting type">
+                    <div class="setting type" data-key="type">
 
                         {% for chord_types in chord_types_sets %}
 
@@ -197,7 +199,10 @@
 
                     </div>
 
-                    <ul class="setting alt_bass_note"></ul>
+                    <div class="setting alt-bass-note" data-key="alt_bass_note">
+                        <div class="none">None</div>
+                        <ul></ul>
+                    </div>
 
                 </div>
 

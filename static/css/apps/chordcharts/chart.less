@@ -398,13 +398,14 @@
 
             }
 
-            .type {
+            .setting {
 
                 li.small-font {
                     font-size: 13px;
                 }
 
-                .toggle {
+                &.type .toggle,
+                &.alt-bass-note .none {
                     display: block;
                     clear: left;
                     height: 30px;
@@ -416,6 +417,13 @@
                     color: #000;
                     text-decoration: none;
                     cursor: pointer;
+                }
+
+                &.alt-bass-note .none {
+                    background: #EEE;
+                    &.selected {
+                        background: #FFF;
+                    }
                 }
 
             }

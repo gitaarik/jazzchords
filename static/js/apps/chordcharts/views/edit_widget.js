@@ -25,7 +25,8 @@ define(
                 'click .controls .apply': 'applyChanges',
                 'click .controls .discard': 'discardChanges',
                 'click .tabs li': 'switchTab',
-                'click .chord-settings .setting.type .toggle': 'toggleChordTypes',
+                'click .chord-settings .setting[data-key=type] .toggle': 'toggleChordTypes',
+                'click .chord-settings .setting[data-key=alt_bass_note] .none': 'noAltBass'
             },
 
             initialize: function() {
@@ -103,7 +104,7 @@ define(
                     .addClass('active')
 
                 this.$el.find('.chord-settings .setting').hide().parent().find(
-                    '.setting.' + key).show()
+                    '.setting[data-key=' + key + ']').show()
 
             },
 
@@ -117,6 +118,10 @@ define(
                     this.showChordTypePart(1)
                 }
 
+            },
+
+            noAltBass: function() {
+                this.model.set('alt_bass_note', false)
             },
 
             showChordTypePart: function(number) {
@@ -185,8 +190,8 @@ define(
 
                         that.editWidgetNotes[note_type] = new EditWidgetNotes()
                         var editWidgetNote
-                        var note_choices = that.$el.find(
-                            '.chord-settings .' + note_type)
+                        var note_choices = that.$el.find('.chord-settings ' +
+                            '.setting[data-key=' + note_type + '] ul')
                         note_choices.html('')
 
                         _.each(that.model.get('note_choices'), function(note) {
@@ -225,12 +230,23 @@ define(
 
                     // Select note if it is set (bass note doesn't have to be
                     // set)
+
+                    var none_button = that.$el.find('.chord-settings ' +
+                        '.setting[data-key=' + note_type + '] .none')
+
                     if(that.model.get(note_type)) {
+
+                        if(none_button) {
+                            none_button.removeClass('selected')
+                        }
 
                         that.editWidgetNotes[note_type].findWhere({
                             note_id: that.model.get(note_type).id
                         }).set('selected', true)
 
+                    }
+                    else if(none_button) {
+                        none_button.addClass('selected')
                     }
 
                 })
