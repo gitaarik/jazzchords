@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.static import serve as serve_static
+from django.contrib.staticfiles.views import serve as serve_static
 from django.views.decorators.cache import never_cache
 
 
@@ -9,11 +9,8 @@ admin.autodiscover()
 urlpatterns = patterns('', )
 
 if settings.DEBUG:
-
     urlpatterns += patterns('',
-        url(r'^static/(?P<path>.*)$', never_cache(serve_static), {
-            'document_root': settings.STATIC_ROOT,
-        }),
+        url(r'^static/(?P<path>.*)$', never_cache(serve_static)),
     )
 
 urlpatterns += patterns('',
