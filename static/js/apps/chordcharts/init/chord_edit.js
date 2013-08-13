@@ -2,19 +2,18 @@ define(
     ['models/chord_edit', 'views/chord_edit'],
     function(ChordEdit, ChordEditView) {
 
-        // Create edit widget
-
-        var editWidget = new ChordEdit()
+        var chordEdit = new ChordEdit()
 
         new ChordEditView({
-            model: editWidget
+            el: '.chord-chart .chord-edit',
+            model: chordEdit
         })
 
         $('html').on('click', function(event) {
 
             // close the edit widget if there was a click outside the edit widget
 
-            if(editWidget.get('visible')) {
+            if(chordEdit.get('visible')) {
 
                 var target = $(event.target)
 
@@ -35,14 +34,14 @@ define(
                     )
                 )) {
                     // close the widget
-                    editWidget.set('visible', false)
+                    chordEdit.set('visible', false)
                 }
 
             }
 
         })
 
-        return editWidget
+        return chordEdit
 
     }
 )

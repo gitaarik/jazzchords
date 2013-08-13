@@ -18,7 +18,6 @@ define(
 
         return Backbone.View.extend({
 
-            el: '.chord-chart .chord-edit',
             model: ChordEdit,
 
             events: {
@@ -159,13 +158,15 @@ define(
                     this.reset()
                 }
 
+                var chord_name = this.model.get('chord_view').$el.find('.chord-name')
+
                 this.$el.css({
-                    'top': this.model.get('chord_name_offset').top - 11,
-                    'left': this.model.get('chord_name_offset').left - 11
+                    'top': chord_name.offset().top - 11,
+                    'left': chord_name.offset().left - 11
                 })
                 .find('.chord-name').html(this.model.chordName()).css({
-                    'font-size': this.model.get('font_size'),
-                    'letter-spacing': this.model.get('letter_spacing')
+                    'font-size': chord_name.css('font-size'),
+                    'letter-spacing': chord_name.css('letter-spacing')
                 })
 
                 this.parseNotes()

@@ -22,14 +22,10 @@ define(
                     return
                 }
 
-                var chord_name = this.$el.find('.chord-name')
-
                 this.model.get('editWidget').set({
                     visible: true,
                     chord: this.model,
-                    chord_name_offset: chord_name.offset(),
-                    font_size: chord_name.css('font-size'),
-                    letter_spacing: chord_name.css('letter-spacing')
+                    chord_view: this
                 })
 
             },

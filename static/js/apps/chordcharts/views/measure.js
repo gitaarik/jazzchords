@@ -1,11 +1,30 @@
 define(
-    ['models/measure'],
-    function(Measure) {
+    ['models/measure', 'init/measure_edit'],
+    function(Measure, measureEdit) {
 
         return Backbone.View.extend({
 
             className: 'measure',
             model: Measure,
+
+            events: {
+                'click': 'openMeasureEdit'
+            },
+
+            openMeasureEdit: function(event) {
+
+                if($(event.target).closest('.chord-name').length) {
+                    // If the click was on a chord name, the chord edit widget
+                    // should open and not the measure edit widget.
+                    return
+                }
+
+                measureEdit.set({
+                    'visible': true,
+                    'measure_view': this
+                })
+
+            },
 
             drawSeperationLines: function() {
                 // Draws the lines that seperate the different measure parts
