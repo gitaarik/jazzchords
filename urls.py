@@ -17,19 +17,5 @@ urlpatterns += patterns('',
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(
-        r'^chart/edit/'
-         '(?P<song_slug>[a-z-_]*)/'
-         '(?:(?P<key_slug>[a-z-_]*)/)?$',
-        'chordcharts.views.chart',
-        {'edit': True},
-        name='chart_edit',
-    ),
-    url(
-        r'^chart/'
-         '(?P<song_slug>[a-z-_]*)/'
-         '(?:(?P<key_slug>[a-z-_]*)/)?$',
-        'chordcharts.views.chart',
-        name='chart'
-    ),
+    url(r'^chart/', include('chordcharts.urls')),
 )
