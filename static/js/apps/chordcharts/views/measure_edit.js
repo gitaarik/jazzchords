@@ -1,10 +1,12 @@
 define(
     [
+        'collections/measure_edit_measures',
         'models/measure_edit',
         'models/measure_edit_measure',
         'views/measure_edit_measure',
     ],
     function(
+        MeasureEditMeasures,
         MeasureEdit,
         MeasureEditMeasure,
         MeasureEditMeasureView
@@ -21,6 +23,7 @@ define(
 
             createMeasures: function() {
 
+                var that = this
                 var beat_schemas = ['4', '2-2', '2-1-1', '1-1-2', '1-1-1-1']
                 var measures = []
                 var measureViews = []
@@ -38,7 +41,8 @@ define(
                     }).render().el)
 
                 })
-                
+
+                this.model.set('measures', new MeasureEditMeasures(measures))
                 this.$el.find('.measures').append(measureViews)
 
             },
@@ -62,6 +66,18 @@ define(
                     'top': measure.offset().top + measure.height() + 10,
                     'left': measure.offset().left - 10
                 })
+
+                var current_selected = this.model.get('measures').findWhere({
+                    'selected': true
+                })
+
+                if(current_selected) {
+                    current_selected.set('selected', false)
+                }
+
+                this.model.get('measures').findWhere({
+                    'beat_schema': this.model.get('measure').get('beat_schema')
+                }).set('selected', true)
 
                 this.$el.show()
 

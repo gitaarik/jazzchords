@@ -21,6 +21,7 @@ define(
 
                 measureEdit.set({
                     'visible': true,
+                    'measure': this.model,
                     'measure_view': this
                 })
 

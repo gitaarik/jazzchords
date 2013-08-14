@@ -7,12 +7,45 @@ define(
             model: MeasureEditMeasure,
             tagName: 'li',
 
+            initialize: function() {
+                this.listenTo(this.model, 'change', this.render)
+            },
+
             render: function() {
 
+                var template = _.template(
+                    $('#template-measure-edit-measure').html()
+                )
+
+                var num_chords
+
+                switch(this.model.get('beat_schema')) {
+
+                    case '4':
+                        num_chords = 1
+                        break
+
+                    case '2-2':
+                        num_chords = 2
+                        break
+
+                    case '2-1-1':
+                    case '1-1-2':
+                        num_chords = 3
+                        break
+
+                    case '1-1-1-1':
+                        num_chords = 4
+                        break
+
+                }
+
                 this.$el.html(
-                    '<div class="measure measure-beatschema-' +
-                        this.model.get('beat_schema') +
-                    '"></div>'
+                    template({
+                        beat_schema: this.model.get('beat_schema'),
+                        num_chords: num_chords,
+                        selected: this.model.get('selected')
+                    })
                 )
 
                 this.drawSeperationLines()
