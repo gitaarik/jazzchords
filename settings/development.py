@@ -1,3 +1,4 @@
+from .general import INSTALLED_APPS
 from .general import MIDDLEWARE_CLASSES
 
 
@@ -19,6 +20,8 @@ DATABASES = {
         'PASSWORD': '',
     }
 }
+
+INSTALLED_APPS += ('django.contrib.staticfiles',)
 
 MIDDLEWARE_CLASSES = (
     MIDDLEWARE_CLASSES + (
