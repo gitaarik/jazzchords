@@ -26,16 +26,18 @@ define(
                     (
                         // click was inside the chord chart
                         target.closest('.chord-chart').length &&
+                        // click wasn't in the widget
+                        !target.closest('.measure-edit').length &&
                         (
-                            // click was in the measure
-                            target.closest('.measure').length &&
-                            // click was in the chord-name
-                            target.closest('.chord-name').length
-                        ) || (
-                            // click wasn't in the measure
-                            !target.closest('.measure').length &&
-                            // click wasn't in the widget
-                            !target.closest('.measure-edit').length
+                            (
+                                // click was in the measure
+                                target.closest('.measure').length &&
+                                // click was in the chord-name
+                                target.closest('.chord-name').length
+                            ) || (
+                                // click wasn't in the measure
+                                !target.closest('.measure').length
+                            )
                         )
                     )
                 ) {

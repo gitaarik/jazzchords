@@ -32,7 +32,8 @@ define(
                 _.each(beat_schemas, function(beat_schema) {
 
                     measure = new MeasureEditMeasure({
-                        beat_schema: beat_schema
+                        beat_schema: beat_schema,
+                        measureEdit: that.model
                     })
                     measures.push(measure)
 
@@ -76,7 +77,7 @@ define(
                 }
 
                 this.model.get('measures').findWhere({
-                    'beat_schema': this.model.get('measure').get('beat_schema')
+                    'beat_schema': this.model.get('beat_schema')
                 }).set('selected', true)
 
                 this.$el.show()

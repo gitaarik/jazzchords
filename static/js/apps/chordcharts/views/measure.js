@@ -22,7 +22,8 @@ define(
                 measureEdit.set({
                     'visible': true,
                     'measure': this.model,
-                    'measure_view': this
+                    'measure_view': this,
+                    'beat_schema': this.model.get('beat_schema')
                 })
 
             },

@@ -11,7 +11,34 @@ define(
                 this.listenTo(this.model, 'change', this.render)
             },
 
+            events: {
+                'click': 'chooseMeasure'
+            },
+
+            chooseMeasure: function() {
+                this.model.get('measureEdit').set('beat_schema',
+                    this.model.get('beat_schema'))
+            },
+
             render: function() {
+
+                if(!this.measures_drawn) {
+                    this.drawMeasures()
+                    this.measures_drawn = true
+                }
+
+                if(this.model.get('selected')) {
+                    this.$el.find('.measure').addClass('selected')
+                }
+                else {
+                    this.$el.find('.measure').removeClass('selected')
+                }
+
+                return this
+
+            },
+
+            drawMeasures: function() {
 
                 var template = _.template(
                     $('#template-measure-edit-measure').html()
@@ -43,14 +70,11 @@ define(
                 this.$el.html(
                     template({
                         beat_schema: this.model.get('beat_schema'),
-                        num_chords: num_chords,
-                        selected: this.model.get('selected')
+                        num_chords: num_chords
                     })
                 )
 
                 this.drawSeperationLines()
-
-                return this
 
             },
 
