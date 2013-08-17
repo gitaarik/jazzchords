@@ -7,7 +7,6 @@ require(
         'views/line',
         'views/measure',
         'views/chord',
-        'init/chord_edit',
         'init/key_change_widget'
     ],
     function(
@@ -18,7 +17,6 @@ require(
         LineView,
         MeasureView,
         ChordView,
-        editWidget,
         keyChangeWidget
     ) {
 
@@ -34,7 +32,6 @@ require(
         })
 
         var section_number = 0
-        var last_measure = null
 
         // Loop through HTML elements and create appropriate views/models for these
         // elements
@@ -42,8 +39,6 @@ require(
 
             var line_number = 0
             var section = chart.get('sections').models[section_number]
-            section.set('chart', chart)
-
             var sectionView = new SectionView({
                 el: this,
                 model: section
@@ -55,8 +50,6 @@ require(
 
                 var measure_number = 0
                 var line = section.get('lines').models[line_number]
-                line.set('section', section)
-
                 var lineView = new LineView({
                     el: this,
                     model: line
@@ -67,29 +60,17 @@ require(
 
                     var chord_number = 0
                     var measure = line.get('measures').models[measure_number]
-                    measure.set('line', line)
-
                     var measureView = new MeasureView({
                         el: this,
                         model: measure
                     })
 
-                    if(last_measure) {
-                        measure.set('prev_measure', last_measure)
-                        last_measure.set('next_measure', measure)
-                    }
-
-                    last_measure = measure
                     lineView.$el.append(measureView)
                     measureView.drawSeperationLines()
 
                     measureView.$el.find('.chord').each(function() {
 
                         var chord = measure.get('chords').models[chord_number]
-                        chord.set({
-                            measure: measure,
-                            editWidget: editWidget
-                        })
 
                         new ChordView({
                             el: this,
@@ -110,6 +91,8 @@ require(
             section_number++
 
         })
+
+        chart.set('parsed', true)
 
     }
 )

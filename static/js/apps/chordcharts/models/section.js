@@ -3,9 +3,20 @@ define(
     function(Lines) {
 
         return Backbone.Model.extend({
+
             initialize: function() {
-                this.set('lines', new Lines(this.get('lines')))
+
+                var that = this
+                var lines = []
+                _.each(this.get('lines'), function(line) {
+                    line.section = that
+                    lines.push(line)
+                })
+
+                this.set('lines', new Lines(lines))
+
             }
+
         })
 
     }

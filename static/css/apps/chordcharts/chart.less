@@ -215,7 +215,7 @@
 
                 position: relative;
 
-                .chord-first {
+                .chord-1 {
                     position: absolute;
                     font-size: 20px;
                     line-height: round(@measure_height * 0.6);
@@ -223,7 +223,7 @@
                     text-align: center;
                 }
 
-                .chord-second {
+                .chord-2 {
                     position: absolute;
                     font-size: 20px;
                     line-height: round(@measure_height * 0.6);
@@ -239,7 +239,7 @@
 
                 position: relative;
 
-                .chord-first {
+                .chord-1 {
                     position: absolute;
                     font-size: 20px;
                     line-height: round(@measure_height * 0.6);
@@ -247,7 +247,7 @@
                     text-align: center;
                 }
 
-                .chord-second {
+                .chord-2 {
                     position: absolute;
                     font-size: 15px;
                     line-height: round(@measure_height * 0.35);
@@ -256,12 +256,84 @@
                     text-align: center;
                 }
 
-                .chord-third {
+                .chord-3 {
                     position: absolute;
                     font-size: 15px;
                     line-height: @measure_height;
-                    width: round(@measure_width * 0.40);
-                    left: round(@measure_width * 0.60);
+                    width: round(@measure_width * 0.4);
+                    left: round(@measure_width * 0.6);
+                    text-align: center;
+                }
+
+            }
+
+            .measure-beatschema-1-1-2 {
+
+                position: relative;
+
+                .chord-1 {
+                    position: absolute;
+                    font-size: 15px;
+                    line-height: @measure_height;
+                    width: round(@measure_width * 0.4);
+                    text-align: center;
+                }
+
+                .chord-2 {
+                    position: absolute;
+                    font-size: 15px;
+                    line-height: round(@measure_height * 0.35);
+                    width: @measure_width;
+                    text-align: center;
+                }
+
+                .chord-3 {
+                    position: absolute;
+                    font-size: 20px;
+                    line-height: round(@measure_height * 0.6);
+                    width: round(@measure_width * 0.6);
+                    top: round(@measure_width * 0.4);
+                    left: round(@measure_width * 0.4);
+                    text-align: center;
+                }
+
+            }
+
+            .measure-beatschema-1-1-1-1 {
+
+                position: relative;
+
+                .chord-1 {
+                    position: absolute;
+                    font-size: 15px;
+                    line-height: @measure_height;
+                    width: round(@measure_width * 0.4);
+                    text-align: center;
+                }
+
+                .chord-2 {
+                    position: absolute;
+                    font-size: 15px;
+                    line-height: round(@measure_height * 0.35);
+                    width: @measure_width;
+                    text-align: center;
+                }
+
+                .chord-3 {
+                    position: absolute;
+                    font-size: 15px;
+                    line-height: round(@measure_height * 0.35);
+                    width: @measure_width;
+                    top: round(@measure_height * 0.65);
+                    text-align: center;
+                }
+
+                .chord-4 {
+                    position: absolute;
+                    font-size: 15px;
+                    line-height: @measure_height;
+                    width: round(@measure_width * 0.4);
+                    left: round(@measure_width * 0.6);
                     text-align: center;
                 }
 
@@ -464,6 +536,30 @@
         h3 {
             margin: 0;
             font-weight: normal;
+        }
+
+        .controls {
+
+            float: right;
+            overflow: hidden;
+            margin: 0 0 10px 0;
+
+            .apply, .discard {
+                float: left;
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+            }
+
+            .apply {
+                background: url(@done-icon);
+                margin-right: 10px;
+            }
+
+            .discard {
+                background: url(@discard-icon);
+            }
+
         }
 
         .measures {

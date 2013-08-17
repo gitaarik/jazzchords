@@ -42,7 +42,7 @@ define(
                     )
                 ) {
                     // close the widget
-                    measureEdit.set('visible', false)
+                    measureEdit.close()
                 }
 
             }

@@ -3,9 +3,20 @@ define(
     function(Chords) {
 
         return Backbone.Model.extend({
+
             initialize: function() {
-                this.set('chords', new Chords(this.get('chords')))
+
+                var that = this
+                var chords = []
+                _.each(this.get('chords'), function(chord) {
+                    chord.measure = that
+                    chords.push(chord)
+                })
+
+                this.set('chords', new Chords(chords))
+
             }
+
         })
 
     }

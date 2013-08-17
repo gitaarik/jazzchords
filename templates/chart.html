@@ -13,7 +13,6 @@
     <script>
 
         var GLOBALS = {
-            edit: {% if edit %}true{% else %}false{% endif %},
             chart_data: {{ chart_json|safe }},
             chord_types: {{ chord_types_json|safe }}
         }
@@ -119,22 +118,22 @@
                                         {% endif %}
 
                                         {% if measure.beat_schema == "2-2" %}
-                                            <div class="chord chord-first">
+                                            <div class="chord chord-1">
                                                 <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
-                                            <div class="chord chord-second">
+                                            <div class="chord chord-2">
                                                 <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
                                             </div>
                                         {% endif %}
 
                                         {% if measure.beat_schema == "2-1-1" %}
-                                            <div class="chord chord-first">
+                                            <div class="chord chord-1">
                                                 <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
                                             </div>
-                                            <div class="chord chord-second">
+                                            <div class="chord chord-2">
                                                 <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
                                             </div>
-                                            <div class="chord chord-third">
+                                            <div class="chord chord-3">
                                                 <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
                                             </div>
                                         {% endif %}
@@ -223,6 +222,10 @@
             <section class="measure-edit">
                 <div class="popup-arrow-up"></div>
                 <div class="padding">
+                    <div class="controls">
+                        <div class="apply"></div>
+                        <div class="discard"></div>
+                    </div>
                     <ul class="measures"></ul>
                 </div>
             </section>

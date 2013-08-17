@@ -18,7 +18,43 @@ define(
 
             initialize: function() {
                 this.createMeasures()
-                this.listenTo(this.model, 'change', this.render)
+                this.listenTo(this.model, 'change', this.change)
+            },
+
+            events: {
+                'click .controls .discard': 'discard',
+                'click .controls .apply': 'apply'
+            },
+
+            discard: function() {
+                this.model.close()
+            },
+
+            apply: function() {
+                       console.log('apply!')
+            },
+
+            change: function() {
+
+                if(this.model.get('visible')) {
+
+                    // If this measure edit widget is created for a new measure
+                    // save the original beat schema of this measure.
+                    var previousMeasure = this.model.previousAttributes().measure
+                    if(!_.isEqual(previousMeasure, this.model.get('measure'))) {
+                        this.model.set('original_beat_schema', this.model.get('beat_schema'))
+                    }
+
+                    this.model.get('measure').set('beat_schema',
+                        this.model.get('beat_schema'))
+
+                    this.show()
+
+                }
+                else {
+                    this.$el.hide()
+                }
+
             },
 
             createMeasures: function() {
@@ -45,17 +81,6 @@ define(
 
                 this.model.set('measures', new MeasureEditMeasures(measures))
                 this.$el.find('.measures').append(measureViews)
-
-            },
-
-            render: function() {
-
-                if(this.model.get('visible')) {
-                    this.show()
-                }
-                else {
-                    this.$el.hide()
-                }
 
             },
 

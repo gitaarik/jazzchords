@@ -20,6 +20,11 @@ define(
                 //   next chord were the same, then change the chord of the
                 //   next measure to the chord of the current measure.
 
+                if(!this.get('measure').get('line').get('section').get('chart').get('parsed')) {
+                    // only parse next measure if whole chart has been done parsing
+                    return
+                }
+
                 if(
                     this.get('beats') == 4 &&
                     this.get('measure').has('next_measure') &&
