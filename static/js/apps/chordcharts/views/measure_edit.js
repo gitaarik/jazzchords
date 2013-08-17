@@ -27,6 +27,7 @@ define(
             },
 
             discard: function() {
+                this.model.discardChanges()
                 this.model.close()
             },
 

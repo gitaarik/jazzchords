@@ -42,7 +42,7 @@ define(
                     )
                 ) {
                     // close the widget
-                    measureEdit.close()
+                    measureEdit.discard()
                 }
 
             }
