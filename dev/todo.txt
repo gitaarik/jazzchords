@@ -29,7 +29,8 @@ How to read:
     read the chord chart.
 
 Optimize:
-    Next boxes are being parsed at startup, this shouldn't happen, right?
+    Check what `change` events unnecessarily get triggered at startup and try
+    to prevent that from happening.
 
 Zoom:
     If you use the browser zooming options, sometimes the chart gets fucked up
