@@ -67,19 +67,23 @@ require(
 
                     lineView.$el.append(measureView)
                     measureView.drawSeperationLines()
+                    var chord_views = []
 
                     measureView.$el.find('.chord').each(function() {
 
                         var chord = measure.get('chords').models[chord_number]
 
-                        new ChordView({
-                            el: this,
-                            model: chord
-                        })
+                        chord_views.push(
+                            new ChordView({
+                                el: this,
+                                model: chord
+                            })
+                        )
                         chord_number++
 
                     })
 
+                    measure.set({ chord_views: chord_views }, { silent: true })
                     measure_number++
 
                 })

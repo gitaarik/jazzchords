@@ -32,7 +32,8 @@ define(
             },
 
             apply: function() {
-                       console.log('apply!')
+                this.model.applyChanges()
+                this.model.close()
             },
 
             change: function() {
