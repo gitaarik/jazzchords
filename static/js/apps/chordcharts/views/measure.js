@@ -37,6 +37,7 @@ define(
             },
 
             render: function() {
+                this.$el.html('')
                 this.drawChords()
                 this.drawSeperationLines()
             },
@@ -49,62 +50,23 @@ define(
                     this.model.get('beat_schema'))
 
                 var that = this
-                var beats_set = this.model.get('beat_schema').split('-')
-                var last_chord
-                var new_chord = false
-                var new_chords = []
-                var new_chord_views = []
+                var beats = this.model.get('beat_schema').split('-')
 
-                console.log(this.model.get('chord_views'))
+                _.each(beats, function(chord, i) {
 
-                _.each(beats_set, function(beats, index) {
-
-                    var chord = that.model.get('chords').at(index)
-
-                    if(!chord) {
-                        chord = last_chord.clone()
-                        new_chord = true
-                    }
-                    else {
-                        new_chord = false
-                    }
-
-                    chord.set({
-                        beats: parseInt(beats),
-                        order: index + 1
-                    })
-
-                    if(new_chord) {
-
-                        new_chords.push(chord)
-
-                        new_chord_views.push(
-                            new ChordView({
-                                model: chord
-                            })
-                        )
-
-                    }
-
-                    last_chord = chord
+                    that.$el.append(
+                        new ChordView({
+                            model: that.model.get('chords').at(i)
+                        }).render().el
+                    )
 
                 })
-
-                /*this.model.get('chords').reset(new_chords)
-                this.model.set('chord_views', new_chord_views)*/
-
-                console.log(new_chord_views)
-                /*_.each(new_chord_views, function(chord_view) {
-                    that.$el.append(chord_view.render().el)
-                })*/
 
             },
 
             drawSeperationLines: function() {
                 // Draws the lines that seperate the different measure parts
                 // inside the measure
-
-                this.$el.find('canvas').remove()
 
                 var chart = this.model.get('line').get('section').get('chart')
                 var box_width = chart.get('box_width')

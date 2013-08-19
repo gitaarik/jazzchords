@@ -25,5 +25,8 @@ How to read:
     symbols. Would be nice if you can move it to the side so you can still
     read the chord chart.
 
-Optimize
+Optimize:
     Next boxes are being parsed at startup, this shouldn't happen, right?
+
+Zoom:
+    If you use the browser zooming options, sometimes the chart gets fucked up

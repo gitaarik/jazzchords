@@ -5,8 +5,13 @@ define(
         return Backbone.Model.extend({
 
             initialize: function(attributes) {
-                this.set('chord_type', new ChordType(this.get('chord_type')))
+
+                if(!(this.get('chord_type') instanceof Backbone.Model)) {
+                    this.set('chord_type', new ChordType(this.get('chord_type')))
+                }
+
                 this.listenTo(this, 'change', this.parse_next_measure)
+
             },
 
             parse_next_measure: function() {

@@ -47,7 +47,7 @@ define(
                         this.model.set('original_beat_schema', this.model.get('beat_schema'))
                     }
 
-                    this.model.get('measure').set('beat_schema',
+                    this.model.get('measure').changeBeatSchema(
                         this.model.get('beat_schema'))
 
                     this.show()

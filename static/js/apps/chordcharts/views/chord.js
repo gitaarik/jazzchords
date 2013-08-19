@@ -59,7 +59,6 @@ define(
                     return
                 }
 
-                console.log(this.$el)
                 this.$el.addClass('chord-' + this.model.get('order'))
 
                 this.$el.html(
