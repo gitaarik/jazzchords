@@ -4,13 +4,13 @@ Remove apply/discard buttons:
     user experience, remove the apply and discard buttons and just apply every
     change right away.
 
-Add measure:
+Add/remove measure:
     Be able to add a measure on a line.
 
-Add line:
+Add/remove line:
     Be able to add a line in a section.
 
-Add section:
+Add/remove section:
     Be able to add a section.
 
 Move section:
