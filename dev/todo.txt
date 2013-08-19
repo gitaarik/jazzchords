@@ -1,5 +1,8 @@
-Edit measure beat schema:
-    Be able to change the beat schema of the measure.
+Remove apply/discard buttons:
+    To apply a change each time is pretty annoying, and it's not that important
+    that a little mistake doesn't get saved right away. So to have a better
+    user experience, remove the apply and discard buttons and just apply every
+    change right away.
 
 Add measure:
     Be able to add a measure on a line.
