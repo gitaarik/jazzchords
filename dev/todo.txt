@@ -33,4 +33,4 @@ Optimize:
     to prevent that from happening.
 
 Zoom:
-    If you use the browser zooming options, sometimes the chart gets fucked up
+    If you use the browser zooming options, sometimes the chart gets fucked up.
