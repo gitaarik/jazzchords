@@ -15,9 +15,20 @@ define(
 
                 this.set('chords', new Chords(chords))
 
+                this.listenTo(this, 'change', this.change)
+
             },
 
-            changeBeatSchema: function(beat_schema) {
+            change: function() {
+
+                if(this.hasChanged('beat_schema')) {
+                    this.updateBeatSchema()
+                    this.renderNextMeasure()
+                }
+
+            },
+
+            updateBeatSchema: function() {
                 // Changes the beatschema to given value and reset's the chords
                 // according to the current beat_schema.
                 //
@@ -25,7 +36,7 @@ define(
                 // overflowing chords or add missing chords.
 
                 var that = this
-                var beats_set = beat_schema.split('-')
+                var beats_set = this.get('beat_schema').split('-')
                 var last_chord
                 var new_chord = false
                 var new_chords = []
@@ -60,9 +71,22 @@ define(
                     this.get('chords').add(new_chords)
                 }
 
-                this.set('beat_schema', beat_schema)
+            },
 
-            }
+            renderNextMeasure: function() {
+
+                if(
+                    this.has('next_measure') &&
+                    this.get('next_measure').get('beat_schema') == "4"
+                ) {
+                    // Trigger the `render()` by setting timestamp in
+                    // milliseconds in `changed` attribute. Then `render()`
+                    // will show or remove the repeat sign ( % ).
+                    this.get('next_measure').get('chords').first()
+                        .set('changed', new Date().getTime())
+                }
+
+            },
 
         })
 
