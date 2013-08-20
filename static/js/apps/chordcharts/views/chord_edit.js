@@ -40,7 +40,14 @@ define(
 
                 if(this.model.get('visible')) {
 
-                    if(this.model.previousAttributes().visible) {
+                    var previousAttributes = this.model.previousAttributes()
+
+                    // If the edit widget was already open for this chord,
+                    // then apply the changes.
+                    if(
+                        previousAttributes.visible &&
+                        this.model.get('chord') == previousAttributes.chord
+                    ) {
                         this.applyChanges()
                     }
 
@@ -199,11 +206,54 @@ define(
 
                         break
 
-                    case '1-2-2':
+                    case '1-1-2':
+
+                        switch(this.model.get('chord').get('order')) {
+
+                            case 1:
+                                offset_top = 77
+                                offset_left = -39
+                                break
+
+                            case 2:
+                                offset_top = 47
+                                offset_left = -9
+                                break
+
+                            case 3:
+                                offset_top = 60
+                                offset_left = -29
+                                break
+
+                        }
 
                         break
 
                     case '1-1-1-1':
+
+                        switch(this.model.get('chord').get('order')) {
+
+                            case 1:
+                                offset_top = 77
+                                offset_left = -39
+                                break
+
+                            case 2:
+                                offset_top = 47
+                                offset_left = -9
+                                break
+
+                            case 3:
+                                offset_top = 47
+                                offset_left = -9
+                                break
+
+                            case 4:
+                                offset_top = 77
+                                offset_left = -39
+                                break
+
+                        }
 
                         break
 
