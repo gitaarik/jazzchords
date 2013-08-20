@@ -32,9 +32,14 @@ define(
             change: function() {
 
                 if(this.model.get('visible')) {
-                    this.model.get('measure').set('beat_schema',
-                        this.model.get('beat_schema'))
+
+                    if(this.model.previousAttributes().visible) {
+                        this.model.get('measure').set('beat_schema',
+                            this.model.get('beat_schema'))
+                    }
+
                     this.show()
+
                 }
                 else {
                     this.$el.hide()

@@ -4,6 +4,9 @@ Remove apply/discard buttons:
     user experience, remove the apply and discard buttons and just apply every
     change right away.
 
+Write comments:
+    Write comments in javascript code.
+
 Add/remove measure:
     Be able to add a measure on a line.
 

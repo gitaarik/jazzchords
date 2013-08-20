@@ -31,7 +31,29 @@ define(
             initialize: function() {
                 this.chord_type = this.$el.find('.chord-settings .setting.type')
                 this.initChordTypes()
-                this.listenTo(this.model, 'change', this.render)
+                this.listenTo(this.model, 'change', this.change)
+            },
+
+            change: function() {
+
+                // Only show the edit widget when 'visible' is true,
+                // otherwise, hide the edit widget.
+
+                if(this.model.get('visible')) {
+
+                    if(this.model.previousAttributes().visible) {
+                        this.applyChanges()
+                    }
+
+                    this.show()
+
+                }
+                else {
+                    this.$el.hide()
+                }
+
+                return this
+
             },
 
             initChordTypes: function() {
@@ -75,8 +97,6 @@ define(
                     chord_type: this.model.get('chord_type'),
                     alt_bass_note: this.model.get('alt_bass_note')
                 })
-
-                this.model.set('visible', false)
 
             },
 
@@ -130,22 +150,6 @@ define(
                 this.chord_type.find('.type-part-' + number).show()
             },
 
-            render: function() {
-
-                // Only show the edit widget when 'visible' is true,
-                // otherwise, hide the edit widget.
-
-                if(this.model.get('visible')) {
-                    this.show()
-                }
-                else {
-                    this.$el.hide()
-                }
-
-                return this
-
-            },
-
             show: function() {
                 // Parses the settings on the model and render the html
                 // accordingly
@@ -161,8 +165,8 @@ define(
                 var chord_name = this.model.get('chord_view').$el.find('.chord-name')
 
                 this.$el.css({
-                    'top': chord_name.offset().top - 11,
-                    'left': chord_name.offset().left - 11
+                    'top': this.model.get('offset').top - 11,
+                    'left': this.model.get('offset').left - 11
                 })
                 .find('.chord-name').html(this.model.chordName()).css({
                     'font-size': chord_name.css('font-size'),
