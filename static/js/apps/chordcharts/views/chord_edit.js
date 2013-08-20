@@ -167,8 +167,44 @@ define(
                 switch(beat_schema) {
 
                     case '4':
-                        offset_top = 80
-                        offset_left = 10
+                        offset_top = 85
+                        offset_left = -10
+                        break
+
+                    case '2-2':
+                        offset_top = 60
+                        offset_left = -29
+                        break
+
+                    case '2-1-1':
+
+                        switch(this.model.get('chord').get('order')) {
+
+                            case 1:
+                                offset_top = 60
+                                offset_left = -29
+                                break
+
+                            case 2:
+                                offset_top = 47
+                                offset_left = -9
+                                break
+
+                            case 3:
+                                offset_top = 77
+                                offset_left = -39
+                                break
+
+                        }
+
+                        break
+
+                    case '1-2-2':
+
+                        break
+
+                    case '1-1-1-1':
+
                         break
 
                 }
