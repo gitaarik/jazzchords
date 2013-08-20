@@ -23,10 +23,6 @@ define(
                     return
                 }
 
-                if(measureEdit.get('visible')) {
-                    measureEdit.discardChanges()
-                }
-
                 measureEdit.set({
                     'visible': true,
                     'measure': this.model,

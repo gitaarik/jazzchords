@@ -22,36 +22,19 @@ define(
             },
 
             events: {
-                'click .controls .discard': 'discard',
-                'click .controls .apply': 'apply'
+                'click .controls .close': 'close',
             },
 
-            discard: function() {
-                this.model.discardChanges()
-                this.model.close()
-            },
-
-            apply: function() {
-                this.model.applyChanges()
-                this.model.close()
+            close: function() {
+                this.model.set('visible', false)
             },
 
             change: function() {
 
                 if(this.model.get('visible')) {
-
-                    // If this measure edit widget is created for a new measure
-                    // save the original beat schema of this measure.
-                    var previousMeasure = this.model.previousAttributes().measure
-                    if(!_.isEqual(previousMeasure, this.model.get('measure'))) {
-                        this.model.set('original_beat_schema', this.model.get('beat_schema'))
-                    }
-
                     this.model.get('measure').set('beat_schema',
                         this.model.get('beat_schema'))
-
                     this.show()
-
                 }
                 else {
                     this.$el.hide()
