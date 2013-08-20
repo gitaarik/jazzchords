@@ -1,6 +1,3 @@
-Write comments:
-    Write comments in javascript code.
-
 Add/remove measure:
     Be able to add and remove a measure on a line.
 
@@ -27,6 +24,10 @@ How to read:
     explain things like how to read the measures and the different chord
     symbols. Would be nice if you can move it to the side so you can still
     read the chord chart.
+
+Fit chord names:
+    If the chord name is really long, sometimes it doesn't fit in it's
+    container. We can probably easily fix this by adjusting the font size.
 
 Optimize:
     Check what `change` events unnecessarily get triggered at startup and try
