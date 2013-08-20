@@ -2,13 +2,13 @@ Write comments:
     Write comments in javascript code.
 
 Add/remove measure:
-    Be able to add a measure on a line.
+    Be able to add and remove a measure on a line.
 
 Add/remove line:
-    Be able to add a line in a section.
+    Be able to add and remove a line in a section.
 
 Add/remove section:
-    Be able to add a section.
+    Be able to add and remove a section.
 
 Move section:
     Be able to move a section.
