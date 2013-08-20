@@ -21,8 +21,7 @@ define(
             model: ChordEdit,
 
             events: {
-                'click .controls .apply': 'applyChanges',
-                'click .controls .discard': 'discardChanges',
+                'click .controls .close': 'close',
                 'click .tabs li': 'switchTab',
                 'click .chord-settings .setting[data-key=type] .toggle': 'toggleChordTypes',
                 'click .chord-settings .setting[data-key=alt_bass_note] .none': 'noAltBass'
@@ -100,9 +99,7 @@ define(
 
             },
 
-            discardChanges: function() {
-                // Closes the edit widget without applying the changes to the
-                // chord
+            close: function() {
                 this.model.set('visible', false)
             },
 

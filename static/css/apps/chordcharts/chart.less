@@ -360,34 +360,16 @@
             padding: 0 10px;
         }
 
-        header {
+        .controls {
 
-            margin: 0;
+            overflow: hidden;
 
-            .chord-name {
-                cursor: pointer;
-            }
-
-            .controls {
-
+            .close {
                 float: right;
-
-                .apply, .discard {
-                    float: left;
-                    width: 16px;
-                    height: 16px;
-                    cursor: pointer;
-                }
-
-                .apply {
-                    background: url(@done-icon);
-                    margin-right: 10px;
-                }
-
-                .discard {
-                    background: url(@discard-icon);
-                }
-
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+                background: url(@discard-icon);
             }
 
         }
@@ -396,7 +378,7 @@
 
             list-style: none;
             overflow: hidden;
-            margin: 10px 0;
+            margin: 5px 0;
             border: solid #000;
             border-width: 0 0 1px 0;
             box-shadow: 0 5px 5px #EEE;
