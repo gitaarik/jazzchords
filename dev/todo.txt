@@ -4,6 +4,10 @@ Remove apply/discard buttons:
     user experience, remove the apply and discard buttons and just apply every
     change right away.
 
+Change chord bug:
+    If you change a chord and then without closing the edit widget click on
+    another chord, that chord also changes!
+
 Write comments:
     Write comments in javascript code.
 

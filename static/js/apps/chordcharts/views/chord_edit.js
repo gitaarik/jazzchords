@@ -21,7 +21,7 @@ define(
             model: ChordEdit,
 
             events: {
-                'click .controls .close': 'close',
+                'click header .close': 'close',
                 'click .tabs li': 'switchTab',
                 'click .chord-settings .setting[data-key=type] .toggle': 'toggleChordTypes',
                 'click .chord-settings .setting[data-key=alt_bass_note] .none': 'noAltBass'
@@ -159,15 +159,23 @@ define(
                     this.reset()
                 }
 
-                var chord_name = this.model.get('chord_view').$el.find('.chord-name')
+                var beat_schema = this.model.get('chord')
+                    .get('measure').get('beat_schema')
+                var offset_top
+                var offset_left
+
+                switch(beat_schema) {
+
+                    case '4':
+                        offset_top = 80
+                        offset_left = 10
+                        break
+
+                }
 
                 this.$el.css({
-                    'top': this.model.get('offset').top - 11,
-                    'left': this.model.get('offset').left - 11
-                })
-                .find('.chord-name').html(this.model.chordName()).css({
-                    'font-size': chord_name.css('font-size'),
-                    'letter-spacing': chord_name.css('letter-spacing')
+                    'top': this.model.get('offset').top + offset_top,
+                    'left': this.model.get('offset').left + offset_left
                 })
 
                 this.parseNotes()

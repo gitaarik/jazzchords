@@ -21,8 +21,7 @@ define(
                 chordEdit.set({
                     visible: true,
                     chord: this.model,
-                    chord_view: this,
-                    offset: this.$el.find('.chord-name').offset()
+                    offset: this.$el.offset()
                 })
 
             },

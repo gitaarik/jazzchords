@@ -353,61 +353,62 @@
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
         z-index: 10;
-        width: 166px;
         padding: 10px 0;
 
         .padding {
             padding: 0 10px;
         }
 
-        .controls {
+        header {
 
             overflow: hidden;
+            border: solid #000;
+            border-width: 0 0 1px 0;
+            box-shadow: 0 5px 5px #EEE;
+            margin: 0 0 5px 0;
+
+            nav ul {
+
+                float: left;
+                list-style: none;
+                overflow: hidden;
+
+                li {
+
+                    float: left;
+                    margin-right: 4px;
+                    border: solid 1px #000;
+                    border-width: 1px 1px 0 1px;
+                    border-radius: 5px 5px 0 0;
+                    padding: 4px;
+                    margin-top: 4px;
+                    background: #EEE;
+                    color: #777;
+                    cursor: pointer;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    &.active {
+                        background: #FFF;
+                        color: #000;
+                        margin-top: 0;
+                        padding-bottom: 6px;
+                        padding-top: 6px;
+                    }
+
+                }
+
+            }
 
             .close {
                 float: right;
                 width: 16px;
                 height: 16px;
+                margin-right: 10px;
                 cursor: pointer;
                 background: url(@discard-icon);
-            }
-
-        }
-
-        nav ul {
-
-            list-style: none;
-            overflow: hidden;
-            margin: 5px 0;
-            border: solid #000;
-            border-width: 0 0 1px 0;
-            box-shadow: 0 5px 5px #EEE;
-
-            li {
-
-                float: left;
-                margin-right: 4px;
-                border: solid 1px #000;
-                border-width: 1px 1px 0 1px;
-                border-radius: 5px 5px 0 0;
-                padding: 4px;
-                margin-top: 4px;
-                background: #EEE;
-                color: #777;
-                cursor: pointer;
-
-                &:last-child {
-                    margin-right: 0;
-                }
-
-                &.active {
-                    background: #FFF;
-                    color: #000;
-                    margin-top: 0;
-                    padding-bottom: 6px;
-                    padding-top: 6px;
-                }
-
             }
 
         }
@@ -436,11 +437,11 @@
                     text-decoration: none;
                     cursor: pointer;
 
-                    &:nth-child(3n) {
+                    &:nth-child(4n) {
                         margin: 0;
                     }
 
-                    &:nth-child(3n+1) {
+                    &:nth-child(4n+1) {
                         clear: both;
                     }
 
