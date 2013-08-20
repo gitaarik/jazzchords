@@ -17,7 +17,7 @@ define(
             model: MeasureEdit,
 
             initialize: function() {
-                this.createMeasures()
+                this.initMeasures()
                 this.listenTo(this.model, 'change', this.change)
             },
 
@@ -33,6 +33,8 @@ define(
 
                 if(this.model.get('visible')) {
 
+                    // Only set the beat_schema on the measure if the edit
+                    // widget is visible.
                     if(this.model.previousAttributes().visible) {
                         this.model.get('measure').set('beat_schema',
                             this.model.get('beat_schema'))
@@ -47,7 +49,9 @@ define(
 
             },
 
-            createMeasures: function() {
+            initMeasures: function() {
+                // Creates the measures that will be the choices in the edit
+                // widget to change the measure.
 
                 var that = this
                 var beat_schemas = ['4', '2-2', '2-1-1', '1-1-2', '1-1-1-1']

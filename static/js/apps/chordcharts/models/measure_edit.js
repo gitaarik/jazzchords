@@ -1,10 +1,6 @@
 define(
     [],
     function() {
-
-        return Backbone.Model.extend({
-
-        })
-
+        return Backbone.Model.extend()
     }
 )
