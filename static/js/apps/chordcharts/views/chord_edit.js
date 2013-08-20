@@ -166,21 +166,38 @@ define(
                     this.reset()
                 }
 
+                offset = this.offset()
+
+                this.$el.css({
+                    'top': this.model.get('offset').top + offset.top,
+                    'left': this.model.get('offset').left + offset.left
+                })
+
+                this.parseNotes()
+                this.parseTypes()
+
+            },
+
+            offset: function() {
+                // Get the offset for the edit widget based on the chord it was
+                // opened for.
+
                 var beat_schema = this.model.get('chord')
                     .get('measure').get('beat_schema')
-                var offset_top
-                var offset_left
+
+                var off_top
+                var off_left
 
                 switch(beat_schema) {
 
                     case '4':
-                        offset_top = 85
-                        offset_left = -10
+                        off_top = 85
+                        off_left = -10
                         break
 
                     case '2-2':
-                        offset_top = 60
-                        offset_left = -29
+                        off_top = 60
+                        off_left = -29
                         break
 
                     case '2-1-1':
@@ -188,18 +205,18 @@ define(
                         switch(this.model.get('chord').get('order')) {
 
                             case 1:
-                                offset_top = 60
-                                offset_left = -29
+                                off_top = 60
+                                off_left = -29
                                 break
 
                             case 2:
-                                offset_top = 47
-                                offset_left = -9
+                                off_top = 47
+                                off_left = -9
                                 break
 
                             case 3:
-                                offset_top = 77
-                                offset_left = -39
+                                off_top = 77
+                                off_left = -39
                                 break
 
                         }
@@ -211,18 +228,18 @@ define(
                         switch(this.model.get('chord').get('order')) {
 
                             case 1:
-                                offset_top = 77
-                                offset_left = -39
+                                off_top = 77
+                                off_left = -39
                                 break
 
                             case 2:
-                                offset_top = 47
-                                offset_left = -9
+                                off_top = 47
+                                off_left = -9
                                 break
 
                             case 3:
-                                offset_top = 60
-                                offset_left = -29
+                                off_top = 60
+                                off_left = -29
                                 break
 
                         }
@@ -234,23 +251,23 @@ define(
                         switch(this.model.get('chord').get('order')) {
 
                             case 1:
-                                offset_top = 77
-                                offset_left = -39
+                                off_top = 77
+                                off_left = -39
                                 break
 
                             case 2:
-                                offset_top = 47
-                                offset_left = -9
+                                off_top = 47
+                                off_left = -9
                                 break
 
                             case 3:
-                                offset_top = 47
-                                offset_left = -9
+                                off_top = 47
+                                off_left = -9
                                 break
 
                             case 4:
-                                offset_top = 77
-                                offset_left = -39
+                                off_top = 77
+                                off_left = -39
                                 break
 
                         }
@@ -259,13 +276,10 @@ define(
 
                 }
 
-                this.$el.css({
-                    'top': this.model.get('offset').top + offset_top,
-                    'left': this.model.get('offset').left + offset_left
-                })
-
-                this.parseNotes()
-                this.parseTypes()
+                return {
+                    top: off_top,
+                    left: off_left
+                }
 
             },
 
@@ -352,6 +366,7 @@ define(
             },
 
             parseTypes: function() {
+                // Select the correct chord type
 
                 var current_selected = this.editWidget_chordTypes.findWhere({
                     selected: true
