@@ -23,12 +23,22 @@ define(
                     return
                 }
 
-                measureEdit.set({
-                    'visible': true,
-                    'measure': this.model,
-                    'measure_view': this,
-                    'beat_schema': this.model.get('beat_schema')
-                })
+                // If the measure edit widget is already open for this measure
+                // then close it, otherwise open it.
+                if(
+                    measureEdit.get('visible') &&
+                    measureEdit.get('measure') == this.model
+                ) {
+                    measureEdit.set('visible', false)
+                }
+                else {
+                    measureEdit.set({
+                        'visible': true,
+                        'measure': this.model,
+                        'measure_view': this,
+                        'beat_schema': this.model.get('beat_schema')
+                    })
+                }
 
             },
 
