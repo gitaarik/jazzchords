@@ -22,11 +22,17 @@ define(
             },
 
             events: {
-                'click .controls .close': 'close',
+                'click .close': 'close',
+                'click .remove': 'removeMeasure'
             },
 
             close: function() {
                 this.model.set('visible', false)
+            },
+
+            removeMeasure: function() {
+                this.model.get('measure_view').remove()
+                this.close()
             },
 
             change: function() {

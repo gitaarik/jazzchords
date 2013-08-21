@@ -536,20 +536,12 @@
             font-weight: normal;
         }
 
-        .controls {
-
+        .close {
             float: right;
-            overflow: hidden;
-            margin: 0 0 10px 0;
-
-            .close {
-                float: left;
-                width: 16px;
-                height: 16px;
-                cursor: pointer;
-                background: url(@discard-icon);
-            }
-
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            background: url(@discard-icon);
         }
 
         .measures {
@@ -713,6 +705,20 @@
 
             }
 
+        }
+
+        .remove {
+            clear: left;
+            overflow: hidden;
+            border: 1px solid #000000;
+            border-radius: 5px 5px 5px 5px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            color: #000000;
+            cursor: pointer;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            text-decoration: none;
         }
 
     }

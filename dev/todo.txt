@@ -1,3 +1,7 @@
+Use a table for a section instead of divs:
+    Handling borders with a table is much easier with the border-collapse css
+    property.
+
 Add/remove measure:
     Be able to add and remove a measure on a line.
 
@@ -32,6 +36,11 @@ Fit chord names:
 Optimize:
     Check what `change` events unnecessarily get triggered at startup and try
     to prevent that from happening.
+
+Fix potential memory leaks:
+    Sometimes models are being unbind but not destoyed, this could be a
+    potential memory leak. Look at: `drawChords` in `views/measure.js` and
+    `removeMeasure` in `views/measure_edit.js`.
 
 Zoom:
     If you use the browser zooming options, sometimes the chart gets fucked up.
