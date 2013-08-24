@@ -36,7 +36,7 @@
 
 {% block content %}
 
-    <article class="chord-chart">
+    <article class="chord-chart{% if edit %} edit-on{% endif %}">
 
         <header>
 
@@ -103,9 +103,6 @@
                                     <td class="
                                         measure
                                         measure-beatschema-{{ measure.beat_schema }}
-                                        {% if edit %}
-                                            edit-on
-                                        {% endif %}
                                     ">
 
                                         <div class="chords">
@@ -142,6 +139,14 @@
                                     </td>
 
                                 {% endfor %}
+
+                                {% if edit %}
+
+                                    <td class="measure-add{% if line.measures|length < 8 %} visible{% endif %}">
+                                        <div class="plus">+</div>
+                                    </td>
+
+                                {% endif %}
 
                             </tr>
 

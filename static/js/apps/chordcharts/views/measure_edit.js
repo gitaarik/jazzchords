@@ -31,6 +31,7 @@ define(
             },
 
             removeMeasure: function() {
+                this.model.get('measure').remove()
                 this.model.get('measure_view').remove()
                 this.close()
             },
@@ -87,6 +88,7 @@ define(
             show: function() {
 
                 var measure = this.model.get('measure_view').$el
+                console.log(this.model.get('measure').get('number'))
 
                 this.$el.css({
                     'top': measure.offset().top + measure.height() + 10,

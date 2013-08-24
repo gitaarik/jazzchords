@@ -6,6 +6,8 @@ define(
 
             initialize: function(attributes) {
 
+                // Only set chord_type if it hasn't been set yet. Prevents
+                // errors when cloning.
                 if(!(this.get('chord_type') instanceof Backbone.Model)) {
                     this.set('chord_type', new ChordType(this.get('chord_type')))
                 }
@@ -93,6 +95,18 @@ define(
 
                 return this.get('note').name +
                     this.get('chord_type').get('chord_output') + bass_note
+
+            },
+
+            copy: function(attributes) {
+
+                var clone = this.clone()
+
+                if(attributes) {
+                    clone.set(attributes)
+                }
+
+                return clone
 
             }
 

@@ -333,8 +333,22 @@
 
                         }
 
-                        &.edit-on,
-                        &.edit-on .chord .chord-name {
+                    }
+
+                    .measure-add {
+
+                        padding: 0;
+
+                        .plus {
+                            font-size: 20px;
+                            padding: 5px;
+                            background: #EEE;
+                            float: left;
+                            height: 50px;
+                            line-height: 50px;
+                            border: solid 1px #000;
+                            border-width: 1px 1px 1px 0;
+                            border-radius: 0 6px 6px 0;
                             cursor: pointer;
                         }
 
@@ -718,6 +732,33 @@
             line-height: 30px;
             text-align: center;
             text-decoration: none;
+        }
+
+    }
+
+    &.edit-on {
+
+        .chart {
+
+            .section {
+
+                .lines {
+
+                    .measure {
+                        cursor: pointer;
+                    }
+
+                    .measure-add {
+                        display: none;
+                        &.visible {
+                            display: table-cell;
+                        }
+                    }
+
+                }
+
+            }
+
         }
 
     }

@@ -80,7 +80,7 @@ define(
 
                 return this
 
-            }
+            },
 
         })
 

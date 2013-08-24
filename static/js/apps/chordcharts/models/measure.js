@@ -6,14 +6,20 @@ define(
 
             initialize: function() {
 
-                var that = this
-                var chords = []
-                _.each(this.get('chords'), function(chord) {
-                    chord.measure = that
-                    chords.push(chord)
-                })
+                // Only set chords if it hasn't been set yet. Prevents errors
+                // when cloning.
+                if(!(this.get('chords') instanceof Backbone.Collection)) {
 
-                this.set('chords', new Chords(chords))
+                    var that = this
+                    var chords = []
+                    _.each(this.get('chords'), function(chord) {
+                        chord.measure = that
+                        chords.push(chord)
+                    })
+
+                    this.set('chords', new Chords(chords))
+
+                }
 
                 this.listenTo(this, 'change', this.change)
 
@@ -24,6 +30,18 @@ define(
                 if(this.hasChanged('beat_schema')) {
                     this.updateBeatSchema()
                     this.renderNextMeasure()
+                }
+
+                // If the number of this measure changed, then set the number
+                // of the next measure to this one + 1 (which will go on as
+                // long as there's a next measure).
+                if(this.hasChanged('number')) {
+
+                    if(this.has('next_measure')) {
+                        this.get('next_measure').set(
+                            'number', this.get('number') + 1)
+                    }
+
                 }
 
             },
@@ -87,6 +105,23 @@ define(
                 }
 
             },
+
+            remove: function() {
+                this.collection.delete(this)
+            },
+
+            copy: function(attributes) {
+
+                var copy = this.clone()
+                copy.set('chords', this.get('chords').copy({ measure: copy }))
+
+                if(attributes) {
+                    copy.set(attributes)
+                }
+
+                return copy
+
+            }
 
         })
 
