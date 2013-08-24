@@ -92,61 +92,62 @@
                         {% endif %}
                     </div>
 
-                    <div class="lines">
+                    <table class="lines">
 
                         {% for line in section.lines %}
 
-                            <div class="line{% if forloop.first %} line-first{% endif %}">
+                            <tr class="line">
 
                                 {% for measure in line.measures %}
 
-                                    <div class="
+                                    <td class="
                                         measure
                                         measure-beatschema-{{ measure.beat_schema }}
-                                        {% if forloop.first %}
-                                            measure-first
-                                        {% endif %}
                                         {% if edit %}
                                             edit-on
                                         {% endif %}
                                     ">
 
-                                        {% if measure.beat_schema == "4" %}
-                                            <div class="chord">
-                                                <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
-                                            </div>
-                                        {% endif %}
+                                        <div class="chords">
 
-                                        {% if measure.beat_schema == "2-2" %}
-                                            <div class="chord chord-1">
-                                                <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
-                                            </div>
-                                            <div class="chord chord-2">
-                                                <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
-                                            </div>
-                                        {% endif %}
+                                            {% if measure.beat_schema == "4" %}
+                                                <div class="chord">
+                                                    <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
+                                                </div>
+                                            {% endif %}
 
-                                        {% if measure.beat_schema == "2-1-1" %}
-                                            <div class="chord chord-1">
-                                                <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
-                                            </div>
-                                            <div class="chord chord-2">
-                                                <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
-                                            </div>
-                                            <div class="chord chord-3">
-                                                <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
-                                            </div>
-                                        {% endif %}
+                                            {% if measure.beat_schema == "2-2" %}
+                                                <div class="chord chord-1">
+                                                    <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
+                                                </div>
+                                                <div class="chord chord-2">
+                                                    <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
+                                                </div>
+                                            {% endif %}
 
-                                    </div>
+                                            {% if measure.beat_schema == "2-1-1" %}
+                                                <div class="chord chord-1">
+                                                    <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
+                                                </div>
+                                                <div class="chord chord-2">
+                                                    <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
+                                                </div>
+                                                <div class="chord chord-3">
+                                                    <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+
+                                    </td>
 
                                 {% endfor %}
 
-                            </div>
+                            </tr>
 
                         {% endfor %}
 
-                    </div>
+                    </table>
 
                 </section>
 

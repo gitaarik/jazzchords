@@ -8,6 +8,7 @@ define(
             model: Measure,
 
             initialize: function() {
+                this.chords = this.$el.find('.chords')
                 this.listenTo(this.model, 'change', this.render)
             },
 
@@ -43,7 +44,7 @@ define(
             },
 
             render: function() {
-                this.$el.html('')
+                this.chords.html('')
                 this.drawChords()
                 this.drawSeperationLines()
             },
@@ -60,7 +61,7 @@ define(
 
                 _.each(beats, function(chord, i) {
 
-                    that.$el.append(
+                    that.chords.append(
                         new ChordView({
                             model: that.model.get('chords').at(i)
                         }).render().el
@@ -97,7 +98,7 @@ define(
                         context.lineTo(0, box_height)
                         context.stroke()
 
-                        this.$el.prepend(canvas)
+                        this.chords.prepend(canvas)
 
                         break
 
@@ -122,7 +123,7 @@ define(
                         context.lineTo(box_width, box_height)
                         context.stroke()
 
-                        this.$el.prepend(canvas)
+                        this.chords.prepend(canvas)
 
                         break
 
@@ -147,7 +148,7 @@ define(
                         context.lineTo(box_width / 2, box_height / 2)
                         context.stroke()
 
-                        this.$el.prepend(canvas)
+                        this.chords.prepend(canvas)
 
                         break
 
@@ -172,7 +173,7 @@ define(
                         context.lineTo(box_width, box_height)
                         context.stroke()
 
-                        this.$el.prepend(canvas)
+                        this.chords.prepend(canvas)
 
                         break
 
