@@ -18,15 +18,21 @@ define(
             measureAdded: function() {
 
                 if(this.model.get('measures').length == 8) {
-                    this.$el.find('.measure-add').hide()
+                    this.$el.find('.measure-add').remove()
                 }
 
             },
 
             measureRemoved: function() {
 
-                if(!this.$el.find('.measure-add').is(':visible')) {
-                    this.$el.find('.measure-add').show()
+                if(this.model.get('measures').length == 7) {
+
+                    this.$el.append(
+                        '<td class="measure-add">' +
+                            '<div class="plus">+</div>' +
+                        '</td>'
+                    )
+
                 }
 
             },
@@ -46,9 +52,16 @@ define(
                     model: new_measure
                 })
 
-                measureView.render().$el.insertBefore(
-                    this.$el.find('.measure-add')
-                )
+                var measureViewEl = measureView.render().$el
+
+                if(this.$el.find('.measure-add').length) {
+                    measureViewEl.insertBefore(
+                        this.$el.find('.measure-add')
+                    )
+                }
+                else {
+                    this.$el.append(measureViewEl)
+                }
 
             }
 

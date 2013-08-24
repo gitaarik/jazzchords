@@ -140,9 +140,9 @@
 
                                 {% endfor %}
 
-                                {% if edit %}
+                                {% if edit and line.measures|length < 8 %}
 
-                                    <td class="measure-add{% if line.measures|length < 8 %} visible{% endif %}">
+                                    <td class="measure-add">
                                         <div class="plus">+</div>
                                     </td>
 
