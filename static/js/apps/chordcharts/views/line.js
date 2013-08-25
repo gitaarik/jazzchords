@@ -17,7 +17,11 @@ define(
 
             measureAdded: function() {
 
-                if(this.model.get('measures').length == 8) {
+                if(this.model.get('measures').length < 8) {
+                    this.$el.find('.colspan').attr(
+                        'colspan', 8 - this.model.get('measures').length)
+                }
+                else {
                     this.$el.find('.measure-add').remove()
                 }
 
@@ -28,11 +32,15 @@ define(
                 if(this.model.get('measures').length == 7) {
 
                     this.$el.append(
-                        '<td class="measure-add">' +
+                        '<td class="measure-add colspan" colspan="1">' +
                             '<div class="plus">+</div>' +
                         '</td>'
                     )
 
+                }
+                else {
+                    this.$el.find('.colspan').attr(
+                        'colspan', 8 - this.model.get('measures').length)
                 }
 
             },

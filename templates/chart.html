@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load compress %}
+{% load colspan %}
 
 {% block css %}
     {{ block.super }}
@@ -140,11 +140,19 @@
 
                                 {% endfor %}
 
-                                {% if edit and line.measures|length < 8 %}
+                                {% if line.measures|length < 8 %}
 
-                                    <td class="measure-add">
-                                        <div class="plus">+</div>
-                                    </td>
+                                    {% if edit %}
+
+                                        <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
+                                            <div class="plus">+</div>
+                                        </td>
+
+                                    {% else %}
+
+                                        <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+
+                                    {% endif %}
 
                                 {% endif %}
 
