@@ -1,5 +1,7 @@
-Add/remove line:
-    Be able to add and remove a line in a section.
+Remove measure bug:
+    If you have a chord that it repeated in the next measure, then remove the
+    first measure, the remaining measure keeps the repeat sign, but should get
+    the original notation.
 
 Add/remove section:
     Be able to add and remove a section.
