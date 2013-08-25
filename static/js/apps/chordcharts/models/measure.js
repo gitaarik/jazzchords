@@ -21,6 +21,7 @@ define(
 
                 }
 
+                this.initPrevNextListeners()
                 this.listenTo(this, 'change', this.change)
 
             },
@@ -29,7 +30,6 @@ define(
 
                 if(this.hasChanged('beat_schema')) {
                     this.updateBeatSchema()
-                    this.renderNextMeasure()
                 }
 
                 // If the number of this measure changed, then set the number
@@ -41,6 +41,57 @@ define(
                         this.get('next_measure').set(
                             'number', this.get('number') + 1)
                     }
+
+                }
+
+                this.initPrevNextListeners()
+
+            },
+
+            initPrevNextListeners: function() {
+                // Will initialize the listeners on the previous and next
+                // measures, if they exist.
+                // Will remove old listeners if they are set.
+
+                if(this.prev_measure) {
+                    this.stopListening(this.prev_measure, 'remove')
+                }
+
+                if(this.has('prev_measure')) {
+
+                    this.prev_measure = this.get('prev_measure')
+
+                    this.listenTo(this.prev_measure, 'remove', function() {
+
+                        if(this.prev_measure.has('prev_measure')) {
+                            this.set('prev_measure', this.prev_measure.get('prev_measure'))
+                        }
+                        else {
+                            this.unset('prev_measure')
+                        }
+
+                    })
+
+                }
+
+                if(this.next_measure) {
+                    this.stopListening(this.next_measure, 'remove')
+                }
+
+                if(this.has('next_measure')) {
+
+                    this.next_measure = this.get('next_measure')
+
+                    this.listenTo(this.next_measure, 'remove', function() {
+
+                        if(this.next_measure.has('next_measure')) {
+                            this.set('next_measure', this.next_measure.get('next_measure'))
+                        }
+                        else {
+                            this.unset('next_measure')
+                        }
+
+                    })
 
                 }
 
@@ -87,21 +138,6 @@ define(
 
                 if(new_chords.length) {
                     this.get('chords').add(new_chords)
-                }
-
-            },
-
-            renderNextMeasure: function() {
-
-                if(
-                    this.has('next_measure') &&
-                    this.get('next_measure').get('beat_schema') == "4"
-                ) {
-                    // Trigger the `render()` by setting timestamp in
-                    // milliseconds in `changed` attribute. Then `render()`
-                    // will show or remove the repeat sign ( % ).
-                    this.get('next_measure').get('chords').first()
-                        .set('changed', new Date().getTime())
                 }
 
             },

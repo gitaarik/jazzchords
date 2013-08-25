@@ -3,6 +3,12 @@ Remove measure bug:
     first measure, the remaining measure keeps the repeat sign, but should get
     the original notation.
 
+make models smart:
+    Make models use listeners to look what happens around them to see if they
+    should update something. Most work is already done but some stuff I can
+    think of right now are: delete model from collection (remove function in
+    models/measure.js).
+
 Add/remove section:
     Be able to add and remove a section.
 
