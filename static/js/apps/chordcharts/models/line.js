@@ -30,6 +30,16 @@ define(
 
                 this.set('measures', new Measures(measures))
 
+                this.listenTo(this.get('measures'), 'remove', this.measureRemoved)
+
+            },
+
+            measureRemoved: function() {
+
+                if(!this.get('measures').length) {
+                    this.destroy()
+                }
+
             },
 
             copy: function() {
@@ -38,7 +48,7 @@ define(
                 var measure = this.get('measures').first().copy()
 
                 measure.unset('next_measure')
-                copy.set('measures', new Measures([measure]))
+                copy.get('measures').reset([measure])
 
                 return copy
 

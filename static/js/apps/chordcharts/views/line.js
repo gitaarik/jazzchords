@@ -10,6 +10,7 @@ define(
             initialize: function() {
                 this.listenTo(this.model.get('measures'), 'add', this.measureAdded)
                 this.listenTo(this.model.get('measures'), 'remove', this.measureRemoved)
+                this.listenTo(this.model, 'destroy', this.remove)
             },
 
             events: {

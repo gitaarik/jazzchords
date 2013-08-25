@@ -16,6 +16,7 @@ define(
                 this.chords = this.$el.find('.chords')
 
                 this.listenTo(this.model, 'change', this.render)
+                this.listenTo(this.model, 'destroy', this.remove)
 
             },
 
@@ -43,7 +44,7 @@ define(
                     measureEdit.set({
                         'visible': true,
                         'measure': this.model,
-                        'measure_view': this,
+                        'measure_el': this.$el,
                         'beat_schema': this.model.get('beat_schema')
                     })
                 }

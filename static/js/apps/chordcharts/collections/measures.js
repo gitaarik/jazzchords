@@ -25,11 +25,10 @@ define(
                     }
 
                 }
-                else {
-                    console.log('remove line...')
-                }
 
                 this.remove(measure)
+                measure.destroy()
+
             }
 
         })
