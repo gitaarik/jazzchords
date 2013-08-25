@@ -30,6 +30,18 @@ define(
 
                 this.set('measures', new Measures(measures))
 
+            },
+
+            copy: function() {
+
+                var copy = this.clone()
+                var measure = this.get('measures').first().copy()
+
+                measure.unset('next_measure')
+                copy.set('measures', new Measures([measure]))
+
+                return copy
+
             }
 
         })

@@ -4,6 +4,7 @@ define(
 
         return Backbone.View.extend({
 
+            tagName: 'tr',
             className: 'line',
 
             initialize: function() {
@@ -30,19 +31,21 @@ define(
             measureRemoved: function() {
 
                 if(this.model.get('measures').length == 7) {
-
-                    this.$el.append(
-                        '<td class="measure-add colspan" colspan="1">' +
-                            '<div class="plus">+</div>' +
-                        '</td>'
-                    )
-
+                    this.addMeasureAddWidget(1)
                 }
                 else {
                     this.$el.find('.colspan').attr(
                         'colspan', 8 - this.model.get('measures').length)
                 }
 
+            },
+
+            addMeasureAddWidget: function(colspan) {
+                this.$el.append(
+                    '<td class="measure-add colspan" colspan="' + colspan + '">' +
+                        '<div class="plus">+</div>' +
+                    '</td>'
+                )
             },
 
             addMeasure: function() {
@@ -70,6 +73,28 @@ define(
                 else {
                     this.$el.append(measureViewEl)
                 }
+
+            },
+
+            render: function() {
+
+                var measureViews = []
+                var measureView
+
+                this.model.get('measures').each(function(measure) {
+
+                    measureView = new MeasureView({
+                        model: measure
+                    })
+
+                    measureViews.push(measureView.render().el)
+
+                })
+
+                this.$el.append(measureViews)
+                this.addMeasureAddWidget(8 - this.model.get('measures').length)
+
+                return this
 
             }
 

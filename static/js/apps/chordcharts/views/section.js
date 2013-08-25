@@ -1,10 +1,28 @@
 define(
-    [],
-    function() {
+    ['models/line', 'views/line'],
+    function(Line, LineView) {
 
         return Backbone.View.extend({
 
             className: 'section',
+
+            events: {
+                'click .line-add .plus': 'addLine'
+            },
+
+            addLine: function() {
+
+                var line = this.model.get('lines').last().copy()
+
+                this.model.get('lines').add(line)
+
+                var lineView = new LineView({
+                    model: line
+                })
+
+                lineView.render().$el.insertBefore(this.$el.find('.line-add'))
+
+            },
 
             drawIndicatorLines: function() {
                 // Draws the lines that indicate the start and end of a section
