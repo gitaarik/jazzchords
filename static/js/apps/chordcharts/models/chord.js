@@ -14,6 +14,9 @@ define(
 
                 this.initPrevMeasureListener()
                 this.listenTo(this.get('measure'), 'change', this.initPrevMeasureListener)
+                this.listenTo(this.get('measure'), 'prevMeasureChanged', function() {
+                    console.log('previous measure has changed!')
+                })
 
             },
 
