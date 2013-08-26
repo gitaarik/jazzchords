@@ -3,9 +3,6 @@ Remove measure bug:
     first measure, the remaining measure keeps the repeat sign, but should get
     the original notation.
 
-Chrome border bug:
-    In chrome there's a border on the colspan rows.... :(
-
 make models smart:
     Make models use listeners to look what happens around them to see if they
     should update something. Most work is already done but some stuff I can
