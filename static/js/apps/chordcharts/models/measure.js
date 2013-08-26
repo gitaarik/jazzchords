@@ -21,12 +21,8 @@ define(
 
                 }
 
-                this.initPrevMeasureListener()
-                this.initNextMeasureListener()
+                this.initPrevNextListeners()
                 this.listenTo(this, 'change', this.change)
-                this.listenTo(this.get('chords'), 'change', function() {
-                    console.log('chords change!')
-                })
 
             },
 
@@ -48,17 +44,17 @@ define(
 
                 }
 
-                this.initPrevMeasureListener()
-                this.initNextMeasureListener()
+                this.initPrevNextListeners()
 
             },
 
-            initPrevMeasureListener: function() {
-                // Will initialize the listener on the previous measure, if it
-                // exists. Will remove old listeners if they are set.
+            initPrevNextListeners: function() {
+                // Will initialize the listeners on the previous and next
+                // measures, if they exist.
+                // Will remove old listeners if they are set.
 
                 if(this.prev_measure) {
-                    this.stopListening(this.prev_measure)
+                    this.stopListening(this.prev_measure, 'remove')
                 }
 
                 if(this.has('prev_measure')) {
@@ -76,17 +72,7 @@ define(
 
                     })
 
-                    console.log('init prev measure change listener')
-                    this.listenTo(this.prev_measure, 'change', function() {
-                        console.log('prev measure has changed')
-                        this.trigger('prevMeasureChanged')
-                    })
-
                 }
-
-            },
-
-            initNextMeasureListener: function() {
 
                 if(this.next_measure) {
                     this.stopListening(this.next_measure, 'remove')
