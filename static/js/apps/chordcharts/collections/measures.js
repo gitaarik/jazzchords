@@ -25,6 +25,9 @@ define(
                     }
 
                 }
+                else if(next_measure) {
+                    next_measure.unset('prev_measure')
+                }
 
                 this.remove(measure)
                 measure.destroy()
