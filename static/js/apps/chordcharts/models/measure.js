@@ -107,7 +107,31 @@ define(
             },
 
             remove: function() {
-                this.collection.delete(this)
+
+                var prev_measure = this.get('prev_measure')
+                var next_measure = this.get('next_measure')
+
+                if(prev_measure) {
+
+                    if(next_measure) {
+                        next_measure.set({
+                            'prev_measure': prev_measure,
+                            'number': this.get('number')
+                        })
+                        prev_measure.set('next_measure', next_measure)
+                    }
+                    else {
+                        prev_measure.unset('next_measure')
+                    }
+
+                }
+                else if(next_measure) {
+                    next_measure.unset('prev_measure')
+                }
+
+                this.collection.remove(this)
+                this.destroy()
+
             },
 
             copy: function(attributes) {

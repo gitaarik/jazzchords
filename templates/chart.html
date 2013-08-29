@@ -78,10 +78,27 @@
 
                 <section class="section" style="width: {{ chart.width }}px;">
 
-                    {% if section.alt_title %}
+                    {% if section.alt_title or edit %}
+
                         <header>
-                            {{ section.alt_title }}
+
+                            <div class="title">
+                                {% if section.alt_title %}
+                                        {{ section.alt_title }}
+                                {% elif edit %}
+                                        {{ section.name }} Section
+                                {% endif %}
+                            </div>
+
+                            {% if edit %}
+                                <div class="section-edit">
+                                    <div class="edit"></div>
+                                    <div class="delete"></div>
+                                </div>
+                            {% endif %}
+
                         </header>
+
                     {% endif %}
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
@@ -160,11 +177,13 @@
 
                         {% endfor %}
 
-                        <tr class="line-add">
-                            <td class="colspan" colspan="8">
-                                <div class="plus">+</div>
-                            </td>
-                        </tr>
+                        {% if edit %}
+                            <tr class="line-add">
+                                <td class="colspan" colspan="8">
+                                    <div class="plus">+</div>
+                                </td>
+                            </tr>
+                        {% endif %}
 
                     </table>
 

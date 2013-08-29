@@ -3,7 +3,7 @@
 
 .chord-chart {
 
-    margin: 0 auto;
+    margin: 0 auto 200px;
     width: @chart_width;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -152,11 +152,42 @@
             overflow: hidden;
 
             header {
+
+                overflow: hidden;
                 margin: 20px 0 10px @section_sidebar_width;
-                font-size: 20px;
-                &:first-child {
-                    margin-top: 0;
+
+                .title {
+                    float: left;
+                    font-size: 20px;
                 }
+
+                .section-edit {
+
+                    float: left;
+                    margin: 5px 0 0 5px;
+
+                    .edit, .delete {
+                        float: left;
+                        margin-left: 5px;
+                        width: 16px;
+                        height: 16px;
+                        cursor: pointer;
+                    }
+
+                    .edit {
+                        background: url(@edit-icon);
+                    }
+
+                    .delete {
+                        background: url(@discard-icon);
+                    }
+
+                }
+
+            }
+
+            &:first-child header {
+                margin-top: 0;
             }
 
             .section-sidebar {
