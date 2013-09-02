@@ -44,7 +44,7 @@ require(
                 model: section
             })
             chartView.$el.append(sectionView)
-            sectionView.drawIndicatorLines()
+            sectionView.redrawIndicatorLines()
 
             sectionView.$el.find('.lines .line').each(function() {
 

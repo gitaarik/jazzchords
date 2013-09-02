@@ -185,6 +185,7 @@ class Chart(models.Model):
             'section_sidebar_width': self.section_sidebar_width(),
             'box_width': self.box_width(),
             'box_height': self.box_height(),
+            'border_width': self.border_width(),
             'sections': [s.client_data() for s in self.sections.all()]
         }
 
@@ -199,6 +200,9 @@ class Chart(models.Model):
 
     def box_height(self):
         return BOXED_CHART['box_height']
+
+    def border_width(self):
+        return BOXED_CHART['border_width']
 
 
 class TimeSignature(models.Model):

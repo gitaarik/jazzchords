@@ -80,7 +80,7 @@
 
                     {% if section.alt_title or edit %}
 
-                        <header>
+                        <header class="section-header">
 
                             <div class="title">
                                 {% if section.alt_title %}
@@ -93,7 +93,7 @@
                             {% if edit %}
                                 <div class="section-edit">
                                     <div class="edit"></div>
-                                    <div class="delete"></div>
+                                    <div class="remove"></div>
                                 </div>
                             {% endif %}
 
@@ -102,6 +102,7 @@
                     {% endif %}
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
+                        <canvas></canvas>
                         {% if not section.alt_title %}
                             <div class="section-sidebar-title" style="line-height: {{ section.height }}px;">
                                 {{ section.name }}

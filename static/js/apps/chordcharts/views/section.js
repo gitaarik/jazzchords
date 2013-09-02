@@ -7,6 +7,7 @@ define(
             className: 'section',
 
             events: {
+                'click .section-header .section-edit .remove': 'removeSection',
                 'click .line-add .plus': 'addLine'
             },
 
@@ -22,9 +23,22 @@ define(
 
                 lineView.render().$el.insertBefore(this.$el.find('.line-add'))
 
+                this.model.recalculateHeight()
+                this.render()
+
             },
 
-            drawIndicatorLines: function() {
+            render: function() {
+
+                this.$el.find('.section-sidebar-title').css(
+                    'line-height',
+                    this.model.get('height') + 'px'
+                )
+                this.redrawIndicatorLines()
+
+            },
+
+            redrawIndicatorLines: function() {
                 // Draws the lines that indicate the start and end of a section
 
                 if(this.model.get('alt_title')) {
@@ -90,7 +104,19 @@ define(
                      Math.round(box_height * line_margin)))
                 context.stroke()
 
+                this.$el.find('.section-sidebar canvas').remove()
                 this.$el.find('.section-sidebar').append(canvas)
+
+            },
+
+            removeSection: function() {
+
+                if(confirm("Are you sure you want to remove this section?")) {
+
+                    //this.model.remove()
+                    this.remove()
+
+                }
 
             }
 
