@@ -1,7 +1,3 @@
-Section indicator lines:
-    Extend and shrink the section indicator lines when a line gets added and
-    removed.
-
 Add/remove section:
     Be able to add and remove a section.
 
