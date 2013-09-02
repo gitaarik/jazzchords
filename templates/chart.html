@@ -38,7 +38,7 @@
 
     <article class="chord-chart{% if edit %} edit-on{% endif %}">
 
-        <header>
+        <header class="chord-chart-header">
 
             <h1>{{ chart.song.name }}</h1>
 
@@ -192,6 +192,14 @@
 
             {% endfor %}
 
+            {% if edit %}
+                <section class="new-section">
+                    <header class="section-header">
+                        <div class="title">New section</div>
+                    </header>
+                </section>
+            {% endif %}
+
         </div>
 
         {% if edit %}
@@ -200,7 +208,7 @@
 
                 <div class="popup-arrow-up"></div>
 
-                <header>
+                <header class="chord-edit-header">
                     <nav>
                         <ul class="tabs padding">
                             <li class="active" data-key="note">Note</li>
