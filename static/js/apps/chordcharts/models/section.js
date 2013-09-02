@@ -29,6 +29,11 @@ define(
                     ) + this.get('chart').get('border_width')
                 )
 
+            },
+
+            remove: function() {
+                this.collection.remove(this)
+                this.destroy()
             }
 
         })
