@@ -24,11 +24,16 @@ define(
                 lineView.render().$el.insertBefore(this.$el.find('.line-add'))
 
                 this.model.recalculateHeight()
-                this.render()
+                this.renderSidebar()
+
+                this.listenTo(this.model.get('lines'), 'remove', function() {
+                    this.model.recalculateHeight()
+                    this.renderSidebar()
+                })
 
             },
 
-            render: function() {
+            renderSidebar: function() {
 
                 this.$el.find('.section-sidebar-title').css(
                     'line-height',
