@@ -8,7 +8,8 @@ define(
 
             events: {
                 'click .section-header .section-edit .remove': 'removeSection',
-                'click .line-add .plus': 'addLine'
+                'click .line-add .plus': 'addLine',
+                'click .section-header .title': 'startEditTitle'
             },
 
             addLine: function() {
@@ -30,6 +31,31 @@ define(
                     this.model.recalculateHeight()
                     this.renderSidebar()
                 })
+
+            },
+
+            startEditTitle: function() {
+
+                if(this.edittingTitle) {
+                    return
+                }
+
+                this.edittingTitle = true
+
+                var title
+
+                if(this.model.get('alt_title')) {
+                    title = this.model.get('alt_title')
+                }
+                else {
+                    title = this.model.get('name') + ' Section'
+                }
+
+                this.$el.find('.title').html(
+                    '<input type="text" />'
+                )
+
+                this.$el.find('.title input').focus().attr('value', title)
 
             },
 
@@ -117,10 +143,8 @@ define(
             removeSection: function() {
 
                 if(confirm("Are you sure you want to remove this section?")) {
-
                     this.model.remove()
                     this.remove()
-
                 }
 
             }
