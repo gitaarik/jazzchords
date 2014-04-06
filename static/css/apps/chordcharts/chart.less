@@ -161,13 +161,20 @@
                     float: left;
                     font-size: 20px;
 
-                    input {
+                    input, .input-width {
                         font-family: inherit;
                         letter-spacing: inherit;
                         line-height: inherit;
                         font-size: inherit;
                         float: left;
                         border: none;
+                        width: auto;
+                    }
+
+                    .input-width {
+                        height: 1px;
+                        clear: left;
+                        visibility: hidden;
                     }
 
                 }
@@ -202,9 +209,16 @@
             }
 
             .section-sidebar {
+
                 position: relative;
                 float: left;
                 width: @section_sidebar_width;
+
+                canvas {
+                    position: absolute;
+                    width: @section_sidebar_width;
+                }
+
             }
 
             .section-sidebar-title {

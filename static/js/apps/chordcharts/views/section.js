@@ -9,7 +9,8 @@ define(
             events: {
                 'click .section-header .section-edit .remove': 'removeSection',
                 'click .line-add .plus': 'addLine',
-                'click .section-header .title': 'startEditTitle'
+                'click .section-header .title': 'startEditTitle',
+                'keydown .section-header .title input': 'titleChanged'
             },
 
             addLine: function() {
@@ -52,10 +53,21 @@ define(
                 }
 
                 this.$el.find('.title').html(
-                    '<input type="text" />'
+                    '<input type="text" />' +
+                    '<span class="input-width"></span>'
                 )
 
                 this.$el.find('.title input').focus().attr('value', title)
+
+            },
+
+            titleChanged: function() {
+
+                this.$el.find('.title .input-width').html(
+                    this.$el.find('.title input').val().replace(/ /g, '&nbsp;')
+                )
+
+                this.$el.find('.title input').width(this.$el.find('.title .input-width').width())
 
             },
 
@@ -77,65 +89,64 @@ define(
                     return
                 }
 
-                var canvas = document.createElement('canvas')
-                var context = canvas.getContext('2d')
-                var line_margin = 0.15
-                var section_sidebar_width = this.model.get('chart').get(
-                    'section_sidebar_width')
-                var box_height = this.model.get('chart').get('box_height')
-                var section_height = this.model.get('height')
+                this.$el.find('.section-sidebar canvas').remove()
 
-                canvas.style.position = 'absolute'
-                canvas.width = section_sidebar_width
+                var canvas = document.createElement('canvas')
+                var sidebar_width = this.model.get('chart').get(
+                    'section_sidebar_width')
+                var sidebar_half_width = Math.round(sidebar_width / 2)
+                var box_height = this.model.get('chart').get('box_height')
+                var line_margin = Math.round(box_height * 0.15)
+                var section_height = this.model.get('height')
+                var section_half_height = Math.round(section_height / 2)
+
                 canvas.height = section_height
+                canvas.width = sidebar_width
+                $(canvas).css('height', section_height + 'px')
+                var context = canvas.getContext('2d')
 
                 context.lineWidth = this.model.get('chart').get('border_width')
 
                 // from top to title
                 context.beginPath()
-                context.moveTo(
-                    section_sidebar_width / 2,
-                    Math.round(box_height * line_margin))
-                context.lineTo(section_sidebar_width / 2,
-                    ((section_height / 2) - 5
-                     - Math.round(box_height * line_margin)))
+
+                context.moveTo(sidebar_half_width, line_margin)
+                context.lineTo(
+                    sidebar_half_width,
+                    (section_half_height - 5 - line_margin)
+                )
                 context.stroke()
 
                 // from title to bottom
                 context.beginPath()
                 context.moveTo(
-                    section_sidebar_width / 2,
-                    (section_height / 2) + 5
-                    + Math.round(box_height * line_margin))
+                    sidebar_half_width,
+                    section_half_height + 5 + line_margin
+                )
                 context.lineTo(
-                    section_sidebar_width / 2,
-                    (section_height
-                     - Math.round(box_height * line_margin)))
+                    sidebar_half_width,
+                    (section_height - line_margin)
+                )
                 context.stroke()
 
                 // from top to right
                 context.beginPath()
-                context.moveTo(
-                    section_sidebar_width / 2,
-                    Math.round(box_height * line_margin))
-                context.lineTo(
-                    section_sidebar_width - 5,
-                    Math.round(box_height * line_margin))
+                context.moveTo(sidebar_half_width, line_margin)
+                context.lineTo(sidebar_width - 5, line_margin)
                 context.stroke()
 
                 // from bottom to right
                 context.beginPath()
                 context.moveTo(
-                    section_sidebar_width / 2 ,
-                    (section_height -
-                     Math.round(box_height * line_margin)))
+                    sidebar_half_width,
+                    (section_height - line_margin)
+                )
                 context.lineTo(
-                    section_sidebar_width - 5,
-                    (section_height -
-                     Math.round(box_height * line_margin)))
+                    sidebar_width - 5,
+                    (section_height - line_margin)
+                )
                 context.stroke()
 
-                this.$el.find('.section-sidebar canvas').remove()
                 this.$el.find('.section-sidebar').append(canvas)
 
             },

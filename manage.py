@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     # Disable django.contrib.staticfiles from serving the static files, because
     # we serve the static files ourselfs with nocache headers.
-    if '--nostatic' not in sys.argv:
+    if 'runserver' in sys.argv and '--nostatic' not in sys.argv:
         sys.argv.append('--nostatic')
 
     execute_from_command_line(sys.argv)

@@ -1,4 +1,8 @@
-from environment import ENVIRONMENT
+try:
+    from environment import ENVIRONMENT
+except ImportError:
+    ENVIRONMENT = 'development'
+
 from .general import *
 
 if ENVIRONMENT == 'development':

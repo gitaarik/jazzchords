@@ -1,11 +1,14 @@
+Add line bugfix:
+    Adding line for first section doesn't work.
+
+Set section title:
+    Be able to set a section's title instead of the generated letter.
+
 Add/remove section:
     Be able to add and remove a section.
 
 Move section:
     Be able to move a section.
-
-Set section title:
-    Be able to set a section's title instead of the generated letter.
 
 Save song:
     Be able to save a song after editing.
