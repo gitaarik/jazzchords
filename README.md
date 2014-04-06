@@ -3,6 +3,9 @@ Chordcharts
 
 Create and share good looking chord charts.
 
+![Normal view](https://raw.githubusercontent.com/gitaarik/chordcharts/master/screenshots/normal_view.png)
+![Edit view](https://raw.githubusercontent.com/gitaarik/chordcharts/master/screenshots/edit_view.png)
+
 Requirements
 ------------
 
