@@ -6,14 +6,14 @@ define(
 
             initialize: function() {
 
-                var that = this
-                var lines = []
+                var that = this;
+                var lines = [];
                 _.each(this.get('lines'), function(line) {
-                    line.section = that
-                    lines.push(line)
-                })
+                    line.section = that;
+                    lines.push(line);
+                });
 
-                this.set('lines', new Lines(lines))
+                this.set('lines', new Lines(lines));
 
             },
 
@@ -27,16 +27,26 @@ define(
                             this.get('chart').get('border_width')
                         )
                     ) + this.get('chart').get('border_width')
-                )
+                );
 
             },
 
             remove: function() {
-                this.collection.remove(this)
-                this.destroy()
-            }
+                this.collection.remove(this);
+                this.destroy();
+            },
 
-        })
+            getName: function() {
+
+                if (this.get('alt_name')) {
+                    return this.get('alt_name');
+                } else {
+                    return this.get('name') + ' Section';
+                }
+
+            },
+
+        });
 
     }
-)
+);

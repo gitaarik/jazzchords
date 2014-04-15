@@ -28,9 +28,9 @@ define(
             },
 
             initialize: function() {
-                this.chord_type = this.$el.find('.chord-settings .setting.type')
-                this.initChordTypes()
-                this.listenTo(this.model, 'change', this.change)
+                this.chord_type = this.$el.find('.chord-settings .setting.type');
+                this.initChordTypes();
+                this.listenTo(this.model, 'change', this.change);
             },
 
             change: function() {
@@ -40,7 +40,7 @@ define(
 
                 if(this.model.get('visible')) {
 
-                    var previousAttributes = this.model.previousAttributes()
+                    var previousAttributes = this.model.previousAttributes();
 
                     // If the edit widget was already open for this chord,
                     // then apply the changes.
@@ -48,17 +48,17 @@ define(
                         previousAttributes.visible &&
                         this.model.get('chord') == previousAttributes.chord
                     ) {
-                        this.applyChanges()
+                        this.applyChanges();
                     }
 
-                    this.show()
+                    this.show();
 
                 }
                 else {
-                    this.$el.hide()
+                    this.$el.hide();
                 }
 
-                return this
+                return this;
 
             },
 
@@ -66,32 +66,32 @@ define(
                 // Creates the views for the chord type choices and binds them to
                 // the existing HTML
 
-                var that = this
-                this.editWidget_chordTypes = new ChordEditChordTypes()
+                var that = this;
+                this.editWidget_chordTypes = new ChordEditChordTypes();
 
                 _.each(GLOBALS.chord_types, function(chord_type) {
                     that.editWidget_chordTypes.add({
                         chord_type_id: chord_type.id, // used for `findWhere` later on
                         chord_type: chord_type
-                    })
-                })
+                    });
+                });
 
-                var chordType_number = 0
-                var chord_types = []
+                var chordType_number = 0;
+                var chord_types = [];
 
                 this.chord_type.find('li').each(function() {
 
-                    var chord_type_model = that.editWidget_chordTypes.models[chordType_number]
-                    chord_type_model.set('editWidget', that.model)
+                    var chord_type_model = that.editWidget_chordTypes.models[chordType_number];
+                    chord_type_model.set('editWidget', that.model);
 
                     new ChordEditChordTypeView({
                         el: this,
                         model: chord_type_model
-                    })
+                    });
 
-                    chordType_number++
+                    chordType_number++;
 
-                })
+                });
 
             },
 
@@ -102,20 +102,20 @@ define(
                     note: this.model.get('note'),
                     chord_type: this.model.get('chord_type'),
                     alt_bass_note: this.model.get('alt_bass_note')
-                })
+                });
 
             },
 
             close: function() {
-                this.model.set('visible', false)
+                this.model.set('visible', false);
             },
 
             switchTab: function(obj) {
                 // Switches to a tab in the edit widget
                 // like 'note', 'type' and 'alt_bass_bass'
 
-                var tab = $(obj.currentTarget)
-                this.openTab(tab.data('key'))
+                var tab = $(obj.currentTarget);
+                this.openTab(tab.data('key'));
 
             },
 
@@ -124,10 +124,11 @@ define(
 
                 this.$el.find('.tabs li').removeClass('active')
                     .parent().find('li[data-key=' + key + ']')
-                    .addClass('active')
+                    .addClass('active');
 
                 this.$el.find('.chord-settings .setting').hide().parent().find(
-                    '.setting[data-key=' + key + ']').show()
+                    '.setting[data-key=' + key + ']'
+                ).show();
 
             },
 
@@ -135,23 +136,23 @@ define(
                 // Toggles between the two pages of chord type options
 
                 if(this.chord_type.find('.type-part-1').is(':visible')) {
-                    this.showChordTypePart(2)
+                    this.showChordTypePart(2);
                 }
                 else {
-                    this.showChordTypePart(1)
+                    this.showChordTypePart(1);
                 }
 
             },
 
             noAltBass: function() {
-                this.model.set('alt_bass_note', false)
+                this.model.set('alt_bass_note', false);
             },
 
             showChordTypePart: function(number) {
                 // Shows the chord type part of the provided number
                 // The chord type choices are in these parts
-                this.chord_type.find('.type-part').hide()
-                this.chord_type.find('.type-part-' + number).show()
+                this.chord_type.find('.type-part').hide();
+                this.chord_type.find('.type-part-' + number).show();
             },
 
             show: function() {
@@ -163,18 +164,20 @@ define(
 
                 if(this.model.previousAttributes().chord !=
                    this.model.get('chord')) {
-                    this.reset()
+                    this.reset();
                 }
 
-                offset = this.offset()
+                offset = this.offset();
 
                 this.$el.css({
                     'top': this.model.get('offset').top + offset.top,
                     'left': this.model.get('offset').left + offset.left
-                })
+                });
 
-                this.parseNotes()
-                this.parseTypes()
+                this.parseNotes();
+                this.parseTypes();
+
+                this.$el.show();
 
             },
 
@@ -183,126 +186,127 @@ define(
                 // opened for.
 
                 var beat_schema = this.model.get('chord')
-                    .get('measure').get('beat_schema')
+                    .get('measure').get('beat_schema');
 
-                var off_top
-                var off_left
+                var off_top;
+                var off_left;
 
                 switch(beat_schema) {
 
                     case '4':
-                        off_top = 85
-                        off_left = -10
-                        break
+                        off_top = 85;
+                        off_left = -10;
+                        break;
 
                     case '2-2':
-                        off_top = 60
-                        off_left = -29
-                        break
+                        off_top = 60;
+                        off_left = -29;
+                        break;
 
                     case '2-1-1':
 
                         switch(this.model.get('chord').get('order')) {
 
                             case 1:
-                                off_top = 60
-                                off_left = -29
-                                break
+                                off_top = 60;
+                                off_left = -29;
+                                break;
 
                             case 2:
-                                off_top = 47
-                                off_left = -9
-                                break
+                                off_top = 47;
+                                off_left = -9;
+                                break;
 
                             case 3:
-                                off_top = 77
-                                off_left = -39
-                                break
+                                off_top = 77;
+                                off_left = -39;
+                                break;
 
                         }
 
-                        break
+                        break;
 
                     case '1-1-2':
 
                         switch(this.model.get('chord').get('order')) {
 
                             case 1:
-                                off_top = 77
-                                off_left = -39
-                                break
+                                off_top = 77;
+                                off_left = -39;
+                                break;
 
                             case 2:
-                                off_top = 47
-                                off_left = -9
-                                break
+                                off_top = 47;
+                                off_left = -9;
+                                break;
 
                             case 3:
-                                off_top = 60
-                                off_left = -29
-                                break
+                                off_top = 60;
+                                off_left = -29;
+                                break;
 
                         }
 
-                        break
+                        break;
 
                     case '1-1-1-1':
 
                         switch(this.model.get('chord').get('order')) {
 
                             case 1:
-                                off_top = 77
-                                off_left = -39
-                                break
+                                off_top = 77;
+                                off_left = -39;
+                                break;
 
                             case 2:
-                                off_top = 47
-                                off_left = -9
-                                break
+                                off_top = 47;
+                                off_left = -9;
+                                break;
 
                             case 3:
-                                off_top = 47
-                                off_left = -9
-                                break
+                                off_top = 47;
+                                off_left = -9;
+                                break;
 
                             case 4:
-                                off_top = 77
-                                off_left = -39
-                                break
+                                off_top = 77;
+                                off_left = -39;
+                                break;
 
                         }
 
-                        break
+                        break;
 
                 }
 
                 return {
                     top: off_top,
                     left: off_left
-                }
+                };
 
             },
 
             parseNotes: function() {
                 // Parses the note and the alt bass note choices
 
-                var that = this
-                var note_types = ['note', 'alt_bass_note']
+                var that = this;
+                var note_types = ['note', 'alt_bass_note'];
 
                 // If the notes are different from the last time, regenerate
                 // the models/views.
                 if(this.model.get('note_choices') !=
                    this.model.previousAttributes().note_choices) {
 
-                    that.editWidgetNotes = []
+                    that.editWidgetNotes = [];
 
                     _.each(note_types, function(note_type) {
 
-                        that.editWidgetNotes[note_type] = new ChordEditNotes()
-                        var editWidgetNote
+                        that.editWidgetNotes[note_type] = new ChordEditNotes();
+                        var editWidgetNote;
                         var note_choices = that.$el.find('.chord-settings ' +
-                            '.setting[data-key=' + note_type + '] ul')
-                        note_choices.html('')
+                            '.setting[data-key=' + note_type + '] ul'
+                        );
+                        note_choices.html('');
 
                         _.each(that.model.get('note_choices'), function(note) {
 
@@ -311,19 +315,19 @@ define(
                                 note: note,
                                 note_type: note_type,
                                 editWidget: that.model
-                            })
+                            });
 
-                            that.editWidgetNotes[note_type].add(editWidgetNote)
+                            that.editWidgetNotes[note_type].add(editWidgetNote);
 
                             note_choices.append(
                                 new ChordEditNoteView({
                                     model: editWidgetNote
                                 }).render().el
-                            )
+                            );
 
-                        })
+                        });
 
-                    })
+                    });
 
                 }
 
@@ -331,37 +335,39 @@ define(
                 _.each(note_types, function(note_type) {
 
                     // Deselect last selected if it exists
-                    var current_selected = that.editWidgetNotes[note_type]
+                    var current_selected = (
+                        that.editWidgetNotes[note_type]
                         .findWhere({ selected: true })
+                    );
 
                     if(current_selected) {
-                        current_selected.set('selected', false)
+                        current_selected.set('selected', false);
                     }
 
                     // Select note if it is set (bass note doesn't have to be
                     // set)
 
-                    var none_button = that.$el.find('.chord-settings ' +
-                        '.setting[data-key=' + note_type + '] .none')
+                    var none_button = that.$el.find(
+                        '.chord-settings ' +
+                        '.setting[data-key=' + note_type + '] .none'
+                    );
 
                     if(that.model.get(note_type)) {
 
                         if(none_button) {
-                            none_button.removeClass('selected')
+                            none_button.removeClass('selected');
                         }
 
                         that.editWidgetNotes[note_type].findWhere({
                             note_id: that.model.get(note_type).id
-                        }).set('selected', true)
+                        }).set('selected', true);
 
                     }
                     else if(none_button) {
-                        none_button.addClass('selected')
+                        none_button.addClass('selected');
                     }
 
-                })
-
-                this.$el.show()
+                });
 
             },
 
@@ -370,15 +376,15 @@ define(
 
                 var current_selected = this.editWidget_chordTypes.findWhere({
                     selected: true
-                })
+                });
 
                 if(current_selected) {
-                    current_selected.set('selected', false)
+                    current_selected.set('selected', false);
                 }
 
                 this.editWidget_chordTypes.findWhere({
                     chord_type_id: this.model.get('chord_type').id
-                }).set('selected', true)
+                }).set('selected', true);
 
             },
 
@@ -388,7 +394,7 @@ define(
                 // For example, the chosen chord is the chord the edit is on and
                 // the selected tab is the note tab.
 
-                var chord = this.model.get('chord')
+                var chord = this.model.get('chord');
 
                 this.model.set({
                     note: chord.get('note'),
@@ -396,26 +402,26 @@ define(
                     alt_bass_note: chord.get('alt_bass_note'),
                     note_choices: chord.get('measure').get('line')
                         .get('section').get('key').notes
-                })
+                });
 
                 // Show the chord type part that has the curent selected chord
                 // type.
                 var current_chord_type = this.editWidget_chordTypes.findWhere({
                     chord_type_id: this.model.get('chord_type').id
-                })
+                });
 
                 if(this.editWidget_chordTypes.indexOf(current_chord_type) > 11) {
-                    this.showChordTypePart(2)
+                    this.showChordTypePart(2);
                 }
                 else {
-                    this.showChordTypePart(1)
+                    this.showChordTypePart(1);
                 }
 
-                this.openTab('note')
+                this.openTab('note');
 
             }
 
-        })
+        });
 
     }
-)
+);

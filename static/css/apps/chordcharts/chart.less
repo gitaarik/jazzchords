@@ -156,30 +156,12 @@
                 overflow: hidden;
                 margin: 20px 0 10px @section_sidebar_width;
 
-                .title {
-
+                .name {
                     float: left;
                     font-size: 20px;
-
-                    input, .input-width {
-                        font-family: inherit;
-                        letter-spacing: inherit;
-                        line-height: inherit;
-                        font-size: inherit;
-                        float: left;
-                        border: none;
-                        width: auto;
-                    }
-
-                    .input-width {
-                        height: 1px;
-                        clear: left;
-                        visibility: hidden;
-                    }
-
                 }
 
-                .section-edit {
+                .section-edit-buttons {
 
                     float: left;
                     margin: 5px 0 0 5px;
@@ -583,7 +565,6 @@
         background: #FFF;
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-        z-index: 10;
 
         .popup-arrow-up {
             position: absolute;
@@ -790,11 +771,33 @@
 
     }
 
+    .section-edit {
+
+        display: none;
+        position: absolute;
+        z-index: 10;
+        border: solid 1px #000;
+        background: #FFF;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+        padding: 10px;
+        letter-spacing: 1px;
+
+        .name {
+            font-size: 20px;
+        }
+
+    }
+
     &.edit-on {
 
         .chart {
 
             .section {
+
+                .section-header .name {
+                    cursor: pointer;
+                }
 
                 .lines {
 

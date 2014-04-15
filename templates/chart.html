@@ -78,20 +78,20 @@
 
                 <section class="section" style="width: {{ chart.width }}px;">
 
-                    {% if section.alt_title or edit %}
+                    {% if section.alt_name or edit %}
 
                         <header class="section-header">
 
-                            <div class="title">
-                                {% if section.alt_title %}
-                                    {{ section.alt_title }}
+                            <div class="name">
+                                {% if section.alt_name %}
+                                    {{ section.alt_name }}
                                 {% elif edit %}
                                     {{ section.name }} Section
                                 {% endif %}
                             </div>
 
                             {% if edit %}
-                                <div class="section-edit">
+                                <div class="section-edit-buttons">
                                     <div class="edit"></div>
                                     <div class="remove"></div>
                                 </div>
@@ -103,7 +103,7 @@
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
                         <canvas></canvas>
-                        {% if not section.alt_title %}
+                        {% if not section.alt_name %}
                             <div class="section-sidebar-title" style="line-height: {{ section.height }}px;">
                                 {{ section.name }}
                             </div>
@@ -269,6 +269,10 @@
                     <ul class="measures"></ul>
                     <div class="remove">Remove measure</div>
                 </div>
+            </section>
+
+            <section class="section-edit">
+                <div class="name"></div>
             </section>
 
         {% endif %}

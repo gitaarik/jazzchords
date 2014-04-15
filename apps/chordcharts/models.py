@@ -234,7 +234,7 @@ class Section(models.Model):
         this will be 0.""")
     number = models.PositiveSmallIntegerField(help_text=
         """The section number. Will be used to put the sections in order""")
-    alt_title = models.CharField(max_length=25, blank=True, help_text="""
+    alt_name = models.CharField(max_length=25, blank=True, help_text="""
         Alternative title for the section. Normally a section get's assigned a
         letter (starting with A, next B etc.) which is displayed left of the
         section's boxed chart. If you fill in this "alternative title" this
@@ -254,7 +254,7 @@ class Section(models.Model):
         return {
             'number': self.number,
             'name': self.name(),
-            'alt_title': self.alt_title,
+            'alt_name': self.alt_name,
             'height': self.height(),
             'key': self.key().client_data(),
             'lines': [l.client_data() for l in self.lines.all()]
@@ -262,15 +262,19 @@ class Section(models.Model):
 
     def name(self):
         """
-        The name of the section. According to `self.number` it will get an
-        uppercase letter from the alphabet.
+        The name of the section.
+
+        According to `self.number` it will get an uppercase letter from
+        the alphabet.
         0 = A, 1 = B, 2 = C, etc.
+        However, when the `alt_name` for this section is set, this is
+        used instead.
         """
-        if self.alt_title:
-            return self.alt_title
+        if self.alt_name:
+            return self.alt_name
         else:
             return string.uppercase[self.chart.sections.filter(
-                alt_title='', number__lt=self.number).count()]
+                alt_name='', number__lt=self.number).count()]
 
     def key(self):
         """
