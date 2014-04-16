@@ -6,6 +6,10 @@ define(
 
             className: 'section',
 
+            initialize: function() {
+                this.listenTo(this.model, 'change', this.render);
+            },
+
             events: {
                 'click .section-header .name': 'openSectionEdit',
                 'click .section-header .section-edit-buttons .remove': 'removeSection',
@@ -44,21 +48,48 @@ define(
 
             },
 
+            render: function() {
+
+                this.renderHeader();
+                this.renderSidebar();
+
+            },
+
+            renderHeader: function() {
+
+                this.$el.find('.section-header .name').html(
+                    this.model.getName()
+                );
+
+            },
+
             renderSidebar: function() {
 
-                this.$el.find('.section-sidebar-title').css(
-                    'line-height',
-                    this.model.get('height') + 'px'
-                );
-                this.redrawIndicatorLines();
+                if (this.model.get('alt_name')) {
+                    this.$el.find('.section-sidebar-letter').html('');
+                    this.$el.find('.section-sidebar canvas').remove();
+                } else {
+
+                    this.$el.find('.section-sidebar-letter').html(
+                        this.model.getSequenceLetter()
+                    );
+                    this.$el.find('.section-sidebar-letter').css(
+                        'line-height',
+                        this.model.get('height') + 'px'
+                    );
+                    this.redrawIndicatorLines();
+
+                }
 
             },
 
             redrawIndicatorLines: function() {
+
                 // Draws the lines that indicate the start and end of a section
 
                 if (this.model.get('alt_name')) {
-                    // no lines needed for sections with an alternative title
+                    // should not happen for sections that have an
+                    // `alt_name`.
                     return;
                 }
 

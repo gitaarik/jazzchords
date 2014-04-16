@@ -203,7 +203,7 @@
 
             }
 
-            .section-sidebar-title {
+            .section-sidebar-letter {
                 position: absolute;
                 width: @section_sidebar_width;
                 text-align: center;
@@ -398,9 +398,8 @@
 
     }
 
-    .chord-edit {
+    .arrow-popup {
 
-        display: none;
         position: absolute;
         z-index: 10;
         border: solid 1px #000;
@@ -410,17 +409,27 @@
         z-index: 10;
         padding: 10px 0;
 
-        .padding {
-            padding: 0 10px;
-        }
-
-        .popup-arrow-up {
+        .arrow-up {
             position: absolute;
             top: -20px;
             left: 40px;
             width: 37px;
             height: 20px;
             background: url(@popup-arrow-up);
+        }
+
+        .padding {
+            padding: 10px;
+        }
+
+    }
+
+    .chord-edit {
+
+        display: none;
+
+        .padding {
+            padding: 0 10px;
         }
 
         .chord-edit-header {
@@ -559,25 +568,6 @@
     .measure-edit {
 
         display: none;
-        position: absolute;
-        z-index: 10;
-        border: solid 1px #000;
-        background: #FFF;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-
-        .popup-arrow-up {
-            position: absolute;
-            top: -20px;
-            left: 40px;
-            width: 37px;
-            height: 20px;
-            background: url(@popup-arrow-up);
-        }
-
-        .padding {
-            padding: 10px;
-        }
 
         h3 {
             margin: 0;
@@ -774,17 +764,30 @@
     .section-edit {
 
         display: none;
-        position: absolute;
-        z-index: 10;
-        border: solid 1px #000;
-        background: #FFF;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-        padding: 10px;
-        letter-spacing: 1px;
 
         .name {
-            font-size: 20px;
+
+            label {
+
+                display: block;
+                padding: 5px;
+                overflow: hidden;
+
+                input[type=text] {
+                    float: left;
+                }
+
+                .label {
+                    float: left;
+                    width: 150px;
+                }
+
+                .sequence-letter {
+                    float: left;
+                }
+
+            }
+
         }
 
     }

@@ -9,14 +9,14 @@ define(
                 // Only set chord_type if it hasn't been set yet. Prevents
                 // errors when cloning.
                 if(!(this.get('chord_type') instanceof Backbone.Model)) {
-                    this.set('chord_type', new ChordType(this.get('chord_type')))
+                    this.set('chord_type', new ChordType(this.get('chord_type')));
                 }
 
-                this.listenTo(this, 'change', this.parse_next_measure)
+                this.listenTo(this, 'change', this.parseNextMeasure);
 
             },
 
-            parse_next_measure: function() {
+            parseNextMeasure: function() {
                 // Parses the next measure based on this measure
                 //
                 // If this and the next measure are on the same line and both
@@ -29,7 +29,7 @@ define(
 
                 if(!this.get('measure').get('line').get('section').get('chart').get('parsed')) {
                     // only parse next measure if whole chart has been done parsing
-                    return
+                    return;
                 }
 
                 if(
@@ -40,7 +40,7 @@ define(
                 ) {
 
                     var next_chord = this.get('measure').get('next_measure')
-                        .get('chords').first()
+                        .get('chords').first();
 
                     if(
                         // Check if chords are the same NOW
@@ -54,11 +54,11 @@ define(
                         // milliseconds in `changed` attribute. Then `render()`
                         // will put the repeat sign ( % ) in.
                         this.get('measure').get('next_measure').get('chords').first()
-                            .set('changed', new Date().getTime())
+                            .set('changed', new Date().getTime());
                     }
                     else {
 
-                        var prev_attr = this.previousAttributes()
+                        var prev_attr = this.previousAttributes();
 
                         if(
                             // Check if the current measure's chord before the change
@@ -73,7 +73,7 @@ define(
                                 'note': this.get('note'),
                                 'chord_type': this.get('chord_type'),
                                 'alt_bass_note': this.get('alt_bass_note')
-                            })
+                            });
                         }
 
                     }
@@ -85,32 +85,32 @@ define(
             chordName: function() {
                 // Returns the full chord name
 
-                var bass_note
+                var bass_note;
                 if(this.get('alt_bass_note')) {
-                    bass_note = '/' + this.get('alt_bass_note').name
+                    bass_note = '/' + this.get('alt_bass_note').name;
                 }
                 else {
-                    bass_note = ''
+                    bass_note = '';
                 }
 
                 return this.get('note').name +
-                    this.get('chord_type').get('chord_output') + bass_note
+                    this.get('chord_type').get('chord_output') + bass_note;
 
             },
 
             copy: function(attributes) {
 
-                var clone = this.clone()
+                var clone = this.clone();
 
                 if(attributes) {
-                    clone.set(attributes)
+                    clone.set(attributes);
                 }
 
-                return clone
+                return clone;
 
             }
 
-        })
+        });
 
     }
-)
+);

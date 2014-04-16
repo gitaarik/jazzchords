@@ -83,11 +83,7 @@
                         <header class="section-header">
 
                             <div class="name">
-                                {% if section.alt_name %}
-                                    {{ section.alt_name }}
-                                {% elif edit %}
-                                    {{ section.name }} Section
-                                {% endif %}
+                                {{ section.name }}
                             </div>
 
                             {% if edit %}
@@ -103,11 +99,11 @@
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
                         <canvas></canvas>
-                        {% if not section.alt_name %}
-                            <div class="section-sidebar-title" style="line-height: {{ section.height }}px;">
-                                {{ section.name }}
-                            </div>
-                        {% endif %}
+                        <div class="section-sidebar-letter" style="line-height: {{ section.height }}px;">
+                            {% if not section.alt_name %}
+                                {{ section.sequence_letter }}
+                            {% endif %}
+                        </div>
                     </div>
 
                     <table class="lines">
@@ -202,9 +198,9 @@
 
         {% if edit %}
 
-            <section class="chord-edit">
+            <section class="chord-edit arrow-popup">
 
-                <div class="popup-arrow-up"></div>
+                <div class="arrow-up"></div>
 
                 <header class="chord-edit-header">
                     <nav>
@@ -262,8 +258,8 @@
 
             </section>
 
-            <section class="measure-edit">
-                <div class="popup-arrow-up"></div>
+            <section class="measure-edit arrow-popup">
+                <div class="arrow-up"></div>
                 <div class="padding">
                     <div class="close"></div>
                     <ul class="measures"></ul>
@@ -271,8 +267,30 @@
                 </div>
             </section>
 
-            <section class="section-edit">
-                <div class="name"></div>
+            <section class="section-edit arrow-popup">
+
+                <div class="arrow-up"></div>
+
+                <div class="padding name">
+
+                    <label>
+                        <span class="label">
+                            <input type="radio" name="section-name" value="sequence-letter" class="sequence-letter-radio">
+                            Sequence letter
+                        </span>
+                        <span class="sequence-letter"></span>
+                    </label>
+
+                    <label>
+                        <span class="label">
+                            <input type="radio" name="section-name" value="custom-name" class="custom-name-radio">
+                            Custom name
+                        </span>
+                        <input type="text" class="custom-name">
+                    </label>
+
+                </div>
+
             </section>
 
         {% endif %}

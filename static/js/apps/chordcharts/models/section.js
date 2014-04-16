@@ -15,6 +15,8 @@ define(
 
                 this.set('lines', new Lines(lines));
 
+                this.listenTo(this, 'change', this.parseSectionNames);
+
             },
 
             recalculateHeight: function() {
@@ -41,10 +43,42 @@ define(
                 if (this.get('alt_name')) {
                     return this.get('alt_name');
                 } else {
-                    return this.get('name') + ' Section';
+                    return this.getSequenceLetter() + ' Section';
                 }
 
             },
+
+            getSequenceLetter: function() {
+
+                var this_number = this.get('number');
+
+                var sections = this.collection.filter(function(section) {
+                    return (
+                        !section.get('alt_name') &&
+                        section.get('number') < this_number
+                    );
+                });
+
+                return 'ABCDEFG'[sections.length];
+
+            },
+
+            parseSectionNames: function() {
+
+                var this_number = this.get('number');
+
+                this.collection.each(function(section) {
+
+                    if(
+                        !section.get('alt_name') &&
+                        section.get('number') > this_number
+                    ) {
+                        section.trigger('change');
+                    }
+
+                });
+
+            }
 
         });
 

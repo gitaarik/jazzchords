@@ -21,18 +21,18 @@ class Key(models.Model):
     """
 
     NOTES_CHOICES = (
-        ("Cb", "Cb"), ("C", "C"), ("C#", "C#"), ("Db", "Db"), ("D", "D"),
-        ("D#", "D#"), ("Eb", "Eb"), ("E", "E"), ("E#", "E#"), ("Fb", "Fb"),
-        ("F", "F"), ("F#", "F#"), ("Gb", "Gb"), ("G", "G"), ("G#", "G#"),
-        ("Ab", "Ab"), ("A", "A"), ("A#", "A#"), ("Bb", "Bb"), ("B", "B"),
-        ("B#", "B#")
+        ('Cb', 'Cb'), ('C', 'C'), ('C#', 'C#'), ('Db', 'Db'), ('D', 'D'),
+        ('D#', 'D#'), ('Eb', 'Eb'), ('E', 'E'), ('E#', 'E#'), ('Fb', 'Fb'),
+        ('F', 'F'), ('F#', 'F#'), ('Gb', 'Gb'), ('G', 'G'), ('G#', 'G#'),
+        ('Ab', 'Ab'), ('A', 'A'), ('A#', 'A#'), ('Bb', 'Bb'), ('B', 'B'),
+        ('B#', 'B#')
     )
 
     TONALITY_MAJOR = 1
     TONALITY_MINOR = 1
     TONALITY_CHOICES = (
-        (TONALITY_MAJOR, u"Major"),
-        (TONALITY_MINOR, u"Minor")
+        (TONALITY_MAJOR, "Major"),
+        (TONALITY_MINOR, "Minor")
     )
 
     name = models.CharField(max_length=25, help_text=
@@ -254,6 +254,7 @@ class Section(models.Model):
         return {
             'number': self.number,
             'name': self.name(),
+            'sequence_letter': self.sequence_letter(),
             'alt_name': self.alt_name,
             'height': self.height(),
             'key': self.key().client_data(),
@@ -264,17 +265,27 @@ class Section(models.Model):
         """
         The name of the section.
 
-        According to `self.number` it will get an uppercase letter from
-        the alphabet.
-        0 = A, 1 = B, 2 = C, etc.
-        However, when the `alt_name` for this section is set, this is
-        used instead.
+        If `alt_name` is set, this is returned, otherwise the
+        `sequence_letter()`.
         """
         if self.alt_name:
             return self.alt_name
         else:
-            return string.uppercase[self.chart.sections.filter(
-                alt_name='', number__lt=self.number).count()]
+            return '{} Section'.format(self.sequence_letter())
+
+    def sequence_letter(self):
+        """
+        The sequence letter.
+
+        This is a letter representing the section sequence.
+        The first section without an `alt_name` will be A, the second B,
+        the third C etc.
+        """
+        return string.uppercase[
+            self.chart.sections.filter(
+                alt_name='', number__lt=self.number
+            ).count()
+        ]
 
     def key(self):
         """
