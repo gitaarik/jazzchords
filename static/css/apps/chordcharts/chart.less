@@ -419,7 +419,7 @@
         }
 
         .padding {
-            padding: 10px;
+            padding: 0 10px;
         }
 
     }
@@ -493,6 +493,7 @@
                 padding: 0;
                 margin-top: 10px;
                 list-style: none;
+                overflow: hidden;
 
                 li {
 
@@ -511,11 +512,18 @@
                     cursor: pointer;
 
                     &:nth-child(4n) {
-                        margin: 0;
+                        margin-right: 0;
                     }
 
                     &:nth-child(4n+1) {
                         clear: both;
+                    }
+
+                    &:nth-last-child(1),
+                    &:nth-last-child(2),
+                    &:nth-last-child(3),
+                    &:nth-last-child(4) {
+                        margin-bottom: 0;
                     }
 
                     &.selected {
@@ -537,6 +545,7 @@
                 &.alt-bass-note .none {
                     display: block;
                     clear: left;
+                    margin-top: 10px;
                     height: 30px;
                     line-height: 30px;
                     text-align: center;
@@ -770,20 +779,47 @@
             label {
 
                 display: block;
-                padding: 5px;
+                padding: 8px 10px;
                 overflow: hidden;
+                border-radius: 5px;
+                border: solid 1px #AAA;
+                background: #F3F3F3;
+                cursor: pointer;
 
-                input[type=text] {
-                    float: left;
+                &:first-child {
+                    border-bottom-right-radius: 0;
+                    border-bottom-left-radius: 0;
                 }
 
-                .label {
+                &:nth-child(2) {
+                    border-top-right-radius: 0;
+                    border-top-left-radius: 0;
+                    border-top-width: 0;
+                }
+
+                .radio-button {
                     float: left;
-                    width: 150px;
+                    padding-right: 10px;
+                    line-height: 28px;
+                }
+
+                .label-text {
+                    float: left;
+                    width: 130px;
+                    line-height: 28px;
                 }
 
                 .sequence-letter {
                     float: left;
+                    line-height: 28px;
+                }
+
+                .custom-name-input {
+                    height: 20px;
+                    margin: 0;
+                    border: solid 1px #AAA;
+                    border-radius: 5px;
+                    padding: 5px;
                 }
 
             }
