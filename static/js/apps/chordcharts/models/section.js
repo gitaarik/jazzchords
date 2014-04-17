@@ -19,6 +19,9 @@ define(
 
             },
 
+            /**
+             * Recalculates and sets the height for this section.
+             */
             recalculateHeight: function() {
 
                 this.set('height',
@@ -33,11 +36,20 @@ define(
 
             },
 
+            /**
+             * Remove this section from the chart.
+             */
             remove: function() {
                 this.collection.remove(this);
                 this.destroy();
             },
 
+            /**
+             * Returns the name of the section.
+             *
+             * If `alt_name` is set, this will be used, otherwise,
+             * `getSequenceLetter()` will be used.
+             */
             getName: function() {
 
                 if (this.get('alt_name')) {
@@ -48,6 +60,10 @@ define(
 
             },
 
+            /**
+             * Returns the sequence letter this section would have in
+             * case he wouldn't have an `alt_name`.
+             */
             getSequenceLetter: function() {
 
                 var this_number = this.get('number');
@@ -63,20 +79,31 @@ define(
 
             },
 
+            /**
+             * Parses the names for the sections following this one.
+             *
+             * The section names will be based on this section name. For
+             * example, if this is the first section and it has a an
+             * `alt_name`, and the next section doesn't have an
+             * `alt_name`, then this section can take the sequence name
+             * `A`. If this section wouldn't have an `alt_name`, this
+             * section's sequence letter would be `A` so the next sectin
+             * would know it should have sequence letter `B`.
+             */
             parseSectionNames: function() {
 
                 var this_number = this.get('number');
 
-                this.collection.each(function(section) {
-
-                    if(
+                var section = this.collection.find(function(section) {
+                    return(
                         !section.get('alt_name') &&
                         section.get('number') > this_number
-                    ) {
-                        section.trigger('change');
-                    }
-
+                    );
                 });
+
+                if (section) {
+                    section.trigger('change');
+                }
 
             }
 

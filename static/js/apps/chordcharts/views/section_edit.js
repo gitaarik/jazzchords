@@ -11,7 +11,9 @@ define(
             model: Section,
 
             events: {
-                'change input[type=radio]': 'changeSectionName'
+                'change input[type=radio]': 'changeSectionName',
+                'click input[type=radio]': 'changeSectionName',
+                'keyup .custom-name-input': 'changeSectionName',
             },
 
             initialize: function() {
@@ -41,7 +43,7 @@ define(
                     this.$el.find('.sequence-letter-radio').prop('checked', true);
                 }
 
-                this.$el.find('.custom-name').val(
+                this.$el.find('.custom-name-input').val(
                     this.model.get('section').get('alt_name')
                 );
                 this.$el.find('.sequence-letter').html(
@@ -52,14 +54,16 @@ define(
 
             },
 
-            changeSectionName: function(zorz, ho) {
+            changeSectionName: function() {
 
                 if (this.$el.find('.custom-name-radio:checked').length) {
 
                     this.model.get('section').set(
                         'alt_name', 
-                        this.$el.find('.custom-name').val()
+                        this.$el.find('.custom-name-input').val()
                     );
+
+                    this.$el.find('.custom-name-input').focus();
 
                 } else if (this.$el.find('.sequence-letter-radio:checked').length) {
                     this.model.get('section').set('alt_name', '');
