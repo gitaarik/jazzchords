@@ -35,10 +35,7 @@ define(
 
             measureRemoved: function() {
 
-                console.log('ff kijke');
-
                 if(!this.get('measures').length) {
-                    console.log('dit gebeurd');
                     this.destroy();
                 }
 

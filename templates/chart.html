@@ -32,6 +32,40 @@
         </div>
     </script>
 
+    <script type="text/template" id="template-section-header">
+        <header class="section-header">
+            <div class="name"><%= section_name %></div>
+            <div class="section-edit-buttons">
+                <div class="remove"></div>
+            </div>
+        </header>
+    </script>
+
+    <script type="text/template" id="template-section-sidebar">
+        <div class="section-sidebar">
+            <canvas></canvas>
+            <div class="section-sidebar-letter"></div>
+        </div>
+    </script>
+
+    <script type="text/template" id="template-lines">
+
+        <table class="lines">
+
+            <tbody></tbody>
+
+            <tfoot>
+                <tr class="line-add">
+                    <td class="colspan" colspan="8">
+                        <div class="plus">+</div>
+                    </td>
+                </tr>
+            </tfoot>
+
+        </table>
+
+    </script>
+
 {% endblock %}
 
 {% block content %}
@@ -88,7 +122,6 @@
 
                             {% if edit %}
                                 <div class="section-edit-buttons">
-                                    <div class="edit"></div>
                                     <div class="remove"></div>
                                 </div>
                             {% endif %}
@@ -108,79 +141,83 @@
 
                     <table class="lines">
 
-                        {% for line in section.lines %}
+                        <tbody>
+                            {% for line in section.lines %}
 
-                            <tr class="line">
+                                <tr class="line">
 
-                                {% for measure in line.measures %}
+                                    {% for measure in line.measures %}
 
-                                    <td class="
-                                        measure
-                                        measure-beatschema-{{ measure.beat_schema }}
-                                    ">
+                                        <td class="
+                                            measure
+                                            measure-beatschema-{{ measure.beat_schema }}
+                                        ">
 
-                                        <div class="chords">
+                                            <div class="chords">
 
-                                            {% if measure.beat_schema == "4" %}
-                                                <div class="chord">
-                                                    <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
-                                                </div>
-                                            {% endif %}
+                                                {% if measure.beat_schema == "4" %}
+                                                    <div class="chord">
+                                                        <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
+                                                    </div>
+                                                {% endif %}
 
-                                            {% if measure.beat_schema == "2-2" %}
-                                                <div class="chord chord-1">
-                                                    <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
-                                                </div>
-                                                <div class="chord chord-2">
-                                                    <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
-                                                </div>
-                                            {% endif %}
+                                                {% if measure.beat_schema == "2-2" %}
+                                                    <div class="chord chord-1">
+                                                        <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
+                                                    </div>
+                                                    <div class="chord chord-2">
+                                                        <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
+                                                    </div>
+                                                {% endif %}
 
-                                            {% if measure.beat_schema == "2-1-1" %}
-                                                <div class="chord chord-1">
-                                                    <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
-                                                </div>
-                                                <div class="chord chord-2">
-                                                    <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
-                                                </div>
-                                                <div class="chord chord-3">
-                                                    <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
-                                                </div>
-                                            {% endif %}
+                                                {% if measure.beat_schema == "2-1-1" %}
+                                                    <div class="chord chord-1">
+                                                        <span class="chord-name">{{ measure.chords.0.chart_output }}</span>
+                                                    </div>
+                                                    <div class="chord chord-2">
+                                                        <span class="chord-name">{{ measure.chords.1.chart_output }}</span>
+                                                    </div>
+                                                    <div class="chord chord-3">
+                                                        <span class="chord-name">{{ measure.chords.2.chart_output }}</span>
+                                                    </div>
+                                                {% endif %}
 
-                                        </div>
+                                            </div>
 
-                                    </td>
-
-                                {% endfor %}
-
-                                {% if line.measures|length < 8 %}
-
-                                    {% if edit %}
-
-                                        <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
-                                            <div class="plus">+</div>
                                         </td>
 
-                                    {% else %}
+                                    {% endfor %}
 
-                                        <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+                                    {% if line.measures|length < 8 %}
+
+                                        {% if edit %}
+
+                                            <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
+                                                <div class="plus">+</div>
+                                            </td>
+
+                                        {% else %}
+
+                                            <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+
+                                        {% endif %}
 
                                     {% endif %}
 
-                                {% endif %}
+                                </tr>
 
-                            </tr>
+                            {% endfor %}
+                        </tbody>
 
-                        {% endfor %}
-
-                        {% if edit %}
-                            <tr class="line-add">
-                                <td class="colspan" colspan="8">
-                                    <div class="plus">+</div>
-                                </td>
-                            </tr>
-                        {% endif %}
+                        <tfoot>
+                            {% if edit %}
+                                <tr class="line-add">
+                                    <td class="colspan" colspan="8">
+                                        <div class="plus">+</div>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tfoot>
 
                     </table>
 

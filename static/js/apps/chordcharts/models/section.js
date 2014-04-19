@@ -32,7 +32,7 @@ define(
             },
 
             initListeners: function() {
-                this.listenTo(this, 'change', this.parseSectionNames);
+                this.listenTo(this, 'change:alt_name', this.parseSectionNames);
             },
 
             /**
@@ -118,6 +118,21 @@ define(
                 if (section) {
                     section.trigger('change');
                 }
+
+            },
+
+            copy: function(attributes) {
+
+                var copy = this.clone();
+                copy.set('lines', this.get('lines').copy({ section: copy }));
+
+                if(attributes) {
+                    copy.set(attributes);
+                }
+
+                copy.initListeners();
+
+                return copy;
 
             }
 

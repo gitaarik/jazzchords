@@ -4,6 +4,7 @@ define(
 
         return Backbone.View.extend({
 
+            tagName: 'section',
             className: 'section',
 
             initialize: function() {
@@ -31,7 +32,9 @@ define(
                     model: new_line
                 });
 
-                lineView.render().$el.insertBefore(this.$el.find('.line-add'));
+                this.$el.find('.lines tbody').append(
+                    lineView.render().el
+                );
 
                 this.renderSidebar();
 
@@ -50,17 +53,37 @@ define(
             render: function() {
                 this.renderHeader();
                 this.renderSidebar();
+                this.renderLines();
+                return this;
             },
 
             renderHeader: function() {
 
-                this.$el.find('.section-header .name').html(
-                    this.model.getName()
+                var template = _.template(
+                    $('#template-section-header').html()
                 );
+
+                var section_header = template({
+                    section_name: this.model.getName()
+                });
+
+                var section_header_el = this.$el.find('.section-header');
+
+                if (section_header_el.length) {
+                    section_header_el.replaceWith(section_header);
+                } else {
+                    this.$el.append(section_header);
+                }
 
             },
 
             renderSidebar: function() {
+
+                if (!this.$el.find('.section-sidebar').length) {
+                    this.$el.append(_.template(
+                        $('#template-section-sidebar').html()
+                    )());
+                }
 
                 if (this.model.get('alt_name')) {
                     this.$el.find('.section-sidebar-letter').html('');
@@ -156,6 +179,33 @@ define(
                 context.stroke();
 
                 this.$el.find('.section-sidebar').append(canvas);
+
+            },
+
+            renderLines: function() {
+
+                var lineViews = [];
+                var lineView;
+
+                this.model.get('lines').each(function(line) {
+
+                    lineView = new LineView({
+                        model: line
+                    });
+
+                    lineViews.push(lineView.render().el);
+
+                });
+
+                if (!this.$el.find('.lines').length) {
+                    this.$el.append(_.template(
+                        $('#template-lines').html()
+                    )());
+                } else {
+                    this.$el.find('.lines tbody').html('');
+                }
+
+                this.$el.find('.lines').append(lineViews);
 
             },
 
