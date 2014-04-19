@@ -739,11 +739,17 @@
 
                 &:nth-child(2),
                 &:nth-child(5) {
-                    margin: 0;
+                    margin-right: 0;
                 }
 
                 &:nth-child(3) {
                     clear: both;
+                }
+
+                &:nth-child(3),
+                &:nth-child(4),
+                &:nth-child(5) {
+                    margin-bottom: 0;
                 }
 
             }
@@ -753,6 +759,7 @@
         .remove {
             clear: left;
             overflow: hidden;
+            margin-top: 10px;
             border: 1px solid #000000;
             border-radius: 5px 5px 5px 5px;
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);

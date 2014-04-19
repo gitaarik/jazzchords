@@ -11,12 +11,12 @@ define(
             initialize: function() {
 
                 if(!this.$el.find('.chords').length) {
-                    this.$el.html('<div class="chords"></div>')
+                    this.$el.html('<div class="chords"></div>');
                 }
-                this.chords = this.$el.find('.chords')
+                this.chords = this.$el.find('.chords');
 
-                this.listenTo(this.model, 'change', this.render)
-                this.listenTo(this.model, 'destroy', this.remove)
+                this.listenTo(this.model, 'change', this.render);
+                this.listenTo(this.model, 'destroy', this.remove);
 
             },
 
@@ -29,7 +29,7 @@ define(
                 if($(event.target).closest('.chord-name').length) {
                     // If the click was on a chord name, the chord edit widget
                     // should open and not the measure edit widget.
-                    return
+                    return;
                 }
 
                 // If the measure edit widget is already open for this measure
@@ -38,35 +38,51 @@ define(
                     measureEdit.get('visible') &&
                     measureEdit.get('measure') == this.model
                 ) {
-                    measureEdit.set('visible', false)
+                    measureEdit.set('visible', false);
                 }
                 else {
+
+                    // Don't allow to remove the measure if it's the
+                    // last measure in the last line.
+                    if (
+                        this.model.get('line').get('measures').length == 1 &&
+                        this.model.get('line').get('section').get('lines').length == 1
+                    ) {
+                        remove_possible = false;
+                    } else {
+                        remove_possible = true;
+                    }
+
                     measureEdit.set({
                         'visible': true,
                         'measure': this.model,
                         'measure_el': this.$el,
-                        'beat_schema': this.model.get('beat_schema')
-                    })
+                        'beat_schema': this.model.get('beat_schema'),
+                        'remove_possible': remove_possible
+                    });
+
                 }
 
             },
 
             render: function() {
-                this.chords.html('')
-                this.drawChords()
-                this.drawSeperationLines()
-                return this
+                this.chords.html('');
+                this.drawChords();
+                this.drawSeperationLines();
+                return this;
             },
 
             drawChords: function() {
 
                 this.$el.removeClass('measure-beatschema-' +
-                    this.model.previousAttributes().beat_schema)
+                    this.model.previousAttributes().beat_schema
+                );
                 this.$el.addClass('measure-beatschema-' + 
-                    this.model.get('beat_schema'))
+                    this.model.get('beat_schema')
+                );
 
-                var that = this
-                var beats = this.model.get('beat_schema').split('-')
+                var that = this;
+                var beats = this.model.get('beat_schema').split('-');
 
                 _.each(beats, function(chord, i) {
 
@@ -74,9 +90,9 @@ define(
                         new ChordView({
                             model: that.model.get('chords').at(i)
                         }).render().el
-                    )
+                    );
 
-                })
+                });
 
             },
 
@@ -84,113 +100,115 @@ define(
                 // Draws the lines that seperate the different measure parts
                 // inside the measure
 
-                var chart = this.model.get('line').get('section').get('chart')
-                var box_width = chart.get('box_width')
-                var box_height = chart.get('box_height')
-                var border_width = chart.get('border_width')
+                var chart = this.model.get('line').get('section').get('chart');
+                var box_width = chart.get('box_width');
+                var box_height = chart.get('box_height');
+                var border_width = chart.get('border_width');
+                var canvas;
+                var context;
 
                 switch(this.model.get('beat_schema')) {
 
                     case '2-2':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = box_width 
-                        canvas.height = box_height 
+                        canvas.style.position = 'absolute';
+                        canvas.width = box_width;
+                        canvas.height = box_height;
 
-                        context.lineWidth = border_width 
+                        context.lineWidth = border_width;
 
-                        context.beginPath()
-                        context.moveTo(box_width, 0)
-                        context.lineTo(0, box_height)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(box_width, 0);
+                        context.lineTo(0, box_height);
+                        context.stroke();
 
-                        this.chords.prepend(canvas)
+                        this.chords.prepend(canvas);
 
-                        break
+                        break;
 
                     case '2-1-1':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = box_width 
-                        canvas.height = box_height
+                        canvas.style.position = 'absolute';
+                        canvas.width = box_width;
+                        canvas.height = box_height;
 
-                        context.lineWidth = border_width 
+                        context.lineWidth = border_width;
 
-                        context.beginPath()
-                        context.moveTo(box_width, 0)
-                        context.lineTo(0, box_height)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(box_width, 0);
+                        context.lineTo(0, box_height);
+                        context.stroke();
 
-                        context.beginPath()
-                        context.moveTo(box_width / 2, box_height / 2)
-                        context.lineTo(box_width, box_height)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(box_width / 2, box_height / 2);
+                        context.lineTo(box_width, box_height);
+                        context.stroke();
 
-                        this.chords.prepend(canvas)
+                        this.chords.prepend(canvas);
 
-                        break
+                        break;
 
                     case '1-1-2':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = box_width 
-                        canvas.height = box_height
+                        canvas.style.position = 'absolute';
+                        canvas.width = box_width;
+                        canvas.height = box_height;
 
-                        context.lineWidth = border_width 
+                        context.lineWidth = border_width;
 
-                        context.beginPath()
-                        context.moveTo(box_width, 0)
-                        context.lineTo(0, box_height)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(box_width, 0);
+                        context.lineTo(0, box_height);
+                        context.stroke();
 
-                        context.beginPath()
-                        context.moveTo(0, 0)
-                        context.lineTo(box_width / 2, box_height / 2)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(0, 0);
+                        context.lineTo(box_width / 2, box_height / 2);
+                        context.stroke();
 
-                        this.chords.prepend(canvas)
+                        this.chords.prepend(canvas);
 
-                        break
+                        break;
 
                     case '1-1-1-1':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = box_width 
-                        canvas.height = box_height
+                        canvas.style.position = 'absolute';
+                        canvas.width = box_width;
+                        canvas.height = box_height;
 
-                        context.lineWidth = border_width 
+                        context.lineWidth = border_width;
 
-                        context.beginPath()
-                        context.moveTo(box_width, 0)
-                        context.lineTo(0, box_height)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(box_width, 0);
+                        context.lineTo(0, box_height);
+                        context.stroke();
 
-                        context.beginPath()
-                        context.moveTo(0, 0)
-                        context.lineTo(box_width, box_height)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(0, 0);
+                        context.lineTo(box_width, box_height);
+                        context.stroke();
 
-                        this.chords.prepend(canvas)
+                        this.chords.prepend(canvas);
 
-                        break
+                        break;
 
                 }
 
             }
 
-        })
+        });
 
     }
-)
+);
