@@ -6,55 +6,60 @@ define(
 
             initialize: function() {
 
-                var that = this
-                var measuresData = this.get('measures')
-                var measures = []
-                var prev_measure = null
+                // Only set measures if it hasn't been set yet. Prevents errors
+                // when cloning.
+                if(!(this.get('measures') instanceof Backbone.Collection)) {
 
-                for(var i = 0; i < measuresData.length; i++) {
+                    var that = this;
+                    var measures = [];
+                    var measure;
 
-                    measures[i] = new Measure(measuresData[i])
-                    measures[i].set('line', this)
+                    _.each(this.get('measures'), function(measure_data) {
+                        measure_data.line = that;
+                        measure = new Measure(measure_data);
+                        measures.push(measure);
+                    });
 
-                    if(measures[i - 1]) {
-                        measures[i].set('prev_measure', measures[i - 1])
-                    }
-
-                    if(prev_measure) {
-                        prev_measure.set('next_measure', measures[i])
-                    }
-
-                    var prev_measure = measures[i]
+                    this.set('measures', new Measures(measures));
 
                 }
 
-                this.set('measures', new Measures(measures))
+                this.initListeners();
 
-                this.listenTo(this.get('measures'), 'remove', this.measureRemoved)
+            },
 
+            initListeners: function() {
+                this.stopListening();
+                this.listenTo(this.get('measures'), 'remove', this.measureRemoved);
             },
 
             measureRemoved: function() {
 
+                console.log('ff kijke');
+
                 if(!this.get('measures').length) {
-                    this.destroy()
+                    console.log('dit gebeurd');
+                    this.destroy();
                 }
 
             },
 
-            copy: function() {
+            copy: function(attributes) {
 
-                var copy = this.clone()
-                var measure = this.get('measures').first().copy()
+                var copy = this.clone();
+                copy.set('measures', this.get('measures').copy({ line: copy }));
 
-                measure.unset('next_measure')
-                copy.get('measures').reset([measure])
+                if(attributes) {
+                    copy.set(attributes);
+                }
 
-                return copy
+                copy.initListeners();
+
+                return copy;
 
             }
 
-        })
+        });
 
     }
-)
+);

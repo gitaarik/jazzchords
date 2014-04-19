@@ -3,8 +3,8 @@ define(
     function(Line) {
 
         return Backbone.Collection.extend({
-            model: Line
-        })
+            model: Line,
+        });
 
     }
-)
+);

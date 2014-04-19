@@ -5,6 +5,11 @@ define(
         return Backbone.Model.extend({
 
             initialize: function(attributes) {
+                this.initData();
+                this.initListeners();
+            },
+
+            initData: function() {
 
                 // Only set chord_type if it hasn't been set yet. Prevents
                 // errors when cloning.
@@ -12,8 +17,11 @@ define(
                     this.set('chord_type', new ChordType(this.get('chord_type')));
                 }
 
-                this.listenTo(this, 'change', this.parseNextMeasure);
+            },
 
+            initListeners: function() {
+                this.stopListening();
+                this.listenTo(this, 'change', this.parseNextMeasure);
             },
 
             parseNextMeasure: function() {
@@ -100,13 +108,15 @@ define(
 
             copy: function(attributes) {
 
-                var clone = this.clone();
+                var copy = this.clone();
 
                 if(attributes) {
-                    clone.set(attributes);
+                    copy.set(attributes);
                 }
 
-                return clone;
+                copy.initListeners();
+
+                return copy;
 
             }
 

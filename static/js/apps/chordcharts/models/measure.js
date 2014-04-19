@@ -1,35 +1,46 @@
 define(
-    ['collections/chords'],
-    function(Chords) {
+    ['collections/chords', 'models/chord'],
+    function(Chords, Chord) {
 
         return Backbone.Model.extend({
 
             initialize: function() {
+                this.initData();
+                this.initListeners();
+            },
+
+            initData: function() {
 
                 // Only set chords if it hasn't been set yet. Prevents errors
                 // when cloning.
                 if(!(this.get('chords') instanceof Backbone.Collection)) {
 
-                    var that = this
-                    var chords = []
-                    _.each(this.get('chords'), function(chord) {
-                        chord.measure = that
-                        chords.push(chord)
-                    })
+                    var that = this;
+                    var chords = [];
+                    var chord;
 
-                    this.set('chords', new Chords(chords))
+                    _.each(this.get('chords'), function(chord_data) {
+                        chord_data.measure = that;
+                        chord = new Chord(chord_data);
+                        chords.push(chord);
+                    });
+
+                    this.set('chords', new Chords(chords));
 
                 }
 
-                this.listenTo(this, 'change', this.change)
+            },
 
+            initListeners: function() {
+                this.stopListening();
+                this.listenTo(this, 'change', this.change);
             },
 
             change: function() {
 
                 if(this.hasChanged('beat_schema')) {
-                    this.updateBeatSchema()
-                    this.renderNextMeasure()
+                    this.updateBeatSchema();
+                    this.renderNextMeasure();
                 }
 
                 // If the number of this measure changed, then set the number
@@ -39,7 +50,8 @@ define(
 
                     if(this.has('next_measure')) {
                         this.get('next_measure').set(
-                            'number', this.get('number') + 1)
+                            'number', this.get('number') + 1
+                        );
                     }
 
                 }
@@ -53,40 +65,40 @@ define(
                 // It will set the chords' correct beats and will remove
                 // overflowing chords or add missing chords.
 
-                var that = this
-                var beats_set = this.get('beat_schema').split('-')
-                var last_chord
-                var new_chord = false
-                var new_chords = []
-                var new_chord_views = []
+                var that = this;
+                var beats_set = this.get('beat_schema').split('-');
+                var last_chord;
+                var new_chord = false;
+                var new_chords = [];
+                var new_chord_views = [];
 
                 _.each(beats_set, function(beats, index) {
 
-                    var chord = that.get('chords').at(index)
+                    var chord = that.get('chords').at(index);
 
                     if(!chord) {
-                        chord = last_chord.clone()
-                        new_chord = true
+                        chord = last_chord.clone();
+                        new_chord = true;
                     }
                     else {
-                        new_chord = false
+                        new_chord = false;
                     }
 
                     chord.set({
                         beats: parseInt(beats),
                         order: index + 1
-                    })
+                    });
 
                     if(new_chord) {
-                        new_chords.push(chord)
+                        new_chords.push(chord);
                     }
 
-                    last_chord = chord
+                    last_chord = chord;
 
-                })
+                });
 
                 if(new_chords.length) {
-                    this.get('chords').add(new_chords)
+                    this.get('chords').add(new_chords);
                 }
 
             },
@@ -101,15 +113,15 @@ define(
                     // milliseconds in `changed` attribute. Then `render()`
                     // will show or remove the repeat sign ( % ).
                     this.get('next_measure').get('chords').first()
-                        .set('changed', new Date().getTime())
+                        .set('changed', new Date().getTime());
                 }
 
             },
 
             remove: function() {
 
-                var prev_measure = this.get('prev_measure')
-                var next_measure = this.get('next_measure')
+                var prev_measure = this.get('prev_measure');
+                var next_measure = this.get('next_measure');
 
                 if(prev_measure) {
 
@@ -117,37 +129,39 @@ define(
                         next_measure.set({
                             'prev_measure': prev_measure,
                             'number': this.get('number')
-                        })
-                        prev_measure.set('next_measure', next_measure)
+                        });
+                        prev_measure.set('next_measure', next_measure);
                     }
                     else {
-                        prev_measure.unset('next_measure')
+                        prev_measure.unset('next_measure');
                     }
 
                 }
                 else if(next_measure) {
-                    next_measure.unset('prev_measure')
+                    next_measure.unset('prev_measure');
                 }
 
-                this.collection.remove(this)
-                this.destroy()
+                this.collection.remove(this);
+                this.destroy();
 
             },
 
             copy: function(attributes) {
 
-                var copy = this.clone()
-                copy.set('chords', this.get('chords').copy({ measure: copy }))
+                var copy = this.clone();
+                copy.set('chords', this.get('chords').copy({ measure: copy }));
 
                 if(attributes) {
-                    copy.set(attributes)
+                    copy.set(attributes);
                 }
 
-                return copy
+                copy.initListeners();
+
+                return copy;
 
             }
 
-        })
+        });
 
     }
-)
+);

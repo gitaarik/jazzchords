@@ -1,38 +1,52 @@
 define(
-    ['collections/lines'],
-    function(Lines) {
+    ['collections/lines', 'models/line'],
+    function(Lines, Line) {
 
         return Backbone.Model.extend({
 
             initialize: function() {
+                this.initData();
+                this.initListeners();
+            },
 
-                var that = this;
-                var lines = [];
-                _.each(this.get('lines'), function(line) {
-                    line.section = that;
-                    lines.push(line);
-                });
+            initData: function() {
 
-                this.set('lines', new Lines(lines));
+                // Only set lines if it hasn't been set yet. Prevents errors
+                // when cloning.
+                if(!(this.get('lines') instanceof Backbone.Collection)) {
 
-                this.listenTo(this, 'change', this.parseSectionNames);
+                    var that = this;
+                    var lines = [];
+                    var line;
+
+                    _.each(this.get('lines'), function(line_data) {
+                        line_data.section = that;
+                        line = new Line(line_data);
+                        lines.push(line);
+                    });
+
+                    this.set('lines', new Lines(lines));
+
+                }
 
             },
 
-            /**
-             * Recalculates and sets the height for this section.
-             */
-            recalculateHeight: function() {
+            initListeners: function() {
+                this.listenTo(this, 'change', this.parseSectionNames);
+            },
 
-                this.set('height',
+            /**
+             * Returns the on-screen height of this section.
+             */
+            getHeight: function() {
+
+                return (
+                    this.get('lines').length *
                     (
-                        this.get('lines').length *
-                        (
-                            this.get('chart').get('box_height') +
-                            this.get('chart').get('border_width')
-                        )
-                    ) + this.get('chart').get('border_width')
-                );
+                        this.get('chart').get('box_height') +
+                        this.get('chart').get('border_width')
+                    )
+                ) + this.get('chart').get('border_width');
 
             },
 

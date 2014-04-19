@@ -8,6 +8,7 @@ define(
 
             initialize: function() {
                 this.listenTo(this.model, 'change', this.render);
+                this.listenTo(this.model.get('lines'), 'remove', this.render);
             },
 
             events: {
@@ -18,23 +19,21 @@ define(
 
             addLine: function() {
 
-                var line = this.model.get('lines').last().copy();
+                var new_line = this.model.get('lines').last().copy();
+                var new_measure = new_line.get('measures').first().copy();
 
-                this.model.get('lines').add(line);
+                new_measure.unset('next_measure');
+                new_line.get('measures').reset([new_measure]);
+
+                this.model.get('lines').add(new_line);
 
                 var lineView = new LineView({
-                    model: line
+                    model: new_line
                 });
 
                 lineView.render().$el.insertBefore(this.$el.find('.line-add'));
 
-                this.model.recalculateHeight();
                 this.renderSidebar();
-
-                this.listenTo(this.model.get('lines'), 'remove', function() {
-                    this.model.recalculateHeight();
-                    this.renderSidebar();
-                });
 
             },
 
@@ -49,10 +48,8 @@ define(
             },
 
             render: function() {
-
                 this.renderHeader();
                 this.renderSidebar();
-
             },
 
             renderHeader: function() {
@@ -73,10 +70,17 @@ define(
                     this.$el.find('.section-sidebar-letter').html(
                         this.model.getSequenceLetter()
                     );
+
+                    this.$el.find('.section-sidebar').css(
+                        'height',
+                        this.model.getHeight()
+                    );
+
                     this.$el.find('.section-sidebar-letter').css(
                         'line-height',
-                        this.model.get('height') + 'px'
+                        this.model.getHeight() + 'px'
                     );
+
                     this.redrawIndicatorLines();
 
                 }
@@ -101,7 +105,7 @@ define(
                 var sidebar_half_width = Math.round(sidebar_width / 2);
                 var box_height = this.model.get('chart').get('box_height');
                 var line_margin = Math.round(box_height * 0.15);
-                var section_height = this.model.get('height');
+                var section_height = this.model.getHeight();
                 var section_half_height = Math.round(section_height / 2);
 
                 canvas.height = section_height;

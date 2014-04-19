@@ -28,7 +28,8 @@ require(
         // Bind views and models to existing HTML
 
         var chartView = new ChartView({
-            el: '.chord-chart .chart'
+            el: '.chord-chart .chart',
+            model: chart
         });
 
         var section_number = 0;

@@ -8,7 +8,7 @@ define(
             className: 'chord',
 
             initialize: function() {
-                this.listenTo(this.model, 'change', this.render)
+                this.listenTo(this.model, 'change', this.render);
             },
 
             events: {
@@ -24,14 +24,14 @@ define(
                     chordEdit.get('visible') &&
                     chordEdit.get('chord') == this.model
                 ) {
-                    chordEdit.set('visible', false)
+                    chordEdit.set('visible', false);
                 }
                 else {
                     chordEdit.set({
                         visible: true,
                         chord: this.model,
                         offset: this.$el.offset()
-                    })
+                    });
                 }
 
 
@@ -55,10 +55,10 @@ define(
                     this.model.get('measure').get('prev_measure').get('chords')
                     .first().chordName() == this.model.chordName()
                 ) {
-                    return '%'
+                    return '%';
                 }
                 else {
-                    return this.model.chordName()
+                    return this.model.chordName();
                 }
 
             },
@@ -67,22 +67,22 @@ define(
 
                 if(!this.model.get('measure')) {
                     // only parse next measure if whole chart has been done parsing
-                    return
+                    return;
                 }
 
-                this.$el.addClass('chord-' + this.model.get('order'))
+                this.$el.addClass('chord-' + this.model.get('order'));
 
                 this.$el.html(
                     '<span class="chord-name">' + 
                         this.chartOutput() +
                     '</span>'
-                )
+                );
 
-                return this
+                return this;
 
             },
 
-        })
+        });
 
     }
-)
+);
