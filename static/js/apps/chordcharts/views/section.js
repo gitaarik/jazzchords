@@ -14,6 +14,8 @@ define(
 
             events: {
                 'click .section-header .name': 'openSectionEdit',
+                'click .section-header .section-edit-buttons .move-up': 'moveUp',
+                'click .section-header .section-edit-buttons .move-down': 'moveDown',
                 'click .section-header .section-edit-buttons .remove': 'removeSection',
                 'click .line-add .plus': 'addLine',
             },
@@ -206,6 +208,48 @@ define(
                 }
 
                 this.$el.find('.lines').append(lineViews);
+
+            },
+
+            moveUp: function() {
+
+                this.$el.after(this.$el.prev());
+
+                var this_section_number = this.model.get('number');
+
+                var prev_section = this.model.collection.find(
+                    function(section) {
+                        return section.get('number') == this_section_number - 1;
+                    }
+                );
+
+                var prev_section_number = prev_section.get('number');
+                prev_section.set('number', this_section_number);
+                this.model.set('number', prev_section_number);
+
+                this.model.trigger('change:alt_name');
+                prev_section.trigger('change:alt_name');
+
+            },
+
+            moveDown: function() {
+
+                this.$el.before(this.$el.next());
+
+                var this_section_number = this.model.get('number');
+
+                var next_section = this.model.collection.find(
+                    function(section) {
+                        return section.get('number') == this_section_number + 1;
+                    }
+                );
+
+                var next_section_number = next_section.get('number');
+                next_section.set('number', this_section_number);
+                this.model.set('number', next_section_number);
+
+                this.model.trigger('change:alt_name');
+                next_section.trigger('change:alt_name');
 
             },
 

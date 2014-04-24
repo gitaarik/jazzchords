@@ -32,15 +32,6 @@
         </div>
     </script>
 
-    <script type="text/template" id="template-section-header">
-        <header class="section-header">
-            <div class="name"><%= section_name %></div>
-            <div class="section-edit-buttons">
-                <div class="remove"></div>
-            </div>
-        </header>
-    </script>
-
     <script type="text/template" id="template-section-sidebar">
         <div class="section-sidebar">
             <canvas></canvas>
@@ -48,23 +39,31 @@
         </div>
     </script>
 
-    <script type="text/template" id="template-lines">
+    {% if edit %}
 
-        <table class="lines">
+        <script type="text/template" id="template-section-header">
+            {% include "section_header.html" with section_name="<%= section_name %>" %}
+        </script>
 
-            <tbody></tbody>
+        <script type="text/template" id="template-lines">
 
-            <tfoot>
-                <tr class="line-add">
-                    <td class="colspan" colspan="8">
-                        <div class="plus">+</div>
-                    </td>
-                </tr>
-            </tfoot>
+            <table class="lines">
 
-        </table>
+                <tbody></tbody>
 
-    </script>
+                <tfoot>
+                    <tr class="line-add">
+                        <td class="colspan" colspan="8">
+                            <div class="plus">+</div>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+
+        </script>
+
+    {% endif %}
 
 {% endblock %}
 
@@ -113,21 +112,7 @@
                 <section class="section" style="width: {{ chart.width }}px;">
 
                     {% if section.alt_name or edit %}
-
-                        <header class="section-header">
-
-                            <div class="name">
-                                {{ section.name }}
-                            </div>
-
-                            {% if edit %}
-                                <div class="section-edit-buttons">
-                                    <div class="remove"></div>
-                                </div>
-                            {% endif %}
-
-                        </header>
-
+                        {% include "section_header.html" with section_name=section.name %}
                     {% endif %}
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">

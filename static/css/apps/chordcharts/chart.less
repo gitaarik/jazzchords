@@ -161,25 +161,6 @@
                     font-size: 20px;
                 }
 
-                .section-edit-buttons {
-
-                    float: left;
-                    margin: 5px 0 0 5px;
-
-                    .remove {
-                        float: left;
-                        margin-left: 5px;
-                        width: 16px;
-                        height: 16px;
-                        cursor: pointer;
-                    }
-
-                    .remove {
-                        background: url(@discard-icon);
-                    }
-
-                }
-
             }
 
             &:first-child .section-header {
@@ -827,8 +808,33 @@
 
             .section {
 
-                .section-header .name {
-                    cursor: pointer;
+                .section-header {
+
+                    .name {
+                        cursor: pointer;
+                    }
+
+                    .section-edit-buttons {
+
+                        float: left;
+                        margin: 5px 0 0 5px;
+
+                        .move-down,
+                        .move-up {
+                            float: left;
+                        }
+
+                        .remove {
+                            float: left;
+                            margin-left: 5px;
+                            width: 16px;
+                            height: 16px;
+                            cursor: pointer;
+                            background: url(@discard-icon);
+                        }
+
+                    }
+
                 }
 
                 .lines {

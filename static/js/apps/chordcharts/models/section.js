@@ -106,6 +106,12 @@ define(
              */
             parseSectionNames: function() {
 
+                if (!this.collection) {
+                    // If we're not in a collection yet, this is not
+                    // possible/necessary.
+                    return;
+                }
+
                 var this_number = this.get('number');
 
                 var section = this.collection.find(function(section) {
