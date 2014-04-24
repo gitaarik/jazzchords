@@ -13,7 +13,8 @@ define(
             events: {
                 'change input[type=radio]': 'changeSectionName',
                 'click input[type=radio]': 'changeSectionName',
-                'keyup .custom-name-input': 'changeSectionName',
+                'keyup .custom-name-input': 'customNameChanged',
+                'click .close': 'close'
             },
 
             initialize: function() {
@@ -28,6 +29,10 @@ define(
                     this.$el.hide();
                 }
 
+            },
+
+            close: function() {
+                this.model.set('visible', false);
             },
 
             show: function() {
@@ -69,6 +74,13 @@ define(
                     this.model.get('section').set('alt_name', '');
                 }
 
+            },
+
+            customNameChanged: function(event) {
+                this.changeSectionName();
+                if (event.key == 'Enter') {
+                    this.close();
+                }
             }
 
         });

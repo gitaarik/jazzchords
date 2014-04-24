@@ -414,6 +414,14 @@
             background: url(@popup-arrow-up);
         }
 
+        .close {
+            float: right;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            background: url(@discard-icon);
+        }
+
         .padding {
             padding: 0 10px;
         }
@@ -472,12 +480,7 @@
             }
 
             .close {
-                float: right;
-                width: 16px;
-                height: 16px;
                 margin-right: 10px;
-                cursor: pointer;
-                background: url(@discard-icon);
             }
 
         }
@@ -577,14 +580,6 @@
         h3 {
             margin: 0;
             font-weight: normal;
-        }
-
-        .close {
-            float: right;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-            background: url(@discard-icon);
         }
 
         .measures {
@@ -777,6 +772,10 @@
 
         display: none;
         padding: 0;
+
+        .close {
+            margin: 10px;
+        }
 
         .name {
 
