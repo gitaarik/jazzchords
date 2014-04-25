@@ -77,6 +77,18 @@ define(
                     this.$el.append(section_header);
                 }
 
+                if (this.model.get('number') == 1) {
+                    this.$el.find(
+                        '.section-header .section-edit-buttons .move-up'
+                    ).hide();
+                } else if (
+                    this.model.get('number') == this.model.collection.length
+                ) {
+                    this.$el.find(
+                        '.section-header .section-edit-buttons .move-down'
+                    ).hide();
+                }
+
             },
 
             renderSidebar: function() {

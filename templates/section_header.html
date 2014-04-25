@@ -2,8 +2,8 @@
     <div class="name">{{ section_name }}</div>
     {% if edit %}
         <div class="section-edit-buttons">
-            <div class="move-down">down</div>
-            <div class="move-up">up</div>
+            {% if move_down %}<div class="move-down">down</div>{% endif %}
+            {% if move_up %}<div class="move-up">up</div>{% endif %}
             <div class="remove"></div>
         </div>
     {% endif %}
