@@ -1,6 +1,5 @@
 require(
     [
-        'collections/chord_edit_chord_types',
         'models/chart',
         'views/chart',
         'views/section',
@@ -10,7 +9,6 @@ require(
         'init/key_change_widget'
     ],
     function(
-        ChordEditChordTypes,
         Chart,
         ChartView,
         SectionView,
