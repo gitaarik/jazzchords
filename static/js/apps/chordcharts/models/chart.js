@@ -20,7 +20,16 @@ define(
                         sections.push(section);
                     });
 
-                    this.set('sections', new Sections(sections));
+                    var sectionsCollection = new Sections(sections);
+                    sectionsCollection.url = (
+                        '/api/chart/' +
+                        this.get('song').slug +
+                        '/sections/'
+                    );
+
+                    console.log(sectionsCollection.url);
+
+                    this.set('sections', sectionsCollection);
 
                 }
 

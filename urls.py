@@ -8,14 +8,19 @@ from django.views.decorators.cache import never_cache
 admin.autodiscover()
 urlpatterns = patterns('', )
 
-if settings.DEBUG:
-    urlpatterns += patterns('',
-        url(r'^static/(?P<path>.*)$', never_cache(serve_static)),
-    )
+api_urls = patterns('',
+    url(r'^chart/', include('chordcharts.urls_api', namespace='chart'))
+)
 
 urlpatterns += patterns('',
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chart/', include('chordcharts.urls')),
+    url(r'^api/', include(api_urls, namespace='api')),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^static/(?P<path>.*)$', never_cache(serve_static)),
+    )
