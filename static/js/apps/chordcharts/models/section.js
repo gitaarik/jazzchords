@@ -114,16 +114,14 @@ define(
 
                 var this_number = this.get('number');
 
-                var section = this.collection.find(function(section) {
-                    return(
+                this.collection.each(function(section) {
+                    if (
                         !section.get('alt_name') &&
                         section.get('number') > this_number
-                    );
+                    ) {
+                        section.trigger('change');
+                    }
                 });
-
-                if (section) {
-                    section.trigger('change');
-                }
 
             },
 
@@ -140,6 +138,22 @@ define(
 
                 return copy;
 
+            },
+
+            /*safeSave: function() {
+
+                this.save({
+                    number: this.get('number'),
+                    alt_name: this.get('alt_name')
+                });
+
+            }*/
+
+            toJSON: function() {
+                return {
+                    number: this.get('number'),
+                    alt_name: this.get('alt_name')
+                };
             }
 
         });

@@ -18,6 +18,7 @@ urlpatterns += patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chart/', include('chordcharts.urls')),
     url(r'^api/', include(api_urls, namespace='api')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
 
 if settings.DEBUG:

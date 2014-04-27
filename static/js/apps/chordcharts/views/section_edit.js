@@ -27,6 +27,8 @@ define(
                     this.show();
                 } else {
                     this.$el.hide();
+                    var section = this.model.get('section');
+                    section.save();
                 }
 
             },

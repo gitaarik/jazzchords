@@ -248,10 +248,10 @@ class Section(models.Model):
 
     class Meta:
         ordering = ('number',)
-        unique_together = ('chart', 'number')
 
     def client_data(self):
         return {
+            'id': self.id,
             'number': self.number,
             'name': self.name(),
             'sequence_letter': self.sequence_letter(),

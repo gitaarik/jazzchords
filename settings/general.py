@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'grappelli',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'rest_framework',
     'south',
     'core',
     'compressor',
