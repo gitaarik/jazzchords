@@ -10,5 +10,11 @@ class SectionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         return Section.objects.filter(
+            chart__id=self.kwargs['chart_id'],
             chart__song__slug=self.kwargs['song_slug']
         )
+
+    def get_serializer_context(self):
+        context = super(SectionViewSet, self).get_serializer_context()
+        context['chart_id'] = self.kwargs['chart_id']
+        return context

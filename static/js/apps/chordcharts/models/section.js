@@ -32,6 +32,7 @@ define(
             },
 
             initListeners: function() {
+                this.stopListening();
                 this.listenTo(this, 'change:alt_name', this.parseSectionNames);
             },
 
@@ -128,7 +129,10 @@ define(
             copy: function(attributes) {
 
                 var copy = this.clone();
-                copy.set('lines', this.get('lines').copy({ section: copy }));
+                copy.set({
+                    id: null,
+                    lines: this.get('lines').copy({ section: copy })
+                });
 
                 if(attributes) {
                     copy.set(attributes);
@@ -140,19 +144,12 @@ define(
 
             },
 
-            /*safeSave: function() {
-
-                this.save({
-                    number: this.get('number'),
-                    alt_name: this.get('alt_name')
-                });
-
-            }*/
-
             toJSON: function() {
                 return {
                     number: this.get('number'),
-                    alt_name: this.get('alt_name')
+                    alt_name: this.get('alt_name'),
+                    key_distance_from_chart: this.get('key_distance_from_chart'),
+                    time_signature: this.get('time_signature'),
                 };
             }
 

@@ -87,7 +87,7 @@
                         <div>Transpose to:</div>
                         <ul>
                             {% for key in all_keys %}
-                                <li><a href="{% url "chart" song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a></li>
+                                <li><a href="{% url "chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -95,9 +95,9 @@
 
                 <div class="right">
                     {% if edit %}
-                        <a class="save" href="{% url "chart" song_slug=chart.song.slug key_slug=chart.key.slug %}">Save</a>
+                        <a class="save" href="{% url "chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Save</a>
                     {% else %}
-                        <a class="edit" href="{% url "chart_edit" song_slug=chart.song.slug key_slug=chart.key.slug %}">Edit</a>
+                        <a class="edit" href="{% url "chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Edit</a>
                     {% endif %}
                 </div>
 

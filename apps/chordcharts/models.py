@@ -179,6 +179,7 @@ class Chart(models.Model):
 
     def client_data(self):
         return {
+            'id': self.id,
             'song': self.song.client_data(),
             'key': self.key.client_data(),
             'width': self.width(),
@@ -252,10 +253,12 @@ class Section(models.Model):
     def client_data(self):
         return {
             'id': self.id,
+            'key_distance_from_chart': self.key_distance_from_chart,
             'number': self.number,
+            'alt_name': self.alt_name,
+            'time_signature': self.time_signature.id,
             'name': self.name(),
             'sequence_letter': self.sequence_letter(),
-            'alt_name': self.alt_name,
             'height': self.height(),
             'key': self.key().client_data(),
             'lines': [l.client_data() for l in self.lines.all()]

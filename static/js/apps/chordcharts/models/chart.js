@@ -24,6 +24,8 @@ define(
                     sectionsCollection.url = (
                         '/api/chart/' +
                         this.get('song').slug +
+                        '/' +
+                        this.get('id') +
                         '/sections'
                     );
 

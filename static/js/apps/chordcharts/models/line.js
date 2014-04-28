@@ -44,7 +44,10 @@ define(
             copy: function(attributes) {
 
                 var copy = this.clone();
-                copy.set('measures', this.get('measures').copy({ line: copy }));
+                copy.set({
+                    id: null,
+                    measures: this.get('measures').copy({ line: copy })
+                });
 
                 if(attributes) {
                     copy.set(attributes);

@@ -149,7 +149,10 @@ define(
             copy: function(attributes) {
 
                 var copy = this.clone();
-                copy.set('chords', this.get('chords').copy({ measure: copy }));
+                copy.set({
+                    id: null,
+                    chords: this.get('chords').copy({ measure: copy })
+                });
 
                 if(attributes) {
                     copy.set(attributes);

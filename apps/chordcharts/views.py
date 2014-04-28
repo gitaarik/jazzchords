@@ -5,9 +5,9 @@ from .models import Chart, Key, ChordType
 from .settings import BOXED_CHART
 
 
-def chart(request, song_slug, key_slug=None, edit=False):
+def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
-    chart = Chart.objects.get(song__slug=song_slug)
+    chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
 
     if key_slug:
         try:

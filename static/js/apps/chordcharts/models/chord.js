@@ -109,6 +109,9 @@ define(
             copy: function(attributes) {
 
                 var copy = this.clone();
+                copy.set({
+                    id: null
+                });
 
                 if(attributes) {
                     copy.set(attributes);

@@ -242,6 +242,9 @@ define(
                 this.model.trigger('change:alt_name');
                 prev_section.trigger('change:alt_name');
 
+                this.model.save();
+                prev_section.save();
+
             },
 
             moveDown: function() {
@@ -262,6 +265,9 @@ define(
 
                 this.model.trigger('change:alt_name');
                 next_section.trigger('change:alt_name');
+
+                this.model.save();
+                next_section.save();
 
             },
 

@@ -36,6 +36,8 @@ define(
 
                 this.model.get('sections').add(new_section);
 
+                new_section.save();
+
                 var sectionView = new SectionView({
                     model: new_section
                 });

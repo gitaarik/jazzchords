@@ -8,7 +8,8 @@ router.register(r'sections', SectionViewSet)
 
 urlpatterns = patterns('',
     url(
-        r'^(?P<song_slug>[a-z-_]*)/',
+        r'^(?P<song_slug>[a-z-_]+)/'
+        '(?P<chart_id>\d+)/',
         include(router.urls),
         name='chart',
     )

@@ -44,12 +44,6 @@ define(
                     'left': this.model.get('offset').left - 15
                 });
 
-                if (this.model.get('section').get('alt_name')) {
-                    this.$el.find('.custom-name-radio').prop('checked', true);
-                } else {
-                    this.$el.find('.sequence-letter-radio').prop('checked', true);
-                }
-
                 this.$el.find('.custom-name-input').val(
                     this.model.get('section').get('alt_name')
                 );
@@ -57,7 +51,27 @@ define(
                     this.model.get('section').getSequenceLetter()
                 );
 
+                if (this.model.get('section').get('alt_name')) {
+                    this.$el.find('.custom-name-radio').prop('checked', true);
+                } else {
+                    this.$el.find('.sequence-letter-radio').prop('checked', true);
+                }
+
                 this.$el.show();
+
+                if (this.model.get('section').get('alt_name')) {
+
+                    var custom_name_input = this.$el.find('.custom-name-input');
+
+                    // set focus on text field
+                    custom_name_input.focus();
+
+                    // make sure the cursor is at the end
+                    var orig_value = custom_name_input.val();
+                    custom_name_input.val('');
+                    custom_name_input.val(orig_value);
+
+                }
 
             },
 
