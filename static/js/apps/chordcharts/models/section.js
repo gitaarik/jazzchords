@@ -52,14 +52,6 @@ define(
             },
 
             /**
-             * Remove this section from the chart.
-             */
-            remove: function() {
-                this.collection.remove(this);
-                this.destroy();
-            },
-
-            /**
              * Returns the name of the section.
              *
              * If `alt_name` is set, this will be used, otherwise,

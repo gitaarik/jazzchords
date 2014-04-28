@@ -274,7 +274,7 @@ define(
             removeSection: function() {
 
                 if (confirm("Are you sure you want to remove this section?")) {
-                    this.model.remove();
+                    this.model.destroy();
                     this.remove();
                 }
 
