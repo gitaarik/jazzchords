@@ -16,16 +16,15 @@ define(
                 if(!(this.get('chords') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var chords = [];
-                    var chord;
+                    var chords = new Chords();
+                    chords.url = this.url() + '/chords';
 
                     _.each(this.get('chords'), function(chord_data) {
                         chord_data.measure = that;
-                        chord = new Chord(chord_data);
-                        chords.push(chord);
+                        chords.push(chord_data);
                     });
 
-                    this.set('chords', new Chords(chords));
+                    this.set('chords', chords);
 
                 }
 
@@ -141,7 +140,6 @@ define(
                     next_measure.unset('prev_measure');
                 }
 
-                this.collection.remove(this);
                 this.destroy();
 
             },

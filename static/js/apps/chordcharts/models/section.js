@@ -16,16 +16,15 @@ define(
                 if(!(this.get('lines') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var lines = [];
-                    var line;
+                    var lines = new Lines();
+                    lines.url = this.url() + '/lines';
 
                     _.each(this.get('lines'), function(line_data) {
                         line_data.section = that;
-                        line = new Line(line_data);
-                        lines.push(line);
+                        lines.add(line_data);
                     });
 
-                    this.set('lines', new Lines(lines));
+                    this.set('lines', lines);
 
                 }
 
@@ -141,7 +140,7 @@ define(
                     number: this.get('number'),
                     alt_name: this.get('alt_name'),
                     key_distance_from_chart: this.get('key_distance_from_chart'),
-                    time_signature: this.get('time_signature'),
+                    time_signature: this.get('time_signature')
                 };
             }
 

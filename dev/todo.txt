@@ -1,14 +1,10 @@
-Add line bugfix:
-    Adding line for first section doesn't work.
-
-Set section title:
-    Be able to set a section's title instead of the generated letter.
-
-Add/remove section:
-    Be able to add and remove a section.
-
-Move section:
-    Be able to move a section.
+Migrate to Python 3:
+    - Read Django's 'Porting to Python 3':
+      https://docs.djangoproject.com/en/dev/topics/python3/
+    - Ditch South and Use Django 1.7 migrations:
+      https://docs.djangoproject.com/en/dev/topics/migrations/
+    - Use django compressor dev version:
+      https://github.com/django-compressor/django-compressor/issues/458
 
 Save song:
     Be able to save a song after editing.

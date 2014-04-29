@@ -29,6 +29,7 @@ define(
                 new_line.get('measures').reset([new_measure]);
 
                 this.model.get('lines').add(new_line);
+                new_line.save();
 
                 var lineView = new LineView({
                     model: new_line

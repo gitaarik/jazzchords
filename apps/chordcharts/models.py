@@ -319,6 +319,14 @@ class Section(models.Model):
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 
+    def remove_empty_lines(self):
+        """
+        Removes any lines in this section that don't have measures.
+        """
+        for line in self.lines.all():
+            if line.measures.count() == 0:
+                line.delete()
+
 
 class Line(models.Model):
     """

@@ -7,21 +7,53 @@ from .settings import BOXED_CHART
 
 def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
-    chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
+    def set_chart_key(key):
+        """
+        Overrides the default key of the chart in case it was given.
+        """
+        if key_slug:
+            try:
+                chart.key = Key.objects.get(slug=key_slug)
+            except:
+                pass
 
-    if key_slug:
-        try:
-            chart.key = Key.objects.get(slug=key_slug)
-        except:
-            pass
+    def remove_empty_lines(chart):
+        """
+        Remove any empty lines in sections.
+
+        Empty lines could appear when a request for a new section got
+        through, but a request for a new line in this section didn't.
+
+        In case this happens, we remove it on this request, because we
+        assume that when something like this happend (in case of a
+        timeout or anything) this view would have been requested another
+        time.
+        """
+        for section in chart.sections.all():
+            section.remove_empty_lines()
+
+    def chord_types_sets(chord_types):
+        """
+        Returns two sets of chord types lists.
+        """
+        return (chord_types[:12], chord_types[12:])
+
+    def chord_types_json(chord_types):
+        """
+        Returns the JSON representation of the chord types.
+        """
+        chord_types_data = [
+            chord_type.client_data()
+            for chord_type in chord_types
+        ]
+        return json.dumps(chord_types_data)
+
+    chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
+    set_chart_key(chart)
+    remove_empty_lines(chart)
 
     all_keys = Key.objects.filter(tonality=chart.key.tonality)
     chord_types = ChordType.objects.all()
-
-    chord_types_data = [
-        chord_type.client_data()
-        for chord_type in chord_types
-    ]
 
     chart_data = chart.client_data()
 
@@ -31,8 +63,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         'chart_json': json.dumps(chart_data),
         'all_keys': all_keys,
         'edit': edit,
-        'chord_types_sets': (chord_types[:12], chord_types[12:]),
-        'chord_types_json': json.dumps(chord_types_data)
+        'chord_types_sets': chord_types_sets(chord_types),
+        'chord_types_json': chord_types_json(chord_types)
     }
 
     return render(request, 'chart.html', context)

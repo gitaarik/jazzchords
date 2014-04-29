@@ -11,16 +11,15 @@ define(
                 if(!(this.get('measures') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var measures = [];
-                    var measure;
+                    var measures = new Measures();
+                    measures.url = this.url() + '/measures';
 
                     _.each(this.get('measures'), function(measure_data) {
                         measure_data.line = that;
-                        measure = new Measure(measure_data);
-                        measures.push(measure);
+                        measures.add(measure_data);
                     });
 
-                    this.set('measures', new Measures(measures));
+                    this.set('measures', measures);
 
                 }
 
@@ -57,6 +56,12 @@ define(
 
                 return copy;
 
+            },
+
+            toJSON: function() {
+                return {
+                    number: this.get('number')
+                };
             }
 
         });

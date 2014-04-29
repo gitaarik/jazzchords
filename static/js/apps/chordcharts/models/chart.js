@@ -11,25 +11,19 @@ define(
                 if(!(this.get('sections') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var sections = [];
-                    var section;
+                    var sections = new Sections();
+
+                    sections.url = (
+                        '/api/chart/' + this.get('song').slug + '/' +
+                        this.get('id') + '/sections'
+                    );
 
                     _.each(this.get('sections'), function(section_data) {
                         section_data.chart = that;
-                        section = new Section(section_data);
-                        sections.push(section);
+                        sections.add(section_data);
                     });
 
-                    var sectionsCollection = new Sections(sections);
-                    sectionsCollection.url = (
-                        '/api/chart/' +
-                        this.get('song').slug +
-                        '/' +
-                        this.get('id') +
-                        '/sections'
-                    );
-
-                    this.set('sections', sectionsCollection);
+                    this.set('sections', sections);
 
                 }
 
