@@ -17,7 +17,7 @@ define(
 
                     var that = this;
                     var lines = new Lines();
-                    lines.url = this.url() + '/lines';
+                    lines.url = this.linesUrl();
 
                     _.each(this.get('lines'), function(line_data) {
                         line_data.section = that;
@@ -28,6 +28,10 @@ define(
 
                 }
 
+            },
+
+            linesUrl: function() {
+                return this.url() + '/lines';
             },
 
             initListeners: function() {
@@ -132,6 +136,23 @@ define(
                 copy.initListeners();
 
                 return copy;
+
+            },
+
+            /**
+             * Recursively saves this section and it's children (lines,
+             * measures and chords).
+             */
+            saveRecursive: function() {
+
+                var that = this;
+
+                this.save(null, { success: function() {
+                    that.get('lines').url = that.linesUrl();
+                    that.get('lines').each(function(line) {
+                        line.saveRecursive();
+                    });
+                }});
 
             },
 

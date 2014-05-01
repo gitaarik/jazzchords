@@ -12,7 +12,7 @@ define(
 
                     var that = this;
                     var measures = new Measures();
-                    measures.url = this.url() + '/measures';
+                    measures.url = this.measuresUrl();
 
                     _.each(this.get('measures'), function(measure_data) {
                         measure_data.line = that;
@@ -25,6 +25,10 @@ define(
 
                 this.initListeners();
 
+            },
+
+            measuresUrl: function() {
+                return this.url() + '/measures';
             },
 
             initListeners: function() {
@@ -55,6 +59,23 @@ define(
                 copy.initListeners();
 
                 return copy;
+
+            },
+
+            /**
+             * Recursively saves this line and it's children (measures
+             * and chords).
+             */
+            saveRecursive: function() {
+
+                var that = this;
+
+                this.save(null, { success: function() {
+                    that.get('measures').url = that.measuresUrl();
+                    that.get('measures').each(function(measure) {
+                        measure.saveRecursive();
+                    });
+                }});
 
             },
 

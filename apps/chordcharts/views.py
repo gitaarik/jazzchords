@@ -6,6 +6,12 @@ from .settings import BOXED_CHART
 
 
 def chart(request, song_slug, chart_id, key_slug=None, edit=False):
+    """
+    Renders the view for the chart.
+
+    Could be the normal chart or view edit version. In case of the edit
+    version, `edit` should be `True`.
+    """
 
     def set_chart_key(key):
         """
@@ -17,20 +23,20 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
             except:
                 pass
 
-    def remove_empty_lines(chart):
+    def remove_empty_children(chart):
         """
-        Remove any empty lines in sections.
+        Removes any empty children of the given chart.
 
-        Empty lines could appear when a request for a new section got
-        through, but a request for a new line in this section didn't.
+        Empty childs could appear when a request for a new object got
+        through, but a request for a child for this object didn't.
 
         In case this happens, we remove it on this request, because we
         assume that when something like this happend (in case of a
         timeout or anything) this view would have been requested another
-        time.
+        time at some point. And it's easier (and probably more
+        performant) than having a cronjob for this.
         """
-        for section in chart.sections.all():
-            section.remove_empty_lines()
+        chart.remove_empty_children()
 
     def chord_types_sets(chord_types):
         """
@@ -50,11 +56,10 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
     chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
     set_chart_key(chart)
-    remove_empty_lines(chart)
+    remove_empty_children(chart)
 
     all_keys = Key.objects.filter(tonality=chart.key.tonality)
     chord_types = ChordType.objects.all()
-
     chart_data = chart.client_data()
 
     context = {

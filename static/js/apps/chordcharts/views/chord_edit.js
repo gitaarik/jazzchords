@@ -28,7 +28,7 @@ define(
             },
 
             initialize: function() {
-                this.chord_type = this.$el.find('.chord-settings .setting.type');
+                this.chord_type_el = this.$el.find('.chord-settings .setting.type');
                 this.initChordTypes();
                 this.listenTo(this.model, 'change', this.change);
             },
@@ -67,29 +67,28 @@ define(
                 // the existing HTML
 
                 var that = this;
-                this.editWidget_chordTypes = new ChordEditChordTypes();
+                this.chordEditChordTypes = new ChordEditChordTypes();
 
                 _.each(GLOBALS.chord_types, function(chord_type) {
-                    that.editWidget_chordTypes.add({
-                        chord_type_id: chord_type.id, // used for `findWhere` later on
+                    that.chordEditChordTypes.add({
                         chord_type: chord_type
                     });
                 });
 
-                var chordType_number = 0;
-                var chord_types = [];
+                var number = 0;
+                var chordEditChordType;
 
-                this.chord_type.find('li').each(function() {
+                this.chord_type_el.find('li').each(function() {
 
-                    var chord_type_model = that.editWidget_chordTypes.models[chordType_number];
-                    chord_type_model.set('editWidget', that.model);
+                    chordEditChordType = that.chordEditChordTypes.models[number];
+                    chordEditChordType.set('editWidget', that.model);
 
                     new ChordEditChordTypeView({
                         el: this,
-                        model: chord_type_model
+                        model: chordEditChordType
                     });
 
-                    chordType_number++;
+                    number++;
 
                 });
 
@@ -135,7 +134,7 @@ define(
             toggleChordTypes: function(obj) {
                 // Toggles between the two pages of chord type options
 
-                if(this.chord_type.find('.type-part-1').is(':visible')) {
+                if(this.chord_type_el.find('.type-part-1').is(':visible')) {
                     this.showChordTypePart(2);
                 }
                 else {
@@ -151,8 +150,8 @@ define(
             showChordTypePart: function(number) {
                 // Shows the chord type part of the provided number
                 // The chord type choices are in these parts
-                this.chord_type.find('.type-part').hide();
-                this.chord_type.find('.type-part-' + number).show();
+                this.chord_type_el.find('.type-part').hide();
+                this.chord_type_el.find('.type-part-' + number).show();
             },
 
             show: function() {
@@ -161,13 +160,14 @@ define(
 
                 // If the edit widget opens on a different chord than the
                 // last one, then reset the editWidget.
-
-                if(this.model.previousAttributes().chord !=
-                   this.model.get('chord')) {
+                if(
+                    this.model.previousAttributes().chord !=
+                    this.model.get('chord')
+                ) {
                     this.reset();
                 }
 
-                offset = this.offset();
+                var offset = this.offset();
 
                 this.$el.css({
                     'top': this.model.get('offset').top + offset.top,
@@ -175,7 +175,7 @@ define(
                 });
 
                 this.parseNotes();
-                this.parseTypes();
+                this.parseChordTypes();
 
                 this.$el.show();
 
@@ -371,19 +371,23 @@ define(
 
             },
 
-            parseTypes: function() {
+            parseChordTypes: function() {
                 // Select the correct chord type
 
-                var current_selected = this.editWidget_chordTypes.findWhere({
+                var that = this;
+                var current_selected = this.chordEditChordTypes.findWhere({
                     selected: true
                 });
 
-                if(current_selected) {
+                if (current_selected) {
                     current_selected.set('selected', false);
                 }
 
-                this.editWidget_chordTypes.findWhere({
-                    chord_type_id: this.model.get('chord_type').id
+                this.chordEditChordTypes.find(function(chordEditChordType) {
+                    return (
+                        chordEditChordType.get('chord_type').get('id') ==
+                        that.model.get('chord_type').get('id')
+                    );
                 }).set('selected', true);
 
             },
@@ -400,17 +404,19 @@ define(
                     note: chord.get('note'),
                     chord_type: chord.get('chord_type'),
                     alt_bass_note: chord.get('alt_bass_note'),
-                    note_choices: chord.get('measure').get('line')
+                    note_choices: (
+                        chord.get('measure').get('line')
                         .get('section').get('key').notes
+                    )
                 });
 
                 // Show the chord type part that has the curent selected chord
                 // type.
-                var current_chord_type = this.editWidget_chordTypes.findWhere({
-                    chord_type_id: this.model.get('chord_type').id
+                var current_chord_type = this.chordEditChordTypes.findWhere({
+                    chord_type: this.model.get('chord_type')
                 });
 
-                if(this.editWidget_chordTypes.indexOf(current_chord_type) > 11) {
+                if(this.chordEditChordTypes.indexOf(current_chord_type) > 11) {
                     this.showChordTypePart(2);
                 }
                 else {

@@ -11,10 +11,16 @@ define(
 
             initData: function() {
 
-                // Only set chord_type if it hasn't been set yet. Prevents
-                // errors when cloning.
-                if(!(this.get('chord_type') instanceof Backbone.Model)) {
-                    this.set('chord_type', new ChordType(this.get('chord_type')));
+                if (!this.has('chord_type')) {
+
+                    var that = this;
+
+                    _.each(GLOBALS.chord_types, function(chord_type_data) {
+                        if (chord_type_data.id == that.get('chord_type_id')) {
+                            that.set('chord_type', new ChordType(chord_type_data));
+                        }
+                    });
+
                 }
 
             },
@@ -35,12 +41,12 @@ define(
                 //   next chord were the same, then change the chord of the
                 //   next measure to the chord of the current measure.
 
-                if(!this.get('measure').get('line').get('section').get('chart').get('parsed')) {
+                if (!this.get('measure').get('line').get('section').get('chart').get('parsed')) {
                     // only parse next measure if whole chart has been done parsing
                     return;
                 }
 
-                if(
+                if (
                     this.get('beats') == 4 &&
                     this.get('measure').has('next_measure') &&
                     this.get('measure').get('next_measure').get('beat_schema') == '4' &&
@@ -50,7 +56,7 @@ define(
                     var next_chord = this.get('measure').get('next_measure')
                         .get('chords').first();
 
-                    if(
+                    if (
                         // Check if chords are the same NOW
                         _.isEqual(next_chord.get('note'), this.get('note')) &&
                         _.isEqual(next_chord.get('chord_type').attributes,
@@ -68,7 +74,7 @@ define(
 
                         var prev_attr = this.previousAttributes();
 
-                        if(
+                        if (
                             // Check if the current measure's chord before the change
                             // is the same as the next measure's chord
                             _.isEqual(next_chord.get('note'), prev_attr.note) &&
@@ -94,10 +100,9 @@ define(
                 // Returns the full chord name
 
                 var bass_note;
-                if(this.get('alt_bass_note')) {
+                if (this.get('alt_bass_note')) {
                     bass_note = '/' + this.get('alt_bass_note').name;
-                }
-                else {
+                } else {
                     bass_note = '';
                 }
 
@@ -113,7 +118,7 @@ define(
                     id: null
                 });
 
-                if(attributes) {
+                if (attributes) {
                     copy.set(attributes);
                 }
 
@@ -121,6 +126,15 @@ define(
 
                 return copy;
 
+            },
+
+            toJSON: function() {
+                return {
+                    order: this.get('order'),
+                    beats: this.get('beats'),
+                    alt_bass_pitch: this.get('alt_bass_pitch'),
+                    chord_type: this.get('chord_type').get('id'),
+                };
             }
 
         });

@@ -66,7 +66,7 @@ class Key(models.Model):
         return {
             'name': self.name,
             'slug': self.slug,
-            'notes': {note.pk: note.client_data() for note in self.notes.all()}
+            'notes': {note.id: note.client_data() for note in self.notes.all()}
         }
 
     def note(self, distance_from_root, accidental=0):
@@ -108,7 +108,7 @@ class Note(models.Model):
 
     def client_data(self):
         return {
-            'id': self.pk,
+            'id': self.id,
             'name': self.name
         }
 
@@ -152,7 +152,7 @@ class ChordType(models.Model):
 
     def client_data(self):
         return {
-            'id': self.pk,
+            'id': self.id,
             'name': self.name,
             'symbol': self.symbol,
             'chord_output': self.chord_output
@@ -204,6 +204,20 @@ class Chart(models.Model):
 
     def border_width(self):
         return BOXED_CHART['border_width']
+
+    def remove_empty_children(self):
+        """
+        Removes children that are empty.
+
+        Empty children are:
+            - sections that don't have any lines
+            - lines that don't have any measures
+            - measures that don't have any chords
+        """
+        for section in self.sections.all():
+            section.remove_empty_children()
+            if section.lines.count() == 0:
+                section.delete()
 
 
 class TimeSignature(models.Model):
@@ -319,11 +333,16 @@ class Section(models.Model):
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 
-    def remove_empty_lines(self):
+    def remove_empty_children(self):
         """
-        Removes any lines in this section that don't have measures.
+        Removes children that are empty.
+
+        Empty children are:
+            - lines that don't have any measures
+            - measures that don't have any chords
         """
         for line in self.lines.all():
+            line.remove_empty_children()
             if line.measures.count() == 0:
                 line.delete()
 
@@ -353,6 +372,7 @@ class Line(models.Model):
 
     def client_data(self):
         return {
+            'id': self.id,
             'number': self.number,
             'measures': [m.client_data() for m in self.measures.all()]
         }
@@ -367,6 +387,17 @@ class Line(models.Model):
 
     def time_signature(self):
         return self.section.time_signature
+
+    def remove_empty_children(self):
+        """
+        Removes children that are empty.
+
+        Empty children are:
+            - measures that don't have any chords
+        """
+        for measure in self.measures.all():
+            if measure.chords.count() == 0:
+                measure.delete()
 
 
 class Measure(models.Model):
@@ -399,6 +430,7 @@ class Measure(models.Model):
 
     def client_data(self):
         return {
+            'id': self.id,
             'number': self.number,
             'beat_schema': self.beat_schema,
             'chords': [c.client_data() for c in self.chords.all()]
@@ -465,10 +497,13 @@ class Chord(models.Model):
         return {
             'order': self.order,
             'beats': self.beats,
+            'alt_bass_pitch': self.alt_bass_pitch,
             'note': self.note().client_data(),
-            'chord_type': self.chord_type.client_data(),
-            'alt_bass_note': self.alt_bass_note().client_data()
-                if self.alt_bass else False,
+            'chord_type_id': self.chord_type.id,
+            'alt_bass_note': (
+                self.alt_bass_note().client_data()
+                if self.alt_bass else False
+            ),
             'chart_output': self.chart_output()
         }
 

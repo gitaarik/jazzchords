@@ -22,24 +22,34 @@ define(
 
             addLine: function() {
 
-                var new_line = this.model.get('lines').last().copy();
-                var new_measure = new_line.get('measures').first().copy();
+                var last_line = this.model.get('lines').last();
 
-                new_measure.unset('next_measure');
-                new_line.get('measures').reset([new_measure]);
-
-                this.model.get('lines').add(new_line);
-                new_line.save();
-
-                var lineView = new LineView({
-                    model: new_line
+                var new_line = this.model.get('lines').last().copy({
+                    number: last_line.get('number') + 1
                 });
 
-                this.$el.find('.lines tbody').append(
-                    lineView.render().el
-                );
+                this.model.get('lines').add(new_line);
 
-                this.renderSidebar();
+                new_line.save(null, { success: function() {
+
+                    var new_measure = new_line.get('measures').first().copy();
+
+                    new_measure.unset('next_measure');
+                    new_line.get('measures').reset([new_measure]);
+
+                    new_measure.save();
+
+                    var lineView = new LineView({
+                        model: new_line
+                    });
+
+                    this.$el.find('.lines tbody').append(
+                        lineView.render().el
+                    );
+
+                    this.renderSidebar();
+
+                }});
 
             },
 
@@ -279,7 +289,7 @@ define(
                     this.remove();
                 }
 
-            }
+            },
 
         });
 

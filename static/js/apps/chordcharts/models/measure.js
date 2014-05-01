@@ -17,7 +17,7 @@ define(
 
                     var that = this;
                     var chords = new Chords();
-                    chords.url = this.url() + '/chords';
+                    chords.url = this.chordsUrl();
 
                     _.each(this.get('chords'), function(chord_data) {
                         chord_data.measure = that;
@@ -28,6 +28,10 @@ define(
 
                 }
 
+            },
+
+            chordsUrl: function() {
+                return this.url() + '/chords';
             },
 
             initListeners: function() {
@@ -160,6 +164,29 @@ define(
 
                 return copy;
 
+            },
+
+            /**
+             * Recursively saves this measure and it's children (chords).
+             */
+            saveRecursive: function() {
+
+                var that = this;
+
+                this.save(null, { success: function() {
+                    that.get('chords').url = that.chordsUrl();
+                    that.get('chords').each(function(chord) {
+                        chord.save();
+                    });
+                }});
+
+            },
+
+            toJSON: function() {
+                return {
+                    number: this.get('number'),
+                    beat_schema: this.get('beat_schema')
+                };
             }
 
         });
