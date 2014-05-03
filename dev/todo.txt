@@ -7,6 +7,12 @@ Delete section should take into account the numbers:
     When you delete a section that's not the last one, the numbers of
     the following sections should be their number - 1.
 
+Measure chords clean:
+    A measure should have a method which will clean it's chords. The
+    `beats` field of a chord should match the `beat_schema` of the
+    measure, and chords that don't fit in the `beat_schema` should be
+    removed.
+
 Migrate to Python 3:
     - Read Django's 'Porting to Python 3':
       https://docs.djangoproject.com/en/dev/topics/python3/

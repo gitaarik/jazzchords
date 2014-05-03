@@ -80,7 +80,7 @@ define(
                     var chord = that.get('chords').at(index);
 
                     if (!chord) {
-                        chord = last_chord.clone();
+                        chord = last_chord.copy();
                         new_chord = true;
                     } else {
                         new_chord = false;

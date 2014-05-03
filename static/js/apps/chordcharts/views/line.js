@@ -79,6 +79,8 @@ define(
                     this.$el.append(measureViewEl);
                 }
 
+                new_measure.saveRecursive();
+
             },
 
             render: function() {

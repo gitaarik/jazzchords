@@ -8,33 +8,37 @@ define(
             tagName: 'li',
 
             initialize: function() {
-                this.listenTo(this.model, 'change', this.render)
+                this.listenTo(this.model, 'change', this.render);
             },
 
             events: {
-                'click': 'chooseMeasure'
+                'click': 'chooseBeatSchema'
             },
 
-            chooseMeasure: function() {
-                this.model.get('measureEdit').set('beat_schema',
-                    this.model.get('beat_schema'))
+            chooseBeatSchema: function() {
+
+                this.model.get('measureEdit').set(
+                    'beat_schema',
+                    this.model.get('beat_schema')
+                );
+
             },
 
             render: function() {
 
                 if(!this.measures_drawn) {
-                    this.drawMeasures()
-                    this.measures_drawn = true
+                    this.drawMeasures();
+                    this.measures_drawn = true;
                 }
 
                 if(this.model.get('selected')) {
-                    this.$el.find('.measure').addClass('selected')
+                    this.$el.find('.measure').addClass('selected');
                 }
                 else {
-                    this.$el.find('.measure').removeClass('selected')
+                    this.$el.find('.measure').removeClass('selected');
                 }
 
-                return this
+                return this;
 
             },
 
@@ -42,28 +46,28 @@ define(
 
                 var template = _.template(
                     $('#template-measure-edit-measure').html()
-                )
+                );
 
-                var num_chords
+                var num_chords;
 
                 switch(this.model.get('beat_schema')) {
 
                     case '4':
-                        num_chords = 1
-                        break
+                        num_chords = 1;
+                        break;
 
                     case '2-2':
-                        num_chords = 2
-                        break
+                        num_chords = 2;
+                        break;
 
                     case '2-1-1':
                     case '1-1-2':
-                        num_chords = 3
-                        break
+                        num_chords = 3;
+                        break;
 
                     case '1-1-1-1':
-                        num_chords = 4
-                        break
+                        num_chords = 4;
+                        break;
 
                 }
 
@@ -72,118 +76,120 @@ define(
                         beat_schema: this.model.get('beat_schema'),
                         num_chords: num_chords
                     })
-                )
+                );
 
-                this.drawSeperationLines()
+                this.drawSeperationLines();
 
             },
 
             drawSeperationLines: function() {
 
-                var element = this.$el.find('.measure')
+                var element = this.$el.find('.measure');
+                var canvas;
+                var context;
 
                 switch(this.model.get('beat_schema')) {
 
                     case '2-2':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = 50
-                        canvas.height = 50
+                        canvas.style.position = 'absolute';
+                        canvas.width = 50;
+                        canvas.height = 50;
 
-                        context.lineWidth = 1
+                        context.lineWidth = 1;
 
-                        context.beginPath()
-                        context.moveTo(50, 0)
-                        context.lineTo(0, 50)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(50, 0);
+                        context.lineTo(0, 50);
+                        context.stroke();
 
-                        element.prepend(canvas)
+                        element.prepend(canvas);
 
-                        break
+                        break;
 
                     case '2-1-1':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = 50
-                        canvas.height = 50
+                        canvas.style.position = 'absolute';
+                        canvas.width = 50;
+                        canvas.height = 50;
 
-                        context.lineWidth = 1
+                        context.lineWidth = 1;
 
-                        context.beginPath()
-                        context.moveTo(50, 0)
-                        context.lineTo(0, 50)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(50, 0);
+                        context.lineTo(0, 50);
+                        context.stroke();
 
-                        context.beginPath()
-                        context.moveTo(25, 25)
-                        context.lineTo(50, 50)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(25, 25);
+                        context.lineTo(50, 50);
+                        context.stroke();
 
-                        element.prepend(canvas)
+                        element.prepend(canvas);
 
-                        break
+                        break;
 
                     case '1-1-2':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = 50
-                        canvas.height = 50
+                        canvas.style.position = 'absolute';
+                        canvas.width = 50;
+                        canvas.height = 50;
 
-                        context.lineWidth = 1
+                        context.lineWidth = 1;
 
-                        context.beginPath()
-                        context.moveTo(50, 0)
-                        context.lineTo(0, 50)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(50, 0);
+                        context.lineTo(0, 50);
+                        context.stroke();
 
-                        context.beginPath()
-                        context.moveTo(0, 0)
-                        context.lineTo(25, 25)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(0, 0);
+                        context.lineTo(25, 25);
+                        context.stroke();
 
-                        element.prepend(canvas)
+                        element.prepend(canvas);
 
-                        break
+                        break;
 
                     case '1-1-1-1':
 
-                        var canvas = document.createElement('canvas')
-                        var context = canvas.getContext('2d')
+                        canvas = document.createElement('canvas');
+                        context = canvas.getContext('2d');
 
-                        canvas.style.position = 'absolute'
-                        canvas.width = 50
-                        canvas.height = 50
+                        canvas.style.position = 'absolute';
+                        canvas.width = 50;
+                        canvas.height = 50;
 
-                        context.lineWidth = 1
+                        context.lineWidth = 1;
 
-                        context.beginPath()
-                        context.moveTo(50, 0)
-                        context.lineTo(0, 50)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(50, 0);
+                        context.lineTo(0, 50);
+                        context.stroke();
 
-                        context.beginPath()
-                        context.moveTo(0, 0)
-                        context.lineTo(50, 50)
-                        context.stroke()
+                        context.beginPath();
+                        context.moveTo(0, 0);
+                        context.lineTo(50, 50);
+                        context.stroke();
 
-                        element.prepend(canvas)
+                        element.prepend(canvas);
 
-                        break
+                        break;
 
                 }
 
             }
 
-        })
+        });
 
     }
-)
+);

@@ -208,9 +208,10 @@ class Chart(models.Model):
     def border_width(self):
         return BOXED_CHART['border_width']
 
-    def remove_empty_children(self):
+    def clean(self):
         """
-        Removes children that are empty.
+        Cleans up the model by removing empty children and other objects
+        that aren't needed anymore.
 
         Empty children are:
             - sections that don't have any lines
@@ -218,7 +219,7 @@ class Chart(models.Model):
             - measures that don't have any chords
         """
         for section in self.sections.all():
-            section.remove_empty_children()
+            section.clean()
             if section.lines.count() == 0:
                 section.delete()
 
@@ -337,16 +338,17 @@ class Section(models.Model):
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 
-    def remove_empty_children(self):
+    def clean(self):
         """
-        Removes children that are empty.
+        Cleans up the model by removing empty children and other objects
+        that aren't needed anymore.
 
         Empty children are:
             - lines that don't have any measures
             - measures that don't have any chords
         """
         for line in self.lines.all():
-            line.remove_empty_children()
+            line.clean()
             if line.measures.count() == 0:
                 line.delete()
 
@@ -392,14 +394,16 @@ class Line(models.Model):
     def time_signature(self):
         return self.section.time_signature
 
-    def remove_empty_children(self):
+    def clean(self):
         """
-        Removes children that are empty.
+        Cleans up the model by removing empty children and other objects
+        that aren't needed anymore.
 
         Empty children are:
             - measures that don't have any chords
         """
         for measure in self.measures.all():
+            measure.clean()
             if measure.chords.count() == 0:
                 measure.delete()
 
@@ -451,16 +455,28 @@ class Measure(models.Model):
     def time_signature(self):
         return self.line.time_signature()
 
+    def chords_count(self):
+        """
+        The amount of chords this measure contains.
+        """
+        return len(self.beat_schema.split('-'))
+
     def previous(self):
         """
         Returns the previous measure.
         """
-
         try:
             return self.line.measures.filter(
                 number__lt=self.number).reverse()[0]
         except IndexError:
             return None
+
+    def clean(self):
+        """
+        Removes chords that don't fit in the `beat_schema` of this
+        measure.
+        """
+        self.chords.filter(order__gt=self.chords_count()).delete()
 
 
 class Chord(models.Model):
@@ -499,6 +515,7 @@ class Chord(models.Model):
 
     def client_data(self):
         return {
+            'id': self.id,
             'order': self.order,
             'beats': self.beats,
             'chord_pitch': self.chord_pitch,

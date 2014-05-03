@@ -42,10 +42,14 @@ define(
                     // Only set the beat_schema on the measure if the edit
                     // widget is visible.
                     if(this.model.previousAttributes().visible) {
+
                         this.model.get('measure').set(
                             'beat_schema',
                             this.model.get('beat_schema')
                         );
+
+                        this.model.get('measure').saveRecursive();
+
                     }
 
                     this.show();
