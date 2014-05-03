@@ -6,6 +6,7 @@ define(
         'models/chord_edit_note',
         'views/chord_edit_note',
         'views/chord_edit_chord_type',
+        'init/chord_types',
         'init/all_keys'
     ],
     function(
@@ -15,6 +16,7 @@ define(
         ChordEditNote,
         ChordEditNoteView,
         ChordEditChordTypeView,
+        chordTypes,
         allKeys
     ) {
 
@@ -72,7 +74,7 @@ define(
                 var that = this;
                 this.chordEditChordTypes = new ChordEditChordTypes();
 
-                _.each(GLOBALS.chord_types, function(chord_type) {
+                chordTypes.each(function(chord_type) {
                     that.chordEditChordTypes.add({
                         chord_type: chord_type
                     });
@@ -104,7 +106,7 @@ define(
 
                 var chord_data = {
                     chord_pitch: this.model.get('note').get('distance_from_root'),
-                    chord_type: this.model.get('chord_type'),
+                    chord_type_id: this.model.get('chord_type').get('id'),
                     alt_bass: alt_bass
                 };
 

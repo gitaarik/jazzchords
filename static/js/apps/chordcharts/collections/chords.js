@@ -8,22 +8,22 @@ define(
 
             copy: function(attributes) {
 
-                var copy = this.clone()
-                var chord_copy
-                var chords_copies = []
+                var copy = this.clone();
+                var chord_copy;
+                var chords_copies = [];
 
                 copy.each(function(chord) {
-                    chord_copy = chord.copy(attributes)
-                    chords_copies.push(chord_copy)
-                })
+                    chord_copy = chord.copy(attributes);
+                    chords_copies.push(chord_copy);
+                });
 
-                copy.reset(chords_copies)
+                copy.reset(chords_copies);
 
-                return copy
+                return copy;
 
             }
 
-        })
+        });
 
     }
-)
+);

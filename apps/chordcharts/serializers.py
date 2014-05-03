@@ -58,6 +58,8 @@ class MeasureSerializer(serializers.ModelSerializer):
 
 class ChordSerializer(serializers.ModelSerializer):
 
+    chord_type_id = serializers.PrimaryKeyRelatedField(source='chord_type')
+
     def restore_object(self, attrs, instance=None):
 
         if instance is None:
@@ -73,7 +75,8 @@ class ChordSerializer(serializers.ModelSerializer):
             'id',
             'order',
             'beats',
+            'chord_type_id',
             'chord_pitch',
-            'chord_type',
+            'alt_bass',
             'alt_bass_pitch'
         )

@@ -1,6 +1,6 @@
 define(
-    ['models/note', 'models/chord_type', 'init/all_keys'],
-    function(Note, ChordType, allKeys) {
+    ['models/note', 'init/chord_types', 'init/all_keys'],
+    function(Note, chordTypes, allKeys) {
 
         return Backbone.Model.extend({
 
@@ -12,15 +12,7 @@ define(
             initData: function() {
 
                 if (!this.has('chord_type')) {
-
-                    var that = this;
-
-                    _.each(GLOBALS.chord_types, function(chord_type_data) {
-                        if (chord_type_data.id == that.get('chord_type_id')) {
-                            that.set('chord_type', new ChordType(chord_type_data));
-                        }
-                    });
-
+                    this.initChordType();
                 }
 
                 if (!this.get('key')) {
@@ -32,9 +24,14 @@ define(
             initListeners: function() {
                 this.stopListening();
                 this.listenTo(this, 'change', this.parseNextMeasure);
+                this.listenTo(this, 'change:chord_type_id', this.initChordType);
                 this.listenTo(this, 'change:key_id', this.initKey);
                 this.listenTo(this, 'change:chord_pitch', this.initNote);
                 this.listenTo(this, 'change:alt_bass_pitch', this.initAltBassNote);
+            },
+
+            initChordType: function() {
+                this.set('chord_type', chordTypes.get(this.get('chord_type_id')));
             },
 
             initKey: function() {
@@ -105,7 +102,6 @@ define(
                             )
                         )
                     ) {
-                        console.log('jaojaojao');
                         // Trigger the `render()` by setting timestamp in
                         // milliseconds in `changed` attribute. Then `render()`
                         // will put the repeat sign ( % ) in.
@@ -193,8 +189,10 @@ define(
                 return {
                     order: this.get('order'),
                     beats: this.get('beats'),
+                    chord_pitch: this.get('chord_pitch'),
+                    alt_bass: this.get('alt_bass'),
                     alt_bass_pitch: this.get('alt_bass_pitch'),
-                    chord_type: this.get('chord_type').get('id'),
+                    chord_type_id: this.get('chord_type').get('id'),
                 };
             }
 
