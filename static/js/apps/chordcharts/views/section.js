@@ -30,26 +30,22 @@ define(
 
                 this.model.get('lines').add(new_line);
 
-                new_line.save(null, { success: function() {
+                var new_measure = new_line.get('measures').first().copy();
 
-                    var new_measure = new_line.get('measures').first().copy();
+                new_measure.unset('next_measure');
+                new_line.get('measures').reset([new_measure]);
 
-                    new_measure.unset('next_measure');
-                    new_line.get('measures').reset([new_measure]);
+                var lineView = new LineView({
+                    model: new_line
+                });
 
-                    new_measure.save();
+                this.$el.find('.lines tbody').append(
+                    lineView.render().el
+                );
 
-                    var lineView = new LineView({
-                        model: new_line
-                    });
+                this.renderSidebar();
 
-                    this.$el.find('.lines tbody').append(
-                        lineView.render().el
-                    );
-
-                    this.renderSidebar();
-
-                }});
+                new_line.saveRecursive();
 
             },
 
