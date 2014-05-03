@@ -117,6 +117,7 @@ define(
                 }
 
                 this.model.get('chord').set(chord_data);
+                this.model.get('chord').save();
 
             },
 

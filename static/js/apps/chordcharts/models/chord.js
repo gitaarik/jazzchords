@@ -135,12 +135,16 @@ define(
                                 )
                             )
                         ) {
+
                             next_chord.set({
                                 'chord_pitch': this.get('chord_pitch'),
                                 'chord_type': this.get('chord_type'),
                                 'alt_bass': this.get('alt_bass'),
                                 'alt_bass_pitch': this.get('alt_bass_pitch')
                             });
+
+                            next_chord.save();
+
                         }
 
                     }
