@@ -29,7 +29,7 @@ class Key(models.Model):
     )
 
     TONALITY_MAJOR = 1
-    TONALITY_MINOR = 1
+    TONALITY_MINOR = 2
     TONALITY_CHOICES = (
         (TONALITY_MAJOR, "Major"),
         (TONALITY_MINOR, "Minor")
@@ -64,9 +64,11 @@ class Key(models.Model):
 
     def client_data(self):
         return {
+            'id': self.id,
             'name': self.name,
             'slug': self.slug,
-            'notes': {note.id: note.client_data() for note in self.notes.all()}
+            'tonality': self.tonality,
+            'notes': [note.client_data() for note in self.notes.all()]
         }
 
     def note(self, distance_from_root, accidental=0):
@@ -109,7 +111,8 @@ class Note(models.Model):
     def client_data(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'distance_from_root': self.distance_from_root
         }
 
 
@@ -274,6 +277,7 @@ class Section(models.Model):
             'name': self.name(),
             'sequence_letter': self.sequence_letter(),
             'height': self.height(),
+            'key_id': self.key().id,
             'key': self.key().client_data(),
             'lines': [l.client_data() for l in self.lines.all()]
         }
@@ -497,7 +501,10 @@ class Chord(models.Model):
         return {
             'order': self.order,
             'beats': self.beats,
+            'chord_pitch': self.chord_pitch,
+            'alt_bass': self.alt_bass,
             'alt_bass_pitch': self.alt_bass_pitch,
+            'key_id': self.key().id,
             'note': self.note().client_data(),
             'chord_type_id': self.chord_type.id,
             'alt_bass_note': (
@@ -551,7 +558,6 @@ class Chord(models.Model):
                 )
             ):
                 return '%'
-
 
         return self.chord_notation()
 

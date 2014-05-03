@@ -15,6 +15,9 @@ Migrate to Python 3:
     - Use django compressor dev version:
       https://github.com/django-compressor/django-compressor/issues/458
 
+Make rests possible:
+    https://en.wikipedia.org/wiki/Rest_%28music%29
+
 Save song:
     Be able to save a song after editing.
 

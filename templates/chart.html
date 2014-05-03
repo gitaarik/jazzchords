@@ -14,6 +14,7 @@
 
         var GLOBALS = {
             chart_data: {{ chart_json|safe }},
+            all_keys: {{ all_keys|safe }},
             chord_types: {{ chord_types_json|safe }}
         }
 
@@ -86,7 +87,7 @@
                         <hr>
                         <div>Transpose to:</div>
                         <ul>
-                            {% for key in all_keys %}
+                            {% for key in chart_keys %}
                                 <li><a href="{% url "chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a></li>
                             {% endfor %}
                         </ul>

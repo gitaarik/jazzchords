@@ -46,7 +46,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
     def chord_types_json(chord_types):
         """
-        Returns the JSON representation of the chord types.
+        Returns the JSON representation of the given `chord_types`.
         """
         chord_types_data = [
             chord_type.client_data()
@@ -54,11 +54,22 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         ]
         return json.dumps(chord_types_data)
 
+    def keys_json(keys):
+        """
+        Returns the JSON representation of the given `keys`.
+        """
+        all_keys_data = [
+            key.client_data()
+            for key in all_keys
+        ]
+        return json.dumps(all_keys_data)
+
     chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
     set_chart_key(chart)
     remove_empty_children(chart)
 
-    all_keys = Key.objects.filter(tonality=chart.key.tonality)
+    all_keys = Key.objects.all()
+    chart_keys = all_keys.filter(tonality=chart.key.tonality)
     chord_types = ChordType.objects.all()
     chart_data = chart.client_data()
 
@@ -66,8 +77,9 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         'settings': BOXED_CHART,
         'chart': chart_data,
         'chart_json': json.dumps(chart_data),
-        'all_keys': all_keys,
+        'chart_keys': chart_keys,
         'edit': edit,
+        'all_keys': keys_json(all_keys),
         'chord_types_sets': chord_types_sets(chord_types),
         'chord_types_json': chord_types_json(chord_types)
     }

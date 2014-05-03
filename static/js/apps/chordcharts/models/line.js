@@ -19,6 +19,8 @@ define(
                         measures.add(measure_data);
                     });
 
+                    measures.initPrevNextMeasures();
+
                     this.set('measures', measures);
 
                 }

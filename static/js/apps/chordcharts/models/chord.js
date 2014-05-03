@@ -1,6 +1,6 @@
 define(
-    ['models/chord_type'],
-    function(ChordType) {
+    ['models/note', 'models/chord_type', 'init/all_keys'],
+    function(Note, ChordType, allKeys) {
 
         return Backbone.Model.extend({
 
@@ -23,11 +23,45 @@ define(
 
                 }
 
+                if (!this.get('key')) {
+                    this.initKey();
+                }
+
             },
 
             initListeners: function() {
                 this.stopListening();
                 this.listenTo(this, 'change', this.parseNextMeasure);
+                this.listenTo(this, 'change:key_id', this.initKey);
+                this.listenTo(this, 'change:chord_pitch', this.initNote);
+                this.listenTo(this, 'change:alt_bass_pitch', this.initAltBassNote);
+            },
+
+            initKey: function() {
+                this.set('key', allKeys.get(this.get('key_id')));
+                this.initNote();
+                this.initAltBassNote();
+            },
+
+            initNote: function() {
+                this.set(
+                    'note',
+                    this.get('key').note(this.get('chord_pitch'))
+                );
+            },
+
+            initAltBassNote: function() {
+
+                var alt_bass_note;
+
+                if (this.get('alt_bass')) {
+                    alt_bass_note = this.get('key').note(this.get('alt_bass_pitch'));
+                } else {
+                    alt_bass_note = false;
+                }
+
+                this.set('alt_bass_note', alt_bass_note);
+
             },
 
             parseNextMeasure: function() {
@@ -58,12 +92,20 @@ define(
 
                     if (
                         // Check if chords are the same NOW
-                        _.isEqual(next_chord.get('note'), this.get('note')) &&
-                        _.isEqual(next_chord.get('chord_type').attributes,
-                            this.get('chord_type').attributes) &&
-                        _.isEqual(next_chord.get('alt_bass_note'),
-                            this.get('alt_bass_note'))
+                        next_chord.get('chord_pitch') == this.get('chord_pitch') &&
+                        _.isEqual(
+                            next_chord.get('chord_type').attributes,
+                            this.get('chord_type').attributes
+                        ) &&
+                        (
+                            (!next_chord.get('alt_bass') && !this.get('alt_bass')) ||
+                            (
+                                next_chord.get('alt_bass') && this.get('alt_bass') &&
+                                next_chord.get('alt_bass_pitch') == this.get('alt_bass_pitch')
+                            )
+                        )
                     ) {
+                        console.log('jaojaojao');
                         // Trigger the `render()` by setting timestamp in
                         // milliseconds in `changed` attribute. Then `render()`
                         // will put the repeat sign ( % ) in.
@@ -77,16 +119,31 @@ define(
                         if (
                             // Check if the current measure's chord before the change
                             // is the same as the next measure's chord
-                            _.isEqual(next_chord.get('note'), prev_attr.note) &&
-                            _.isEqual(next_chord.get('chord_type').attributes,
-                                prev_attr.chord_type.attributes) &&
-                            _.isEqual(next_chord.get('alt_bass_note'),
-                                prev_attr.alt_bass_note)
+                            _.isEqual(
+                                next_chord.get('chord_pitch'),
+                                prev_attr.chord_pitch
+                            ) && _.isEqual(
+                                next_chord.get('chord_type').attributes,
+                                prev_attr.chord_type.attributes
+                            ) && (
+                                (
+                                    !next_chord.get('alt_bass') &&
+                                    !prev_attr.alt_bass
+                                ) || (
+                                    next_chord.get('alt_bass') &&
+                                    prev_attr.alt_bass &&
+                                    _.isEqual(
+                                        next_chord.get('alt_bass_pitch'),
+                                        prev_attr.alt_bass_pitch
+                                    )
+                                )
+                            )
                         ) {
                             next_chord.set({
-                                'note': this.get('note'),
+                                'chord_pitch': this.get('chord_pitch'),
                                 'chord_type': this.get('chord_type'),
-                                'alt_bass_note': this.get('alt_bass_note')
+                                'alt_bass': this.get('alt_bass'),
+                                'alt_bass_pitch': this.get('alt_bass_pitch')
                             });
                         }
 
@@ -100,14 +157,18 @@ define(
                 // Returns the full chord name
 
                 var bass_note;
-                if (this.get('alt_bass_note')) {
-                    bass_note = '/' + this.get('alt_bass_note').name;
+
+                if (this.get('alt_bass')) {
+                    bass_note = '/' + this.get('alt_bass_note').get('name');
                 } else {
                     bass_note = '';
                 }
 
-                return this.get('note').name +
-                    this.get('chord_type').get('chord_output') + bass_note;
+                return (
+                    this.get('note').get('name') +
+                    this.get('chord_type').get('chord_output') +
+                    bass_note
+                );
 
             },
 

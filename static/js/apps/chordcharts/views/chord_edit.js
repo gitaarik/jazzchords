@@ -5,7 +5,8 @@ define(
         'models/chord_edit',
         'models/chord_edit_note',
         'views/chord_edit_note',
-        'views/chord_edit_chord_type'
+        'views/chord_edit_chord_type',
+        'init/all_keys'
     ],
     function(
         ChordEditNotes,
@@ -13,7 +14,8 @@ define(
         ChordEdit,
         ChordEditNote,
         ChordEditNoteView,
-        ChordEditChordTypeView
+        ChordEditChordTypeView,
+        allKeys
     ) {
 
         return Backbone.View.extend({
@@ -43,7 +45,8 @@ define(
                     var previousAttributes = this.model.previousAttributes();
 
                     // If the edit widget was already open for this chord,
-                    // then apply the changes.
+                    // then apparently something else than the visibility
+                    // changed, so we apply the changes.
                     if(
                         previousAttributes.visible &&
                         this.model.get('chord') == previousAttributes.chord
@@ -97,11 +100,21 @@ define(
             applyChanges: function() {
                 // Applies the changes made in the edit widget to the chord
 
-                this.model.get('chord').set({
-                    note: this.model.get('note'),
+                var alt_bass = Boolean(this.model.get('alt_bass_note'));
+
+                var chord_data = {
+                    chord_pitch: this.model.get('note').get('distance_from_root'),
                     chord_type: this.model.get('chord_type'),
-                    alt_bass_note: this.model.get('alt_bass_note')
-                });
+                    alt_bass: alt_bass
+                };
+
+                if (alt_bass) {
+                    chord_data.alt_bass_pitch = (
+                        this.model.get('alt_bass_note').get('distance_from_root')
+                    );
+                }
+
+                this.model.get('chord').set(chord_data);
 
             },
 
@@ -294,8 +307,10 @@ define(
 
                 // If the notes are different from the last time, regenerate
                 // the models/views.
-                if(this.model.get('note_choices') !=
-                   this.model.previousAttributes().note_choices) {
+                if (
+                    this.model.get('note_choices') !=
+                    this.model.previousAttributes().note_choices
+                ) {
 
                     that.editWidgetNotes = [];
 
@@ -308,10 +323,10 @@ define(
                         );
                         note_choices.html('');
 
-                        _.each(that.model.get('note_choices'), function(note) {
+                        that.model.get('note_choices').each(function(note) {
 
                             editWidgetNote = new ChordEditNote({
-                                note_id: note.id, // used for `findWhere` later on
+                                note_id: note.get('id'), // used for `findWhere` later on
                                 note: note,
                                 note_type: note_type,
                                 editWidget: that.model
@@ -340,7 +355,7 @@ define(
                         .findWhere({ selected: true })
                     );
 
-                    if(current_selected) {
+                    if (current_selected) {
                         current_selected.set('selected', false);
                     }
 
@@ -352,9 +367,9 @@ define(
                         '.setting[data-key=' + note_type + '] .none'
                     );
 
-                    if(that.model.get(note_type)) {
+                    if (that.model.get(note_type)) {
 
-                        if(none_button) {
+                        if (none_button) {
                             none_button.removeClass('selected');
                         }
 
@@ -362,8 +377,7 @@ define(
                             note_id: that.model.get(note_type).id
                         }).set('selected', true);
 
-                    }
-                    else if(none_button) {
+                    } else if (none_button) {
                         none_button.addClass('selected');
                     }
 
@@ -403,10 +417,12 @@ define(
                 this.model.set({
                     note: chord.get('note'),
                     chord_type: chord.get('chord_type'),
+                    alt_bass: chord.get('alt_bass'),
                     alt_bass_note: chord.get('alt_bass_note'),
                     note_choices: (
-                        chord.get('measure').get('line')
-                        .get('section').get('key').notes
+                        allKeys.findWhere({
+                            id: chord.get('key_id')
+                        }).get('notes')
                     )
                 });
 

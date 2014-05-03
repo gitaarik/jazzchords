@@ -6,15 +6,11 @@ define(
 
             model: Measure,
 
-            initialize: function(models) {
-                this.initPrevNextMeasures(models);
-            },
-
-            initPrevNextMeasures: function(models) {
+            initPrevNextMeasures: function() {
 
                 var prev_measure = null;
 
-                _.each(models, function(measure) {
+                this.each(function(measure) {
 
                     if (prev_measure) {
                         prev_measure.set('next_measure', measure);
