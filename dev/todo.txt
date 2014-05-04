@@ -1,3 +1,10 @@
+Bug: if you move the last section up, then add a new section, then this
+new section has the same sequence letter as the (current) last one.
+
+Bug: adding a new section to a song with only one section errors.
+
+Add a plus sign (+) to the "New Section" box
+
 Renumber objects:
     We can already remove empty children, now we should also have a
     method that makes sure the numbers of the sections/lines/measures
