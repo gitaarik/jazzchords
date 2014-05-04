@@ -4,7 +4,7 @@ define(
 
         return Backbone.Collection.extend({
             model: Section
-        })
+        });
 
     }
-)
+);

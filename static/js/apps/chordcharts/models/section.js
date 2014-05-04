@@ -1,6 +1,6 @@
 define(
-    ['collections/lines', 'models/line'],
-    function(Lines, Line) {
+    ['collections/subsections', 'models/subsection'],
+    function(Subsections, Subsection) {
 
         return Backbone.Model.extend({
 
@@ -11,27 +11,27 @@ define(
 
             initData: function() {
 
-                // Only set lines if it hasn't been set yet. Prevents errors
+                // Only set subsections if it hasn't been set yet. Prevents errors
                 // when cloning.
-                if(!(this.get('lines') instanceof Backbone.Collection)) {
+                if(!(this.get('subsections') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var lines = new Lines();
-                    lines.url = this.linesUrl();
+                    var subsections = new Subsection();
+                    subsections.url = this.subsectionsUrl();
 
-                    _.each(this.get('lines'), function(line_data) {
-                        line_data.section = that;
-                        lines.add(line_data);
+                    _.each(this.get('subsections'), function(subsection_data) {
+                        subsection_data.section = that;
+                        lines.add(subsection_data);
                     });
 
-                    this.set('lines', lines);
+                    this.set('subsections', subsections);
 
                 }
 
             },
 
-            linesUrl: function() {
-                return this.url() + '/lines';
+            subsectionsUrl: function() {
+                return this.url() + '/subsections';
             },
 
             initListeners: function() {

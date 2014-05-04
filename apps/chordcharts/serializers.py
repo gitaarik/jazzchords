@@ -24,6 +24,22 @@ class SectionSerializer(serializers.ModelSerializer):
         )
 
 
+class SubsectionSerializer(serializers.ModelSerializer):
+
+    def restore_object(self, attrs, instance=None):
+
+        if instance is None:
+            # if `instance` is `None`, it means we're creating a new
+            # object, so we set the `chart_id` field.
+            attrs['section_id'] = self.context['section_id']
+
+        return super(SubsectionSerializer, self).restore_object(attrs, instance)
+
+    class Meta:
+        model = Section
+        fields = ('id', 'number')
+
+
 class LineSerializer(serializers.ModelSerializer):
 
     def restore_object(self, attrs, instance=None):
@@ -31,7 +47,7 @@ class LineSerializer(serializers.ModelSerializer):
         if instance is None:
             # if `instance` is `None`, it means we're creating a new
             # object, so we set the `section_id` field.
-            attrs['section_id'] = self.context['section_id']
+            attrs['subsection_id'] = self.context['subsection_id']
 
         return super(LineSerializer, self).restore_object(attrs, instance)
 

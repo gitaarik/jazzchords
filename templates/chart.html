@@ -134,48 +134,54 @@
                     <table class="lines">
 
                         <tbody>
-                            {% for line in section.lines %}
 
-                                <tr class="line">
+                            {% for subsection in section.subsections %}
 
-                                    {% for measure in line.measures %}
+                                {% for line in subsection.lines %}
 
-                                        <td class="
-                                            measure
-                                            measure-beatschema-{{ measure.beat_schema }}
-                                        ">
+                                    <tr class="line">
 
-                                            <div class="chords">
-                                                {% for chord in measure.chords %}
-                                                    <div class="chord chord-{{ chord.order }}">
-                                                        <span class="chord-name">{{ chord.chart_output }}</span>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
+                                        {% for measure in line.measures %}
 
-                                        </td>
+                                            <td class="
+                                                measure
+                                                measure-beatschema-{{ measure.beat_schema }}
+                                            ">
 
-                                    {% endfor %}
+                                                <div class="chords">
+                                                    {% for chord in measure.chords %}
+                                                        <div class="chord chord-{{ chord.order }}">
+                                                            <span class="chord-name">{{ chord.chart_output }}</span>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
 
-                                    {% if line.measures|length < 8 %}
-
-                                        {% if edit %}
-
-                                            <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
-                                                <div class="plus">+</div>
                                             </td>
 
-                                        {% else %}
+                                        {% endfor %}
 
-                                            <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+                                        {% if line.measures|length < 8 %}
+
+                                            {% if edit %}
+
+                                                <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
+                                                    <div class="plus">+</div>
+                                                </td>
+
+                                            {% else %}
+
+                                                <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+
+                                            {% endif %}
 
                                         {% endif %}
 
-                                    {% endif %}
+                                    </tr>
 
-                                </tr>
+                                {% endfor %}
 
                             {% endfor %}
+
                         </tbody>
 
                         <tfoot>

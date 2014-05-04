@@ -280,7 +280,7 @@ class Section(models.Model):
             'height': self.height(),
             'key_id': self.key().id,
             'key': self.key().client_data(),
-            'lines': [l.client_data() for l in self.lines.all()]
+            'subsections': [s.client_data() for s in self.subsections.all()]
         }
 
     def name(self):
@@ -353,6 +353,33 @@ class Section(models.Model):
                 line.delete()
 
 
+class Subsection(models.Model):
+    """
+    A subsection in a section.
+
+    A subsection is a collection of lines that form a subsection.
+    """
+
+    number = models.PositiveSmallIntegerField(help_text="""The number
+        for the subsection. Will be used to determine the order of the
+        subsections.""")
+    section = models.ForeignKey(Section, related_name='subsections',
+        help_text="""The section this subsection belongs to.""")
+
+    def __unicode__(self):
+        return "Subsection {}".format(self.number)
+
+    class Meta:
+        ordering = ('number',)
+
+    def client_data(self):
+        return {
+            'id': self.id,
+            'number': self.number,
+            'lines': [l.client_data() for l in self.lines.all()]
+        }
+
+
 class Line(models.Model):
     """
     A line in a section.
@@ -367,6 +394,8 @@ class Line(models.Model):
 
     number = models.PositiveSmallIntegerField(help_text="""The number for
         the line. Will be used to determine the order of the lines.""")
+    subsection = models.ForeignKey(Subsection, related_name='lines', null=True, help_text=
+        """The subsection this line belongs to.""")
     section = models.ForeignKey(Section, related_name='lines', help_text=
         """The section this line belongs to.""")
 
