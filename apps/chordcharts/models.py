@@ -220,7 +220,7 @@ class Chart(models.Model):
         """
         for section in self.sections.all():
             section.clean()
-            if section.lines.count() == 0:
+            if section.subsections.count() == 0:
                 section.delete()
 
 
@@ -242,7 +242,7 @@ class Section(models.Model):
     chart, indicated by `key_distance_from_chart`.
 
     Sets on this model:
-        lines - The lines in this section.
+        subsections - The subsections in this section.
     """
 
     chart = models.ForeignKey(Chart, related_name='sections',
@@ -333,10 +333,10 @@ class Section(models.Model):
             return key
 
     def height(self):
-        return ((
-            self.lines.count() *
-            (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
-        ) + BOXED_CHART['border_width'])
+        height = 0
+        for subsection in self.subsections.all():
+            height += subsection.height()
+        return height
 
     def clean(self):
         """
@@ -344,13 +344,14 @@ class Section(models.Model):
         that aren't needed anymore.
 
         Empty children are:
+            - subsections that don't have any lines
             - lines that don't have any measures
             - measures that don't have any chords
         """
-        for line in self.lines.all():
-            line.clean()
-            if line.measures.count() == 0:
-                line.delete()
+        for subsection in self.subsections.all():
+            subsection.clean()
+            if subsection.lines.count() == 0:
+                subsection.delete()
 
 
 class Subsection(models.Model):
@@ -379,6 +380,30 @@ class Subsection(models.Model):
             'lines': [l.client_data() for l in self.lines.all()]
         }
 
+    def key(self):
+        """
+        The key the subsection is in.
+
+        This will be the same as the key of the section the subsection
+        is in.
+        """
+        return self.section.key()
+
+    def time_signature(self):
+        """
+        The time signature of this subsection.
+
+        This will be the same as the time signature of the section the
+        subsection is in.
+        """
+        return self.section.time_signature
+
+    def height(self):
+        return ((
+            self.lines.count() *
+            (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
+        ) + BOXED_CHART['border_width'])
+
 
 class Line(models.Model):
     """
@@ -396,8 +421,6 @@ class Line(models.Model):
         the line. Will be used to determine the order of the lines.""")
     subsection = models.ForeignKey(Subsection, related_name='lines', null=True, help_text=
         """The subsection this line belongs to.""")
-    section = models.ForeignKey(Section, related_name='lines', help_text=
-        """The section this line belongs to.""")
 
     def __unicode__(self):
         return "Line {}".format(self.number)
@@ -416,12 +439,19 @@ class Line(models.Model):
         """
         The key the line is in.
 
-        This will be the same as the key of the section the line is in.
+        This will be the same as the key of the subsection the line is
+        in.
         """
-        return self.section.key()
+        return self.subsection.key()
 
     def time_signature(self):
-        return self.section.time_signature
+        """
+        The time signature of this line.
+
+        This will be the same as the time signature of the subsection
+        the line is in.
+        """
+        return self.subsection.time_signature()
 
     def clean(self):
         """

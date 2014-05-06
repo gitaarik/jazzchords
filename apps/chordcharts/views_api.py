@@ -29,7 +29,7 @@ class SubsectionViewSet(viewsets.ModelViewSet):
     serializer_class = SubsectionSerializer
 
     def get_queryset(self, *args, **kwargs):
-        return Line.objects.filter(
+        return Subsection.objects.filter(
             section__id=self.kwargs['section_pk'],
             section__chart__id=self.kwargs['chart_id'],
             section__chart__song__slug=self.kwargs['song_slug']
@@ -89,9 +89,10 @@ class ChordViewSet(viewsets.ModelViewSet):
         return Chord.objects.filter(
             measure__id=self.kwargs['measure_pk'],
             measure__line__id=self.kwargs['line_pk'],
-            measure__line__section_id=self.kwargs['section_pk'],
-            measure__line__section__chart__id=self.kwargs['chart_id'],
-            measure__line__section__chart__song__slug=self.kwargs['song_slug']
+            measure__line__subsection_id=self.kwargs['subsection_pk'],
+            measure__line__subsection__section__id=self.kwargs['section_pk'],
+            measure__line__subsection__section__chart__id=self.kwargs['chart_id'],
+            measure__line__subsection__section__chart__song__slug=self.kwargs['song_slug']
         )
 
     def get_serializer_context(self):
