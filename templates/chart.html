@@ -133,9 +133,9 @@
 
                     <table class="lines">
 
-                        <tbody>
+                        {% for subsection in section.subsections %}
 
-                            {% for subsection in section.subsections %}
+                            <tbody class="subsection">
 
                                 {% for line in subsection.lines %}
 
@@ -180,9 +180,9 @@
 
                                 {% endfor %}
 
-                            {% endfor %}
+                            </tbody>
 
-                        </tbody>
+                        {% endfor %}
 
                         <tfoot>
                             {% if edit %}
