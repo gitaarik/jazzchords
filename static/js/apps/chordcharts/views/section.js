@@ -1,6 +1,18 @@
 define(
-    ['models/line', 'views/subsection', 'init/section_edit'],
-    function(Line, SubsectionView, SectionEdit) {
+    [
+        'models/line',
+        'models/section_sidebar',
+        'views/section',
+        'views/section_sidebar',
+        'init/section_edit'
+    ],
+    function(
+        Line,
+        SectionSidebar,
+        SectionView,
+        SectionSidebarView,
+        SectionEdit
+    ) {
 
         return Backbone.View.extend({
 
@@ -76,105 +88,18 @@ define(
 
             renderSidebar: function() {
 
-                if (!this.$el.find('.section-sidebar').length) {
-                    this.$el.append(_.template(
-                        $('#template-section-sidebar').html()
-                    )());
-                }
+                var sectionSidebar = new SectionSidebar({
+                    section: this.model
+                });
 
-                this.$el.find('.section-sidebar').css(
-                    'height',
-                    this.model.height()
+                var sectionSidebarView = new SectionSidebarView({
+                    model: sectionSidebar
+                });
+
+                this.$el.find('.section-sidebar').replaceWith(
+                    sectionSidebarView.render().el
                 );
-
-                this.$el.find('.section-sidebar-letter').css(
-                    'line-height',
-                    this.model.height() + 'px'
-                );
-
-                this.redrawIndicatorLines();
-
-                if (this.model.get('alt_name')) {
-                    this.$el.find('.section-sidebar-letter').html('');
-                    this.$el.find('.section-sidebar canvas').remove();
-                } else {
-                    this.$el.find('.section-sidebar-letter').html(
-                        this.model.getSequenceLetter()
-                    );
-                }
-
-            },
-
-            redrawIndicatorLines: function() {
-
-                // Draws the lines that indicate the start and end of a section
-
-                if (this.model.get('alt_name')) {
-                    // should not happen for sections that have an
-                    // `alt_name`.
-                    return;
-                }
-
-                this.$el.find('.section-sidebar canvas').remove();
-
-                var canvas = document.createElement('canvas');
-                var sidebar_width = this.model.get('chart').get(
-                    'section_sidebar_width');
-                var sidebar_half_width = Math.round(sidebar_width / 2);
-                var box_height = this.model.get('chart').get('box_height');
-                var line_margin = Math.round(box_height * 0.15);
-                var section_height = this.model.height();
-                var section_half_height = Math.round(section_height / 2);
-
-                canvas.height = section_height;
-                canvas.width = sidebar_width;
-                $(canvas).css('height', section_height + 'px');
-                var context = canvas.getContext('2d');
-
-                context.lineWidth = this.model.get('chart').get('border_width');
-
-                // from top to title
-                context.beginPath();
-
-                context.moveTo(sidebar_half_width, line_margin);
-                context.lineTo(
-                    sidebar_half_width,
-                    (section_half_height - 5 - line_margin)
-                );
-                context.stroke();
-
-                // from title to bottom
-                context.beginPath();
-                context.moveTo(
-                    sidebar_half_width,
-                    section_half_height + 5 + line_margin
-                );
-                context.lineTo(
-                    sidebar_half_width,
-                    (section_height - line_margin)
-                );
-                context.stroke();
-
-                // from top to right
-                context.beginPath();
-                context.moveTo(sidebar_half_width, line_margin);
-                context.lineTo(sidebar_width - 5, line_margin);
-                context.stroke();
-
-                // from bottom to right
-                context.beginPath();
-                context.moveTo(
-                    sidebar_half_width,
-                    (section_height - line_margin)
-                );
-                context.lineTo(
-                    sidebar_width - 5,
-                    (section_height - line_margin)
-                );
-                context.stroke();
-
-                this.$el.find('.section-sidebar').append(canvas);
-
+                
             },
 
             renderSubsections: function() {
