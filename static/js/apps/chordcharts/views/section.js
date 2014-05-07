@@ -16,6 +16,7 @@ define(
                 'click .section-header .section-edit-buttons .move-up': 'moveUp',
                 'click .section-header .section-edit-buttons .move-down': 'moveDown',
                 'click .section-header .section-edit-buttons .remove': 'removeSection',
+                'click .line-add .plus': 'addLine',
             },
 
             openSectionEdit: function(event) {
@@ -243,6 +244,31 @@ define(
 
                 this.model.save();
                 next_section.save();
+
+            },
+
+            /**
+             * Adds a line to the last subsection in this section.
+             */
+            addLine: function() {
+
+                var last_subsection = this.model.get('subsections').last();
+                var last_line = last_subsection.get('lines').last();
+
+                var new_line = last_line.copy({
+                    number: last_line.get('number') + 1
+                });
+
+                last_subsection.get('lines').add(new_line);
+
+                var new_measure = new_line.get('measures').first().copy();
+
+                new_measure.unset('next_measure');
+                new_line.get('measures').reset([new_measure]);
+
+                this.renderSidebar();
+
+                new_line.saveRecursive();
 
             },
 
