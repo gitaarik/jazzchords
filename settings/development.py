@@ -1,5 +1,4 @@
 from .general import INSTALLED_APPS
-from .general import MIDDLEWARE_CLASSES
 
 
 DEBUG = True
@@ -22,7 +21,3 @@ DATABASES = {
 }
 
 INSTALLED_APPS += ('django.contrib.staticfiles',)
-
-MIDDLEWARE_CLASSES += (
-    'core.middleware.south_unran_migration_check.SouthUnranMigrationCheck',
-)

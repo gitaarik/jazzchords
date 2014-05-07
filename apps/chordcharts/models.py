@@ -55,7 +55,7 @@ class Key(models.Model):
     order = models.PositiveSmallIntegerField(help_text="""The order the keys of
         a certain tonality should appear in.""")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -103,7 +103,7 @@ class Note(models.Model):
         out-of-key notes so the system won't have to guess how to represend
         them.""")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -145,7 +145,7 @@ class ChordType(models.Model):
         the chord types will appear. This is used in the edit widget. More used
         chords should appear before lesser used chords.""")
 
-    def __unicode__(self):
+    def __str__(self):
         if self.symbol:
             return u"{} ({})".format(self.name, self.symbol)
         else:
@@ -178,8 +178,8 @@ class Chart(models.Model):
         some sections of the song have deviating keys you can overwrite this in
         the section.""")
 
-    def __unicode__(self):
-        return unicode(self.song)
+    def __str__(self):
+        return str(self.song)
 
     def client_data(self):
         return {
@@ -230,7 +230,7 @@ class TimeSignature(models.Model):
     beats = models.PositiveSmallIntegerField()
     beat_unit = models.PositiveSmallIntegerField()
 
-    def __unicode__(self):
+    def __str__(self):
         return '{}/{}'.format(self.beats, self.beat_unit)
 
 
@@ -263,7 +263,7 @@ class Section(models.Model):
         regularry repeating section in the song.""")
     time_signature = models.ForeignKey(TimeSignature)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name()
 
     class Meta:
@@ -304,7 +304,7 @@ class Section(models.Model):
         The first section without an `alt_name` will be A, the second B,
         the third C etc.
         """
-        return string.uppercase[
+        return string.ascii_uppercase[
             self.chart.sections.filter(
                 alt_name='', number__lt=self.number
             ).count()
@@ -368,7 +368,7 @@ class Subsection(models.Model):
     section = models.ForeignKey(Section, related_name='subsections',
         help_text="""The section this subsection belongs to.""")
 
-    def __unicode__(self):
+    def __str__(self):
         return "Subsection {}".format(self.number)
 
     class Meta:
@@ -423,7 +423,7 @@ class Line(models.Model):
     subsection = models.ForeignKey(Subsection, related_name='lines', null=True, help_text=
         """The subsection this line belongs to.""")
 
-    def __unicode__(self):
+    def __str__(self):
         return "Line {}".format(self.number)
 
     class Meta:
@@ -490,7 +490,7 @@ class Measure(models.Model):
         chords where the first one is played 2 beats and the other two one 1
         beat, the beatschema is "2-1-1" etc.""")
 
-    def __unicode__(self):
+    def __str__(self):
         return "Measure {}".format(self.number)
 
     class Meta:
@@ -566,7 +566,7 @@ class Chord(models.Model):
     order = models.PositiveSmallIntegerField(help_text="""The order for
         the chord. Will be used to determine the order of the chords.""")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.chord_notation()
 
     class Meta:
