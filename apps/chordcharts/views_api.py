@@ -18,7 +18,7 @@ class SectionViewSet(viewsets.ModelViewSet):
         )
 
     def get_serializer_context(self):
-        context = super(SectionViewSet, self).get_serializer_context()
+        context = super().get_serializer_context()
         context['chart_id'] = self.kwargs['chart_id']
         return context
 
@@ -36,7 +36,7 @@ class SubsectionViewSet(viewsets.ModelViewSet):
         )
 
     def get_serializer_context(self):
-        context = super(SubsectionViewSet, self).get_serializer_context()
+        context = super().get_serializer_context()
         context['section_id'] = self.kwargs['section_pk']
         return context
 
@@ -55,7 +55,7 @@ class LineViewSet(viewsets.ModelViewSet):
         )
 
     def get_serializer_context(self):
-        context = super(LineViewSet, self).get_serializer_context()
+        context = super().get_serializer_context()
         context['subsection_id'] = self.kwargs['subsection_pk']
         return context
 
@@ -75,7 +75,7 @@ class MeasureViewSet(viewsets.ModelViewSet):
         )
 
     def get_serializer_context(self):
-        context = super(MeasureViewSet, self).get_serializer_context()
+        context = super().get_serializer_context()
         context['line_id'] = self.kwargs['line_pk']
         return context
 
@@ -96,6 +96,6 @@ class ChordViewSet(viewsets.ModelViewSet):
         )
 
     def get_serializer_context(self):
-        context = super(ChordViewSet, self).get_serializer_context()
+        context = super().get_serializer_context()
         context['measure_id'] = self.kwargs['measure_pk']
         return context

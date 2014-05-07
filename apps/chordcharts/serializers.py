@@ -11,7 +11,7 @@ class SectionSerializer(serializers.ModelSerializer):
             # object, so we set the `chart_id` field.
             attrs['chart_id'] = self.context['chart_id']
 
-        return super(SectionSerializer, self).restore_object(attrs, instance)
+        return super().restore_object(attrs, instance)
 
     class Meta:
         model = Section
@@ -33,7 +33,7 @@ class SubsectionSerializer(serializers.ModelSerializer):
             # object, so we set the `chart_id` field.
             attrs['section_id'] = self.context['section_id']
 
-        return super(SubsectionSerializer, self).restore_object(attrs, instance)
+        return super().restore_object(attrs, instance)
 
     class Meta:
         model = Section
@@ -49,7 +49,7 @@ class LineSerializer(serializers.ModelSerializer):
             # object, so we set the `section_id` field.
             attrs['subsection_id'] = self.context['subsection_id']
 
-        return super(LineSerializer, self).restore_object(attrs, instance)
+        return super().restore_object(attrs, instance)
 
     class Meta:
         model = Line
@@ -65,7 +65,7 @@ class MeasureSerializer(serializers.ModelSerializer):
             # object, so we set the `line_id` field.
             attrs['line_id'] = self.context['line_id']
 
-        return super(MeasureSerializer, self).restore_object(attrs, instance)
+        return super().restore_object(attrs, instance)
 
     class Meta:
         model = Measure
@@ -83,7 +83,7 @@ class ChordSerializer(serializers.ModelSerializer):
             # object, so we set the `line_id` field.
             attrs['measure_id'] = self.context['measure_id']
 
-        return super(ChordSerializer, self).restore_object(attrs, instance)
+        return super().restore_object(attrs, instance)
 
     class Meta:
         model = Chord
