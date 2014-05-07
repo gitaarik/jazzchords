@@ -98,9 +98,10 @@ class Note(models.Model):
     distance_from_root = models.PositiveSmallIntegerField(help_text=
         """The distance this note has from the root note of the associated key.
         If this IS the root note, the distance is 0.""")
-    key_note = models.BooleanField(help_text="""Indicates if this note is a
-        note that really is IN the key. We also specify out-of-key notes so the
-        system won't have to guess how to represend them.""")
+    key_note = models.BooleanField(default=False, help_text="""Indicates if
+        this note is a note that really is IN the key. We also specify
+        out-of-key notes so the system won't have to guess how to represend
+        them.""")
 
     def __unicode__(self):
         return self.name
@@ -554,8 +555,8 @@ class Chord(models.Model):
         presented in. These half steps should be upwards in the scale.""")
     chord_type = models.ForeignKey(ChordType, help_text="""The type of the
         chord. This defines the intervals inside the chord.""")
-    alt_bass = models.BooleanField(help_text="""Indicates if the chord
-        has an alternative tone in the bass.""")
+    alt_bass = models.BooleanField(default=False, help_text="""Indicates if the
+        chord has an alternative tone in the bass.""")
     alt_bass_pitch = models.PositiveSmallIntegerField(default=0,
         help_text="""The alternative bass tone in the chord. As with the Chord
         Pitch, it is the amount of half notes the chord note is away from the

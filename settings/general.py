@@ -125,7 +125,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'rest_framework',
-    'south',
     'core',
     'compressor',
     'songs',
@@ -160,6 +159,8 @@ LOGGING = {
         },
     }
 }
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (

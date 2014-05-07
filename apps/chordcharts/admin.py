@@ -1,7 +1,7 @@
 from django.core import urlresolvers
 from django.contrib import admin
 
-from models import (
+from .models import (
     Chart, Section, Subsection, Line, Measure, Chord, ChordType, Note,
     Key, TimeSignature
 )
