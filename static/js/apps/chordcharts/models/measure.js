@@ -1,6 +1,6 @@
 define(
-    ['collections/chords', 'models/chord'],
-    function(Chords, Chord) {
+    ['collections/chords'],
+    function(Chords) {
 
         return Backbone.Model.extend({
 

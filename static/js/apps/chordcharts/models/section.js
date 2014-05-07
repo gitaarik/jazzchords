@@ -1,6 +1,6 @@
 define(
-    ['collections/subsections', 'models/subsection'],
-    function(Subsections, Subsection) {
+    ['collections/subsections'],
+    function(Subsections) {
 
         return Backbone.Model.extend({
 
@@ -16,12 +16,12 @@ define(
                 if(!(this.get('subsections') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var subsections = new Subsection();
+                    var subsections = new Subsections();
                     subsections.url = this.subsectionsUrl();
 
                     _.each(this.get('subsections'), function(subsection_data) {
                         subsection_data.section = that;
-                        lines.add(subsection_data);
+                        subsections.add(subsection_data);
                     });
 
                     this.set('subsections', subsections);

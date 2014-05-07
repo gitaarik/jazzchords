@@ -1,6 +1,6 @@
 define(
-    ['collections/sections', 'models/section'],
-    function(Sections, Section) {
+    ['collections/sections'],
+    function(Sections) {
 
         return Backbone.Model.extend({
 

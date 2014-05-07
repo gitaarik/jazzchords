@@ -1,6 +1,6 @@
 define(
-    ['collections/lines', 'models/line'],
-    function(Lines, Line) {
+    ['collections/lines'],
+    function(Lines) {
 
         return Backbone.Model.extend({
 
@@ -20,7 +20,7 @@ define(
                     lines.url = this.linesUrl();
 
                     _.each(this.get('lines'), function(line_data) {
-                        line_data.section = that;
+                        line_data.subsection = that;
                         lines.add(line_data);
                     });
 

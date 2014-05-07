@@ -3,6 +3,7 @@ require(
         'models/chart',
         'views/chart',
         'views/section',
+        'views/subsection',
         'views/line',
         'views/measure',
         'views/chord',
@@ -12,6 +13,7 @@ require(
         Chart,
         ChartView,
         SectionView,
+        SubsectionView,
         LineView,
         MeasureView,
         ChordView,
@@ -36,58 +38,73 @@ require(
         // elements
         chartView.$el.find('.section').each(function() {
 
-            var line_number = 0;
+            var subsection_number = 0;
             var section = chart.get('sections').models[section_number];
             var sectionView = new SectionView({
                 el: this,
                 model: section
             });
             chartView.$el.append(sectionView);
-            sectionView.redrawIndicatorLines();
+            //sectionView.redrawIndicatorLines();
 
-            sectionView.$el.find('.lines .line').each(function() {
+            sectionView.$el.find('.subsections .subsection').each(function() {
 
-                var measure_number = 0;
-                var line = section.get('lines').models[line_number];
-                var lineView = new LineView({
+                var line_number = 0;
+                var subsection = section.get('subsections').models[subsection_number];
+                var subsectionView = new SubsectionView({
                     el: this,
-                    model: line
+                    model: subsection
                 });
-                sectionView.$el.append(lineView);
+                sectionView.$el.append(subsectionView);
+                //subsectionView.redrawIndicatorLines();
 
-                lineView.$el.find('.measure').each(function() {
+                subsectionView.$el.find('.line').each(function() {
 
-                    var chord_number = 0;
-                    var measure = line.get('measures').models[measure_number];
-                    var measureView = new MeasureView({
+                    var measure_number = 0;
+                    var line = subsection.get('lines').models[line_number];
+                    var lineView = new LineView({
                         el: this,
-                        model: measure
+                        model: line
+                    });
+                    subsectionView.$el.append(lineView);
+
+                    lineView.$el.find('.measure').each(function() {
+
+                        var chord_number = 0;
+                        var measure = line.get('measures').models[measure_number];
+                        var measureView = new MeasureView({
+                            el: this,
+                            model: measure
+                        });
+
+                        lineView.$el.append(measureView);
+                        measureView.drawSeperationLines();
+                        var chord_views = [];
+
+                        measureView.$el.find('.chord').each(function() {
+
+                            var chord = measure.get('chords').models[chord_number];
+
+                            chord_views.push(
+                                new ChordView({
+                                    el: this,
+                                    model: chord
+                                })
+                            );
+                            chord_number++;
+
+                        });
+
+                        measure.set({ chord_views: chord_views }, { silent: true });
+                        measure_number++;
+
                     });
 
-                    lineView.$el.append(measureView);
-                    measureView.drawSeperationLines();
-                    var chord_views = [];
-
-                    measureView.$el.find('.chord').each(function() {
-
-                        var chord = measure.get('chords').models[chord_number];
-
-                        chord_views.push(
-                            new ChordView({
-                                el: this,
-                                model: chord
-                            })
-                        );
-                        chord_number++;
-
-                    });
-
-                    measure.set({ chord_views: chord_views }, { silent: true });
-                    measure_number++;
+                    line_number++;
 
                 });
 
-                line_number++;
+                subsection_number++;
 
             });
 

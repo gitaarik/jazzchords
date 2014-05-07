@@ -46,11 +46,9 @@
             {% include "section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
         </script>
 
-        <script type="text/template" id="template-lines">
+        <script type="text/template" id="template-subsections">
 
-            <table class="lines">
-
-                <tbody></tbody>
+            <table class="subsections">
 
                 <tfoot>
                     <tr class="line-add">
@@ -131,7 +129,7 @@
                         </div>
                     </div>
 
-                    <table class="lines">
+                    <table class="subsections">
 
                         {% for subsection in section.subsections %}
 

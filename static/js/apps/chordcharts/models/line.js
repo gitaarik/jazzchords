@@ -1,6 +1,6 @@
 define(
-    ['collections/measures', 'models/measure'],
-    function(Measures, Measure) {
+    ['collections/measures'],
+    function(Measures) {
 
         return Backbone.Model.extend({
 
