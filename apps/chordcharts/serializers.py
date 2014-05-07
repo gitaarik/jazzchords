@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Section, Line, Measure, Chord
+from .models import Section, Subsection, Line, Measure, Chord
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class SubsectionSerializer(serializers.ModelSerializer):
         return super().restore_object(attrs, instance)
 
     class Meta:
-        model = Section
+        model = Subsection
         fields = ('id', 'number')
 
 

@@ -51,7 +51,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
     chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
     set_chart_key(chart)
-    chart.clean()
+    chart.cleanup()
 
     all_keys = Key.objects.all()
     chart_keys = all_keys.filter(tonality=chart.key.tonality)

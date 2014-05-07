@@ -182,15 +182,15 @@
 
                         {% endfor %}
 
-                        <tfoot>
-                            {% if edit %}
-                                <tr class="line-add">
+                        {% if edit %}
+                            <tfoot class="line-add">
+                                <tr>
                                     <td class="colspan" colspan="8">
                                         <div class="plus">+</div>
                                     </td>
                                 </tr>
-                            {% endif %}
-                        </tfoot>
+                            </tfoot>
+                        {% endif %}
 
                     </table>
 

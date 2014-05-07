@@ -42,15 +42,15 @@ define(
             /**
              * Returns the on-screen height of this section.
              */
-            getHeight: function() {
+            height: function() {
 
-                return (
-                    this.get('lines').length *
-                    (
-                        this.get('chart').get('box_height') +
-                        this.get('chart').get('border_width')
-                    )
-                ) + this.get('chart').get('border_width');
+                var height = 0;
+
+                this.get('subsections').each(function(subsection) {
+                    height += subsection.height();
+                });
+
+                return height;
 
             },
 
@@ -126,7 +126,7 @@ define(
                 var copy = this.clone();
                 copy.set({
                     id: null,
-                    lines: this.get('lines').copy({ section: copy })
+                    subsections: this.get('subsections').copy({ section: copy })
                 });
 
                 if(attributes) {
@@ -148,9 +148,9 @@ define(
                 var that = this;
 
                 this.save(null, { success: function() {
-                    that.get('lines').url = that.linesUrl();
-                    that.get('lines').each(function(line) {
-                        line.saveRecursive();
+                    that.get('subsections').url = that.subsectionsUrl();
+                    that.get('subsections').each(function(subsection) {
+                        subsection.saveRecursive();
                     });
                 }});
 

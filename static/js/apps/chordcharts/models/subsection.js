@@ -34,8 +34,26 @@ define(
                 return this.url() + '/lines';
             },
 
+            /**
+             * Returns the on-screen height of this subsection.
+             */
+            height: function() {
+                return (
+                    this.get('lines').length *
+                    (
+                        this.get('section').get('chart').get('box_height') +
+                        this.get('section').get('chart').get('border_width')
+                    )
+                ) + this.get('section').get('chart').get('border_width');
+
+            },
+
+
             initListeners: function() {
                 this.stopListening();
+                this.listenTo(this.get('lines'), 'destroy', function() {
+                    this.trigger('lineRemoved');
+                });
             },
 
             copy: function(attributes) {

@@ -33,15 +33,8 @@ define(
 
                 });
 
-                if (!this.$el.find('.lines').length) {
-                    this.$el.append(_.template(
-                        $('#template-lines').html()
-                    )());
-                } else {
-                    this.$el.find('.lines tbody').html('');
-                }
-
-                this.$el.find('.lines').append(lineViews);
+                this.$el.html('');
+                this.$el.append(lineViews);
 
             }
 

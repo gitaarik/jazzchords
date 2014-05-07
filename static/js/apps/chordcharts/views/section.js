@@ -1,6 +1,6 @@
 define(
-    ['models/line', 'views/line', 'init/section_edit'],
-    function(Line, LineView, SectionEdit) {
+    ['models/line', 'views/subsection', 'init/section_edit'],
+    function(Line, SubsectionView, SectionEdit) {
 
         return Backbone.View.extend({
 
@@ -8,7 +8,7 @@ define(
             className: 'section',
 
             initialize: function() {
-                this.listenTo(this.model, 'change', this.render);
+                this.initListeners();
             },
 
             events: {
@@ -17,6 +17,12 @@ define(
                 'click .section-header .section-edit-buttons .move-down': 'moveDown',
                 'click .section-header .section-edit-buttons .remove': 'removeSection',
                 'click .line-add .plus': 'addLine',
+            },
+
+            initListeners: function() {
+                this.stopListening();
+                this.listenTo(this.model, 'change', this.render);
+                this.listenTo(this.model.get('subsections'), 'lineRemoved', this.renderSidebar);
             },
 
             openSectionEdit: function(event) {
@@ -76,27 +82,25 @@ define(
                     )());
                 }
 
+                this.$el.find('.section-sidebar').css(
+                    'height',
+                    this.model.height()
+                );
+
+                this.$el.find('.section-sidebar-letter').css(
+                    'line-height',
+                    this.model.height() + 'px'
+                );
+
+                this.redrawIndicatorLines();
+
                 if (this.model.get('alt_name')) {
                     this.$el.find('.section-sidebar-letter').html('');
                     this.$el.find('.section-sidebar canvas').remove();
                 } else {
-
                     this.$el.find('.section-sidebar-letter').html(
                         this.model.getSequenceLetter()
                     );
-
-                    this.$el.find('.section-sidebar').css(
-                        'height',
-                        this.model.getHeight()
-                    );
-
-                    this.$el.find('.section-sidebar-letter').css(
-                        'line-height',
-                        this.model.getHeight() + 'px'
-                    );
-
-                    this.redrawIndicatorLines();
-
                 }
 
             },
@@ -119,7 +123,7 @@ define(
                 var sidebar_half_width = Math.round(sidebar_width / 2);
                 var box_height = this.model.get('chart').get('box_height');
                 var line_margin = Math.round(box_height * 0.15);
-                var section_height = this.model.getHeight();
+                var section_height = this.model.height();
                 var section_half_height = Math.round(section_height / 2);
 
                 canvas.height = section_height;
@@ -175,14 +179,11 @@ define(
 
             renderSubsections: function() {
 
-                if (!this.$el.find('.subsections').length) {
-                    this.$el.append(_.template(
-                        $('#template-lines').html()
-                    )());
-                } else {
-                    this.$el.find('.subsections').html('');
-                }
+                _.each(this.$el.find('.subsections .subsection'), function(subsection) {
+                    subsection.remove();
+                });
 
+                var that = this;
                 var subsectionView;
 
                 this.model.get('subsections').each(function(subsection) {
@@ -192,7 +193,7 @@ define(
                     });
 
                     subsectionView.render().$el.insertBefore(
-                        this.$el.find('.line-add')
+                        that.$el.find('.line-add')
                     );
 
                 });
@@ -259,12 +260,12 @@ define(
                     number: last_line.get('number') + 1
                 });
 
-                last_subsection.get('lines').add(new_line);
-
                 var new_measure = new_line.get('measures').first().copy();
 
                 new_measure.unset('next_measure');
                 new_line.get('measures').reset([new_measure]);
+
+                last_subsection.get('lines').add(new_line);
 
                 this.renderSidebar();
 

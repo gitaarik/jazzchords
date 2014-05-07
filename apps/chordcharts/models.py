@@ -209,7 +209,7 @@ class Chart(models.Model):
     def border_width(self):
         return BOXED_CHART['border_width']
 
-    def clean(self):
+    def cleanup(self):
         """
         Cleans up the model by removing empty children and other objects
         that aren't needed anymore.
@@ -220,7 +220,7 @@ class Chart(models.Model):
             - measures that don't have any chords
         """
         for section in self.sections.all():
-            section.clean()
+            section.cleanup()
             if section.subsections.count() == 0:
                 section.delete()
 
@@ -339,7 +339,7 @@ class Section(models.Model):
             height += subsection.height()
         return height
 
-    def clean(self):
+    def cleanup(self):
         """
         Cleans up the model by removing empty children and other objects
         that aren't needed anymore.
@@ -350,7 +350,7 @@ class Section(models.Model):
             - measures that don't have any chords
         """
         for subsection in self.subsections.all():
-            subsection.clean()
+            subsection.cleanup()
             if subsection.lines.count() == 0:
                 subsection.delete()
 
@@ -405,6 +405,20 @@ class Subsection(models.Model):
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
 
+    def cleanup(self):
+        """
+        Cleans up the model by removing empty children and other objects
+        that aren't needed anymore.
+
+        Empty children are:
+            - lines that don't have any measures
+            - measures that don't have any chords
+        """
+        for line in self.lines.all():
+            line.cleanup()
+            if line.measures.count() == 0:
+                line.delete()
+
 
 class Line(models.Model):
     """
@@ -420,7 +434,7 @@ class Line(models.Model):
 
     number = models.PositiveSmallIntegerField(help_text="""The number for
         the line. Will be used to determine the order of the lines.""")
-    subsection = models.ForeignKey(Subsection, related_name='lines', null=True, help_text=
+    subsection = models.ForeignKey(Subsection, related_name='lines', help_text=
         """The subsection this line belongs to.""")
 
     def __str__(self):
@@ -454,7 +468,7 @@ class Line(models.Model):
         """
         return self.subsection.time_signature()
 
-    def clean(self):
+    def cleanup(self):
         """
         Cleans up the model by removing empty children and other objects
         that aren't needed anymore.
@@ -463,7 +477,7 @@ class Line(models.Model):
             - measures that don't have any chords
         """
         for measure in self.measures.all():
-            measure.clean()
+            measure.cleanup()
             if measure.chords.count() == 0:
                 measure.delete()
 
@@ -531,7 +545,7 @@ class Measure(models.Model):
         except IndexError:
             return None
 
-    def clean(self):
+    def cleanup(self):
         """
         Removes chords that don't fit in the `beat_schema` of this
         measure.
