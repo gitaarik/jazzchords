@@ -121,12 +121,18 @@
                     {% endif %}
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
-                        <canvas></canvas>
-                        <div class="section-sidebar-letter" style="line-height: {{ section.height }}px;">
-                            {% if not section.alt_name %}
-                                {{ section.sequence_letter }}
-                            {% endif %}
-                        </div>
+
+                        {% for subsection in section.subsections %}
+                            <div class="subsection-sidebar">
+                                <canvas></canvas>
+                                <div class="section-sidebar-letter" style="line-height: {{ section.height }}px;">
+                                    {% if not section.alt_name %}
+                                        {{ section.sequence_letter }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
                     </div>
 
                     <table class="subsections">
