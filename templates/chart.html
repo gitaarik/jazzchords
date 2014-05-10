@@ -33,13 +33,6 @@
         </div>
     </script>
 
-    <script type="text/template" id="template-section-sidebar">
-        <div class="section-sidebar">
-            <canvas></canvas>
-            <div class="section-sidebar-letter"></div>
-        </div>
-    </script>
-
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
@@ -47,19 +40,9 @@
         </script>
 
         <script type="text/template" id="template-subsections">
-
             <table class="subsections">
-
-                <tfoot>
-                    <tr class="line-add">
-                        <td class="colspan" colspan="8">
-                            <div class="plus">+</div>
-                        </td>
-                    </tr>
-                </tfoot>
-
+                {% include "section_line_add.html" %}
             </table>
-
         </script>
 
     {% endif %}
@@ -123,14 +106,11 @@
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
 
                         {% for subsection in section.subsections %}
-                            <div class="subsection-sidebar">
-                                <canvas></canvas>
-                                <div class="section-sidebar-letter" style="line-height: {{ section.height }}px;">
-                                    {% if not section.alt_name %}
-                                        {{ section.sequence_letter }}
-                                    {% endif %}
-                                </div>
-                            </div>
+                            {% if not section.alt_name %}
+                                {% include "subsection_sidebar.html" with sequence_letter=section.sequence_letter height=section.height %}
+                            {% else %}
+                                {% include "subsection_sidebar.html" with sequence_letter="" height=section.height %}
+                            {% endif %}
                         {% endfor %}
 
                     </div>
@@ -189,13 +169,7 @@
                         {% endfor %}
 
                         {% if edit %}
-                            <tfoot class="line-add">
-                                <tr>
-                                    <td class="colspan" colspan="8">
-                                        <div class="plus">+</div>
-                                    </td>
-                                </tr>
-                            </tfoot>
+                            {% include "section_line_add.html" %}
                         {% endif %}
 
                     </table>

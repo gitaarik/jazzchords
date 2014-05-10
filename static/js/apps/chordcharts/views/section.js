@@ -2,15 +2,15 @@ define(
     [
         'models/line',
         'models/section_sidebar',
-        'views/section',
         'views/section_sidebar',
+        'views/subsection',
         'init/section_edit'
     ],
     function(
         Line,
         SectionSidebar,
-        SectionView,
         SectionSidebarView,
+        SubsectionView,
         SectionEdit
     ) {
 
@@ -96,17 +96,29 @@ define(
                     model: sectionSidebar
                 });
 
-                this.$el.find('.section-sidebar').replaceWith(
-                    sectionSidebarView.render().el
-                );
-                
+                var sectionSidebar_el = sectionSidebarView.render().el;
+                var sidebar_el = this.$el.find('.section-sidebar');
+
+                if (sidebar_el.length) {
+                    sidebar_el.replaceWith(sectionSidebar_el);
+                } else {
+                    this.$el.append(sectionSidebar_el);
+                }
+
             },
 
             renderSubsections: function() {
 
-                _.each(this.$el.find('.subsections .subsection'), function(subsection) {
-                    subsection.remove();
-                });
+                var subsections_el = this.$el.find('.subsections');
+                var subsections_template = _.template(
+                    $('#template-subsections').html()
+                );
+
+                if (subsections_el.length) {
+                    subsections_el.replaceWith(subsections_template());
+                } else {
+                    this.$el.append(subsections_template());
+                }
 
                 var that = this;
                 var subsectionView;

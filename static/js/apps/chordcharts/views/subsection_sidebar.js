@@ -24,14 +24,6 @@ define(
                 console.warn('TODO');
                 return;
 
-                // Draws the lines that indicate the start and end of a section
-
-                if (this.model.get('alt_name')) {
-                    // should not happen for sections that have an
-                    // `alt_name`.
-                    return;
-                }
-
                 this.$el.find('.section-sidebar canvas').remove();
 
                 var canvas = document.createElement('canvas');

@@ -14,10 +14,6 @@ define(
                 var that = this;
                 this.$el.html('');
 
-                this.$el.html(_.template(
-                    $('#template-section-sidebar').html()
-                )());
-
                 this.$el.css(
                     'height',
                     this.model.get('section').height()
