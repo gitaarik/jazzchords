@@ -21,26 +21,26 @@ define(
 
             redrawIndicatorLines: function() {
 
-                console.warn('TODO');
-                return;
-
-                this.$el.find('.section-sidebar canvas').remove();
+                this.$el.find('canvas').remove();
 
                 var canvas = document.createElement('canvas');
-                var sidebar_width = this.model.get('chart').get(
-                    'section_sidebar_width');
+                console.log(this.model.get('section'));
+                var sidebar_width = this.model.get('section').get('chart')
+                    .get('section_sidebar_width');
                 var sidebar_half_width = Math.round(sidebar_width / 2);
-                var box_height = this.model.get('chart').get('box_height');
+                var box_height = this.model.get('section').get('chart')
+                    .get('box_height');
                 var line_margin = Math.round(box_height * 0.15);
-                var section_height = this.model.getHeight();
-                var section_half_height = Math.round(section_height / 2);
+                var subsection_height = this.model.get('subsection').height();
+                var section_half_height = Math.round(subsection_height / 2);
 
-                canvas.height = section_height;
+                canvas.height = subsection_height;
                 canvas.width = sidebar_width;
-                $(canvas).css('height', section_height + 'px');
+                $(canvas).css('height', subsection_height + 'px');
                 var context = canvas.getContext('2d');
 
-                context.lineWidth = this.model.get('chart').get('border_width');
+                context.lineWidth = this.model.get('section').get('chart')
+                    .get('border_width');
 
                 // from top to title
                 context.beginPath();
@@ -60,7 +60,7 @@ define(
                 );
                 context.lineTo(
                     sidebar_half_width,
-                    (section_height - line_margin)
+                    (subsection_height - line_margin)
                 );
                 context.stroke();
 
@@ -74,15 +74,15 @@ define(
                 context.beginPath();
                 context.moveTo(
                     sidebar_half_width,
-                    (section_height - line_margin)
+                    (subsection_height - line_margin)
                 );
                 context.lineTo(
                     sidebar_width - 5,
-                    (section_height - line_margin)
+                    (subsection_height - line_margin)
                 );
                 context.stroke();
 
-                this.$el.find('.section-sidebar').append(canvas);
+                this.$el.append(canvas);
 
             }
 

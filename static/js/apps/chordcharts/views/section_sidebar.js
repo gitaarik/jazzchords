@@ -37,7 +37,7 @@ define(
 
                     var subsectionSidebar = new SubsectionSidebar({
                         subsection: subsection,
-                        section: that.model
+                        section: that.model.get('section')
                     });
 
                     var subsectionSidebarView = new SubsectionSidebarView({
