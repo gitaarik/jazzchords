@@ -1,4 +1,4 @@
-Django==1.7b3
+Django==1.8
 django-compressor==1.4a1
 django-grappelli==2.5.3
 djangorestframework==2.3.13

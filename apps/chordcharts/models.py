@@ -262,6 +262,11 @@ class Section(models.Model):
         appropriate for an intro, outro or maybe a bridge which isn't a
         regularry repeating section in the song.""")
     time_signature = models.ForeignKey(TimeSignature)
+    use_subsections = models.BooleanField(default=False, help_text="""A boolean
+        indicating if subsections should be used. If subsections are used,
+        sections can have multiple subsections that have a letter in the
+        sidebar. If subsections aren't used, the sections is assumed to have
+        just one subsection and no letter is used in the sidebar.""")
 
     def __str__(self):
         return self.name()
@@ -276,6 +281,7 @@ class Section(models.Model):
             'number': self.number,
             'alt_name': self.alt_name,
             'time_signature': self.time_signature.id,
+            'use_subsections': self.use_subsections,
             'name': self.name(),
             'sequence_letter': self.sequence_letter(),
             'height': self.height(),
@@ -322,7 +328,8 @@ class Section(models.Model):
 
             key_distance_from_c = (
                 self.chart.key.distance_from_c +
-                self.key_distance_from_chart) % 12
+                self.key_distance_from_chart
+            ) % 12
 
             try:
                 key = Key.objects.get(
@@ -362,11 +369,17 @@ class Subsection(models.Model):
     A subsection is a collection of lines that form a subsection.
     """
 
+    LETTER_CHOICES = (('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'))
+
+    section = models.ForeignKey(Section, related_name='subsections',
+        help_text="""The section this subsection belongs to.""")
     number = models.PositiveSmallIntegerField(help_text="""The number
         for the subsection. Will be used to determine the order of the
         subsections.""")
-    section = models.ForeignKey(Section, related_name='subsections',
-        help_text="""The section this subsection belongs to.""")
+    letter = models.CharField(default='A', max_length=1,
+        choices=LETTER_CHOICES, help_text="""The letter of the subsection.
+        This is used in the sidebar if the section of this subsection has
+        `use_subsections` to `True`.""")
 
     def __str__(self):
         return "Subsection {}".format(self.number)
@@ -378,6 +391,7 @@ class Subsection(models.Model):
         return {
             'id': self.id,
             'number': self.number,
+            'letter': self.letter,
             'lines': [l.client_data() for l in self.lines.all()]
         }
 
@@ -432,10 +446,10 @@ class Line(models.Model):
         measures - The measures in this line.
     """
 
-    number = models.PositiveSmallIntegerField(help_text="""The number for
-        the line. Will be used to determine the order of the lines.""")
     subsection = models.ForeignKey(Subsection, related_name='lines', help_text=
         """The subsection this line belongs to.""")
+    number = models.PositiveSmallIntegerField(help_text="""The number for
+        the line. Will be used to determine the order of the lines.""")
 
     def __str__(self):
         return "Line {}".format(self.number)

@@ -9,22 +9,24 @@ define(
 
             render: function() {
 
-                this.$el.html('');
+                var section_sidebar_template = _.template(
+                    $('#template-subsection-sidebar').html()
+                );
 
-                this.$el.height(this.model.get('subsection').height());
+                this.$el.html(section_sidebar_template({
+                    letter: this.model.get('subsection').letter(),
+                    height: this.model.get('subsection').height(),
+                }));
 
-                this.redrawIndicatorLines();
+                this.renderIndicatorLines();
 
                 return this;
 
             },
 
-            redrawIndicatorLines: function() {
+            renderIndicatorLines: function() {
 
-                this.$el.find('canvas').remove();
-
-                var canvas = document.createElement('canvas');
-                console.log(this.model.get('section'));
+                var canvas = this.$el.find('canvas');
                 var sidebar_width = this.model.get('section').get('chart')
                     .get('section_sidebar_width');
                 var sidebar_half_width = Math.round(sidebar_width / 2);
@@ -34,10 +36,9 @@ define(
                 var subsection_height = this.model.get('subsection').height();
                 var section_half_height = Math.round(subsection_height / 2);
 
-                canvas.height = subsection_height;
-                canvas.width = sidebar_width;
-                $(canvas).css('height', subsection_height + 'px');
-                var context = canvas.getContext('2d');
+                canvas[0].height = subsection_height;
+                canvas[0].width = sidebar_width;
+                var context = canvas[0].getContext('2d');
 
                 context.lineWidth = this.model.get('section').get('chart')
                     .get('border_width');
@@ -81,8 +82,6 @@ define(
                     (subsection_height - line_margin)
                 );
                 context.stroke();
-
-                this.$el.append(canvas);
 
             }
 

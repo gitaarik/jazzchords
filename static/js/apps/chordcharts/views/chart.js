@@ -49,7 +49,7 @@ define(
 
                 new_section.saveRecursive();
 
-            },
+            }
 
         });
 

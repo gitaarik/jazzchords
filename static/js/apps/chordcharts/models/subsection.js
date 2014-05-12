@@ -48,6 +48,9 @@ define(
 
             },
 
+            letter: function() {
+                return this.get('letter');
+            },
 
             initListeners: function() {
                 this.stopListening();

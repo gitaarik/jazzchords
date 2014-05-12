@@ -9,29 +9,24 @@ define(
 
             render: function() {
 
-                console.log('render section sidebar!');
+                this.$el.html('');
+                this.$el.css({
+                    'height': this.model.get('section').height(),
+                    'width': this.model.get('section').get('chart')
+                        .get('section_sidebar_width')
+                });
+
+                if (this.model.get('section').get('use_subsections')) {
+                    this.renderSubsections();
+                }
+
+                return this;
+
+            },
+
+            renderSubsections: function() {
 
                 var that = this;
-                this.$el.html('');
-
-                this.$el.css(
-                    'height',
-                    this.model.get('section').height()
-                );
-
-                this.$el.find('.section-sidebar-letter').css(
-                    'line-height',
-                    this.model.get('section').height() + 'px'
-                );
-
-                if (this.model.get('section').get('alt_name')) {
-                    this.$el.find('.section-sidebar-letter').html('');
-                    this.$el.find('.section-sidebar canvas').remove();
-                } else {
-                    this.$el.find('.section-sidebar-letter').html(
-                        this.model.get('section').getSequenceLetter()
-                    );
-                }
 
                 this.model.get('section').get('subsections').each(function(subsection) {
 
@@ -47,8 +42,6 @@ define(
                     that.$el.append(subsectionSidebarView.render().el);
 
                 });
-
-                return this;
 
             },
 

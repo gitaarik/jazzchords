@@ -33,6 +33,10 @@
         </div>
     </script>
 
+    <script type="text/template" id="template-subsection-sidebar">
+        {% include "subsection_sidebar.html" with letter="<%= letter %>" height="<%= height %>" %}
+    </script>
+
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
@@ -93,7 +97,7 @@
 
                 <section class="section" style="width: {{ chart.width }}px;">
 
-                    {% if section.alt_name or edit %}
+                    {% if chart.sections|length > 1 %}
                         {% if forloop.first %}
                             {% include "section_header.html" with section_name=section.name move_down=1 move_up=0 %}
                         {% elif forloop.last %}
@@ -106,10 +110,10 @@
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
 
                         {% for subsection in section.subsections %}
-                            {% if not section.alt_name %}
-                                {% include "subsection_sidebar.html" with sequence_letter=section.sequence_letter height=section.height %}
+                            {% if section.use_subsections %}
+                                {% include "subsection_sidebar.html" with letter=subsection.letter height=section.height %}
                             {% else %}
-                                {% include "subsection_sidebar.html" with sequence_letter="" height=section.height %}
+                                {% include "subsection_sidebar.html" with letter="" height=section.height %}
                             {% endif %}
                         {% endfor %}
 

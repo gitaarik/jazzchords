@@ -20,7 +20,8 @@ class SectionSerializer(serializers.ModelSerializer):
             'key_distance_from_chart',
             'number',
             'alt_name',
-            'time_signature'
+            'time_signature',
+            'use_subsections'
         )
 
 
@@ -37,7 +38,7 @@ class SubsectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subsection
-        fields = ('id', 'number')
+        fields = ('id', 'number', 'letter')
 
 
 class LineSerializer(serializers.ModelSerializer):

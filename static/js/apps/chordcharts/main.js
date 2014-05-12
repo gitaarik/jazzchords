@@ -45,7 +45,6 @@ require(
                 model: section
             });
             chartView.$el.append(sectionView);
-            //sectionView.redrawIndicatorLines();
 
             sectionView.$el.find('.subsections .subsection').each(function() {
 
@@ -56,7 +55,6 @@ require(
                     model: subsection
                 });
                 sectionView.$el.append(subsectionView);
-                //subsectionView.redrawIndicatorLines();
 
                 subsectionView.$el.find('.line').each(function() {
 
@@ -108,6 +106,7 @@ require(
 
             });
 
+            sectionView.renderSidebar();
             section_number++;
 
         });
