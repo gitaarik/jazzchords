@@ -1,11 +1,17 @@
 define(
-    [],
-    function() {
+    [
+        'models/subsection_sidebar_part',
+        'views/subsection_sidebar_part'
+    ],
+    function(
+        SubsectionSidebarPart,
+        SubsectionSidebarPartView
+    ) {
 
         return Backbone.View.extend({
 
             tagName: 'div',
-            className: 'subsection_sidebar',
+            className: 'subsection-sidebar',
 
             initListeners: function() {
                 this.stopListening();
@@ -14,19 +20,21 @@ define(
 
             render: function() {
 
-                var section_sidebar_template = _.template(
-                    $('#template-subsection-sidebar').html()
-                );
+                this.$el.html('');
 
-                this.$el.html(section_sidebar_template({
-                    letter: this.model.get('subsection').letter(),
-                    height: this.model.get('subsection').height(),
-                }));
-
-                this.renderIndicatorLines();
+                if (this.model.get('edit')) {
+                    this.renderEditView();
+                } else {
+                    this.renderNormalView();
+                }
 
                 return this;
 
+            },
+
+            renderNormalView: function() {
+                this.addPart(false, false);
+                this.renderIndicatorLines();
             },
 
             renderIndicatorLines: function() {
@@ -84,6 +92,32 @@ define(
                     (subsection_height - line_margin)
                 );
                 context.stroke();
+
+            },
+
+            renderEditView: function() {
+
+                var that = this;
+
+                this.model.get('subsection').get('lines').each(function(line) {
+                    that.addPart(true, line);
+                });
+
+            },
+
+            addPart: function(edit, line) {
+
+                var subsectionSidebarPart = new SubsectionSidebarPart({
+                    'subsection': this.model.get('subsection'),
+                    'edit': edit,
+                    'line': line
+                });
+
+                var subsectionSidebarPartView = new SubsectionSidebarPartView({
+                    model: subsectionSidebarPart
+                });
+
+                this.$el.append(subsectionSidebarPartView.render().el);
 
             }
 

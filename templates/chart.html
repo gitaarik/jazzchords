@@ -36,8 +36,8 @@
         </div>
     </script>
 
-    <script type="text/template" id="template-subsection-sidebar">
-        {% include "subsection_sidebar.html" with letter="<%= letter %>" height="<%= height %>" %}
+    <script type="text/template" id="template-subsection-sidebar-part">
+        {% include "subsection_sidebar_part.html" with letter="<%= letter %>" height="<%= height %>" %}
     </script>
 
     {% if edit %}
@@ -112,13 +112,15 @@
 
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
 
-                        {% for subsection in section.subsections %}
-                            {% if section.use_subsections %}
-                                {% include "subsection_sidebar.html" with letter=subsection.letter height=section.height %}
-                            {% else %}
-                                {% include "subsection_sidebar.html" with letter="" height=section.height %}
-                            {% endif %}
-                        {% endfor %}
+                        <div class="subsection-sidebar">
+                            {% for subsection in section.subsections %}
+                                {% if section.use_subsections %}
+                                    {% include "subsection_sidebar_part.html" with letter=subsection.letter height=section.height %}
+                                {% else %}
+                                    {% include "subsection_sidebar_part.html" with letter="" height=section.height %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
 
                     </div>
 
@@ -289,6 +291,20 @@
                         <input type="text" class="custom-name-input">
                     </label>
 
+                </div>
+
+            </section>
+
+            <section class="subsection-sidebar-letter-edit arrow-popup">
+
+                <div class="arrow-up"></div>
+
+                <div class="letters">
+                    <ul>
+                        <li>A</li>
+                        <li>B</li>
+                        <li>etc</li>
+                    </ul>
                 </div>
 
             </section>
