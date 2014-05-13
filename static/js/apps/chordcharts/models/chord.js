@@ -61,18 +61,20 @@ define(
 
             },
 
+            /**
+             * Parses the next measure based on this measure
+             *
+             * If this and the next measure are on the same line and both
+             * have beat_schema '4' then:
+             * - If the chords are the same NOW, then next measure will
+             *   display the repeat sign ( % ).
+             * - If the chord before the change of this measure and the
+             *   next chord were the same, then change the chord of the
+             *   next measure to the chord of the current measure.
+             */
             parseNextMeasure: function() {
-                // Parses the next measure based on this measure
-                //
-                // If this and the next measure are on the same line and both
-                // have beat_schema '4' then:
-                // - If the chords are the same NOW, then next measure will
-                //   display the repeat sign ( % ).
-                // - If the chord before the change of this measure and the
-                //   next chord were the same, then change the chord of the
-                //   next measure to the chord of the current measure.
 
-                if (!this.get('measure').get('line').get('subsection').get('section').get('chart').get('parsed')) {
+                if (!GLOBALS.parsed) {
                     // only parse next measure if whole chart has been done parsing
                     return;
                 }
@@ -153,8 +155,10 @@ define(
 
             },
 
+            /**
+             * Returns the full chord name
+             */
             chordName: function() {
-                // Returns the full chord name
 
                 var bass_note;
 

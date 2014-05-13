@@ -15,7 +15,9 @@
         var GLOBALS = {
             chart_data: {{ chart_json|safe }},
             all_keys: {{ all_keys|safe }},
-            chord_types: {{ chord_types_json|safe }}
+            chord_types: {{ chord_types_json|safe }},
+            edit: {% if edit %}true{% else %}false{% endif %},
+            parsed: false
         }
 
     </script>
@@ -97,7 +99,7 @@
 
                 <section class="section" style="width: {{ chart.width }}px;">
 
-                    {% if chart.sections|length > 1 %}
+                    {% if edit or chart.sections|length > 1 %}
                         {% if forloop.first %}
                             {% include "section_header.html" with section_name=section.name move_down=1 move_up=0 %}
                         {% elif forloop.last %}

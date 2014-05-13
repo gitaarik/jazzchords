@@ -111,7 +111,7 @@ require(
 
         });
 
-        chart.set('parsed', true);
+        GLOBALS.parsed = true;
 
     }
 );
