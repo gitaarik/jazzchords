@@ -89,7 +89,8 @@ define(
             renderSidebar: function() {
 
                 var sectionSidebar = new SectionSidebar({
-                    section: this.model
+                    section: this.model,
+                    edit: false
                 });
 
                 var sectionSidebarView = new SectionSidebarView({

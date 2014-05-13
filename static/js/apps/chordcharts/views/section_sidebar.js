@@ -7,6 +7,28 @@ define(
             tagName: 'div',
             className: 'section-sidebar',
 
+            initialize: function() {
+                this.initListeners();
+            },
+
+            events: {
+                'mousein': 'mouseIn',
+                'mouseout': 'mouseOut'
+            },
+
+            initListeners: function() {
+                this.stopListening();
+                this.listenTo(this.model, 'change', this.render);
+            },
+
+            mouseIn: function() {
+                this.model.set('edit', true);
+            },
+
+            mouseOut: function() {
+                this.model.set('edit', false);
+            },
+
             render: function() {
 
                 this.$el.html('');
@@ -32,7 +54,8 @@ define(
 
                     var subsectionSidebar = new SubsectionSidebar({
                         subsection: subsection,
-                        section: that.model.get('section')
+                        section: that.model.get('section'),
+                        edit: that.model.get('edit')
                     });
 
                     var subsectionSidebarView = new SubsectionSidebarView({
