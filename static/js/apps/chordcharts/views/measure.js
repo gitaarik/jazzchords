@@ -100,10 +100,9 @@ define(
                 // Draws the lines that seperate the different measure parts
                 // inside the measure
 
-                var chart = this.model.get('line').get('subsection').get('section').get('chart');
-                var box_width = chart.get('box_width');
-                var box_height = chart.get('box_height');
-                var border_width = chart.get('border_width');
+                var box_width = GLOBALS.settings.box_width;
+                var box_height = GLOBALS.settings.box_height;
+                var border_width = GLOBALS.settings.border_width;
                 var canvas;
                 var context;
 

@@ -59,14 +59,14 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     chart_data = chart.client_data()
 
     context = {
-        'settings': BOXED_CHART,
+        'settings_json': json.dumps(BOXED_CHART),
         'chart': chart_data,
         'chart_json': json.dumps(chart_data),
         'chart_keys': chart_keys,
-        'edit': edit,
-        'all_keys': keys_json(all_keys),
+        'all_keys_json': keys_json(all_keys),
         'chord_types_sets': chord_types_sets(chord_types),
-        'chord_types_json': chord_types_json(chord_types)
+        'chord_types_json': chord_types_json(chord_types),
+        'edit': edit
     }
 
     return render(request, 'chart.html', context)

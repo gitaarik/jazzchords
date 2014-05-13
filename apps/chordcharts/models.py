@@ -186,28 +186,8 @@ class Chart(models.Model):
             'id': self.id,
             'song': self.song.client_data(),
             'key': self.key.client_data(),
-            'width': self.width(),
-            'section_sidebar_width': self.section_sidebar_width(),
-            'box_width': self.box_width(),
-            'box_height': self.box_height(),
-            'border_width': self.border_width(),
             'sections': [s.client_data() for s in self.sections.all()]
         }
-
-    def width(self):
-        return BOXED_CHART['chart_width']
-
-    def section_sidebar_width(self):
-        return BOXED_CHART['section_sidebar_width']
-
-    def box_width(self):
-        return BOXED_CHART['box_width']
-
-    def box_height(self):
-        return BOXED_CHART['box_height']
-
-    def border_width(self):
-        return BOXED_CHART['border_width']
 
     def cleanup(self):
         """

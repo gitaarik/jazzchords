@@ -12,7 +12,7 @@ define(
             },
 
             events: {
-                'mousein': 'mouseIn',
+                'mouseenter': 'mouseEnter',
                 'mouseout': 'mouseOut'
             },
 
@@ -21,7 +21,7 @@ define(
                 this.listenTo(this.model, 'change', this.render);
             },
 
-            mouseIn: function() {
+            mouseEnter: function() {
                 this.model.set('edit', true);
             },
 
@@ -34,8 +34,7 @@ define(
                 this.$el.html('');
                 this.$el.css({
                     'height': this.model.get('section').height(),
-                    'width': this.model.get('section').get('chart')
-                        .get('section_sidebar_width')
+                    'width': GLOBALS.settings.section_sidebar_width
                 });
 
                 if (this.model.get('section').get('use_subsections')) {

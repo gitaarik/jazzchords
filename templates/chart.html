@@ -13,8 +13,9 @@
     <script>
 
         var GLOBALS = {
+            settings: {{ settings_json|safe }},
             chart_data: {{ chart_json|safe }},
-            all_keys: {{ all_keys|safe }},
+            all_keys: {{ all_keys_json|safe }},
             chord_types: {{ chord_types_json|safe }},
             edit: {% if edit %}true{% else %}false{% endif %},
             parsed: false

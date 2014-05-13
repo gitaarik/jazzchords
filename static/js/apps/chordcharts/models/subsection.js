@@ -41,11 +41,10 @@ define(
                 return (
                     this.get('lines').length *
                     (
-                        this.get('section').get('chart').get('box_height') +
-                        this.get('section').get('chart').get('border_width')
+                        GLOBALS.settings.box_height +
+                        GLOBALS.settings.border_width
                     )
-                ) + this.get('section').get('chart').get('border_width');
-
+                ) + GLOBALS.settings.border_width;
             },
 
             letter: function() {
