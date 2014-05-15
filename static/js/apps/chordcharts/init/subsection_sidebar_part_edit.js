@@ -1,18 +1,18 @@
 define(
     [
-        'models/section_sidebar_part_edit',
-        'views/section_sidebar_part_edit'
+        'models/subsection_sidebar_part_edit',
+        'views/subsection_sidebar_part_edit'
     ],
     function(
-        SectionSidebarPartEdit,
-        SectionSidebarPartEditView
+        SubsectionSidebarPartEdit,
+        SubsectionSidebarPartEditView
     ) {
 
-        var sectionSidebarPartEdit = new SectionSidebarPartEdit();
+        var subsectionSidebarPartEdit = new SubsectionSidebarPartEdit();
 
-        new SectionSidebarPartEditView({
+        new SubsectionSidebarPartEditView({
             el: '.chord-chart .subsection-sidebar-part-edit',
-            model: sectionSidebarPartEdit
+            model: subsectionSidebarPartEdit
         });
 
         $('html').on('click', function(event) {
@@ -20,7 +20,7 @@ define(
             // If the editwidget is visible, hide it if there was a
             // click outside it.
 
-            if (sectionSidebarPartEdit.get('visible')) {
+            if (subsectionSidebarPartEdit.get('visible')) {
 
                 var target = $(event.target);
 
@@ -32,7 +32,7 @@ define(
                         // click was inside chord chart
                         target.closest('.chord-chart').length &&
                         // click was to open the widget
-                        target.closest('.subsection-sidebar-part')
+                        target.closest('.subsection-sidebar-part').length
                     ) || (
                         // click was inside chord chart
                         target.closest('.chord-chart').length &&
@@ -41,14 +41,15 @@ define(
                     )
                 )) {
                     // close the widget
-                    sectionSidebarPartEdit.set('visible', false);
+                    console.log('closing the subsectionSidebarPartEditWidget');
+                    subsectionSidebarPartEdit.set('visible', false);
                 }
 
             }
 
         });
 
-        return sectionSidebarPartEdit;
+        return subsectionSidebarPartEdit;
 
     }
 );

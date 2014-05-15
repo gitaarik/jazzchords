@@ -1,6 +1,6 @@
 define(
-    [],
-    function() {
+    ['init/subsection_sidebar_part_edit'],
+    function(subsectionSidebarPartEdit) {
 
         return Backbone.View.extend({
 
@@ -37,7 +37,14 @@ define(
 
             openSubsectionSidebarLetterEditWidget: function() {
 
-                console.log('open edit widget yo');
+                subsectionSidebarPartEdit.set({
+                    visible: true,
+                    subsection: this.model.get('subsection'),
+                    offset: this.$el.offset()
+                });
+
+                this.model.get('subsectionSidebar').get('sectionSidebar')
+                    .set('forceEdit', true);
 
             },
 

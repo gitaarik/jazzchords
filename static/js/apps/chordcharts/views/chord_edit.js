@@ -34,22 +34,22 @@ define(
             initialize: function() {
                 this.chord_type_el = this.$el.find('.chord-settings .setting.type');
                 this.initChordTypes();
-                this.listenTo(this.model, 'change', this.change);
+                this.listenTo(this.model, 'change', this.render);
             },
 
-            change: function() {
+            render: function() {
 
                 // Only show the edit widget when 'visible' is true,
                 // otherwise, hide the edit widget.
 
-                if(this.model.get('visible')) {
+                if (this.model.get('visible')) {
 
                     var previousAttributes = this.model.previousAttributes();
 
                     // If the edit widget was already open for this chord,
                     // then apparently something else than the visibility
                     // changed, so we apply the changes.
-                    if(
+                    if (
                         previousAttributes.visible &&
                         this.model.get('chord') == previousAttributes.chord
                     ) {
@@ -58,8 +58,7 @@ define(
 
                     this.show();
 
-                }
-                else {
+                } else {
                     this.$el.hide();
                 }
 
@@ -150,10 +149,9 @@ define(
             toggleChordTypes: function(obj) {
                 // Toggles between the two pages of chord type options
 
-                if(this.chord_type_el.find('.type-part-1').is(':visible')) {
+                if (this.chord_type_el.find('.type-part-1').is(':visible')) {
                     this.showChordTypePart(2);
-                }
-                else {
+                } else {
                     this.showChordTypePart(1);
                 }
 
@@ -176,7 +174,7 @@ define(
 
                 // If the edit widget opens on a different chord than the
                 // last one, then reset the editWidget.
-                if(
+                if (
                     this.model.previousAttributes().chord !=
                     this.model.get('chord')
                 ) {
@@ -435,10 +433,9 @@ define(
                     chord_type: this.model.get('chord_type')
                 });
 
-                if(this.chordEditChordTypes.indexOf(current_chord_type) > 11) {
+                if (this.chordEditChordTypes.indexOf(current_chord_type) > 11) {
                     this.showChordTypePart(2);
-                }
-                else {
+                } else {
                     this.showChordTypePart(1);
                 }
 

@@ -18,15 +18,31 @@ define(
 
             initListeners: function() {
                 this.stopListening();
-                this.listenTo(this.model, 'change', this.render);
+                this.listenTo(this.model, 'change', this.change);
             },
 
             mouseEnter: function() {
-                this.model.set('edit', true);
+                if (GLOBALS.edit) {
+                    this.model.set('edit', true);
+                }
             },
 
             mouseOut: function() {
                 this.model.set('edit', false);
+            },
+
+            change: function() {
+
+                var changedKeys = Object.keys(this.model.changedAttributes());
+
+                // If only `forceEdit` was changed, don't render the view.
+                if (!(
+                    changedKeys.length == 1 &&
+                    changedKeys[0] == 'forceEdit'
+                )) {
+                    this.render();
+                }
+
             },
 
             render: function() {
@@ -52,9 +68,10 @@ define(
                 this.model.get('section').get('subsections').each(function(subsection) {
 
                     var subsectionSidebar = new SubsectionSidebar({
+                        sectionSidebar: that.model,
                         subsection: subsection,
                         section: that.model.get('section'),
-                        edit: that.model.get('edit')
+                        edit: that.model.get('edit') | that.model.get('forceEdit')
                     });
 
                     var subsectionSidebarView = new SubsectionSidebarView({

@@ -108,9 +108,10 @@ define(
             addPart: function(edit, line) {
 
                 var subsectionSidebarPart = new SubsectionSidebarPart({
-                    'subsection': this.model.get('subsection'),
-                    'edit': edit,
-                    'line': line
+                    subsectionSidebar: this.model,
+                    subsection: this.model.get('subsection'),
+                    edit: edit,
+                    line: line
                 });
 
                 var subsectionSidebarPartView = new SubsectionSidebarPartView({
