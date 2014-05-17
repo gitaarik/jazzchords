@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from .serializers import (
-    SectionSerializer, SubsectionSerializer, LineSerializer,
+    SectionSerializer, LineSerializer,
     MeasureSerializer, ChordSerializer
 )
-from .models import Section, Subsection, Line, Measure, Chord
+from .models import Section, Line, Measure, Chord
 
 
 class SectionViewSet(viewsets.ModelViewSet):
@@ -23,13 +23,13 @@ class SectionViewSet(viewsets.ModelViewSet):
         return context
 
 
-class SubsectionViewSet(viewsets.ModelViewSet):
+class LineViewSet(viewsets.ModelViewSet):
 
-    model = Subsection
-    serializer_class = SubsectionSerializer
+    model = Line
+    serializer_class = LineSerializer
 
     def get_queryset(self, *args, **kwargs):
-        return Subsection.objects.filter(
+        return Line.objects.filter(
             section__id=self.kwargs['section_pk'],
             section__chart__id=self.kwargs['chart_id'],
             section__chart__song__slug=self.kwargs['song_slug']
@@ -41,25 +41,6 @@ class SubsectionViewSet(viewsets.ModelViewSet):
         return context
 
 
-class LineViewSet(viewsets.ModelViewSet):
-
-    model = Line
-    serializer_class = LineSerializer
-
-    def get_queryset(self, *args, **kwargs):
-        return Line.objects.filter(
-            subsection__id=self.kwargs['subsection_pk'],
-            subsection__section__id=self.kwargs['section_pk'],
-            subsection__section__chart__id=self.kwargs['chart_id'],
-            subsection__section__chart__song__slug=self.kwargs['song_slug']
-        )
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['subsection_id'] = self.kwargs['subsection_pk']
-        return context
-
-
 class MeasureViewSet(viewsets.ModelViewSet):
 
     model = Measure
@@ -68,10 +49,9 @@ class MeasureViewSet(viewsets.ModelViewSet):
     def get_queryset(self, *args, **kwargs):
         return Measure.objects.filter(
             line__id=self.kwargs['line_pk'],
-            line__subsection__id=self.kwargs['subsection_pk'],
-            line__subsection__section__id=self.kwargs['section_pk'],
-            line__subsection__section__chart__id=self.kwargs['chart_id'],
-            line__subsection__section__chart__song__slug=self.kwargs['song_slug']
+            line__section__id=self.kwargs['section_pk'],
+            line__section__chart__id=self.kwargs['chart_id'],
+            line__section__chart__song__slug=self.kwargs['song_slug']
         )
 
     def get_serializer_context(self):
@@ -89,10 +69,9 @@ class ChordViewSet(viewsets.ModelViewSet):
         return Chord.objects.filter(
             measure__id=self.kwargs['measure_pk'],
             measure__line__id=self.kwargs['line_pk'],
-            measure__line__subsection_id=self.kwargs['subsection_pk'],
-            measure__line__subsection__section__id=self.kwargs['section_pk'],
-            measure__line__subsection__section__chart__id=self.kwargs['chart_id'],
-            measure__line__subsection__section__chart__song__slug=self.kwargs['song_slug']
+            measure__line___section__id=self.kwargs['section_pk'],
+            measure__line___section__chart__id=self.kwargs['chart_id'],
+            measure__line___section__chart__song__slug=self.kwargs['song_slug']
         )
 
     def get_serializer_context(self):

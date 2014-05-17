@@ -2,7 +2,7 @@ from django.core import urlresolvers
 from django.contrib import admin
 
 from .models import (
-    Chart, Section, Subsection, Line, Measure, Chord, ChordType, Note,
+    Chart, Section, Line, Measure, Chord, ChordType, Note,
     Key, TimeSignature
 )
 
@@ -39,7 +39,7 @@ class MeasureInline(admin.StackedInline):
 
 
 class LineAdmin(admin.ModelAdmin):
-    list_display = ('number', 'subsection')
+    list_display = ('number', 'section')
     inlines = (MeasureInline,)
 
 
@@ -60,43 +60,16 @@ class LineInline(admin.StackedInline):
                 change_url)
 
         else:
-            return 'Save the subsection first before editing the line.'
-
-    change.allow_tags = True
-
-
-class SubsectionAdmin(admin.ModelAdmin):
-    list_display = ('number',)
-    inlines = (LineInline,)
-
-
-class SubsectionInline(admin.StackedInline):
-
-    model = Subsection
-    extra = 0
-    readonly_fields = ('change',)
-
-    def change(self, instance):
-
-        if instance.id:
-            change_url = urlresolvers.reverse(
-                'admin:chordcharts_subsection_change', args=(instance.id,)
-            )
-
-            return '<a class="changelink" href="{}">Change</a>'.format(
-                change_url
-            )
-
-        else:
-            return 'Save the section first before editing the subsection.'
+            return 'Save the section first before editing the line.'
 
     change.allow_tags = True
 
 
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'chart', 'key', 'number',
-        'key_distance_from_chart')
-    inlines = (SubsectionInline,)
+    list_display = (
+        'name', 'chart', 'key', 'number', 'key_distance_from_chart'
+    )
+    inlines = (LineInline,)
 
 
 class SectionInline(admin.StackedInline):
@@ -136,8 +109,9 @@ class NoteInline(admin.TabularInline):
 
 
 class KeyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'tone', 'tonality', 'distance_from_c',
-        'order')
+    list_display = (
+        'name', 'slug', 'tone', 'tonality', 'distance_from_c', 'order'
+    )
     prepopulated_fields = {'slug': ('name',)}
     inlines = (NoteInline,)
 
@@ -148,7 +122,6 @@ class TimeSignatureAdmin(admin.ModelAdmin):
 
 admin.site.register(Chart, ChartAdmin)
 admin.site.register(Section, SectionAdmin)
-admin.site.register(Subsection, SubsectionAdmin)
 admin.site.register(Line, LineAdmin)
 admin.site.register(Measure, MeasureAdmin)
 admin.site.register(ChordType, ChordTypeAdmin)

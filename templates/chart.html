@@ -113,6 +113,7 @@
                     <div class="section-sidebar" style="height: {{ section.height }}px;">
 
                         <div class="subsection-sidebar">
+                            {% comment %}
                             {% for subsection in section.subsections %}
                                 {% if section.use_subsections %}
                                     {% include "subsection_sidebar_part.html" with letter=subsection.letter height=section.height %}
@@ -120,62 +121,59 @@
                                     {% include "subsection_sidebar_part.html" with letter="" height=section.height %}
                                 {% endif %}
                             {% endfor %}
+                            {% endcomment %}
                         </div>
 
                     </div>
 
-                    <table class="subsections">
+                    <table class="lines">
 
-                        {% for subsection in section.subsections %}
+                        <tbody class="line">
 
-                            <tbody class="subsection">
+                            {% for line in section.lines %}
 
-                                {% for line in subsection.lines %}
+                                <tr class="line">
 
-                                    <tr class="line">
+                                    {% for measure in line.measures %}
 
-                                        {% for measure in line.measures %}
+                                        <td class="
+                                            measure
+                                            measure-beatschema-{{ measure.beat_schema }}
+                                        ">
 
-                                            <td class="
-                                                measure
-                                                measure-beatschema-{{ measure.beat_schema }}
-                                            ">
+                                            <div class="chords">
+                                                {% for chord in measure.chords %}
+                                                    <div class="chord chord-{{ chord.order }}">
+                                                        <span class="chord-name">{{ chord.chart_output }}</span>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
 
-                                                <div class="chords">
-                                                    {% for chord in measure.chords %}
-                                                        <div class="chord chord-{{ chord.order }}">
-                                                            <span class="chord-name">{{ chord.chart_output }}</span>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
+                                        </td>
 
+                                    {% endfor %}
+
+                                    {% if line.measures|length < 8 %}
+
+                                        {% if edit %}
+
+                                            <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
+                                                <div class="plus">+</div>
                                             </td>
 
-                                        {% endfor %}
+                                        {% else %}
 
-                                        {% if line.measures|length < 8 %}
-
-                                            {% if edit %}
-
-                                                <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
-                                                    <div class="plus">+</div>
-                                                </td>
-
-                                            {% else %}
-
-                                                <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
-
-                                            {% endif %}
+                                            <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
 
                                         {% endif %}
 
-                                    </tr>
+                                    {% endif %}
 
-                                {% endfor %}
+                                </tr>
 
-                            </tbody>
+                            {% endfor %}
 
-                        {% endfor %}
+                        </tbody>
 
                         {% if edit %}
                             {% include "section_line_add.html" %}

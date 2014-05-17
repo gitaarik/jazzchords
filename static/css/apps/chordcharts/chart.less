@@ -200,173 +200,169 @@
 
             }
 
-            .subsections {
+            .lines {
 
-                .subsection {
+                .line {
 
-                    .line {
+                    .measure {
 
-                        .measure {
+                        height: @measure_height;
+                        width: @measure_width;
+                        border: solid @border_width #000;
+                        position: relative;
+                        margin: 0;
+                        padding: 0;
 
+                        .chords {
+                            position: relative;
                             height: @measure_height;
                             width: @measure_width;
-                            border: solid @border_width #000;
+                        }
+
+                        &.measure-beatschema-4 {
+
+                            .chord {
+                                line-height: @measure_height;
+                                text-align: center;
+                                .chord-name {
+                                    font-size: 27px;
+                                }
+                            }
+
+                        }
+
+                        &.measure-beatschema-2-2 {
+
                             position: relative;
-                            margin: 0;
-                            padding: 0;
 
-                            .chords {
-                                position: relative;
-                                height: @measure_height;
+                            .chord-1 {
+                                position: absolute;
+                                font-size: 20px;
+                                line-height: round(@measure_height * 0.6);
+                                width: round(@measure_width * 0.6);
+                                text-align: center;
+                            }
+
+                            .chord-2 {
+                                position: absolute;
+                                font-size: 20px;
+                                line-height: round(@measure_height * 0.6);
+                                top: round(@measure_height * 0.4);
+                                left: round(@measure_width * 0.4);
+                                width: round(@measure_width * 0.6);
+                                text-align: center;
+                            }
+
+                        }
+
+                        &.measure-beatschema-2-1-1 {
+
+                            position: relative;
+
+                            .chord-1 {
+                                position: absolute;
+                                font-size: 20px;
+                                line-height: round(@measure_height * 0.6);
+                                width: round(@measure_width * 0.6);
+                                text-align: center;
+                            }
+
+                            .chord-2 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: round(@measure_height * 0.35);
                                 width: @measure_width;
+                                top: round(@measure_height * 0.65);
+                                text-align: center;
                             }
 
-                            &.measure-beatschema-4 {
-
-                                .chord {
-                                    line-height: @measure_height;
-                                    text-align: center;
-                                    .chord-name {
-                                        font-size: 27px;
-                                    }
-                                }
-
-                            }
-
-                            &.measure-beatschema-2-2 {
-
-                                position: relative;
-
-                                .chord-1 {
-                                    position: absolute;
-                                    font-size: 20px;
-                                    line-height: round(@measure_height * 0.6);
-                                    width: round(@measure_width * 0.6);
-                                    text-align: center;
-                                }
-
-                                .chord-2 {
-                                    position: absolute;
-                                    font-size: 20px;
-                                    line-height: round(@measure_height * 0.6);
-                                    top: round(@measure_height * 0.4);
-                                    left: round(@measure_width * 0.4);
-                                    width: round(@measure_width * 0.6);
-                                    text-align: center;
-                                }
-
-                            }
-
-                            &.measure-beatschema-2-1-1 {
-
-                                position: relative;
-
-                                .chord-1 {
-                                    position: absolute;
-                                    font-size: 20px;
-                                    line-height: round(@measure_height * 0.6);
-                                    width: round(@measure_width * 0.6);
-                                    text-align: center;
-                                }
-
-                                .chord-2 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: round(@measure_height * 0.35);
-                                    width: @measure_width;
-                                    top: round(@measure_height * 0.65);
-                                    text-align: center;
-                                }
-
-                                .chord-3 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: @measure_height;
-                                    width: round(@measure_width * 0.4);
-                                    left: round(@measure_width * 0.6);
-                                    text-align: center;
-                                }
-
-                            }
-
-                            &.measure-beatschema-1-1-2 {
-
-                                position: relative;
-
-                                .chord-1 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: @measure_height;
-                                    width: round(@measure_width * 0.4);
-                                    text-align: center;
-                                }
-
-                                .chord-2 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: round(@measure_height * 0.35);
-                                    width: @measure_width;
-                                    text-align: center;
-                                }
-
-                                .chord-3 {
-                                    position: absolute;
-                                    font-size: 20px;
-                                    line-height: round(@measure_height * 0.6);
-                                    width: round(@measure_width * 0.6);
-                                    top: round(@measure_width * 0.4);
-                                    left: round(@measure_width * 0.4);
-                                    text-align: center;
-                                }
-
-                            }
-
-                            &.measure-beatschema-1-1-1-1 {
-
-                                position: relative;
-
-                                .chord-1 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: @measure_height;
-                                    width: round(@measure_width * 0.4);
-                                    text-align: center;
-                                }
-
-                                .chord-2 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: round(@measure_height * 0.35);
-                                    width: @measure_width;
-                                    text-align: center;
-                                }
-
-                                .chord-3 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: round(@measure_height * 0.35);
-                                    width: @measure_width;
-                                    top: round(@measure_height * 0.65);
-                                    text-align: center;
-                                }
-
-                                .chord-4 {
-                                    position: absolute;
-                                    font-size: 15px;
-                                    line-height: @measure_height;
-                                    width: round(@measure_width * 0.4);
-                                    left: round(@measure_width * 0.6);
-                                    text-align: center;
-                                }
-
+                            .chord-3 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: @measure_height;
+                                width: round(@measure_width * 0.4);
+                                left: round(@measure_width * 0.6);
+                                text-align: center;
                             }
 
                         }
 
-                        .colspan {
-                            border: none;
+                        &.measure-beatschema-1-1-2 {
+
+                            position: relative;
+
+                            .chord-1 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: @measure_height;
+                                width: round(@measure_width * 0.4);
+                                text-align: center;
+                            }
+
+                            .chord-2 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: round(@measure_height * 0.35);
+                                width: @measure_width;
+                                text-align: center;
+                            }
+
+                            .chord-3 {
+                                position: absolute;
+                                font-size: 20px;
+                                line-height: round(@measure_height * 0.6);
+                                width: round(@measure_width * 0.6);
+                                top: round(@measure_width * 0.4);
+                                left: round(@measure_width * 0.4);
+                                text-align: center;
+                            }
+
                         }
 
+                        &.measure-beatschema-1-1-1-1 {
+
+                            position: relative;
+
+                            .chord-1 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: @measure_height;
+                                width: round(@measure_width * 0.4);
+                                text-align: center;
+                            }
+
+                            .chord-2 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: round(@measure_height * 0.35);
+                                width: @measure_width;
+                                text-align: center;
+                            }
+
+                            .chord-3 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: round(@measure_height * 0.35);
+                                width: @measure_width;
+                                top: round(@measure_height * 0.65);
+                                text-align: center;
+                            }
+
+                            .chord-4 {
+                                position: absolute;
+                                font-size: 15px;
+                                line-height: @measure_height;
+                                width: round(@measure_width * 0.4);
+                                left: round(@measure_width * 0.6);
+                                text-align: center;
+                            }
+
+                        }
+
+                    }
+
+                    .colspan {
+                        border: none;
                     }
 
                 }

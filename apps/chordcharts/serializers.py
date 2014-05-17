@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Section, Subsection, Line, Measure, Chord
+from .models import Section, Line, Measure, Chord
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -20,25 +20,8 @@ class SectionSerializer(serializers.ModelSerializer):
             'key_distance_from_chart',
             'number',
             'alt_name',
-            'time_signature',
-            'use_subsections'
+            'time_signature'
         )
-
-
-class SubsectionSerializer(serializers.ModelSerializer):
-
-    def restore_object(self, attrs, instance=None):
-
-        if instance is None:
-            # if `instance` is `None`, it means we're creating a new
-            # object, so we set the `chart_id` field.
-            attrs['section_id'] = self.context['section_id']
-
-        return super().restore_object(attrs, instance)
-
-    class Meta:
-        model = Subsection
-        fields = ('id', 'number', 'letter')
 
 
 class LineSerializer(serializers.ModelSerializer):
@@ -48,7 +31,7 @@ class LineSerializer(serializers.ModelSerializer):
         if instance is None:
             # if `instance` is `None`, it means we're creating a new
             # object, so we set the `section_id` field.
-            attrs['subsection_id'] = self.context['subsection_id']
+            attrs['section_id'] = self.context['section_id']
 
         return super().restore_object(attrs, instance)
 

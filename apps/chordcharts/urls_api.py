@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 from .views_api import (
-    SectionViewSet, SubsectionViewSet, LineViewSet,
+    SectionViewSet, LineViewSet,
     MeasureViewSet, ChordViewSet
 )
 
@@ -9,15 +9,9 @@ from .views_api import (
 sections_router = routers.SimpleRouter(trailing_slash=False)
 sections_router.register(r'sections', SectionViewSet)
 
-subsections_router = routers.NestedSimpleRouter(
+lines_router = routers.NestedSimpleRouter(
     sections_router, 'sections',
     lookup='section', trailing_slash=False
-)
-subsections_router.register(r'subsections', SubsectionViewSet)
-
-lines_router = routers.NestedSimpleRouter(
-    subsections_router, 'subsections',
-    lookup='subsection', trailing_slash=False
 )
 lines_router.register(r'lines', LineViewSet)
 
@@ -35,7 +29,6 @@ chords_router.register(r'chords', ChordViewSet)
 
 chart_urlpatterns = patterns('',
     url('^', include(sections_router.urls)),
-    url('^', include(subsections_router.urls)),
     url('^', include(lines_router.urls)),
     url('^', include(measures_router.urls)),
     url('^', include(chords_router.urls)),
