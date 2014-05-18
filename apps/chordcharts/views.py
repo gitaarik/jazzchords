@@ -59,6 +59,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     chart_data = chart.client_data()
 
     context = {
+        'settings': BOXED_CHART,
         'settings_json': json.dumps(BOXED_CHART),
         'chart': chart_data,
         'chart_json': json.dumps(chart_data),

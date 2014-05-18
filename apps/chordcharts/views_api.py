@@ -69,9 +69,9 @@ class ChordViewSet(viewsets.ModelViewSet):
         return Chord.objects.filter(
             measure__id=self.kwargs['measure_pk'],
             measure__line__id=self.kwargs['line_pk'],
-            measure__line___section__id=self.kwargs['section_pk'],
-            measure__line___section__chart__id=self.kwargs['chart_id'],
-            measure__line___section__chart__song__slug=self.kwargs['song_slug']
+            measure__line__section__id=self.kwargs['section_pk'],
+            measure__line__section__chart__id=self.kwargs['chart_id'],
+            measure__line__section__chart__song__slug=self.kwargs['song_slug']
         )
 
     def get_serializer_context(self):

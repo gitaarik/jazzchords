@@ -36,8 +36,8 @@
         </div>
     </script>
 
-    <script type="text/template" id="template-subsection-sidebar-part">
-        {% include "subsection_sidebar_part.html" with letter="<%= letter %>" height="<%= height %>" %}
+    <script type="text/template" id="template-section-sidebar-part">
+        {% include "section_sidebar_part.html" with letter="<%= letter %>" height="<%= height %>" %}
     </script>
 
     {% if edit %}
@@ -46,8 +46,8 @@
             {% include "section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
         </script>
 
-        <script type="text/template" id="template-subsections">
-            <table class="subsections">
+        <script type="text/template" id="template-lines">
+            <table class="lines">
                 {% include "section_line_add.html" %}
             </table>
         </script>
@@ -110,25 +110,13 @@
                         {% endif %}
                     {% endif %}
 
-                    <div class="section-sidebar" style="height: {{ section.height }}px;">
-
-                        <div class="subsection-sidebar">
-                            {% comment %}
-                            {% for subsection in section.subsections %}
-                                {% if section.use_subsections %}
-                                    {% include "subsection_sidebar_part.html" with letter=subsection.letter height=section.height %}
-                                {% else %}
-                                    {% include "subsection_sidebar_part.html" with letter="" height=section.height %}
-                                {% endif %}
-                            {% endfor %}
-                            {% endcomment %}
-                        </div>
+                    <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;">
 
                     </div>
 
-                    <table class="lines">
+                    <table>
 
-                        <tbody class="line">
+                        <tbody class="lines">
 
                             {% for line in section.lines %}
 
@@ -293,7 +281,7 @@
 
             </section>
 
-            <section class="subsection-sidebar-part-edit arrow-popup">
+            <section class="line-edit arrow-popup">
 
                 <div class="arrow-up"></div>
 

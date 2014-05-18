@@ -3,7 +3,6 @@ require(
         'models/chart',
         'views/chart',
         'views/section',
-        'views/subsection',
         'views/line',
         'views/measure',
         'views/chord',
@@ -13,7 +12,6 @@ require(
         Chart,
         ChartView,
         SectionView,
-        SubsectionView,
         LineView,
         MeasureView,
         ChordView,
@@ -38,7 +36,7 @@ require(
         // elements
         chartView.$el.find('.section').each(function() {
 
-            var subsection_number = 0;
+            var line_number = 0;
             var section = chart.get('sections').models[section_number];
             var sectionView = new SectionView({
                 el: this,
@@ -46,63 +44,49 @@ require(
             });
             chartView.$el.append(sectionView);
 
-            sectionView.$el.find('.subsections .subsection').each(function() {
+            sectionView.$el.find('.lines .line').each(function() {
 
-                var line_number = 0;
-                var subsection = section.get('subsections').models[subsection_number];
-                var subsectionView = new SubsectionView({
+                var measure_number = 0;
+                var line = section.get('lines').models[line_number];
+                var lineView = new LineView({
                     el: this,
-                    model: subsection
+                    model: line
                 });
-                sectionView.$el.append(subsectionView);
+                sectionView.$el.append(lineView);
 
-                subsectionView.$el.find('.line').each(function() {
+                lineView.$el.find('.measure').each(function() {
 
-                    var measure_number = 0;
-                    var line = subsection.get('lines').models[line_number];
-                    var lineView = new LineView({
+                    var chord_number = 0;
+                    var measure = line.get('measures').models[measure_number];
+                    var measureView = new MeasureView({
                         el: this,
-                        model: line
+                        model: measure
                     });
-                    subsectionView.$el.append(lineView);
 
-                    lineView.$el.find('.measure').each(function() {
+                    lineView.$el.append(measureView);
+                    measureView.drawSeperationLines();
+                    var chord_views = [];
 
-                        var chord_number = 0;
-                        var measure = line.get('measures').models[measure_number];
-                        var measureView = new MeasureView({
-                            el: this,
-                            model: measure
-                        });
+                    measureView.$el.find('.chord').each(function() {
 
-                        lineView.$el.append(measureView);
-                        measureView.drawSeperationLines();
-                        var chord_views = [];
+                        var chord = measure.get('chords').models[chord_number];
 
-                        measureView.$el.find('.chord').each(function() {
-
-                            var chord = measure.get('chords').models[chord_number];
-
-                            chord_views.push(
-                                new ChordView({
-                                    el: this,
-                                    model: chord
-                                })
-                            );
-                            chord_number++;
-
-                        });
-
-                        measure.set({ chord_views: chord_views }, { silent: true });
-                        measure_number++;
+                        chord_views.push(
+                            new ChordView({
+                                el: this,
+                                model: chord
+                            })
+                        );
+                        chord_number++;
 
                     });
 
-                    line_number++;
+                    measure.set({ chord_views: chord_views }, { silent: true });
+                    measure_number++;
 
                 });
 
-                subsection_number++;
+                line_number++;
 
             });
 

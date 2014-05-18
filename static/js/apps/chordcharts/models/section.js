@@ -1,6 +1,6 @@
 define(
-    ['collections/subsections'],
-    function(Subsections) {
+    ['collections/lines'],
+    function(Lines) {
 
         return Backbone.Model.extend({
 
@@ -11,27 +11,27 @@ define(
 
             initData: function() {
 
-                // Only set subsections if it hasn't been set yet. Prevents errors
+                // Only set lines if it hasn't been set yet. Prevents errors
                 // when cloning.
-                if(!(this.get('subsections') instanceof Backbone.Collection)) {
+                if(!(this.get('lines') instanceof Backbone.Collection)) {
 
                     var that = this;
-                    var subsections = new Subsections();
-                    subsections.url = this.subsectionsUrl();
+                    var lines = new Lines();
+                    lines.url = this.linesUrl();
 
-                    _.each(this.get('subsections'), function(subsection_data) {
-                        subsection_data.section = that;
-                        subsections.add(subsection_data);
+                    _.each(this.get('lines'), function(line_data) {
+                        line_data.section = that;
+                        lines.add(line_data);
                     });
 
-                    this.set('subsections', subsections);
+                    this.set('lines', lines);
 
                 }
 
             },
 
-            subsectionsUrl: function() {
-                return this.url() + '/subsections';
+            linesUrl: function() {
+                return this.url() + '/lines';
             },
 
             initListeners: function() {
@@ -43,15 +43,13 @@ define(
              * Returns the on-screen height of this section.
              */
             height: function() {
-
-                var height = 0;
-
-                this.get('subsections').each(function(subsection) {
-                    height += subsection.height();
-                });
-
-                return height;
-
+                return (
+                    this.get('lines').length *
+                    (
+                        GLOBALS.settings.box_height +
+                        GLOBALS.settings.border_width
+                    )
+                ) + GLOBALS.settings.border_width;
             },
 
             /**
@@ -126,7 +124,7 @@ define(
                 var copy = this.clone();
                 copy.set({
                     id: null,
-                    subsections: this.get('subsections').copy({ section: copy })
+                    lines: this.get('lines').copy({ section: copy })
                 });
 
                 if(attributes) {
@@ -148,9 +146,9 @@ define(
                 var that = this;
 
                 this.save(null, { success: function() {
-                    that.get('subsections').url = that.subsectionsUrl();
-                    that.get('subsections').each(function(subsection) {
-                        subsection.saveRecursive();
+                    that.get('lines').url = that.subsectionsUrl();
+                    that.get('lines').each(function(line) {
+                        line.saveRecursive();
                     });
                 }});
 
@@ -161,8 +159,7 @@ define(
                     number: this.get('number'),
                     alt_name: this.get('alt_name'),
                     key_distance_from_chart: this.get('key_distance_from_chart'),
-                    time_signature: this.get('time_signature'),
-                    use_subsections: this.get('use_subsections')
+                    time_signature: this.get('time_signature')
                 };
             }
 

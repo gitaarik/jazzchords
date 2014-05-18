@@ -7,24 +7,25 @@ from .views_api import (
 
 
 sections_router = routers.SimpleRouter(trailing_slash=False)
-sections_router.register(r'sections', SectionViewSet)
+sections_router.register('sections', SectionViewSet)
 
 lines_router = routers.NestedSimpleRouter(
     sections_router, 'sections',
     lookup='section', trailing_slash=False
 )
-lines_router.register(r'lines', LineViewSet)
+lines_router.register('lines', LineViewSet)
 
 measures_router = routers.NestedSimpleRouter(
-    lines_router, 'lines', lookup='line', trailing_slash=False
+    lines_router, 'lines',
+    lookup='line', trailing_slash=False
 )
-measures_router.register(r'measures', MeasureViewSet)
+measures_router.register('measures', MeasureViewSet)
 
 chords_router = routers.NestedSimpleRouter(
     measures_router, 'measures',
     lookup='measure', trailing_slash=False
 )
-chords_router.register(r'chords', ChordViewSet)
+chords_router.register('chords', ChordViewSet)
 
 
 chart_urlpatterns = patterns('',

@@ -3,14 +3,14 @@ define(
         'models/line',
         'models/section_sidebar',
         'views/section_sidebar',
-        'views/subsection',
+        'views/line',
         'init/section_edit'
     ],
     function(
         Line,
         SectionSidebar,
         SectionSidebarView,
-        SubsectionView,
+        LineView,
         SectionEdit
     ) {
 
@@ -34,7 +34,7 @@ define(
             initListeners: function() {
                 this.stopListening();
                 this.listenTo(this.model, 'change', this.render);
-                this.listenTo(this.model.get('subsections'), 'lineRemoved', this.renderSidebar);
+                this.listenTo(this.model.get('lines'), 'remove', this.renderSidebar);
             },
 
             openSectionEdit: function(event) {
@@ -50,7 +50,7 @@ define(
             render: function() {
                 this.renderHeader();
                 this.renderSidebar();
-                this.renderSubsections();
+                this.renderLines();
                 return this;
             },
 
@@ -108,33 +108,23 @@ define(
 
             },
 
-            renderSubsections: function() {
+            renderLines: function() {
 
-                var subsections_el = this.$el.find('.subsections');
-                var subsections_template = _.template(
-                    $('#template-subsections').html()
-                );
+                var lineViews = [];
+                var lineView;
 
-                if (subsections_el.length) {
-                    subsections_el.replaceWith(subsections_template());
-                } else {
-                    this.$el.append(subsections_template());
-                }
+                this.model.get('lines').each(function(line) {
 
-                var that = this;
-                var subsectionView;
-
-                this.model.get('subsections').each(function(subsection) {
-
-                    subsectionView = new SubsectionView({
-                        model: subsection
+                    lineView = new LineView({
+                        model: line
                     });
 
-                    subsectionView.render().$el.insertBefore(
-                        that.$el.find('.line-add')
-                    );
+                    lineViews.push(lineView.render().el);
 
                 });
+
+                this.$el.html('');
+                this.$el.append(lineViews);
 
             },
 
@@ -187,13 +177,11 @@ define(
             },
 
             /**
-             * Adds a line to the last subsection in this section.
+             * Adds a line in this section.
              */
             addLine: function() {
 
-                var last_subsection = this.model.get('subsections').last();
-                var last_line = last_subsection.get('lines').last();
-
+                var last_line = this.model.get('lines').last();
                 var new_line = last_line.copy({
                     number: last_line.get('number') + 1
                 });
@@ -203,10 +191,8 @@ define(
                 new_measure.unset('next_measure');
                 new_line.get('measures').reset([new_measure]);
 
-                last_subsection.get('lines').add(new_line);
-
+                this.model.get('lines').add(new_line);
                 this.renderSidebar();
-
                 new_line.saveRecursive();
 
             },
