@@ -146,7 +146,7 @@ define(
                 var that = this;
 
                 this.save(null, { success: function() {
-                    that.get('lines').url = that.subsectionsUrl();
+                    that.get('lines').url = that.linesUrl();
                     that.get('lines').each(function(line) {
                         line.saveRecursive();
                     });

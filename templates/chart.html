@@ -52,6 +52,15 @@
             </table>
         </script>
 
+        <script type="text/template" id="template-section">
+            <header class="section-header"></header>
+            <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
+            <table>
+                <tbody class="lines"></tbody>
+                <tfoot>{% include "section_line_add.html" %}</tfoot>
+            </table>
+        </script>
+
     {% endif %}
 
 {% endblock %}
@@ -98,17 +107,19 @@
 
             {% for section in chart.sections %}
 
-                <section class="section" style="width: {{ chart.width }}px;">
+                <section class="section" style="width: {{ settings.chart_width }}px;">
 
-                    {% if edit or chart.sections|length > 1 %}
-                        {% if forloop.first %}
-                            {% include "section_header.html" with section_name=section.name move_down=1 move_up=0 %}
-                        {% elif forloop.last %}
-                            {% include "section_header.html" with section_name=section.name move_down=0 move_up=1 %}
-                        {% else %}
-                            {% include "section_header.html" with section_name=section.name move_down=1 move_up=1 %}
+                    <header class="section-header">
+                        {% if edit or chart.sections|length > 1 %}
+                            {% if forloop.first %}
+                                {% include "section_header.html" with section_name=section.name move_down=1 move_up=0 %}
+                            {% elif forloop.last %}
+                                {% include "section_header.html" with section_name=section.name move_down=0 move_up=1 %}
+                            {% else %}
+                                {% include "section_header.html" with section_name=section.name move_down=1 move_up=1 %}
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
+                    </header>
 
                     <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;">
 
@@ -163,9 +174,11 @@
 
                         </tbody>
 
-                        {% if edit %}
-                            {% include "section_line_add.html" %}
-                        {% endif %}
+                        <tfoot>
+                            {% if edit %}
+                                {% include "section_line_add.html" %}
+                            {% endif %}
+                        </tfoot>
 
                     </table>
 

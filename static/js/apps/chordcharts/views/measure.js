@@ -46,7 +46,7 @@ define(
                     // last measure in the last line.
                     if (
                         this.model.get('line').get('measures').length == 1 &&
-                        this.model.get('line').get('subsection').get('lines').length == 1
+                        this.model.get('line').get('section').get('lines').length == 1
                     ) {
                         remove_possible = false;
                     } else {

@@ -48,10 +48,19 @@ define(
             },
 
             render: function() {
+
+                var template = _.template(
+                    $('#template-section').html()
+                );
+
+                this.$el.html(template());
+
                 this.renderHeader();
                 this.renderSidebar();
                 this.renderLines();
+
                 return this;
+
             },
 
             renderHeader: function() {
@@ -65,12 +74,7 @@ define(
                 });
 
                 var section_header_el = this.$el.find('.section-header');
-
-                if (section_header_el.length) {
-                    section_header_el.replaceWith(section_header);
-                } else {
-                    this.$el.append(section_header);
-                }
+                section_header_el.html(section_header);
 
                 if (this.model.get('number') == 1) {
                     this.$el.find(
@@ -123,8 +127,10 @@ define(
 
                 });
 
-                this.$el.html('');
-                this.$el.append(lineViews);
+                var lines_el = this.$el.find('.lines');
+
+                lines_el.html('');
+                lines_el.append(lineViews);
 
             },
 
@@ -192,7 +198,7 @@ define(
                 new_line.get('measures').reset([new_measure]);
 
                 this.model.get('lines').add(new_line);
-                this.renderSidebar();
+                this.render();
                 new_line.saveRecursive();
 
             },

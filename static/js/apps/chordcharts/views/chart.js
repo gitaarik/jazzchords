@@ -29,13 +29,11 @@ define(
                     alt_name: '',
                 });
 
-                var new_subsection = new_section.get('subsections').first().copy();
-                var new_line = new_subsection.get('lines').first().copy();
+                var new_line = new_section.get('lines').first().copy();
                 var new_measure = new_line.get('measures').first().copy();
 
                 new_line.get('measures').reset([new_measure]);
-                new_subsection.get('lines').reset([new_line]);
-                new_section.get('subsections').reset([new_subsection]);
+                new_section.get('lines').reset([new_line]);
 
                 this.model.get('sections').add(new_section);
 
