@@ -82,13 +82,6 @@ define(
                     ).hide();
                 }
 
-                console.log('collection length:');
-                console.log(this.model.collection.length);
-
-                console.log('this section:');
-                console.log(this.model.getName());
-                console.log(this.model.get('number'));
-                
                 if (
                     this.model.get('number') == this.model.collection.length
                 ) {
@@ -158,6 +151,7 @@ define(
                 var prev_section_number = prev_section.get('number');
                 prev_section.set('number', this_section_number);
                 this.model.set('number', prev_section_number);
+                this.model.collection.sort();
 
                 this.model.trigger('change');
                 prev_section.trigger('change');
@@ -182,6 +176,7 @@ define(
                 var next_section_number = next_section.get('number');
                 next_section.set('number', this_section_number);
                 this.model.set('number', next_section_number);
+                this.model.collection.sort();
 
                 this.model.trigger('change');
                 next_section.trigger('change');
@@ -216,23 +211,12 @@ define(
 
                 if (confirm("Are you sure you want to remove this section?")) {
 
-                    var removed_number = this.model.get('number');
+                    var collection = this.model.collection;
 
                     this.model.destroy();
                     this.remove();
 
-                    if (removed_number != this.model.collection.length) {
-
-                        this.model.collection.each(function(section) {
-
-                            if (section.get('number') > removed_number) {
-                                section.set('number', section.get('number') + 1);
-                                section.save();
-                            }
-
-                        });
-
-                    }
+                    collection.resetNumbers();
 
                 }
 

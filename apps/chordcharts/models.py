@@ -202,8 +202,16 @@ class Chart(models.Model):
             - lines that don't have any measures
             - measures that don't have any chords
         """
+
         for section in self.sections.all():
             section.cleanup()
+
+        number = 0
+
+        for section in self.sections.all():
+            number += 1
+            section.number = number
+            section.save()
 
 
 class TimeSignature(models.Model):
@@ -336,18 +344,6 @@ class Section(models.Model):
 
         if self.lines.count() == 0:
             self.delete()
-        else:
-
-            try:
-                prev_section = self.chart.sections.filter(
-                    number__lt=self.number
-                )[:1].get()
-            except ObjectDoesNotExist:
-                pass
-            else:
-                if prev_section.number < self.number - 1:
-                    self.number = prev_section.number + 1
-                    self.save()
 
 
 class Line(models.Model):
