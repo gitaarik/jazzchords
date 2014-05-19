@@ -80,7 +80,16 @@ define(
                     this.$el.find(
                         '.section-header .section-edit-buttons .move-up'
                     ).hide();
-                } else if (
+                }
+
+                console.log('collection length:');
+                console.log(this.model.collection.length);
+
+                console.log('this section:');
+                console.log(this.model.getName());
+                console.log(this.model.get('number'));
+                
+                if (
                     this.model.get('number') == this.model.collection.length
                 ) {
                     this.$el.find(
@@ -150,8 +159,8 @@ define(
                 prev_section.set('number', this_section_number);
                 this.model.set('number', prev_section_number);
 
-                this.model.trigger('change:alt_name');
-                prev_section.trigger('change:alt_name');
+                this.model.trigger('change');
+                prev_section.trigger('change');
 
                 this.model.save();
                 prev_section.save();
@@ -174,8 +183,8 @@ define(
                 next_section.set('number', this_section_number);
                 this.model.set('number', next_section_number);
 
-                this.model.trigger('change:alt_name');
-                next_section.trigger('change:alt_name');
+                this.model.trigger('change');
+                next_section.trigger('change');
 
                 this.model.save();
                 next_section.save();
@@ -206,8 +215,25 @@ define(
             removeSection: function() {
 
                 if (confirm("Are you sure you want to remove this section?")) {
+
+                    var removed_number = this.model.get('number');
+
                     this.model.destroy();
                     this.remove();
+
+                    if (removed_number != this.model.collection.length) {
+
+                        this.model.collection.each(function(section) {
+
+                            if (section.get('number') > removed_number) {
+                                section.set('number', section.get('number') + 1);
+                                section.save();
+                            }
+
+                        });
+
+                    }
+
                 }
 
             },

@@ -191,8 +191,11 @@ class Chart(models.Model):
 
     def cleanup(self):
         """
+        Cleans up the chart.
+
         Cleans up the model by removing empty children and other objects
-        that aren't needed anymore.
+        that aren't needed anymore. Also makes sure there are no gaps
+        between models that have a `number` attribute.
 
         Empty children are:
             - sections that don't have any lines
@@ -201,8 +204,6 @@ class Chart(models.Model):
         """
         for section in self.sections.all():
             section.cleanup()
-            if section.lines.count() == 0:
-                section.delete()
 
 
 class TimeSignature(models.Model):
@@ -332,8 +333,21 @@ class Section(models.Model):
         """
         for line in self.lines.all():
             line.cleanup()
-            if line.measures.count() == 0:
-                line.delete()
+
+        if self.lines.count() == 0:
+            self.delete()
+        else:
+
+            try:
+                prev_section = self.chart.sections.filter(
+                    number__lt=self.number
+                )[:1].get()
+            except ObjectDoesNotExist:
+                pass
+            else:
+                if prev_section.number < self.number - 1:
+                    self.number = prev_section.number + 1
+                    self.save()
 
 
 class Line(models.Model):
@@ -394,8 +408,9 @@ class Line(models.Model):
         """
         for measure in self.measures.all():
             measure.cleanup()
-            if measure.chords.count() == 0:
-                measure.delete()
+
+        if self.measures.count() == 0:
+            self.delete()
 
 
 class Measure(models.Model):
@@ -467,6 +482,8 @@ class Measure(models.Model):
         measure.
         """
         self.chords.filter(order__gt=self.chords_count()).delete()
+        if self.chords.count() == 0:
+            self.delete()
 
 
 class Chord(models.Model):
