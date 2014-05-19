@@ -1,5 +1,12 @@
-Bug: if you move the last section up, then add a new section, then this
-new section has the same sequence letter as the (current) last one.
+First things first:
+1. Check out stable branch
+2. Make screenshots of charts
+3. Make backup of current DB
+4. Make fixtures for notes/time signatures/chord types/keys
+5. Clear DB
+6. Recreate it
+7. Manually add songs from screenshots
+8. Profit!
 
 Bug: adding a new section to a song with only one section errors.
 

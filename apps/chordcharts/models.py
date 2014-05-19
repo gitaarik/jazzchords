@@ -335,7 +335,7 @@ class Section(models.Model):
     )
 
     time_signature = models.ForeignKey(TimeSignature)
-    use_subsections = models.BooleanField(default=False)
+    show_sidebar = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name()
