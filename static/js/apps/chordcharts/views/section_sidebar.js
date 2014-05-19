@@ -47,7 +47,18 @@ define(
 
             renderLetters: function() {
 
-                
+                var parts = [];
+                var last_section = false;
+
+                this.model.get('section').each(function(section) {
+
+                    /*if (last_section) {
+                        if (last_section.get('letter') 
+                    }
+
+                    last_section = section;*/
+
+                });
 
             }
 
