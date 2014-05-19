@@ -103,14 +103,9 @@ define(
                     model: sectionSidebar
                 });
 
-                var sectionSidebar_el = sectionSidebarView.render().el;
-                var sidebar_el = this.$el.find('.section-sidebar');
-
-                if (sidebar_el.length) {
-                    sidebar_el.replaceWith(sectionSidebar_el);
-                } else {
-                    this.$el.append(sectionSidebar_el);
-                }
+                this.$el.find('.section-sidebar').html(
+                    sectionSidebarView.render().el
+                );
 
             },
 

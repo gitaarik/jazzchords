@@ -35,25 +35,49 @@ class Key(models.Model):
         (TONALITY_MINOR, "Minor")
     )
 
-    name = models.CharField(max_length=25, help_text=
-        "Appropriate name for this key.")
-    slug = models.SlugField(max_length=25, unique=True, help_text=
-        """Lowercase name for the key with dashes instead of spaces. Will be
-        used in URL's.""")
-    tone = models.CharField(max_length=2, choices=NOTES_CHOICES, help_text=
-        """The tone for the key. Will be used for displaying the possible keys
-        for a certain tonality.""")
-    tonality = models.PositiveSmallIntegerField(choices=TONALITY_CHOICES,
-        help_text="""The tonality for this key. Will be used for finding the
-        right key when transposing, because we want to transpose to the same
-        tonality.""")
-    distance_from_c = models.PositiveSmallIntegerField(help_text=
-        """The distance the root note from this key has from the C note. This
-        should be expressed in the amount of half notes to go up to reach the
-        C. If the root not is C this will be 0. It will be used for finding the
-        right key when transposing.""")
-    order = models.PositiveSmallIntegerField(help_text="""The order the keys of
-        a certain tonality should appear in.""")
+    name = models.CharField(
+        max_length=25,
+        help_text="Appropriate name for this key."
+    )
+    slug = models.SlugField(
+        max_length=25,
+        unique=True,
+        help_text=(
+            """Lowercase name for the key with dashes instead of spaces. Will
+            be used in URL's."""
+        )
+    )
+
+    tone = models.CharField(
+        max_length=2,
+        choices=NOTES_CHOICES,
+        help_text=(
+            """The tone for the key. Will be used for displaying the possible
+            keys for a certain tonality."""
+        )
+    )
+
+    tonality = models.PositiveSmallIntegerField(
+        choices=TONALITY_CHOICES,
+        help_text=(
+            """The tonality for this key. Will be used for finding the right
+            key when transposing, because we want to transpose to the same
+            tonality."""
+        )
+    )
+
+    distance_from_c = models.PositiveSmallIntegerField(
+        help_text=(
+            """The distance the root note from this key has from the C note.
+            This should be expressed in the amount of half notes to go up to
+            reach the C. If the root not is C this will be 0. It will be used
+            for finding the right key when transposing."""
+        )
+    )
+
+    order = models.PositiveSmallIntegerField(
+        help_text="The order the keys of a certain tonality should appear in."
+    )
 
     def __str__(self):
         return self.name
@@ -88,20 +112,39 @@ class Note(models.Model):
     use the same representation of out-of-key notes.
     """
 
-    key = models.ForeignKey(Key, related_name='notes', help_text=
-        """The key this note belongs to. Doesn't necessarily have to be a note
-        IN the key. We also specify out-of-key notes so the system won't have
-        to guess how to represend them.""")
-    name = models.CharField(max_length=2, help_text=
-        """The name for the note. Should be a letter from A to G and possibly a
-        flat (b) or sharp (#) sign.""")
-    distance_from_root = models.PositiveSmallIntegerField(help_text=
-        """The distance this note has from the root note of the associated key.
-        If this IS the root note, the distance is 0.""")
-    key_note = models.BooleanField(default=False, help_text="""Indicates if
-        this note is a note that really is IN the key. We also specify
-        out-of-key notes so the system won't have to guess how to represend
-        them.""")
+    key = models.ForeignKey(
+        Key,
+        related_name='notes',
+        help_text=(
+            """The key this note belongs to. Doesn't necessarily have to be a
+            note IN the key. We also specify out-of-key notes so the system
+            won't have to guess how to represend them."""
+        )
+    )
+
+    name = models.CharField(
+        max_length=2,
+        help_text=(
+            """The name for the note. Should be a letter from A to G and
+            possibly a flat (b) or sharp (#) sign."""
+        )
+    )
+
+    distance_from_root = models.PositiveSmallIntegerField(
+        help_text=(
+            """The distance this note has from the root note of the associated
+            key. If this IS the root note, the distance is 0."""
+        )
+    )
+
+    key_note = models.BooleanField(
+        default=False,
+        help_text=(
+            """Indicates if this note is a note that really is IN the key. We
+            also specify out-of-key notes so the system won't have to guess how
+            to represend them."""
+        )
+    )
 
     def __str__(self):
         return self.name
@@ -129,21 +172,43 @@ class ChordType(models.Model):
     understand this because at the moment there are no features that need this.
     """
 
-    name = models.CharField(max_length=50, help_text=
-        """The human understandable name that descripes the chord type. For
-        example: Major, Major Seven, Ninth, Diminished etc.""")
-    symbol = models.CharField(max_length=10, help_text="""The symbol for the
-        chord type. For example: m (for Major), m (for Minor), 7 (for Seventh).
-        This will be used for choosing a chord type in the edit widget.""")
-    chord_output = models.CharField(max_length=10, blank=True, help_text=
-        """The way the symbol will be displayed when used in a chord. Usually
-        this is the same as the normal symbol, but for some chords it might be
-        different. For example, a Major chord is usually written without a
-        symbol. This will be used for the chord representation in the chart.
-        """)
-    order = models.PositiveSmallIntegerField(help_text="""The order in which
-        the chord types will appear. This is used in the edit widget. More used
-        chords should appear before lesser used chords.""")
+    name = models.CharField(
+        max_length=50,
+        help_text=(
+            """The human understandable name that descripes the chord type. For
+            example: Major, Major Seven, Ninth, Diminished etc."""
+        )
+    )
+
+    symbol = models.CharField(
+        max_length=10,
+        help_text=(
+            """The symbol for the chord type. For example: m (for Major), m
+            (for Minor), 7 (for Seventh). This will be used for choosing a
+            chord type in the edit widget."""
+        )
+    )
+
+    chord_output = models.CharField(
+        max_length=10,
+        blank=True,
+        help_text=(
+            """The way the symbol will be displayed when used in a chord.
+            Usually this is the same as the normal symbol, but for some chords
+            it might be different. For example, a Major chord is usually
+            written without a symbol. This will be used for the chord
+            representation in the chart.
+            """
+        )
+    )
+
+    order = models.PositiveSmallIntegerField(
+        help_text=(
+            """The order in which the chord types will appear. This is used in
+            the edit widget. More used chords should appear before lesser used
+            chords."""
+        )
+    )
 
     def __str__(self):
         if self.symbol:
@@ -174,9 +239,13 @@ class Chart(models.Model):
     """
 
     song = models.ForeignKey(Song, help_text="The song this chart descripes.")
-    key = models.ForeignKey(Key, help_text="""The key the chart is in. If the
-        some sections of the song have deviating keys you can overwrite this in
-        the section.""")
+    key = models.ForeignKey(
+        Key,
+        help_text=(
+            """The key the chart is in. If the some sections of the song have
+            deviating keys you can overwrite this in the section."""
+        )
+    )
 
     def __str__(self):
         return str(self.song)
@@ -235,21 +304,36 @@ class Section(models.Model):
         lines - The lines in this section.
     """
 
-    chart = models.ForeignKey(Chart, related_name='sections',
-        help_text="The chart this section is in.")
-    key_distance_from_chart = models.PositiveSmallIntegerField(default=0,
+    chart = models.ForeignKey(
+        Chart,
+        related_name='sections',
+        help_text="The chart this section is in."
+    )
+
+    key_distance_from_chart = models.PositiveSmallIntegerField(
+        default=0,
         help_text="""The distance (in half notes) the key of this section is
         relative to the key of the chart. If the section is in the same key
-        this will be 0.""")
-    number = models.PositiveSmallIntegerField(help_text=
-        """The section number. Will be used to put the sections in order""")
-    alt_name = models.CharField(max_length=25, blank=True, help_text="""
-        Alternative title for the section. Normally a section get's assigned a
-        letter (starting with A, next B etc.) which is displayed left of the
-        section's boxed chart. If you fill in this "alternative title" this
-        title will be shown on top of the section's boxed chart. This is
-        appropriate for an intro, outro or maybe a bridge which isn't a
-        regularry repeating section in the song.""")
+        this will be 0."""
+    )
+
+    number = models.PositiveSmallIntegerField(
+        help_text=(
+            """The section number. Will be used to put the sections in order"""
+        )
+    )
+
+    alt_name = models.CharField(
+        max_length=25,
+        blank=True,
+        help_text="""Alternative title for the section. Normally a section
+        get's assigned a letter (starting with A, next B etc.) which is
+        displayed left of the section's boxed chart. If you fill in this
+        "alternative title" this title will be shown on top of the section's
+        boxed chart. This is appropriate for an intro, outro or maybe a bridge
+        which isn't a regularry repeating section in the song."""
+    )
+
     time_signature = models.ForeignKey(TimeSignature)
     use_subsections = models.BooleanField(default=False)
 
@@ -358,10 +442,35 @@ class Line(models.Model):
         measures - The measures in this line.
     """
 
-    section = models.ForeignKey(Section, related_name='lines', help_text=
-        """The section this line belongs to.""")
-    number = models.PositiveSmallIntegerField(help_text="""The number for
-        the line. Will be used to determine the order of the lines.""")
+    LETTER_CHOICES = (
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D')
+    )
+
+    section = models.ForeignKey(
+        Section,
+        related_name='lines',
+        help_text="""The section this line belongs to."""
+    )
+
+    number = models.PositiveSmallIntegerField(
+        help_text=(
+            """The number for the line. Will be used to determine the order of
+            the lines."""
+        )
+    )
+
+    letter = models.CharField(
+        max_length=1,
+        default='A',
+        choices=LETTER_CHOICES,
+        help_text=(
+            """The letter the line has. This will show up in the sidebar of the
+            section"""
+        )
+    )
 
     def __str__(self):
         return "Line {}".format(self.number)
@@ -419,17 +528,31 @@ class Measure(models.Model):
         chords - The chords in this measure.
     """
 
-    line = models.ForeignKey(Line, related_name='measures', help_text=
-        """The line this measure belongs to.""")
-    number = models.PositiveSmallIntegerField(help_text="""The number for
-        the measure. Will be used to determine the order of the measures.""")
-    beat_schema = models.CharField(max_length=13, help_text="""The type of
-        beatschema for this measure. This is related to the chords that are in
-        the measure. If the measure has one chord that is played for 4 beats,
-        the beatschema is "4", if the measure has two chords that are both
-        played for 2 beats, the beatschema is "2-2", if the measure has three
-        chords where the first one is played 2 beats and the other two one 1
-        beat, the beatschema is "2-1-1" etc.""")
+    line = models.ForeignKey(
+        Line,
+        related_name='measures',
+        help_text="""The line this measure belongs to."""
+    )
+
+    number = models.PositiveSmallIntegerField(
+        help_text=(
+            """The number for the measure. Will be used to determine the order
+            of the measures."""
+        )
+    )
+
+    beat_schema = models.CharField(
+        max_length=13,
+        help_text=(
+            """The type of beatschema for this measure. This is related to the
+            chords that are in the measure. If the measure has one chord that
+            is played for 4 beats, the beatschema is "4", if the measure has
+            two chords that are both played for 2 beats, the beatschema is
+            "2-2", if the measure has three chords where the first one is
+            played 2 beats and the other two one 1 beat, the beatschema is
+            "2-1-1" etc."""
+        )
+    )
 
     def __str__(self):
         return "Measure {}".format(self.number)
@@ -487,27 +610,59 @@ class Chord(models.Model):
     A chord in a measure.
     """
 
-    measure = models.ForeignKey(Measure, related_name='chords',
-        help_text= """The measure this chord belongs to.""")
-    beats = models.PositiveSmallIntegerField(default=4, help_text="""
-        The number of beats the item should be played. The current chord chart
-        representations only support 4/4 measures.""")
-    chord_pitch = models.PositiveSmallIntegerField(help_text=
-        """The relative pitch for the chord. This is the amount of half notes
-        the chord note is away from the root of the key the item will be
-        presented in. These half steps should be upwards in the scale.""")
-    chord_type = models.ForeignKey(ChordType, help_text="""The type of the
-        chord. This defines the intervals inside the chord.""")
-    alt_bass = models.BooleanField(default=False, help_text="""Indicates if the
-        chord has an alternative tone in the bass.""")
-    alt_bass_pitch = models.PositiveSmallIntegerField(default=0,
-        help_text="""The alternative bass tone in the chord. As with the Chord
-        Pitch, it is the amount of half notes the chord note is away from the
-        root of the key the item will be presented in. These half steps should
-        be upwards in the scale. It will only be used if `Use Alternative Bass`
-        is set.""")
-    order = models.PositiveSmallIntegerField(help_text="""The order for
-        the chord. Will be used to determine the order of the chords.""")
+    measure = models.ForeignKey(
+        Measure,
+        related_name='chords',
+        help_text="The measure this chord belongs to."
+    )
+
+    beats = models.PositiveSmallIntegerField(
+        default=4,
+        help_text=(
+            """The number of beats the item should be played. The current chord
+            chart representations only support 4/4 measures."""
+        )
+    )
+
+    chord_pitch = models.PositiveSmallIntegerField(
+        help_text=(
+            """The relative pitch for the chord. This is the amount of half
+            notes the chord note is away from the root of the key the item will
+            be presented in. These half steps should be upwards in the
+            scale."""
+        )
+    )
+
+    chord_type = models.ForeignKey(
+        ChordType,
+        help_text=(
+            """The type of the chord. This defines the intervals inside the
+            chord."""
+        )
+    )
+
+    alt_bass = models.BooleanField(
+        default=False,
+        help_text="Indicates if the chord has an alternative tone in the bass."
+    )
+
+    alt_bass_pitch = models.PositiveSmallIntegerField(
+        default=0,
+        help_text=(
+            """The alternative bass tone in the chord. As with the Chord Pitch,
+            it is the amount of half notes the chord note is away from the root
+            of the key the item will be presented in. These half steps should
+            be upwards in the scale. It will only be used if `Use Alternative
+            Bass` is set."""
+        )
+    )
+
+    order = models.PositiveSmallIntegerField(
+        help_text=(
+            """The order for the chord. Will be used to determine the order of
+            the chords."""
+        )
+    )
 
     def __str__(self):
         return self.chord_notation()

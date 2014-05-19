@@ -18,7 +18,7 @@ define(
 
             initListeners: function() {
                 this.stopListening();
-                this.listenTo(this.model, 'change', this.change);
+                this.listenTo(this.model, 'change', this.render);
             },
 
             mouseEnter: function() {
@@ -31,20 +31,6 @@ define(
                 this.model.set('edit', false);
             },
 
-            change: function() {
-
-                var changedKeys = Object.keys(this.model.changedAttributes());
-
-                // If only `forceEdit` was changed, don't render the view.
-                if (!(
-                    changedKeys.length == 1 &&
-                    changedKeys[0] == 'forceEdit'
-                )) {
-                    this.render();
-                }
-
-            },
-
             render: function() {
 
                 this.$el.html('');
@@ -53,36 +39,17 @@ define(
                     'width': GLOBALS.settings.section_sidebar_width
                 });
 
-                if (this.model.get('section').get('use_subsections')) {
-                    this.renderSubsections();
-                }
+                this.renderLetters();
 
                 return this;
 
             },
 
-            renderSubsections: function() {
+            renderLetters: function() {
 
-                var that = this;
+                
 
-                this.model.get('section').get('subsections').each(function(subsection) {
-
-                    var subsectionSidebar = new SubsectionSidebar({
-                        sectionSidebar: that.model,
-                        subsection: subsection,
-                        section: that.model.get('section'),
-                        edit: that.model.get('edit') | that.model.get('forceEdit')
-                    });
-
-                    var subsectionSidebarView = new SubsectionSidebarView({
-                        model: subsectionSidebar
-                    });
-
-                    that.$el.append(subsectionSidebarView.render().el);
-
-                });
-
-            },
+            }
 
         });
 
