@@ -582,7 +582,7 @@
                     width: 50px;
                     height: 50px;
                     border: solid 1px #000;
-                    box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+                    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
                     background: #EEE;
                     color: #777;
                     cursor: pointer;
@@ -809,8 +809,7 @@
     .line-edit {
 
         display: none;
-        padding: 0;
-        background: #EEE;
+        padding: 10px;
 
         .arrow-up {
             left: 10px;
@@ -823,17 +822,52 @@
 
             li {
 
-                padding: 5px 22px;
-                border-bottom: solid 1px #000;
-                text-align: center;
+                background: #EEE;
+                border: 1px solid #000;
+                border-radius: 5px;
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+                color: #777;
                 cursor: pointer;
+                float: left;
+                height: 40px;
+                line-height: 40px;
+                margin: 0 10px 10px 0;
+                text-align: center;
+                text-decoration: none;
+                width: 40px;
 
-                &:last-child {
-                    border: none;
+                &:nth-child(2),
+                &:nth-child(5) {
+                    margin-right: 0;
+                }
+
+                &:nth-child(3n) {
+                    clear: left;
+                }
+
+                &.selected {
+                    background: #FFF;
+                    color: #000;
                 }
 
             }
 
+        }
+
+        .disable-sidebar {
+            border: 1px solid #000000;
+            border-radius: 5px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            clear: left;
+            color: #000000;
+            cursor: pointer;
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 10px;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
         }
 
     }
@@ -868,6 +902,24 @@
                             width: 16px;
                             height: 16px;
                             background: url(@discard-icon);
+                        }
+
+                    }
+
+                }
+
+                .section-sidebar {
+
+                    .section-sidebar-part {
+
+                        cursor: pointer;
+
+                        &.inactive {
+
+                            .letter {
+                                color: #CCC;
+                            }
+
                         }
 
                     }

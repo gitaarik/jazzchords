@@ -83,7 +83,8 @@ define(
 
             toJSON: function() {
                 return {
-                    number: this.get('number')
+                    number: this.get('number'),
+                    letter: this.get('letter')
                 };
             }
 

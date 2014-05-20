@@ -1,6 +1,6 @@
 define(
-    [],
-    function() {
+    ['init/line_edit'],
+    function(lineEdit) {
 
         return Backbone.View.extend({
 
@@ -8,12 +8,19 @@ define(
             className: 'section-sidebar',
 
             initialize: function() {
+
+                this.sidebar_template = _.template(
+                    $('#template-section-sidebar-part').html()
+                );
+
                 this.initListeners();
+
             },
 
             events: {
-                'mouseenter': 'mouseEnter',
-                'mouseout': 'mouseOut'
+                'mouseover': 'mouseover',
+                'mouseout': 'mouseout',
+                'click': 'click'
             },
 
             initListeners: function() {
@@ -21,14 +28,56 @@ define(
                 this.listenTo(this.model, 'change', this.render);
             },
 
-            mouseEnter: function() {
+            mouseover: function() {
                 if (GLOBALS.edit) {
-                    this.model.set('edit', true);
+                    this.model.set('mouseover', true);
                 }
             },
 
-            mouseOut: function() {
-                this.model.set('edit', false);
+            mouseout: function(event) {
+
+                // A mouseout event is triggered when we append childs
+                // to the section-sidebar div. So we check here if the
+                // `event.relatedTarget` (which is the element the mouse
+                // is now on) is a child of the sidebar.
+                // If so, don't put `edit` to `false`.
+                if ($(event.relatedTarget).closest('.section-sidebar').length) {
+                    return;
+                }
+
+                this.model.set('mouseover', false);
+
+            },
+
+            click: function(event) {
+
+                if (this.model.get('section').get('show_sidebar')) {
+
+                    var that = this;
+                    var target = $(event.target);
+                    var line_number = target.closest('.section-sidebar-part').data('line-number');
+                    var line = this.model.get('section').get('lines').findWhere({
+                        number: line_number
+                    });
+
+                    lineEdit.set({
+                        visible: true,
+                        section_sidebar: this.model,
+                        section: this.model.get('section'),
+                        line: line,
+                        offset: target.offset(),
+                        onClose: function() {
+                            that.model.set('forceMode', false);
+                        }
+                    });
+
+                    this.model.set('forceMode', 'edit', { silent: true });
+
+                } else {
+                    this.model.get('section').set('show_sidebar', true).save();
+                    this.render();
+                }
+
             },
 
             render: function() {
@@ -39,36 +88,70 @@ define(
                     'width': GLOBALS.settings.section_sidebar_width
                 });
 
-                this.renderLetterParts();
+                this.renderLetters();
 
                 return this;
 
             },
 
-            renderLetterParts: function() {
+            renderLetters: function() {
+
+                var mode;
+                var show_sidebar = this.model.get('section').get('show_sidebar');
+                var mouseover = this.model.get('mouseover');
+
+                if (show_sidebar || mouseover) {
+
+                    mode = this.model.get('forceMode');
+
+                    if (!mode) {
+                        if (show_sidebar) {
+                            if (mouseover) {
+                                mode = 'edit';
+                            } else {
+                                mode = 'active';
+                            }
+                        } else {
+                            mode = 'inactive';
+                        }
+                    }
+
+                    if (mode == 'edit') {
+                        this.renderLetterEdit(mode);
+                    } else {
+                        this.renderLetterParts(mode);
+                    }
+
+                }
+
+            },
+
+            renderLetterParts: function(mode) {
 
                 var that = this;
                 var parts = this.getLetterParts();
 
                 _.each(parts, function(part) {
 
-                    var template = _.template(
-                        $('#template-section-sidebar-part').html()
-                    );
                     var height = part.lines_number * GLOBALS.settings.box_height;
 
-                    var part_el = $(template({
-                        'letter': part.letter,
-                        'height': height,
-                        'width': GLOBALS.settings.section_sidebar_width
+                    var part_el = $(that.sidebar_template({
+                        mode: mode,
+                        line_number: null,
+                        letter: part.letter,
+                        height: height,
+                        width: GLOBALS.settings.section_sidebar_width
                     }));
 
                     that.$el.append(part_el);
 
-                    that.addIndicatorLines(
-                        part_el.find('canvas')[0],
-                        height
-                    );
+                    if (part.lines_number > 1) {
+                        that.addIndicatorLines(
+                            part_el.find('canvas')[0],
+                            height,
+                            mode
+                        );
+                    }
 
                 });
                 
@@ -90,8 +173,6 @@ define(
 
                 this.model.get('section').get('lines').each(function(line) {
 
-                    lines_number++;
-
                     if (prev_line_letter && prev_line_letter != line.get('letter')) {
 
                         parts.push({
@@ -103,6 +184,7 @@ define(
 
                     }
 
+                    lines_number++;
                     prev_line_letter = line.get('letter');
 
                 });
@@ -116,7 +198,7 @@ define(
 
             },
 
-            addIndicatorLines: function(canvas_el, height) {
+            addIndicatorLines: function(canvas_el, height, mode) {
 
                 var width = GLOBALS.settings.section_sidebar_width;
                 var sidebar_half_width = Math.round(width / 2);
@@ -129,6 +211,10 @@ define(
                 var context = canvas_el.getContext('2d');
 
                 context.lineWidth = GLOBALS.settings.border_width;
+
+                if (mode == 'inactive') {
+                    context.strokeStyle = '#CCC';
+                }
 
                 // from top to title
                 context.beginPath();
@@ -169,6 +255,26 @@ define(
                     (height - line_margin)
                 );
                 context.stroke();
+
+            },
+
+            renderLetterEdit: function(mode) {
+
+                var that = this;
+
+                this.model.get('section').get('lines').each(function(line) {
+
+                    var letter_el = $(that.sidebar_template({
+                        mode: mode,
+                        line_number: line.get('number'),
+                        letter: line.get('letter'),
+                        height: GLOBALS.settings.box_height,
+                        width: GLOBALS.settings.section_sidebar_width
+                    }));
+
+                    that.$el.append(letter_el);
+
+                });
 
             }
 

@@ -1,18 +1,18 @@
 define(
     [
-        'models/subsection_sidebar_part_edit',
-        'views/subsection_sidebar_part_edit'
+        'models/line_edit',
+        'views/line_edit'
     ],
     function(
-        SubsectionSidebarPartEdit,
-        SubsectionSidebarPartEditView
+        LineEdit,
+        LineEditView
     ) {
 
-        var subsectionSidebarPartEdit = new SubsectionSidebarPartEdit();
+        var lineEdit = new LineEdit();
 
-        new SubsectionSidebarPartEditView({
-            el: '.chord-chart .subsection-sidebar-part-edit',
-            model: subsectionSidebarPartEdit
+        new LineEditView({
+            el: '.chord-chart .line-edit',
+            model: lineEdit
         });
 
         $('html').on('click', function(event) {
@@ -20,7 +20,7 @@ define(
             // If the editwidget is visible, hide it if there was a
             // click outside it.
 
-            if (subsectionSidebarPartEdit.get('visible')) {
+            if (lineEdit.get('visible')) {
 
                 var target = $(event.target);
 
@@ -32,24 +32,23 @@ define(
                         // click was inside chord chart
                         target.closest('.chord-chart').length &&
                         // click was to open the widget
-                        target.closest('.subsection-sidebar-part').length
+                        target.closest('.section-sidebar-part').length
                     ) || (
                         // click was inside chord chart
                         target.closest('.chord-chart').length &&
                         // click was in the widget
-                        target.closest('.subsection-sidebar-part-edit').length
+                        target.closest('.line-edit').length
                     )
                 )) {
                     // close the widget
-                    console.log('closing the subsectionSidebarPartEditWidget');
-                    subsectionSidebarPartEdit.set('visible', false);
+                    lineEdit.set('visible', false);
                 }
 
             }
 
         });
 
-        return subsectionSidebarPartEdit;
+        return lineEdit;
 
     }
 );

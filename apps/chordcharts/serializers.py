@@ -20,7 +20,8 @@ class SectionSerializer(serializers.ModelSerializer):
             'key_distance_from_chart',
             'number',
             'alt_name',
-            'time_signature'
+            'time_signature',
+            'show_sidebar'
         )
 
 
@@ -37,7 +38,7 @@ class LineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Line
-        fields = ('id', 'number')
+        fields = ('id', 'number', 'letter')
 
 
 class MeasureSerializer(serializers.ModelSerializer):

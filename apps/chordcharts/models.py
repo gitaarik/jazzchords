@@ -350,6 +350,7 @@ class Section(models.Model):
             'number': self.number,
             'alt_name': self.alt_name,
             'time_signature': self.time_signature.id,
+            'show_sidebar': self.show_sidebar,
             'name': self.name(),
             'sequence_letter': self.sequence_letter(),
             'height': self.height(),
@@ -446,7 +447,9 @@ class Line(models.Model):
         ('A', 'A'),
         ('B', 'B'),
         ('C', 'C'),
-        ('D', 'D')
+        ('D', 'D'),
+        ('E', 'E'),
+        ('F', 'F'),
     )
 
     section = models.ForeignKey(

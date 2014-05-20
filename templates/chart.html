@@ -37,7 +37,7 @@
     </script>
 
     <script type="text/template" id="template-section-sidebar-part">
-        {% include "section_sidebar_part.html" with letter="<%= letter %>" width="<%= width %>" height="<%= height %>" %}
+        {% include "section_sidebar_part.html" with mode="<%= mode %>" letter="<%= letter %>" width="<%= width %>" height="<%= height %>" line_number="<%= line_number %>" %}
     </script>
 
     {% if edit %}
@@ -295,13 +295,19 @@
             <section class="line-edit arrow-popup">
 
                 <div class="arrow-up"></div>
+                <div class="header">
+                    <div class="close"></div>
+                </div>
 
                 <ul class="letters">
                     <li data-letter="A">A</li>
                     <li data-letter="B">B</li>
                     <li data-letter="C">C</li>
                     <li data-letter="D">D</li>
+                    <li data-letter="E">E</li>
                 </ul>
+
+                <div class="disable-sidebar">Disable sidebar</div>
 
             </section>
 

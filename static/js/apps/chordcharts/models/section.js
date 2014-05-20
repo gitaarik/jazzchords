@@ -159,7 +159,8 @@ define(
                     number: this.get('number'),
                     alt_name: this.get('alt_name'),
                     key_distance_from_chart: this.get('key_distance_from_chart'),
-                    time_signature: this.get('time_signature')
+                    time_signature: this.get('time_signature'),
+                    show_sidebar: this.get('show_sidebar')
                 };
             }
 
