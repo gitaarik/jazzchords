@@ -50,7 +50,7 @@ define(
                 var parts = [];
                 var last_section = false;
 
-                this.model.get('section').each(function(section) {
+                this.model.get('section').get('lines').each(function(section) {
 
                     /*if (last_section) {
                         if (last_section.get('letter') 
