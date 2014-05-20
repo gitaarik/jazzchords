@@ -103,7 +103,7 @@ define(
                     model: sectionSidebar
                 });
 
-                this.$el.find('.section-sidebar').html(
+                this.$el.find('.section-sidebar').replaceWith(
                     sectionSidebarView.render().el
                 );
 

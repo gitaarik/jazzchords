@@ -173,27 +173,19 @@
                 float: left;
                 width: @section_sidebar_width;
 
-                .subsection-sidebar {
+                .section-sidebar-part {
 
-                    .subsection-sidebar-part {
+                    .letter {
+                        position: absolute;
+                        width: @section_sidebar_width;
+                        text-align: center;
+                        font-size: 20px;
+                        background: #FFF;
+                    }
 
-                        &.edit {
-                            cursor: pointer;
-                        }
-
-                        .letter {
-                            position: absolute;
-                            width: @section_sidebar_width;
-                            text-align: center;
-                            font-size: 20px;
-                            background: #FFF;
-                        }
-
-                        canvas {
-                            position: absolute;
-                            width: @section_sidebar_width;
-                        }
-
+                    canvas {
+                        position: absolute;
+                        width: @section_sidebar_width;
                     }
 
                 }

@@ -37,7 +37,7 @@
     </script>
 
     <script type="text/template" id="template-section-sidebar-part">
-        {% include "section_sidebar_part.html" with letter="<%= letter %>" height="<%= height %>" %}
+        {% include "section_sidebar_part.html" with letter="<%= letter %>" width="<%= width %>" height="<%= height %>" %}
     </script>
 
     {% if edit %}
@@ -121,9 +121,7 @@
                         {% endif %}
                     </header>
 
-                    <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;">
-
-                    </div>
+                    <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
 
                     <table>
 

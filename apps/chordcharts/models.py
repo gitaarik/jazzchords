@@ -482,6 +482,7 @@ class Line(models.Model):
         return {
             'id': self.id,
             'number': self.number,
+            'letter': self.letter,
             'measures': [m.client_data() for m in self.measures.all()]
         }
 
