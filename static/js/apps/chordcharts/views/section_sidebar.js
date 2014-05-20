@@ -160,20 +160,26 @@ define(
             /**
              * Returns the parts for the letters.
              *
-             * A part is an object with two fields:
+             * A part is one or more lines that form one subsection of
+             * the song. It has two fields:
              * letter        - The letter for this part.
              * lines_number  - Number of subsequent lines that share
              *                 this letter.
              */
             getLetterParts: function() {
 
+                var max_line_length = this.getShortestSubsequentLineLength();
+
                 var parts = [];
-                var prev_line_letter = false;
+                prev_line_letter = false;
                 var lines_number = 0;
 
                 this.model.get('section').get('lines').each(function(line) {
 
-                    if (prev_line_letter && prev_line_letter != line.get('letter')) {
+                    if (
+                        lines_number == max_line_length[prev_line_letter] ||
+                        prev_line_letter && prev_line_letter != line.get('letter')
+                    ) {
 
                         parts.push({
                             letter: prev_line_letter,
@@ -195,6 +201,54 @@ define(
                 });
 
                 return parts;
+
+            },
+
+            /**
+             * Returns the shortest amount of subsequent lines with the
+             * same letter.
+             *
+             * For example, if a section has two subsequent lines with
+             * letter A, then one line with letter B, then one line with
+             * letter A, then the shortest amount of subsection lines
+             * for section A will be 1.
+             *
+             * Returns an object with the letter in the key and the
+             * amount in the value.
+             */
+            getShortestSubsequentLineLength: function() {
+
+                var part_shortest_linelen = {};
+                var prev_line_letter = false;
+                var lines = 0;
+
+                this.model.get('section').get('lines').each(function(line) {
+
+                    if (
+                        prev_line_letter &&
+                        prev_line_letter != line.get('letter') &&
+                        (
+                            !part_shortest_linelen[prev_line_letter] ||
+                            (
+                                part_shortest_linelen[prev_line_letter] &&
+                                part_shortest_linelen[prev_line_letter] > lines
+                            )
+                        )
+                    ) {
+                        part_shortest_linelen[prev_line_letter] = lines;
+                        lines = 0;
+                    }
+
+                    lines++;
+                    prev_line_letter = line.get('letter');
+
+                });
+
+                if (part_shortest_linelen[prev_line_letter] > lines) {
+                    part_shortest_linelen[prev_line_letter] = lines;
+                }
+
+                return part_shortest_linelen;
 
             },
 
