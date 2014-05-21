@@ -37,18 +37,18 @@
     </script>
 
     <script type="text/template" id="template-section-sidebar-part">
-        {% include "section_sidebar_part.html" with mode="<%= mode %>" letter="<%= letter %>" width="<%= width %>" height="<%= height %>" line_number="<%= line_number %>" %}
+        {% include "charts/section_sidebar_part.html" with mode="<%= mode %>" letter="<%= letter %>" width="<%= width %>" height="<%= height %>" line_number="<%= line_number %>" %}
     </script>
 
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
-            {% include "section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
+            {% include "charts/section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
         </script>
 
         <script type="text/template" id="template-lines">
             <table class="lines">
-                {% include "section_line_add.html" %}
+                {% include "charts/section_line_add.html" %}
             </table>
         </script>
 
@@ -57,7 +57,7 @@
             <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
             <table>
                 <tbody class="lines"></tbody>
-                <tfoot>{% include "section_line_add.html" %}</tfoot>
+                <tfoot>{% include "charts/section_line_add.html" %}</tfoot>
             </table>
         </script>
 
@@ -95,6 +95,7 @@
                     {% if edit %}
                         <a class="save" href="{% url "chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Save</a>
                     {% else %}
+                        <a class="new" href="{% url "chart_new" %}">New</a>
                         <a class="edit" href="{% url "chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Edit</a>
                     {% endif %}
                 </div>
@@ -112,11 +113,11 @@
                     <header class="section-header">
                         {% if edit or chart.sections|length > 1 %}
                             {% if forloop.first %}
-                                {% include "section_header.html" with section_name=section.name move_down=1 move_up=0 %}
+                                {% include "charts/section_header.html" with section_name=section.name move_down=1 move_up=0 %}
                             {% elif forloop.last %}
-                                {% include "section_header.html" with section_name=section.name move_down=0 move_up=1 %}
+                                {% include "charts/section_header.html" with section_name=section.name move_down=0 move_up=1 %}
                             {% else %}
-                                {% include "section_header.html" with section_name=section.name move_down=1 move_up=1 %}
+                                {% include "charts/section_header.html" with section_name=section.name move_down=1 move_up=1 %}
                             {% endif %}
                         {% endif %}
                     </header>
@@ -174,7 +175,7 @@
 
                         <tfoot>
                             {% if edit %}
-                                {% include "section_line_add.html" %}
+                                {% include "charts/section_line_add.html" %}
                             {% endif %}
                         </tfoot>
 

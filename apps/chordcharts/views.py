@@ -70,4 +70,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         'edit': edit
     }
 
-    return render(request, 'chart.html', context)
+    return render(request, 'charts/chart.html', context)
+
+
+def new(request):
+    return render(request, 'charts/new.html')
