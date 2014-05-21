@@ -1,14 +1,8 @@
-First things first:
-1. Check out stable branch
-2. Make screenshots of charts
-3. Make backup of current DB
-4. Make fixtures for notes/time signatures/chord types/keys
-5. Clear DB
-6. Recreate it
-7. Manually add songs from screenshots
-8. Profit!
+Bug: If you set one chord with an alt bass, then put it back to 'None',
+     then if you create a next measure from there and then change its
+     note, then it has an alt bass.
 
-Bug: adding a new section to a song with only one section errors.
+Bug: Adding a new section to a song with only one section errors.
 
 Add a plus sign (+) to the "New Section" box
 
