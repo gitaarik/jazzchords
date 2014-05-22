@@ -70,8 +70,23 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         'edit': edit
     }
 
-    return render(request, 'charts/chart.html', context)
+    return render(request, 'chordcharts/chart.html', context)
 
 
 def new(request):
-    return render(request, 'charts/new.html')
+
+    keys = {}
+
+    for key in Key.objects.all():
+
+        if key.tonality not in keys:
+            keys[key.tonality] = []
+
+        keys[key.tonality].append(key)
+
+    context = {
+        'keys_major': keys[Key.TONALITY_MAJOR],
+        'keys_minor': keys[Key.TONALITY_MINOR]
+    }
+
+    return render(request, 'chordcharts/new.html', context)

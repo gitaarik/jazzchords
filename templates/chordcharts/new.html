@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/apps/chordcharts/new.less" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="new">
+
+        <header>
+            <h1>New chart</h1>
+        </header>
+
+        <form class="chart-settings">
+
+            <label>
+                <span>Song name:</span>
+                <input type="text" name="song">
+            </label>
+
+            <label>
+
+                <span>Key:</span>
+
+                <ul>
+                    <li class="selected">Major</li>
+                    <li>Minor</li>
+                </ul>
+
+                <ul class="tonality-major">
+                    {% for key in keys_major %}
+                        <li>{{ key }}</li>
+                    {% endfor %}
+                </ul>
+
+                <ul class="tonality-minor">
+                    {% for key in keys_minor %}
+                        <li>{{ key }}</li>
+                    {% endfor %}
+                </ul>
+
+            </label>
+
+        </form>
+
+    </div>
+
+{% endblock %}
