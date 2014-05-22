@@ -30,7 +30,10 @@ define(
                 });
 
                 var new_line = new_section.get('lines').first().copy();
-                var new_measure = new_line.get('measures').first().copy();
+                var new_measure = new_line.get('measures').first().copy({
+                    next_measure: null,
+                    prev_measure: null
+                });
 
                 new_line.get('measures').reset([new_measure]);
                 new_section.get('lines').reset([new_line]);
