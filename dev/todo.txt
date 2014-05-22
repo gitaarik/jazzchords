@@ -1,8 +1,14 @@
+Bug: Changing a chord on a newly created section gives JS error.
+
 Bug: If you set one chord with an alt bass, then put it back to 'None',
      then if you create a next measure from there and then change its
      note, then it has an alt bass.
 
 Bug: Adding a new section to a song with only one section errors.
+
+Make key chooser consistent:
+    Like the other choosers (notes, letters) make the currently selected
+    one white and the rest grey.
 
 Make rests possible:
     https://en.wikipedia.org/wiki/Rest_%28music%29
