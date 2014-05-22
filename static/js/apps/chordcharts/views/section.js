@@ -39,6 +39,10 @@ define(
 
             openSectionEdit: function(event) {
 
+                if (!GLOBALS.edit) {
+                    return;
+                }
+
                 SectionEdit.set({
                     visible: true,
                     section: this.model,

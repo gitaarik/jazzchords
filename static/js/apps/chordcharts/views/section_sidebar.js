@@ -51,6 +51,10 @@ define(
 
             click: function(event) {
 
+                if (!GLOBALS.edit) {
+                    return;
+                }
+
                 if (this.model.get('section').get('show_sidebar')) {
 
                     var that = this;

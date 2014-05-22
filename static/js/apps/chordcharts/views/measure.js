@@ -26,7 +26,11 @@ define(
 
             openMeasureEdit: function(event) {
 
-                if($(event.target).closest('.chord-name').length) {
+                if (!GLOBALS.edit) {
+                    return;
+                }
+
+                if ($(event.target).closest('.chord-name').length) {
                     // If the click was on a chord name, the chord edit widget
                     // should open and not the measure edit widget.
                     return;
@@ -34,13 +38,12 @@ define(
 
                 // If the measure edit widget is already open for this measure
                 // then close it, otherwise open it.
-                if(
+                if (
                     measureEdit.get('visible') &&
                     measureEdit.get('measure') == this.model
                 ) {
                     measureEdit.set('visible', false);
-                }
-                else {
+                } else {
 
                     // Don't allow to remove the measure if it's the
                     // last measure in the last line.

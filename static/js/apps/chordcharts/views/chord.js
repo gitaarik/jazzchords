@@ -15,18 +15,23 @@ define(
                 'click .chord-name': 'openChordEdit'
             },
 
+            /**
+             * Opens the edit widget for this chord
+             */
             openChordEdit: function() {
-                // Opens the edit widget for this chord
+
+                if (!GLOBALS.edit) {
+                    return;
+                }
 
                 // If the chord edit widget is already open for this chord then
                 // close it, otherwise open it.
-                if(
+                if (
                     chordEdit.get('visible') &&
                     chordEdit.get('chord') == this.model
                 ) {
                     chordEdit.set('visible', false);
-                }
-                else {
+                } else {
                     chordEdit.set({
                         visible: true,
                         chord: this.model,
@@ -36,15 +41,17 @@ define(
 
             },
 
+            /**
+             * Returns the string that should be outputted on the chart. This
+             * is usually the chordName but in some cases the repeat sign ( % )
+             */
             chartOutput: function() {
-                // Returns the string that should be outputted on the chart. This
-                // is usually the chordName but in some cases the repeat sign ( % )
 
                 // If this chord and the previous chord's measure_schema are both '4'
                 // and are on the same line and had the same chord, use the repeat
                 // sign ( % ). Otherwise use the chordName.
 
-                if(
+                if (
                     this.model.get('beats') == 4 &&
                     this.model.get('measure').has('prev_measure') &&
                     this.model.get('measure').get('line') == this.model.get('measure')
@@ -55,8 +62,7 @@ define(
                     .first().chordName() == this.model.chordName()
                 ) {
                     return '%';
-                }
-                else {
+                } else {
                     return this.model.chordName();
                 }
 
@@ -64,7 +70,7 @@ define(
 
             render: function() {
 
-                if(!this.model.get('measure')) {
+                if (!this.model.get('measure')) {
                     // only parse next measure if whole chart has been done parsing
                     return;
                 }
