@@ -60,18 +60,28 @@ define(
                         number: line_number
                     });
 
-                    lineEdit.set({
-                        visible: true,
-                        section_sidebar: this.model,
-                        section: this.model.get('section'),
-                        line: line,
-                        offset: target.offset(),
-                        onClose: function() {
-                            that.model.set('forceMode', false);
-                        }
-                    });
+                    if (
+                        lineEdit.get('visible') &&
+                        lineEdit.get('line') == line
+                    ) {
+                        lineEdit.set('visible', false);
+                        this.model.set('forceMode', false);
+                    } else {
 
-                    this.model.set('forceMode', 'edit', { silent: true });
+                        lineEdit.set({
+                            visible: true,
+                            section_sidebar: this.model,
+                            section: this.model.get('section'),
+                            line: line,
+                            offset: target.offset(),
+                            onClose: function() {
+                                that.model.set('forceMode', false);
+                            }
+                        });
+
+                        this.model.set('forceMode', 'edit', { silent: true });
+
+                    }
 
                 } else {
                     this.model.get('section').set('show_sidebar', true).save();
