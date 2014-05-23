@@ -30,16 +30,30 @@ define(
                 this.listenTo(this, 'change:alt_bass_pitch', this.initAltBassNote);
             },
 
+            /**
+             * Initializes the chord type based on the current
+             * `chord_type_id`.
+             */
             initChordType: function() {
-                this.set('chord_type', chordTypes.get(this.get('chord_type_id')));
+                this.set(
+                    'chord_type',
+                    chordTypes.get(this.get('chord_type_id'))
+                );
             },
 
+            /**
+             * Initializes the `note` and `alt_bass_note` based on the
+             * current key.
+             */
             initKey: function() {
                 this.set('key', allKeys.get(this.get('key_id')));
                 this.initNote();
                 this.initAltBassNote();
             },
 
+            /**
+             * Initializes the note in the current key
+             */
             initNote: function() {
                 this.set(
                     'note',
@@ -47,6 +61,11 @@ define(
                 );
             },
 
+            /**
+             * Initializes the `alt_bass_note` in the current key based
+             * on `alt_bass_pitch` if it is on (determined by
+             * the `alt_bass` boolean), else sets it to `false`.
+             */
             initAltBassNote: function() {
 
                 var alt_bass_note;
@@ -194,6 +213,7 @@ define(
             },
 
             toJSON: function() {
+
                 return {
                     order: this.get('order'),
                     beats: this.get('beats'),

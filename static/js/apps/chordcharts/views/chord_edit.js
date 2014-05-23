@@ -110,9 +110,12 @@ define(
                 };
 
                 if (alt_bass) {
+                    chord_data.alt_bass_note = this.model.get('alt_bass_note');
                     chord_data.alt_bass_pitch = (
                         this.model.get('alt_bass_note').get('distance_from_root')
                     );
+                } else {
+                    chord_data.alt_bass_note = false;
                 }
 
                 this.model.get('chord').set(chord_data);
@@ -168,9 +171,11 @@ define(
                 this.chord_type_el.find('.type-part-' + number).show();
             },
 
+            /**
+             * Parses the settings on the model and render the html
+             * accordingly.
+             */
             show: function() {
-                // Parses the settings on the model and render the html
-                // accordingly
 
                 // If the edit widget opens on a different chord than the
                 // last one, then reset the editWidget.
@@ -300,8 +305,10 @@ define(
 
             },
 
+            /**
+             * Parses the note and the alt bass note choices.
+             */
             parseNotes: function() {
-                // Parses the note and the alt bass note choices
 
                 var that = this;
                 var note_types = ['note', 'alt_bass_note'];
@@ -319,7 +326,8 @@ define(
 
                         that.editWidgetNotes[note_type] = new ChordEditNotes();
                         var editWidgetNote;
-                        var note_choices = that.$el.find('.chord-settings ' +
+                        var note_choices = that.$el.find(
+                            '.chord-settings ' +
                             '.setting[data-key=' + note_type + '] ul'
                         );
                         note_choices.html('');
