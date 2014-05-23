@@ -21,9 +21,5 @@ Fit chord names:
     If the chord name is really long, sometimes it doesn't fit in it's
     container. We can probably easily fix this by adjusting the font size.
 
-Optimize:
-    Check what `change` events unnecessarily get triggered at startup and try
-    to prevent that from happening.
-
 Zoom:
     If you use the browser zooming options, sometimes the chart gets fucked up.
