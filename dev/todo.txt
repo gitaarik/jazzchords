@@ -2,14 +2,14 @@ Make key chooser consistent:
     Like the other choosers (notes, letters) make the currently selected
     one white and the rest grey.
 
+Add song:
+    Be able to add a song.
+
 Make rests possible:
     https://en.wikipedia.org/wiki/Rest_%28music%29
 
 Save song:
     Be able to save a song after editing.
-
-Add song:
-    Be able to add a song.
 
 How to read:
     Make a how to read information popup that you can open on the page. Should
