@@ -1,5 +1,3 @@
-Bug: Adding a new section to a song with only one section errors.
-
 Make key chooser consistent:
     Like the other choosers (notes, letters) make the currently selected
     one white and the rest grey.
