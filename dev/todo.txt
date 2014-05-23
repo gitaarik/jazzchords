@@ -25,10 +25,5 @@ Optimize:
     Check what `change` events unnecessarily get triggered at startup and try
     to prevent that from happening.
 
-Fix potential memory leaks:
-    Sometimes models are being unbind but not destoyed, this could be a
-    potential memory leak. Look at: `drawChords` in `views/measure.js` and
-    `removeMeasure` in `views/measure_edit.js`.
-
 Zoom:
     If you use the browser zooming options, sometimes the chart gets fucked up.
