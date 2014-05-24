@@ -1,5 +1,6 @@
 @import "settings";
 @import "../../includes/images";
+@import "../../widgets/box-choice-list.less";
 
 .chord-chart {
 
@@ -73,12 +74,9 @@
                     ul {
 
                         margin-top: 10px;
-                        list-style: none;
                         padding: 0;
 
                         li {
-
-                            float: left;
 
                             a {
                                 display: block;
@@ -86,19 +84,15 @@
                                 height: 40px;
                                 line-height: 40px;
                                 text-align: center;
-                                border: solid 1px #000;
-                                border-radius: 5px;
-                                box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
-                                margin: 0 10px 10px 0;
                                 color: #000;
                                 text-decoration: none;
                             }
 
-                            &:nth-child(3n) a {
+                            &:nth-child(3n) {
                                 margin: 0;
                             }
 
-                            &:nth-child(3n+1) a {
+                            &:nth-child(3n+1) {
                                 clear: both;
                             }
 
@@ -477,24 +471,9 @@
 
                 padding: 0;
                 margin-top: 10px;
-                list-style: none;
                 overflow: hidden;
 
                 li {
-
-                    float: left;
-                    width: 40px;
-                    height: 40px;
-                    line-height: 40px;
-                    text-align: center;
-                    border: solid 1px #000;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-                    margin: 0 10px 10px 0;
-                    color: #777;
-                    background: #eee;
-                    text-decoration: none;
-                    cursor: pointer;
 
                     &:nth-child(4n) {
                         margin-right: 0;
@@ -509,11 +488,6 @@
                     &:nth-last-child(3),
                     &:nth-last-child(4) {
                         margin-bottom: 0;
-                    }
-
-                    &.selected {
-                        background: #FFF;
-                        color: #000;
                     }
 
                 }
@@ -816,26 +790,11 @@
             left: 10px;
         }
 
-        .letters {
+        .box-choice-list {
 
-            list-style: none;
             padding: 0;
 
             li {
-
-                background: #EEE;
-                border: 1px solid #000;
-                border-radius: 5px;
-                box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-                color: #777;
-                cursor: pointer;
-                float: left;
-                height: 40px;
-                line-height: 40px;
-                margin: 0 10px 10px 0;
-                text-align: center;
-                text-decoration: none;
-                width: 40px;
 
                 &:nth-child(2),
                 &:nth-child(5) {
@@ -844,11 +803,6 @@
 
                 &:nth-child(3n) {
                     clear: left;
-                }
-
-                &.selected {
-                    background: #FFF;
-                    color: #000;
                 }
 
             }

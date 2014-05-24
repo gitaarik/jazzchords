@@ -1,7 +1,3 @@
-Make key chooser consistent:
-    Like the other choosers (notes, letters) make the currently selected
-    one white and the rest grey.
-
 Add chart:
     Be able to add a chart.
 

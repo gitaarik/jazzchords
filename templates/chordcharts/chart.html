@@ -83,9 +83,11 @@
                         <div class="current-key">Key of {{ chart.key.name }}</div>
                         <hr>
                         <div>Transpose to:</div>
-                        <ul>
+                        <ul class="box-choice-list">
                             {% for key in chart_keys %}
-                                <li><a href="{% url "chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a></li>
+                                <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
+                                    <a href="{% url "chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -211,7 +213,7 @@
                 <div class="chord-settings padding">
 
                     <div class="setting note" data-key="note">
-                        <ul></ul>
+                        <ul class="box-choice-list"></ul>
                     </div>
 
                     <div class="setting type" data-key="type">
@@ -220,7 +222,7 @@
 
                             <div class="type-part type-part-{{ forloop.counter }}">
 
-                                <ul>
+                                <ul class="box-choice-list">
                                     {% for chord_type in chord_types %}
                                         <li
                                             {% if chord_type.symbol|length > 4 %}
@@ -246,7 +248,7 @@
 
                     <div class="setting alt-bass-note" data-key="alt_bass_note">
                         <div class="none">None</div>
-                        <ul></ul>
+                        <ul class="box-choice-list"></ul>
                     </div>
 
                 </div>
@@ -298,7 +300,7 @@
                     <div class="close"></div>
                 </div>
 
-                <ul class="letters">
+                <ul class="letters box-choice-list">
                     <li data-letter="A">A</li>
                     <li data-letter="B">B</li>
                     <li data-letter="C">C</li>
