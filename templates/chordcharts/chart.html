@@ -144,7 +144,9 @@
                                             <div class="chords">
                                                 {% for chord in measure.chords %}
                                                     <div class="chord chord-{{ chord.order }}">
-                                                        <span class="chord-name">{{ chord.chart_output }}</span>
+                                                        <span class="chord-name font-size-{{ chord.chart_fontsize }}">
+                                                            {{ chord.chart_output }}
+                                                        </span>
                                                     </div>
                                                 {% endfor %}
                                             </div>
@@ -214,6 +216,7 @@
 
                     <div class="setting note" data-key="note">
                         <ul class="box-choice-list"></ul>
+                        <div class="rest deselect">rest</div>
                     </div>
 
                     <div class="setting type" data-key="type">
@@ -247,7 +250,7 @@
                     </div>
 
                     <div class="setting alt-bass-note" data-key="alt_bass_note">
-                        <div class="none">None</div>
+                        <div class="none deselect">None</div>
                         <ul class="box-choice-list"></ul>
                     </div>
 

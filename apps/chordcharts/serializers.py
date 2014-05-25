@@ -79,5 +79,6 @@ class ChordSerializer(serializers.ModelSerializer):
             'chord_type_id',
             'chord_pitch',
             'alt_bass',
-            'alt_bass_pitch'
+            'alt_bass_pitch',
+            'rest'
         )

@@ -195,6 +195,37 @@ define(
 
             },
 
+            /**
+             * Returns the string that should be outputted on the chart. This
+             * is usually the chordName but in some cases the repeat sign ( % )
+             */
+            chartOutput: function() {
+
+                if (this.get('rest')) {
+                    return 'REST';
+                }
+
+                // If this chord and the previous chord's measure_schema are both '4'
+                // and are on the same line and had the same chord, use the repeat
+                // sign ( % ). Otherwise use the chordName.
+
+                if (
+                    this.get('beats') == 4 &&
+                    this.get('measure').has('prev_measure') &&
+                    this.get('measure').get('line') == this.get('measure')
+                        .get('prev_measure').get('line') &&
+                    this.get('measure').get('prev_measure')
+                        .get('beat_schema') == '4' &&
+                    this.get('measure').get('prev_measure').get('chords')
+                    .first().chordName() == this.chordName()
+                ) {
+                    return '%';
+                } else {
+                    return this.chordName();
+                }
+
+            },
+
             copy: function(attributes) {
 
                 var copy = this.clone();
@@ -215,12 +246,13 @@ define(
             toJSON: function() {
 
                 return {
-                    order: this.get('order'),
                     beats: this.get('beats'),
                     chord_pitch: this.get('chord_pitch'),
+                    chord_type_id: this.get('chord_type').get('id'),
                     alt_bass: this.get('alt_bass'),
                     alt_bass_pitch: this.get('alt_bass_pitch'),
-                    chord_type_id: this.get('chord_type').get('id'),
+                    rest: this.get('rest'),
+                    order: this.get('order')
                 };
             }
 

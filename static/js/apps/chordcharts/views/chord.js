@@ -41,33 +41,6 @@ define(
 
             },
 
-            /**
-             * Returns the string that should be outputted on the chart. This
-             * is usually the chordName but in some cases the repeat sign ( % )
-             */
-            chartOutput: function() {
-
-                // If this chord and the previous chord's measure_schema are both '4'
-                // and are on the same line and had the same chord, use the repeat
-                // sign ( % ). Otherwise use the chordName.
-
-                if (
-                    this.model.get('beats') == 4 &&
-                    this.model.get('measure').has('prev_measure') &&
-                    this.model.get('measure').get('line') == this.model.get('measure')
-                        .get('prev_measure').get('line') &&
-                    this.model.get('measure').get('prev_measure')
-                        .get('beat_schema') == '4' &&
-                    this.model.get('measure').get('prev_measure').get('chords')
-                    .first().chordName() == this.model.chordName()
-                ) {
-                    return '%';
-                } else {
-                    return this.model.chordName();
-                }
-
-            },
-
             render: function() {
 
                 if (!this.model.get('measure')) {
@@ -77,9 +50,17 @@ define(
 
                 this.$el.addClass('chord-' + this.model.get('order'));
 
+                var font_size;
+
+                if (this.model.get('rest')) {
+                    font_size = 'tiny';
+                } else {
+                    font_size = 'normal';
+                }
+
                 this.$el.html(
-                    '<span class="chord-name">' + 
-                        this.chartOutput() +
+                    '<span class="chord-name font-size-' + font_size + '">' + 
+                        this.model.chartOutput() +
                     '</span>'
                 );
 

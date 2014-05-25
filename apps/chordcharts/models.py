@@ -661,6 +661,11 @@ class Chord(models.Model):
         )
     )
 
+    rest = models.BooleanField(
+        default=False,
+        help_text="If on, this chord is interpreted as a rest"
+    )
+
     order = models.PositiveSmallIntegerField(
         help_text=(
             """The order for the chord. Will be used to determine the order of
@@ -678,11 +683,12 @@ class Chord(models.Model):
     def client_data(self):
         return {
             'id': self.id,
-            'order': self.order,
             'beats': self.beats,
             'chord_pitch': self.chord_pitch,
             'alt_bass': self.alt_bass,
             'alt_bass_pitch': self.alt_bass_pitch,
+            'rest': self.rest,
+            'order': self.order,
             'key_id': self.key().id,
             'note': self.note().client_data(),
             'chord_type_id': self.chord_type.id,
@@ -690,7 +696,8 @@ class Chord(models.Model):
                 self.alt_bass_note().client_data()
                 if self.alt_bass else False
             ),
-            'chart_output': self.chart_output()
+            'chart_output': self.chart_output(),
+            'chart_fontsize': self.chart_fontsize()
         }
 
     def chord_notation(self):
@@ -718,6 +725,9 @@ class Chord(models.Model):
         the original chord notation or the repeat sign.
         """
 
+        if self.rest:
+            return 'REST'
+
         time_signature_beats = self.time_signature().beats
 
         if self.beats == time_signature_beats and self.measure.previous():
@@ -732,13 +742,23 @@ class Chord(models.Model):
                     not self.alt_bass or
                     (
                         self.alt_bass and
-                        self.alt_bass_pitch == prev_chord.alt_bass_note
+                        self.alt_bass_pitch == prev_chord.alt_bass_pitch
                     )
                 )
             ):
                 return '%'
 
         return self.chord_notation()
+
+    def chart_fontsize(self):
+        """
+        Returns a either 'tiny', 'small' or 'normal' to relatively
+        indicate what the font size on the chart should be.
+        """
+        if self.rest:
+            return 'tiny'
+        else:
+            return 'normal'
 
     def key(self):
         """

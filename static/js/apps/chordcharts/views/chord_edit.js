@@ -27,8 +27,9 @@ define(
             events: {
                 'click header .close': 'close',
                 'click .tabs li': 'switchTab',
-                'click .chord-settings .setting[data-key=type] .toggle': 'toggleChordTypes',
-                'click .chord-settings .setting[data-key=alt_bass_note] .none': 'noAltBass'
+                'click .chord-settings .setting.note .rest': 'useAsRest',
+                'click .chord-settings .setting.type .toggle': 'toggleChordTypes',
+                'click .chord-settings .setting.alt-bass-note .none': 'noAltBass'
             },
 
             initialize: function() {
@@ -101,13 +102,20 @@ define(
             applyChanges: function() {
                 // Applies the changes made in the edit widget to the chord
 
+                var note = Boolean(this.model.get('note'));
                 var alt_bass = Boolean(this.model.get('alt_bass_note'));
 
                 var chord_data = {
-                    chord_pitch: this.model.get('note').get('distance_from_root'),
                     chord_type_id: this.model.get('chord_type').get('id'),
-                    alt_bass: alt_bass
+                    alt_bass: alt_bass,
+                    rest: !note
                 };
+
+                if (note) {
+                    chord_data.chord_pitch = this.model.get('note').get(
+                        'distance_from_root'
+                    );
+                }
 
                 if (alt_bass) {
                     chord_data.alt_bass_note = this.model.get('alt_bass_note');
@@ -149,8 +157,17 @@ define(
 
             },
 
+            /**
+             * Sets this chord to be used as a rest.
+             */
+            useAsRest: function() {
+                this.model.set('note', false);
+            },
+
+            /**
+             * Toggles between the two pages of chord type options
+             */
             toggleChordTypes: function(obj) {
-                // Toggles between the two pages of chord type options
 
                 if (this.chord_type_el.find('.type-part-1').is(':visible')) {
                     this.showChordTypePart(2);
@@ -371,23 +388,23 @@ define(
                     // Select note if it is set (bass note doesn't have to be
                     // set)
 
-                    var none_button = that.$el.find(
+                    var deselect_button = that.$el.find(
                         '.chord-settings ' +
-                        '.setting[data-key=' + note_type + '] .none'
+                        '.setting[data-key=' + note_type + '] .deselect'
                     );
 
                     if (that.model.get(note_type)) {
 
-                        if (none_button) {
-                            none_button.removeClass('selected');
+                        if (deselect_button) {
+                            deselect_button.removeClass('selected');
                         }
 
                         that.editWidgetNotes[note_type].findWhere({
                             note_id: that.model.get(note_type).id
                         }).set('selected', true);
 
-                    } else if (none_button) {
-                        none_button.addClass('selected');
+                    } else if (deselect_button) {
+                        deselect_button.addClass('selected');
                     }
 
                 });
@@ -415,19 +432,30 @@ define(
 
             },
 
+            /**
+             * Resets the edit widget to the "start state".
+             *
+             * For example, the chosen chord is the chord the edit is on and
+             * the selected tab is the note tab.
+             */
             reset: function() {
-                // Reset the edit widget to the "start state"
-                //
-                // For example, the chosen chord is the chord the edit is on and
-                // the selected tab is the note tab.
 
                 var chord = this.model.get('chord');
+                var rest = chord.get('rest');
+                var note;
+
+                if (rest) {
+                    note = false;
+                } else {
+                    note = chord.get('note');
+                }
 
                 this.model.set({
-                    note: chord.get('note'),
+                    note: note,
                     chord_type: chord.get('chord_type'),
                     alt_bass: chord.get('alt_bass'),
                     alt_bass_note: chord.get('alt_bass_note'),
+                    rest: rest,
                     note_choices: (
                         allKeys.findWhere({
                             id: chord.get('key_id')
