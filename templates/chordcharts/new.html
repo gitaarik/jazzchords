@@ -15,33 +15,33 @@
 
         <form class="chart-settings">
 
-            <label>
-                <span>Song name:</span>
-                <input type="text" name="song">
-            </label>
+            <section class="song-title">
+                <label>
+                    <h2>Song title:</h2>
+                    <input type="text" name="song">
+                </label>
+            </section>
 
-            <label>
+            <section class="key">
 
-                <span>Key:</span>
+                <h2>Key:</h2>
 
-                <ul>
-                    <li class="selected">Major</li>
-                    <li>Minor</li>
-                </ul>
+                <div class="note">
 
-                <ul class="tonality-major">
-                    {% for key in keys_major %}
-                        <li>{{ key }}</li>
-                    {% endfor %}
-                </ul>
+                    <div class="currently-selected">C</div>
 
-                <ul class="tonality-minor">
-                    {% for key in keys_minor %}
-                        <li>{{ key }}</li>
-                    {% endfor %}
-                </ul>
+                    <ul class="note-choices">
+                        <li>C</li>
+                        <li>C#</li>
+                        <li>D</li>
+                        <li>D#</li>
+                    </ul>
 
-            </label>
+                </div>
+
+                <div class="tonality">Major</div>
+
+            </section>
 
         </form>
 

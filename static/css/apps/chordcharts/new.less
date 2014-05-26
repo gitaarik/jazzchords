@@ -22,25 +22,54 @@
         margin: 0 auto;
         width: 500px;
 
-        label {
+        section {
 
             display: block;
             margin-bottom: 20px;
-            overflow: hidden;
 
-            span {
+            h2 {
                 margin-bottom: 15px;
                 display: block;
                 font-size: 20px;
+                font-weight: normal;
             }
 
-            input {
+            input[type=text] {
                 width: 100%;
                 border: solid 1px #000;
                 border-radius: 5px;
                 font-size: 20px;
                 padding: 12px;
                 box-sizing: border-box;
+            }
+
+            &.key {
+
+                .note {
+                    float: left;
+                    border: solid 1px #000;
+                    border-radius: 5px 0 0 5px;
+                    font-size: 20px;
+                    padding: 10px;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                }
+
+                .note-choices {
+                    display: none;
+                }
+
+                .tonality {
+                    float: left;
+                    border: solid 1px #000;
+                    border-left: none;
+                    border-radius: 0 5px 5px 0;
+                    font-size: 20px;
+                    padding: 10px;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                }
+
             }
 
         }
