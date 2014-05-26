@@ -1,3 +1,6 @@
+Decide to use Gb Major or F# Major:
+    https://en.wikipedia.org/wiki/G-flat_major
+
 Complete all keys
 
 Use flat sign (♭) instead of b
