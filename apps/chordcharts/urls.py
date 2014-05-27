@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     ),
     url(
         r'^new/',
-        'chordcharts.views.new',
+        'chordcharts.views.new_chart',
         name='chart_new',
     ),
     url(

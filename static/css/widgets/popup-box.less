@@ -1,0 +1,32 @@
+@import "../includes/images";
+
+.popup-box {
+
+    position: absolute;
+    border: solid 1px #000;
+    background: #FFF;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+
+    .arrow-up {
+        position: absolute;
+        top: -20px;
+        left: 40px;
+        width: 37px;
+        height: 20px;
+        background: url(@popup-arrow-up);
+    }
+
+    .close {
+        float: right;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        background: url(@discard-icon);
+    }
+
+    .padding {
+        padding: 0 10px;
+    }
+
+}

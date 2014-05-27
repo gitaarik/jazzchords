@@ -1,4 +1,6 @@
 @import "settings";
+@import "../../widgets/box-choice-list.less";
+@import "../../widgets/popup-box.less";
 
 .new {
 
@@ -45,18 +47,50 @@
 
             &.key {
 
-                .note {
+                .tone {
+
                     float: left;
-                    border: solid 1px #000;
-                    border-radius: 5px 0 0 5px;
-                    font-size: 20px;
-                    padding: 10px;
-                    box-sizing: border-box;
-                    cursor: pointer;
+
+                    .currently-selected {
+                        border: solid 1px #000;
+                        border-radius: 5px 0 0 5px;
+                        font-size: 20px;
+                        padding: 10px;
+                        box-sizing: border-box;
+                        cursor: pointer;
+                    }
+
+                    .tone-input {
+                        display: none;
+                    }
+
                 }
 
-                .note-choices {
+                .tone-choices {
+
                     display: none;
+                    position: absolute;
+                    margin-top: 7px;
+                    margin-left: -41px;
+
+                    ul {
+
+                        padding: 10px;
+
+                        li {
+
+                            &:nth-child(4n) {
+                                margin: 0;
+                            }
+
+                            &:nth-child(4n+1) {
+                                clear: both;
+                            }
+
+                        }
+
+                    }
+
                 }
 
                 .tonality {

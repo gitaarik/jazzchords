@@ -73,7 +73,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     return render(request, 'chordcharts/chart.html', context)
 
 
-def new(request):
+def new_chart(request):
 
     keys = {}
 
@@ -89,4 +89,4 @@ def new(request):
         'keys_minor': keys[Key.TONALITY_MINOR]
     }
 
-    return render(request, 'chordcharts/new.html', context)
+    return render(request, 'chordcharts/new_chart.html', context)

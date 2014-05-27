@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/apps/chordcharts/new_chart.less" />
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ STATIC_URL }}js/apps/chordcharts/new_chart.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="new">
+
+        <header>
+            <h1>New chart</h1>
+        </header>
+
+        <form class="chart-settings">
+
+            <section class="song-title">
+                <label>
+                    <h2>Song title:</h2>
+                    <input type="text" name="song">
+                </label>
+            </section>
+
+            <section class="key">
+
+                <h2>Key:</h2>
+
+                <div class="tone">
+
+                    <div class="currently-selected">C</div>
+                    <input type="hidden" class="tone-input" name="key_tone" value="C">
+
+                    <div class="tone-choices popup-box">
+
+                        <div class="arrow-up"></div>
+
+                        <ul class="box-choice-list">
+                            <li data-tone="C" class="selected">C</li>
+                            <li data-tone="C#">C#</li>
+                            <li data-tone="D">D</li>
+                            <li data-tone="Eb">Eb</li>
+                            <li data-tone="E">E</li>
+                            <li data-tone="F">F</li>
+                            <li data-tone="F#">F#</li>
+                            <li data-tone="G">G</li>
+                            <li data-tone="Ab">Ab</li>
+                            <li data-tone="A">A</li>
+                            <li data-tone="Bb">Bb</li>
+                            <li data-tone="B">B</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <div class="tonality">Major</div>
+
+            </section>
+
+        </form>
+
+    </div>
+
+{% endblock %}
