@@ -1,4 +1,8 @@
 var NewChart = function() {
+    this.initKeyTone();
+};
+
+NewChart.prototype.initKeyTone = function() {
 
     var key = $('.chart-settings .key');
     var tone = key.find('.tone');

@@ -37,18 +37,23 @@
     </script>
 
     <script type="text/template" id="template-section-sidebar-part">
-        {% include "chordcharts/section_sidebar_part.html" with mode="<%= mode %>" letter="<%= letter %>" width="<%= width %>" height="<%= height %>" line_number="<%= line_number %>" %}
+        <div class="section-sidebar-part <%= mode %>" style="width: <%= width %>px; height: <%= height %>px;" data-line-number="<%= line_number %>">
+            <div class="letter" style="width: <%= width %>px; line-height: <%= height %>px;">
+                <%= letter %>
+            </div>
+            <canvas></canvas>
+        </div>
     </script>
 
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
-            {% include "chordcharts/section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
+            {% include "chordcharts/chart/section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
         </script>
 
         <script type="text/template" id="template-lines">
             <table class="lines">
-                {% include "chordcharts/section_line_add.html" %}
+                {% include "chordcharts/chart/section_line_add.html" %}
             </table>
         </script>
 
@@ -57,7 +62,7 @@
             <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
             <table>
                 <tbody class="lines"></tbody>
-                <tfoot>{% include "chordcharts/section_line_add.html" %}</tfoot>
+                <tfoot>{% include "chordcharts/chart/section_line_add.html" %}</tfoot>
             </table>
         </script>
 
@@ -115,11 +120,11 @@
                     <header class="section-header">
                         {% if edit or chart.sections|length > 1 %}
                             {% if forloop.first %}
-                                {% include "chordcharts/section_header.html" with section_name=section.name move_down=1 move_up=0 %}
+                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=0 %}
                             {% elif forloop.last %}
-                                {% include "chordcharts/section_header.html" with section_name=section.name move_down=0 move_up=1 %}
+                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=1 %}
                             {% else %}
-                                {% include "chordcharts/section_header.html" with section_name=section.name move_down=1 move_up=1 %}
+                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=1 %}
                             {% endif %}
                         {% endif %}
                     </header>
@@ -179,7 +184,7 @@
 
                         <tfoot>
                             {% if edit %}
-                                {% include "chordcharts/section_line_add.html" %}
+                                {% include "chordcharts/chart/section_line_add.html" %}
                             {% endif %}
                         </tfoot>
 

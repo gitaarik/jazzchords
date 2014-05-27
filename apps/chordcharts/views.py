@@ -70,7 +70,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         'edit': edit
     }
 
-    return render(request, 'chordcharts/chart.html', context)
+    return render(request, 'chordcharts/chart/base.html', context)
 
 
 def new_chart(request):
