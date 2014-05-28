@@ -14,54 +14,108 @@
     <div class="new">
 
         <header>
-            <h1>New chart</h1>
+            <h1>Create a new chart</h1>
         </header>
 
         <form class="chart-settings">
 
-            <section class="song-title">
-                <label>
-                    <h2>Song title:</h2>
-                    <input type="text" name="song">
-                </label>
-            </section>
+            <table>
 
-            <section class="key">
+                <tr>
+                    <th>Song title:</th>
+                    <td>
+                        <input type="text" name="song">
+                        <div class="description">
+                            Take into account the
+                            <a href="https://morenovel.wordpress.com/2009/07/13/capital-letters-in-titles/" target="_blank">capitalization</a>.
+                        </div>
+                    </td>
+                </tr>
 
-                <h2>Key:</h2>
+                <tr>
+                    <th>Short description:</th>
+                    <td>
+                        <input type="text" name="version" placeholder="optional">
+                        <div class="description">
+                            For example:<br>
+                            <ul>
+                                <li>Song version (e.g. <em>“Billie Holiday version”)</em></li>
+                                <li>Style (e.g. <em>“Swing style”</em>)</li>
+                                <li>Aimed instrument (e.g. <em>“For guitar”</em>)</li>
+                            </ul>
+                            Leave blank if nothing special applies.
+                        </div>
+                    </td>
+                </tr>
 
-                <div class="tone">
+                <tr>
+                    <th>Video link:</th>
+                    <td>
+                        <input type="text" name="external_link" placeholder="optional">
+                    </td>
+                </tr>
 
-                    <div class="currently-selected">C</div>
-                    <input type="hidden" class="tone-input" name="key_tone" value="C">
+                <tr>
+                    <th>Lyrics link:</th>
+                    <td>
+                        <input type="text" name="external_link" placeholder="optional">
+                    </td>
+                </tr>
 
-                    <div class="tone-choices popup-box">
+                <tr class="key">
 
-                        <div class="arrow-up"></div>
+                    <th>Key:</th>
+                    <td>
 
-                        <ul class="box-choice-list">
-                            <li data-tone="C" class="selected">C</li>
-                            <li data-tone="C#">C#</li>
-                            <li data-tone="D">D</li>
-                            <li data-tone="Eb">Eb</li>
-                            <li data-tone="E">E</li>
-                            <li data-tone="F">F</li>
-                            <li data-tone="F#">F#</li>
-                            <li data-tone="G">G</li>
-                            <li data-tone="Ab">Ab</li>
-                            <li data-tone="A">A</li>
-                            <li data-tone="Bb">Bb</li>
-                            <li data-tone="B">B</li>
-                        </ul>
+                        <div class="tone no-select">
 
-                    </div>
+                            <div class="currently-selected">C</div>
+                            <input type="hidden" class="tone-input" name="key_tone" value="C">
 
-                </div>
+                            <div class="tone-choices popup-box">
 
-                <div class="tonality">Major</div>
+                                <div class="arrow-up"></div>
 
-            </section>
+                                <ul class="box-choice-list">
+                                    <li data-tone="C" class="selected">C</li>
+                                    <li data-tone="C#">C#</li>
+                                    <li data-tone="D">D</li>
+                                    <li data-tone="Eb">Eb</li>
+                                    <li data-tone="E">E</li>
+                                    <li data-tone="F">F</li>
+                                    <li data-tone="F#">F#</li>
+                                    <li data-tone="G">G</li>
+                                    <li data-tone="Ab">Ab</li>
+                                    <li data-tone="A">A</li>
+                                    <li data-tone="Bb">Bb</li>
+                                    <li data-tone="B">B</li>
+                                </ul>
 
+                            </div>
+
+                        </div>
+
+                        <div class="tonality no-select">
+                            <span>Major</span>
+                            <input type="hidden" class="tonality-input" name="key_tonality" value="Major">
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="description">You can always change this later.</div>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Create">
+                    </td>
+                </tr>
+
+            </table>
         </form>
 
     </div>

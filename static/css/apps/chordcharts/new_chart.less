@@ -1,20 +1,22 @@
-@import "settings";
 @import "../../widgets/box-choice-list.less";
 @import "../../widgets/popup-box.less";
 
 .new {
 
-    margin: 0 auto 200px;
-    width: @chart_width;
+    margin: 30px auto 200px;
+    width: 600px;
+    background: #EEE;
+    padding: 10px;
+    border-radius: 5px;
 
     header {
 
-        margin: 30px 0;
+        margin: 10px 0 20px;
 
         h1 {
             font-size: 30px;
-            text-align: center;
             margin: 0;
+            text-align: center;
         }
 
     }
@@ -22,86 +24,146 @@
     .chart-settings {
 
         margin: 0 auto;
-        width: 500px;
 
-        section {
+        table {
 
-            display: block;
-            margin-bottom: 20px;
+            width: 100%;
 
-            h2 {
-                margin-bottom: 15px;
-                display: block;
-                font-size: 20px;
-                font-weight: normal;
-            }
+            tr {
 
-            input[type=text] {
-                width: 100%;
-                border: solid 1px #000;
-                border-radius: 5px;
-                font-size: 20px;
-                padding: 12px;
-                box-sizing: border-box;
-            }
-
-            &.key {
-
-                .tone {
-
-                    float: left;
-
-                    .currently-selected {
-                        border: solid 1px #000;
-                        border-radius: 5px 0 0 5px;
-                        font-size: 20px;
-                        padding: 10px;
-                        box-sizing: border-box;
-                        cursor: pointer;
-                    }
-
-                    .tone-input {
-                        display: none;
-                    }
-
+                th, td {
+                    padding: 5px;
+                    font-size: 16px;
+                    font-weight: normal;
+                    text-align: left;
                 }
 
-                .tone-choices {
+                th {
+                    width: 150px;
+                    margin: 0 0 10px 0;
+                }
 
-                    display: none;
-                    position: absolute;
-                    margin-top: 7px;
-                    margin-left: -41px;
+                td {
 
-                    ul {
-
+                    input[type=text] {
+                        width: 100%;
+                        background: #FFF;
+                        font-size: 16px;
+                        border: solid 1px #999;
+                        border-radius: 5px;
                         padding: 10px;
+                        box-sizing: border-box;
+                    }
 
-                        li {
+                    ::-webkit-input-placeholder { /* WebKit browsers */
+                        font-style: italic;
+                        color: #BBB;
+                    }
 
-                            &:nth-child(4n) {
-                                margin: 0;
-                            }
+                    :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+                        font-style: italic;
+                        color: #BBB;
+                        opacity: 1;
+                    }
 
-                            &:nth-child(4n+1) {
-                                clear: both;
-                            }
+                    ::-moz-placeholder { /* Mozilla Firefox 19+ */
+                        font-style: italic;
+                        color: #BBB;
+                        opacity: 1;
+                    }
 
+                    :-ms-input-placeholder { /* Internet Explorer 10+ */
+                        font-style: italic;
+                        color: #BBB;
+                        opacity: 1;
+                    }
+
+                    input[type=submit] {
+                        background: #FFF;
+                        border: solid 1px #999;
+                        font-size: 20px;
+                        border-radius: 5px;
+                        padding: 10px 15px;
+                        box-sizing: border-box;
+                    }
+
+                    .description {
+
+                        display: none;
+                        margin: 5px 0 0 0;
+                        font-size: 15px;
+                        font-weight: lighter;
+
+                        ul {
+                            margin: 5px 0;
+                            padding-left: 25px;
                         }
 
                     }
 
                 }
 
-                .tonality {
-                    float: left;
-                    border: solid 1px #000;
-                    border-left: none;
-                    border-radius: 0 5px 5px 0;
-                    font-size: 20px;
-                    padding: 10px;
-                    box-sizing: border-box;
-                    cursor: pointer;
+                &.key {
+
+                    .tone {
+
+                        float: left;
+                        background: #FFF;
+
+                        .currently-selected {
+                            border: solid 1px #999;
+                            border-radius: 5px 0 0 5px;
+                            font-size: 20px;
+                            padding: 10px;
+                            box-sizing: border-box;
+                            cursor: pointer;
+                        }
+
+                        .tone-input {
+                            display: none;
+                        }
+
+                    }
+
+                    .tone-choices {
+
+                        display: none;
+                        position: absolute;
+                        margin-top: 7px;
+                        margin-left: -41px;
+
+                        ul {
+
+                            padding: 10px;
+
+                            li {
+
+                                &:nth-child(4n) {
+                                    margin: 0;
+                                }
+
+                                &:nth-child(4n+1) {
+                                    clear: both;
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    .tonality {
+                        float: left;
+                        background: #FFF;
+                        border: solid 1px #999;
+                        border-left: none;
+                        border-radius: 0 5px 5px 0;
+                        font-size: 20px;
+                        padding: 10px;
+                        box-sizing: border-box;
+                        cursor: pointer;
+                    }
+
                 }
 
             }
