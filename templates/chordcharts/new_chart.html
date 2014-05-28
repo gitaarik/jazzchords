@@ -14,58 +14,113 @@
     <div class="new">
 
         <header>
-            <h1>Create a new chart</h1>
+            <h1>New chord chart</h1>
         </header>
 
-        <form class="chart-settings">
+        <form class="chart-settings" method="POST">
+
+            {% csrf_token %}
 
             <table>
 
                 <tr>
-                    <th>Song title:</th>
+                    <th>
+
+                        <label for="song">Song title:</label>
+                    </th>
                     <td>
-                        <input type="text" name="song">
-                        <div class="description">
-                            Take into account the
-                            <a href="https://morenovel.wordpress.com/2009/07/13/capital-letters-in-titles/" target="_blank">capitalization</a>.
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Song title</h4>
+                            <p>
+                                Chord charts with the same song title will be associated with each
+                                other, so that people can easily find diffent charts for the same song.
+                            </p>
                         </div>
+                        <input type="text" name="song" id="song">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
 
                 <tr>
-                    <th>Short description:</th>
+                    <th>
+
+                        <label for="short_description">Short description:</label>
+                    </th>
                     <td>
-                        <input type="text" name="version" placeholder="optional">
-                        <div class="description">
-                            For example:<br>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Short description</h4>
+                            <p>For example:</p>
                             <ul>
                                 <li>Song version (e.g. <em>“Billie Holiday version”)</em></li>
                                 <li>Style (e.g. <em>“Swing style”</em>)</li>
                                 <li>Aimed instrument (e.g. <em>“For guitar”</em>)</li>
                             </ul>
-                            Leave blank if nothing special applies.
+                            <p>Leave blank if nothing special applies.</p>
                         </div>
+                        <input type="text" name="short_description" id="short_description" placeholder="optional">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
 
                 <tr>
-                    <th>Video link:</th>
+
+                    <th>
+                        <label for="video_url">Video URL:</label>
+                    </th>
+
                     <td>
-                        <input type="text" name="external_link" placeholder="optional">
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Video URL</h4>
+                            <p>
+                                A URL to a video of the song, preferrably matching the chords in the
+                                chart.
+                            </p>
+                        </div>
+                        <input type="text" name="video_url" id="video_url" placeholder="optional">
                     </td>
+
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
+
                 </tr>
 
                 <tr>
-                    <th>Lyrics link:</th>
+                    <th>
+                        <label for="lyrics_url">Lyrics URL:</label>
+                    </th>
                     <td>
-                        <input type="text" name="external_link" placeholder="optional">
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Lyrics URL</h4>
+                            <p>A URL to lyrics (if there are any) that go along with the chart.</p>
+                        </div>
+                        <input type="text" name="lyrics_url" id="lyrics_url" placeholder="optional">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
 
                 <tr class="key">
 
-                    <th>Key:</th>
+                    <th>
+                        <label>Key:</label>
+                    </th>
                     <td>
+
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Key</h4>
+                            <p>The default key the chart is shown in. You can always change this later.</p>
+                        </div>
 
                         <div class="tone no-select">
 
@@ -100,11 +155,10 @@
                             <input type="hidden" class="tonality-input" name="key_tonality" value="Major">
                         </div>
 
-                        <div class="clearfix"></div>
-
-                        <div class="description">You can always change this later.</div>
+                        <div class="tooltip-button"><span>?</span></div>
 
                     </td>
+                    <td></td>
 
                 </tr>
 
@@ -113,6 +167,7 @@
                     <td>
                         <input type="submit" value="Create">
                     </td>
+                    <td></td>
                 </tr>
 
             </table>

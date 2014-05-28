@@ -1,6 +1,9 @@
 @import "../../widgets/box-choice-list.less";
 @import "../../widgets/popup-box.less";
 
+@hover_background_color: #F7F7F7;
+@hover_border_color: #666;
+
 .new {
 
     margin: 30px auto 200px;
@@ -39,11 +42,14 @@
                 }
 
                 th {
-                    width: 150px;
                     margin: 0 0 10px 0;
+                    text-align: right;
+                    white-space: nowrap;
                 }
 
                 td {
+
+                    position: relative;
 
                     input[type=text] {
                         width: 100%;
@@ -79,20 +85,41 @@
                     }
 
                     input[type=submit] {
+
                         background: #FFF;
                         border: solid 1px #999;
                         font-size: 20px;
                         border-radius: 5px;
-                        padding: 10px 15px;
+                        padding: 11px 15px 7px 15px;
                         box-sizing: border-box;
+
+                        &:hover {
+                            background-color: @hover_background_color;
+                            border-color: @hover_border_color;
+                        }
+
                     }
 
-                    .description {
+                    .tooltip-popup {
 
                         display: none;
-                        margin: 5px 0 0 0;
+                        padding: 10px;
+                        top: 50px;
+                        left: -10px;
+                        width: 440px;
                         font-size: 15px;
                         font-weight: lighter;
+                        z-index: 10;
+
+                        h4 {
+                            font-size: 16px;
+                            padding: 0;
+                            margin: 0 0 5px 0;
+                        }
+
+                        p {
+                            margin: 0;
+                        }
 
                         ul {
                             margin: 5px 0;
@@ -101,6 +128,39 @@
 
                     }
 
+                    .tooltip-button {
+
+                        padding: 5px;
+                        cursor: pointer;
+
+                        span {
+
+                            display: block;
+                            width: 16px;
+                            height: 16px;
+                            border-radius: 8px;
+                            text-align: center;
+                            line-height: 16px;
+                            background: #BBB;
+                            color: #FFF;
+                            font-size: 12px;
+                        }
+
+                        &:hover span {
+                            background: #090;
+                        }
+
+                    }
+
+                }
+
+                td:nth-child(2) {
+                    width: 100%;
+                }
+
+                td:nth-child(3) {
+                    width: 15px;
+                    padding: 0;
                 }
 
                 &.key {
@@ -123,14 +183,19 @@
                             display: none;
                         }
 
+                        &:hover .currently-selected {
+                            background-color: @hover_background_color;
+                            border-color: @hover_border_color;
+                        }
+
                     }
 
                     .tone-choices {
 
                         display: none;
                         position: absolute;
-                        margin-top: 7px;
-                        margin-left: -41px;
+                        margin: 7px 0 0 -41px;
+                        z-index: 10;
 
                         ul {
 
@@ -162,8 +227,41 @@
                         padding: 10px;
                         box-sizing: border-box;
                         cursor: pointer;
+
+                        &:hover {
+                            background-color: @hover_background_color;
+                            border-color: @hover_border_color;
+                        }
+
                     }
 
+                    .tooltip-button {
+                        float: left;
+                        margin: 12px 0 0 5px;
+                    }
+
+                    .tooltip-popup {
+                        left: -20px;
+                        top: 60px;
+                    }
+
+                }
+
+                &.tooltip-highlighted td {
+
+                    input[type=text] {
+                        background-color: @hover_background_color;
+                        border-color: @hover_border_color;
+                    }
+
+                }
+
+                &.tooltip-highlighted.key {
+                    .tone .currently-selected,
+                    .tonality {
+                        background-color: @hover_background_color;
+                        border-color: @hover_border_color;
+                    }
                 }
 
             }

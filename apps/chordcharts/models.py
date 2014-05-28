@@ -238,7 +238,10 @@ class Chart(models.Model):
         sections - The sections on this chart.
     """
 
-    song = models.ForeignKey(Song, help_text="The song this chart descripes.")
+    song = models.ForeignKey(Song)
+    short_description = models.CharField(max_length=75, default="")
+    video_url = models.CharField(max_length=500, default="")
+    lyrics_url = models.CharField(max_length=500, default="")
     key = models.ForeignKey(
         Key,
         help_text=(

@@ -1,9 +1,25 @@
 var NewChart = function() {
 
-    this.key_el = $('.chart-settings .key');
+    this.chart_settings = $('.chart-settings');
+    this.key_el = this.chart_settings.find('.key');
 
+    this.initTooltips();
     this.initKeyTone();
     this.initKeyTonality();
+
+};
+
+NewChart.prototype.initTooltips = function() {
+
+    this.chart_settings.find('.tooltip-button').mouseover(function() {
+        $(this).closest('tr').find('.tooltip-popup').show();
+        $(this).closest('tr').addClass('tooltip-highlighted');
+    });
+
+    this.chart_settings.find('.tooltip-button').mouseout(function() {
+        $(this).closest('tr').find('.tooltip-popup').hide();
+        $(this).closest('tr').removeClass('tooltip-highlighted');
+    });
 
 };
 
