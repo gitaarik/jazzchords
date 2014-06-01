@@ -252,7 +252,7 @@ define(
                     alt_bass: this.get('alt_bass'),
                     alt_bass_pitch: this.get('alt_bass_pitch'),
                     rest: this.get('rest'),
-                    order: this.get('order')
+                    number: this.get('number')
                 };
             }
 

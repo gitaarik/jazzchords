@@ -88,7 +88,7 @@ define(
 
                     chord.set({
                         beats: parseInt(beats),
-                        order: index + 1
+                        number: index + 1
                     });
 
                     if (new_chord) {

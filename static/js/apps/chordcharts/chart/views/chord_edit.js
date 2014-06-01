@@ -241,7 +241,7 @@ define(
 
                     case '2-1-1':
 
-                        switch(this.model.get('chord').get('order')) {
+                        switch(this.model.get('chord').get('number')) {
 
                             case 1:
                                 off_top = 60;
@@ -264,7 +264,7 @@ define(
 
                     case '1-1-2':
 
-                        switch(this.model.get('chord').get('order')) {
+                        switch(this.model.get('chord').get('number')) {
 
                             case 1:
                                 off_top = 77;
@@ -287,7 +287,7 @@ define(
 
                     case '1-1-1-1':
 
-                        switch(this.model.get('chord').get('order')) {
+                        switch(this.model.get('chord').get('number')) {
 
                             case 1:
                                 off_top = 77;

@@ -1,8 +1,10 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
+from songs.models import Song
 from .models import Chart, Key, ChordType
 from .settings import BOXED_CHART
+from .helpers.new_chart import process_new_chart_post, FormErrors
 
 
 def chart(request, song_slug, chart_id, key_slug=None, edit=False):
@@ -75,18 +77,49 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
 def new_chart(request):
 
-    keys = {}
+    response = None
+    errors = []
 
-    for key in Key.objects.all():
+    if request.method == 'POST':
 
-        if key.tonality not in keys:
-            keys[key.tonality] = []
+        try:
+            chart = process_new_chart_post(request)
+        except FormErrors as formErrors:
+            errors = formErrors.errors
+        else:
+            response = redirect(
+                'chordcharts:chart_edit',
+                song_slug=chart.song.slug,
+                chart_id=chart.id
+            )
 
-        keys[key.tonality].append(key)
+    if not response:
 
-    context = {
-        'keys_major': keys[Key.TONALITY_MAJOR],
-        'keys_minor': keys[Key.TONALITY_MINOR]
-    }
+        keys = {}
 
-    return render(request, 'chordcharts/new_chart.html', context)
+        for key in Key.objects.all():
+
+            if key.tonality not in keys:
+                keys[key.tonality] = []
+
+            keys[key.tonality].append(key)
+
+        context = {
+            'keys_major': keys[Key.TONALITY_MAJOR],
+            'keys_minor': keys[Key.TONALITY_MINOR],
+            'song_name_max_length': Song._meta.get_field('name').max_length,
+            'short_description_max_length': (
+                Chart._meta.get_field('short_description').max_length
+            ),
+            'video_url_max_length': (
+                Chart._meta.get_field('video_url').max_length
+            ),
+            'lyrics_url_max_length': (
+                Chart._meta.get_field('lyrics_url').max_length
+            ),
+            'errors': errors
+        }
+
+        response = render(request, 'chordcharts/new_chart.html', context)
+
+    return response

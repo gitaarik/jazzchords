@@ -74,7 +74,7 @@ class ChordSerializer(serializers.ModelSerializer):
         model = Chord
         fields = (
             'id',
-            'order',
+            'number',
             'beats',
             'chord_type_id',
             'chord_pitch',

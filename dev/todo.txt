@@ -1,7 +1,11 @@
+Bug: It's possible to delete the last section.
+
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
 
 Complete all keys
+
+Make prefixes for Key, Note, ChordTypes and TimeSignature
 
 Use flat sign (♭) instead of b
     https://en.wikipedia.org/wiki/Flat_%28music%29

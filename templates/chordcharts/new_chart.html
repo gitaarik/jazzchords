@@ -37,7 +37,7 @@
                                 other, so that people can easily find diffent charts for the same song.
                             </p>
                         </div>
-                        <input type="text" name="song" id="song">
+                        <input type="text" name="song_name" id="song" maxlength="{{ song_name_max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -61,7 +61,7 @@
                             </ul>
                             <p>Leave blank if nothing special applies.</p>
                         </div>
-                        <input type="text" name="short_description" id="short_description" placeholder="optional">
+                        <input type="text" name="short_description" id="short_description" placeholder="optional" maxlength="{{ short_description_max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -83,7 +83,7 @@
                                 chart.
                             </p>
                         </div>
-                        <input type="text" name="video_url" id="video_url" placeholder="optional">
+                        <input type="text" name="video_url" id="video_url" placeholder="optional" maxlength="{{ video_url_max_length }}">
                     </td>
 
                     <td>
@@ -102,7 +102,7 @@
                             <h4>Lyrics URL</h4>
                             <p>A URL to lyrics (if there are any) that go along with the chart.</p>
                         </div>
-                        <input type="text" name="lyrics_url" id="lyrics_url" placeholder="optional">
+                        <input type="text" name="lyrics_url" id="lyrics_url" placeholder="optional" maxlength="{{ lyrics_url_max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>

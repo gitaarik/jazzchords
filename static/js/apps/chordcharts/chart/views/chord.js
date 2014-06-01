@@ -48,7 +48,7 @@ define(
                     return;
                 }
 
-                this.$el.addClass('chord-' + this.model.get('order'));
+                this.$el.addClass('chord-' + this.model.get('number'));
 
                 var font_size;
 

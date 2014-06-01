@@ -1,0 +1,17 @@
+<div class="key-select">
+    <div class="closed">
+        <div class="current-key">Key of {{ chart.key.name }}</div>
+    </div>
+    <div class="open">
+        <div class="current-key">Key of {{ chart.key.name }}</div>
+        <hr>
+        <div>Transpose to:</div>
+        <ul class="box-choice-list">
+            {% for key in chart_keys %}
+                <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
+                    <a href="{% url chart_view chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

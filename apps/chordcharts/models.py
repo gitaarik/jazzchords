@@ -239,7 +239,7 @@ class Chart(models.Model):
     """
 
     song = models.ForeignKey(Song)
-    short_description = models.CharField(max_length=75, default="")
+    short_description = models.CharField(max_length=150, default="")
     video_url = models.CharField(max_length=500, default="")
     lyrics_url = models.CharField(max_length=500, default="")
     key = models.ForeignKey(
@@ -321,6 +321,7 @@ class Section(models.Model):
     )
 
     number = models.PositiveSmallIntegerField(
+        default=1,
         help_text=(
             """The section number. Will be used to put the sections in order"""
         )
@@ -339,6 +340,27 @@ class Section(models.Model):
 
     time_signature = models.ForeignKey(TimeSignature)
     show_sidebar = models.BooleanField(default=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_default_time_signature()
+
+    def set_default_time_signature(self):
+        """
+        If time_signature isn't set, sets it to 4/4 as a default.
+        """
+
+        # If time_signature isn't set, accessing it would give a
+        # RelatedObjectDoesNotExist exception. This is a dynamic
+        # exception so we can't import it to explicitly check if it was
+        # this exception, however, this is the only expected exception
+        # in this case.
+        try:
+            self.time_signature
+        except:
+            self.time_signature = TimeSignature.objects.get(
+                beats=4, beat_unit=4
+            )
 
     def __str__(self):
         return self.name()
@@ -406,7 +428,8 @@ class Section(models.Model):
             try:
                 key = Key.objects.get(
                     distance_from_c=key_distance_from_c,
-                    tonality=self.chart.key.tonality)
+                    tonality=self.chart.key.tonality
+                )
             except ObjectDoesNotExist:
                 raise SectionKeyDoesNotExist
 
@@ -462,6 +485,7 @@ class Line(models.Model):
     )
 
     number = models.PositiveSmallIntegerField(
+        default=1,
         help_text=(
             """The number for the line. Will be used to determine the order of
             the lines."""
@@ -542,6 +566,7 @@ class Measure(models.Model):
     )
 
     number = models.PositiveSmallIntegerField(
+        default=1,
         help_text=(
             """The number for the measure. Will be used to determine the order
             of the measures."""
@@ -549,6 +574,7 @@ class Measure(models.Model):
     )
 
     beat_schema = models.CharField(
+        default='4',
         max_length=13,
         help_text=(
             """The type of beatschema for this measure. This is related to the
@@ -607,7 +633,7 @@ class Measure(models.Model):
         Removes chords that don't fit in the `beat_schema` of this
         measure.
         """
-        self.chords.filter(order__gt=self.chords_count()).delete()
+        self.chords.filter(number__gt=self.chords_count()).delete()
         if self.chords.count() == 0:
             self.delete()
 
@@ -632,6 +658,7 @@ class Chord(models.Model):
     )
 
     chord_pitch = models.PositiveSmallIntegerField(
+        default=0,
         help_text=(
             """The relative pitch for the chord. This is the amount of half
             notes the chord note is away from the root of the key the item will
@@ -669,9 +696,10 @@ class Chord(models.Model):
         help_text="If on, this chord is interpreted as a rest"
     )
 
-    order = models.PositiveSmallIntegerField(
+    number = models.PositiveSmallIntegerField(
+        default=1,
         help_text=(
-            """The order for the chord. Will be used to determine the order of
+            """The number for the chord. Will be used to determine the order of
             the chords."""
         )
     )
@@ -679,9 +707,32 @@ class Chord(models.Model):
     def __str__(self):
         return self.chord_notation()
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_default_chord_type()
+
+    def set_default_chord_type(self):
+        """
+        If chord_type isn't set, sets it to Major if the key of
+        the section is Major, otherwise we sets it to Minor.
+        """
+
+        # If chord_type isn't set, accessing it would give a
+        # RelatedObjectDoesNotExist exception. This is a dynamic
+        # exception so we can't import it to explicitly check if it was
+        # this exception, however, this is the only expected exception
+        # in this case.
+        try:
+            self.chord_type
+        except:
+            if self.measure.line.section.key().tonality == Key.TONALITY_MAJOR:
+                self.chord_type = ChordType.objects.get(name='Major')
+            else:
+                self.chord_type = ChordType.objects.get(name='Minor')
+
     class Meta:
-        ordering = ('order',)
-        unique_together = ('measure', 'order')
+        ordering = ('number',)
+        unique_together = ('measure', 'number')
 
     def client_data(self):
         return {
@@ -691,7 +742,7 @@ class Chord(models.Model):
             'alt_bass': self.alt_bass,
             'alt_bass_pitch': self.alt_bass_pitch,
             'rest': self.rest,
-            'order': self.order,
+            'number': self.number,
             'key_id': self.key().id,
             'note': self.note().client_data(),
             'chord_type_id': self.chord_type.id,

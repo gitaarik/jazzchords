@@ -1,10 +1,11 @@
 from django.db import models
+from autoslug import AutoSlugField
 
 
 class Song(models.Model):
 
-    name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=50)
+    name = models.CharField(max_length=150)
+    slug = AutoSlugField(populate_from='name', max_length=150)
 
     def __str__(self):
         return self.name
