@@ -5,7 +5,11 @@ from autoslug import AutoSlugField
 class Song(models.Model):
 
     name = models.CharField(max_length=150)
-    slug = AutoSlugField(populate_from='name', max_length=150)
+    slug = AutoSlugField(
+        populate_from='name',
+        always_update=True,
+        max_length=150
+    )
 
     def __str__(self):
         return self.name

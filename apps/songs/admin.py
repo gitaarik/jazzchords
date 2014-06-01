@@ -3,7 +3,7 @@ from .models import Song
 
 
 class SongAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
+    pass
 
 
 admin.site.register(Song, SongAdmin)

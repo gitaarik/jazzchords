@@ -1,11 +1,12 @@
 from django.conf.urls import patterns, url
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(
-        r'^(?P<song_slug>[a-z-_]+)/'
+        r'^(?P<song_slug>[a-z0-9-_]+)/'
         '(?P<chart_id>\d+)/'
-        '(?:(?P<key_slug>[a-z-_]+)/)?$',
+        '(?:(?P<key_slug>[a-z0-9-_]+)/)?$',
         'chordcharts.views.chart',
         name='chart'
     ),
@@ -16,9 +17,9 @@ urlpatterns = patterns('',
     ),
     url(
         r'^edit/'
-        '(?P<song_slug>[a-z-_]+)/'
+        '(?P<song_slug>[a-z0-9-_]+)/'
         '(?P<chart_id>\d+)/'
-        '(?:(?P<key_slug>[a-z-_]+)/)?$',
+        '(?:(?P<key_slug>[a-z0-9-_]+)/)?$',
         'chordcharts.views.chart',
         {'edit': True},
         name='chart_edit',

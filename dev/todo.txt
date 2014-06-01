@@ -1,5 +1,7 @@
 Bug: It's possible to delete the last section.
 
+Bug: It's possible to move a section while it's the only one
+
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
 
