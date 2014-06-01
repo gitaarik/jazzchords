@@ -80,18 +80,27 @@ define(
                 var section_header_el = this.$el.find('.section-header');
                 section_header_el.html(section_header);
 
-                if (this.model.get('number') == 1) {
-                    this.$el.find(
-                        '.section-header .section-edit-buttons .move-up'
-                    ).hide();
+                var edit_buttons_el = this.$el.find(
+                    '.section-header .section-edit-buttons'
+                );
+
+                if (
+                    this.model.collection.size() == 1 ||
+                    this.model.get('number') == 1
+                ) {
+                    edit_buttons_el.find('.move-up').hide();
                 }
 
                 if (
+                    this.model.collection.size() == 1 ||
                     this.model.get('number') == this.model.collection.length
                 ) {
-                    this.$el.find(
-                        '.section-header .section-edit-buttons .move-down'
-                    ).hide();
+                    edit_buttons_el.find('.move-down').hide();
+                }
+
+                if (this.model.collection.size() == 1) {
+                    console.log('removing that shit');
+                    edit_buttons_el.find('.remove').hide();
                 }
 
             },
@@ -216,6 +225,14 @@ define(
                     this.remove();
 
                     collection.resetNumbers();
+
+                    if (collection.size() == 1) {
+                        // If there is only one section left, the move
+                        // and remove buttons should be removed. So we
+                        // trigger a 'change' event so that it will
+                        // rerender itself.
+                        collection.first().trigger('change');
+                    }
 
                 }
 

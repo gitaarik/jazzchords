@@ -48,7 +48,7 @@
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
-            {% include "chordcharts/chart/section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 %}
+            {% include "chordcharts/chart/section_header.html" with section_name="<%= section_name %>" move_down=1 move_up=1 remove=1 %}
         </script>
 
         <script type="text/template" id="template-lines">
@@ -112,11 +112,15 @@
                     <header class="section-header">
                         {% if edit or chart.sections|length > 1 %}
                             {% if forloop.first %}
-                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=0 %}
+                                {% if chart.sections|length > 1 %}
+                                    {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=0 remove=1 %}
+                                {% else %}
+                                    {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=0 remove=0 %}
+                                {% endif %}
                             {% elif forloop.last %}
-                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=1 %}
+                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=1 remove=1 %}
                             {% else %}
-                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=1 %}
+                                {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=1 remove=1 %}
                             {% endif %}
                         {% endif %}
                     </header>

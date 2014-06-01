@@ -38,7 +38,16 @@ define(
                 new_line.get('measures').reset([new_measure]);
                 new_section.get('lines').reset([new_line]);
 
-                this.model.get('sections').add(new_section);
+                var sections = this.model.get('sections');
+                sections.add(new_section);
+
+                if (sections.size() == 2) {
+                    // If this is the second section, it means the first
+                    // section should now get move and remove buttons.
+                    // So we trigger a 'change' event so that it will
+                    // rerender itself.
+                    sections.first().trigger('change');
+                }
 
                 var sectionView = new SectionView({
                     model: new_section

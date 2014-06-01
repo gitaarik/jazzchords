@@ -28,16 +28,18 @@ chords_router = routers.NestedSimpleRouter(
 chords_router.register('chords', ChordViewSet)
 
 
-chart_urlpatterns = patterns('',
+chart_urlpatterns = patterns(
+    '',
     url('^', include(sections_router.urls)),
     url('^', include(lines_router.urls)),
     url('^', include(measures_router.urls)),
     url('^', include(chords_router.urls)),
 )
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(
-        r'^(?P<song_slug>[a-z-_]+)/'
+        r'^(?P<song_slug>[a-z0-9-_]+)/'
         '(?P<chart_id>\d+)/',
         include(chart_urlpatterns),
         name='chart',
