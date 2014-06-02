@@ -80,15 +80,32 @@
 
             <div class="header-bar">
 
-                {% if edit %}
-                    {% with chart_view="chordcharts:chart_edit" %}
-                        {% include "chordcharts/chart/key_select.html" %}
-                    {% endwith %}
-                {% else %}
-                    {% with chart_view="chordcharts:chart" %}
-                        {% include "chordcharts/chart/key_select.html" %}
-                    {% endwith %}
-                {% endif %}
+                <div class="key-select">
+                    <div class="closed">
+                        <div class="current-key">Key of {{ chart.key.name }}</div>
+                    </div>
+                    <div class="open">
+                        <div class="current-key">Key of {{ chart.key.name }}</div>
+                        <hr>
+                        <div>Transpose to:</div>
+                        <ul class="box-choice-list">
+                            {% for key in chart_keys %}
+                                <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
+                                    {% if edit %}
+                                        <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                                    {% else %}
+                                        <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% if edit %}
+                            <div class="set-as-default-key clearfix">
+                                <label><input type="checkbox" checked="checked"> Set as default key</label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
 
                 <div class="right">
                     {% if edit %}

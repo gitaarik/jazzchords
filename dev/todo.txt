@@ -1,3 +1,9 @@
+Save as default key when transposing in edit mode.
+    If you transpose the chordchart in edit mode, set the new key as default
+    key for this song.
+
+Make it possible to delete a chart.
+
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
 
