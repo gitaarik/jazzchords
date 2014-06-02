@@ -60,6 +60,15 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     chord_types = ChordType.objects.all()
     chart_data = chart.client_data()
 
+    set_default_key = request.GET.get('set-default-key')
+
+    if set_default_key:
+        if set_default_key == '0':
+            set_default_key = False
+
+    if set_default_key is None:
+        set_default_key = True
+
     context = {
         'settings': BOXED_CHART,
         'settings_json': json.dumps(BOXED_CHART),
@@ -69,7 +78,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         'all_keys_json': keys_json(all_keys),
         'chord_types_sets': chord_types_sets(chord_types),
         'chord_types_json': chord_types_json(chord_types),
-        'edit': edit
+        'edit': edit,
+        'set_default_key': set_default_key
     }
 
     return render(request, 'chordcharts/chart/base.html', context)

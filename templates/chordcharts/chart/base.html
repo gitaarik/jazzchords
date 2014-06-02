@@ -92,7 +92,7 @@
                             {% for key in chart_keys %}
                                 <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
                                     {% if edit %}
-                                        <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                                        <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}?set-default-key={% if set_default_key %}1{% else %}0{% endif %}">{{ key.tone }}</a>
                                     {% else %}
                                         <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
                                     {% endif %}
@@ -101,7 +101,7 @@
                         </ul>
                         {% if edit %}
                             <div class="set-as-default-key clearfix">
-                                <label><input type="checkbox" checked="checked"> Set as default key</label>
+                                <label><input type="checkbox"{% if set_default_key %} checked="checked"{% endif %}> Set as default key</label>
                             </div>
                         {% endif %}
                     </div>

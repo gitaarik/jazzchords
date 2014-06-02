@@ -17,7 +17,7 @@ define(
             className: 'chart',
 
             events: {
-                'click .section-new': 'createNewSection'
+                'click .section-new': 'createNewSection',
             },
 
             createNewSection: function() {
