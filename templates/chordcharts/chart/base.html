@@ -72,7 +72,7 @@
 
 {% block content %}
 
-    <article class="chord-chart no-select{% if edit %} edit-on{% endif %}">
+    <article class="chord-chart{% if edit %} edit-on{% endif %}">
 
         <header class="chord-chart-header">
 
@@ -80,7 +80,7 @@
 
             <div class="header-bar">
 
-                <div class="key-select">
+                <div class="key-select{% if edit %} no-select{% endif %}">
                     <div class="closed">
                         <div class="current-key">Key of {{ chart.key.name }}</div>
                     </div>
@@ -108,19 +108,47 @@
                 </div>
 
                 <div class="right">
-                    {% if edit %}
-                        <a class="done" href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">done ✓</a>
-                    {% else %}
-                        <a class="new" href="{% url "chordcharts:chart_new" %}">New</a>
-                        <a class="edit" href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Edit</a>
-                    {% endif %}
+                    <ul>
+                        {% if edit %}
+                            <li class="settings" href="">
+                                <span class="label">
+                                    <span class="text">Settings</span>
+                                    <span class="icon">⚙</span>
+                                </span>
+                                <span class="widget popup-box">
+                                    <ul>
+                                        <li>Delete ⨯</li>
+                                    </ul>
+                                </span>
+                            </li>
+                            <li>
+                                <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
+                                    <span class="text">Done</span>
+                                    <span class="icon">✓</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="new">
+                                <a href="{% url "chordcharts:chart_new" %}">
+                                    <span class="text">New</span>
+                                    <span class="icon">+</span>
+                                </a>
+                            </li>
+                            <li class="edit">
+                                <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
+                                    <span class="text">Edit</span>
+                                    <span class="icon">✎</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
 
             </div>
 
         </header>
 
-        <div class="chart">
+        <div class="chart{% if edit %} no-select{% endif %}">
 
             {% for section in chart.sections %}
 

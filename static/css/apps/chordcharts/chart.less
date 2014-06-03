@@ -109,24 +109,54 @@
 
                 float: right;
 
-                a {
+                ul {
 
-                    position: relative;
-                    text-decoration: none;
-                    color: #000;
-                    padding-right: 20px;
+                    list-style: none;
+                    padding: 0;
 
-                    &:after {
-                        position: absolute;
-                        right: 0;
-                    }
+                    li {
 
-                    &.edit:after {
-                        content: url(@edit-icon);
-                    }
+                        float: left;
+                        padding-right: 20px;
 
-                    &.done {
-                        padding-right: 0;
+                        &:last-child {
+                            padding-right: 0;
+                        }
+
+                        &.edit {
+
+                            .icon {
+                                transform: scale(-1, 1);
+                            }
+
+                        }
+
+                        &.settings {
+
+                            position: relative;
+
+                            .widget {
+                                display: none;
+                            }
+
+                        }
+
+                        .text,
+                        .icon {
+                            float: left;
+                        }
+
+                        .text {
+                            padding-right: 7px;
+                        }
+
+                        a {
+
+                            text-decoration: none;
+                            color: #000;
+
+                        }
+
                     }
 
                 }
