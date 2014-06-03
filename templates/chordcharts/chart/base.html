@@ -109,7 +109,7 @@
 
                 <div class="right">
                     {% if edit %}
-                        <a class="save" href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Save</a>
+                        <a class="done" href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">done ✓</a>
                     {% else %}
                         <a class="new" href="{% url "chordcharts:chart_new" %}">New</a>
                         <a class="edit" href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">Edit</a>

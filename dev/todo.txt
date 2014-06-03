@@ -1,7 +1,3 @@
-Change 'save' button to 'done'.
-    Because saving already happens, the only thing that happens when
-    clicking 'save' is that it switches back to the read view.
-
 Make it possible to delete a chart.
 
 Make it possible to change the key of a section.
