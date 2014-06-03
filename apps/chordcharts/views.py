@@ -15,15 +15,41 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     version, `edit` should be `True`.
     """
 
+    def get_set_default_key():
+        """
+        Sets `set_default_key` according to the value of the GET
+        parameter `set-default-key` if it is given.
+
+        `set_default_key` indicates if the key that is given in
+        `key_slug` should be set as the default key for this chart (in
+        case this happens in edit mode).
+        """
+
+        set_default_key = request.GET.get('set-default-key')
+
+        if set_default_key:
+            if set_default_key == '0':
+                set_default_key = False
+
+        if set_default_key is None:
+            set_default_key = True
+
+        return set_default_key
+
     def set_chart_key(key):
         """
         Overrides the default key of the chart in case it was given.
         """
         if key_slug:
+
             try:
                 chart.key = Key.objects.get(slug=key_slug)
             except:
                 pass
+            else:
+
+                if edit and set_default_key:
+                    chart.save()
 
     def chord_types_sets(chord_types):
         """
@@ -51,6 +77,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         ]
         return json.dumps(all_keys_data)
 
+    set_default_key = get_set_default_key()
+
     chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
     set_chart_key(chart)
     chart.cleanup()
@@ -59,15 +87,6 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     chart_keys = all_keys.filter(tonality=chart.key.tonality)
     chord_types = ChordType.objects.all()
     chart_data = chart.client_data()
-
-    set_default_key = request.GET.get('set-default-key')
-
-    if set_default_key:
-        if set_default_key == '0':
-            set_default_key = False
-
-    if set_default_key is None:
-        set_default_key = True
 
     context = {
         'settings': BOXED_CHART,

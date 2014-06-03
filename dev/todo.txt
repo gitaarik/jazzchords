@@ -1,8 +1,10 @@
-Save as default key when transposing in edit mode.
-    If you transpose the chordchart in edit mode, set the new key as default
-    key for this song.
+Change 'save' button to 'done'.
+    Because saving already happens, the only thing that happens when
+    clicking 'save' is that it switches back to the read view.
 
 Make it possible to delete a chart.
+
+Make it possible to change the key of a section.
 
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
@@ -14,14 +16,8 @@ Make prefixes for Key, Note, ChordTypes and TimeSignature
 Use flat sign (♭) instead of b
     https://en.wikipedia.org/wiki/Flat_%28music%29
 
-Add chart:
-    Be able to add a chart.
-
 Search charts:
     Be able to search for charts.
-
-Save song:
-    Be able to save a song after editing.
 
 How to read:
     Make a how to read information popup that you can open on the page. Should
@@ -32,6 +28,3 @@ How to read:
 Fit chord names:
     If the chord name is really long, sometimes it doesn't fit in it's
     container. We can probably easily fix this by adjusting the font size.
-
-Zoom:
-    If you use the browser zooming options, sometimes the chart gets fucked up.

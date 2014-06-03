@@ -239,9 +239,11 @@ class Chart(models.Model):
     """
 
     song = models.ForeignKey(Song)
-    short_description = models.CharField(max_length=150, default="")
-    video_url = models.CharField(max_length=500, default="")
-    lyrics_url = models.CharField(max_length=500, default="")
+    short_description = models.CharField(
+        max_length=150, default="", blank=True
+    )
+    video_url = models.CharField(max_length=500, default="", blank=True)
+    lyrics_url = models.CharField(max_length=500, default="", blank=True)
     key = models.ForeignKey(
         Key,
         help_text=(
