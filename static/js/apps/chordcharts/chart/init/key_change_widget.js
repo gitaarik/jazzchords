@@ -2,18 +2,18 @@ define(
     ['models/key_change_widget', 'views/key_change_widget'],
     function(KeyChangeWidget, KeyChangeWidgetView) {
 
-        var keyChangeWidget = new KeyChangeWidget()
+        var keyChangeWidget = new KeyChangeWidget();
 
         new KeyChangeWidgetView({
             el: $('.chord-chart .key-select'),
             model: keyChangeWidget
-        })
+        });
 
         $('html').on('click', function(event) {
 
             if(keyChangeWidget.get('visible')) {
 
-                var target = $(event.target)
+                var target = $(event.target);
 
                 if(
                     !(
@@ -29,14 +29,14 @@ define(
                         target.closest('.current-key').closest('.open').length
                     )
                 ) {
-                    keyChangeWidget.set('visible', false)
+                    keyChangeWidget.set('visible', false);
                 }
 
             }
 
-        })
+        });
 
-        return keyChangeWidget
+        return keyChangeWidget;
 
     }
-)
+);

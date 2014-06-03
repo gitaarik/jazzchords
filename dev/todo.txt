@@ -1,3 +1,9 @@
+Annoyance:
+    Just removed the shit that the edit buttons right top were not
+    selectable but actually they should be because the settings button
+    has a popup and you shouldn't select that when you hit it twice in a
+    row, jow.
+
 Make it possible to delete a chart.
 
 Make it possible to change the key of a section.
@@ -5,12 +11,14 @@ Make it possible to change the key of a section.
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
 
-Complete all keys
+Complete all keys.
 
-Make prefixes for Key, Note, ChordTypes and TimeSignature
+Make prefixes for Key, Note, ChordTypes and TimeSignature.
 
-Use flat sign (♭) instead of b
+Use flat sign (♭) instead of b.
     https://en.wikipedia.org/wiki/Flat_%28music%29
+
+Make arrow-up widget transparent.
 
 Search charts:
     Be able to search for charts.

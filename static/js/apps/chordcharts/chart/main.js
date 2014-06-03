@@ -6,7 +6,8 @@ require(
         'views/line',
         'views/measure',
         'views/chord',
-        'init/key_change_widget'
+        'init/key_change_widget',
+        'init/settings_widget'
     ],
     function(
         Chart,
@@ -15,7 +16,8 @@ require(
         LineView,
         MeasureView,
         ChordView,
-        keyChangeWidget
+        keyChangeWidget,
+        settingsWidget
     ) {
 
         // Bind data from server to models/collections

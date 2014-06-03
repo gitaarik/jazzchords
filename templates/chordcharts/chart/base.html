@@ -107,41 +107,57 @@
                     </div>
                 </div>
 
-                <div class="right">
-                    <ul>
-                        {% if edit %}
-                            <li class="settings" href="">
-                                <span class="label">
-                                    <span class="text">Settings</span>
-                                    <span class="icon">⚙</span>
-                                </span>
-                                <span class="widget popup-box">
-                                    <ul>
-                                        <li>Delete ⨯</li>
-                                    </ul>
-                                </span>
-                            </li>
-                            <li>
-                                <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
-                                    <span class="text">Done</span>
-                                    <span class="icon">✓</span>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="new">
-                                <a href="{% url "chordcharts:chart_new" %}">
-                                    <span class="text">New</span>
-                                    <span class="icon">+</span>
-                                </a>
-                            </li>
-                            <li class="edit">
-                                <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
-                                    <span class="text">Edit</span>
-                                    <span class="icon">✎</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                <div class="chart-edit-buttons">
+
+                    {% if edit %}
+
+                        <div class="button settings" href="">
+
+                            <div class="label">
+                                <div class="text">Settings</div>
+                                <div class="icon">⚙</div>
+                            </div>
+
+                            <div class="widget popup-box">
+
+                                <div class="arrow-up"></div>
+
+                                <ul>
+                                    <li class="delete">
+                                        <div class="text">Delete chart</div>
+                                        <div class="icon">⨯</div>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                        <div class="button">
+                            <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
+                                <div class="text">Done</div>
+                                <div class="icon">✓</div>
+                            </a>
+                        </div>
+
+                    {% else %}
+
+                        <div class="button new">
+                            <a href="{% url "chordcharts:chart_new" %}">
+                                <div class="text">New</div>
+                                <div class="icon">+</div>
+                            </a>
+                        </div>
+
+                        <div class="button edit">
+                            <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
+                                <div class="text">Edit</div>
+                                <div class="icon">✎</div>
+                            </a>
+                        </div>
+
+                    {% endif %}
+
                 </div>
 
             </div>

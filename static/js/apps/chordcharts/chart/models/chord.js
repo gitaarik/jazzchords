@@ -254,6 +254,7 @@ define(
                     rest: this.get('rest'),
                     number: this.get('number')
                 };
+
             }
 
         });
