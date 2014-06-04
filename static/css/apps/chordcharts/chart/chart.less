@@ -1,0 +1,326 @@
+.chart {
+
+    overflow: hidden;
+    letter-spacing: 1px;
+
+    .section {
+
+        margin: 0 auto 15px;
+        overflow: hidden;
+
+        .section-header {
+
+            overflow: hidden;
+            margin: 20px 0 10px @section_sidebar_width;
+
+            .name {
+                float: left;
+                font-size: 20px;
+            }
+
+        }
+
+        &:first-child .section-header {
+            margin-top: 0;
+        }
+
+        .section-sidebar {
+
+            position: relative;
+            float: left;
+            width: @section_sidebar_width;
+
+            .section-sidebar-part {
+
+                .letter {
+                    position: absolute;
+                    width: @section_sidebar_width;
+                    text-align: center;
+                    font-size: 20px;
+                    background: #FFF;
+                }
+
+                canvas {
+                    position: absolute;
+                    width: @section_sidebar_width;
+                }
+
+            }
+
+        }
+
+        .lines {
+
+            .line {
+
+                .measure {
+
+                    height: @measure_height;
+                    width: @measure_width;
+                    border: solid @border_width #000;
+                    position: relative;
+                    margin: 0;
+                    padding: 0;
+
+                    .chords {
+                        position: relative;
+                        height: @measure_height;
+                        width: @measure_width;
+                    }
+
+                    &.measure-beatschema-4 {
+
+                        .chord {
+
+                            line-height: @measure_height;
+                            text-align: center;
+
+                            .chord-name.font-size-normal {
+                                font-size: 27px;
+                            }
+
+                            .chord-name.font-size-small {
+                                font-size: 23px;
+                            }
+
+                            .chord-name.font-size-tiny {
+                                font-size: 18px;
+                            }
+
+                        }
+
+                    }
+
+                    &.measure-beatschema-2-2 {
+
+                        position: relative;
+
+                        .chord-1 {
+                            position: absolute;
+                            line-height: round(@measure_height * 0.6);
+                            width: round(@measure_width * 0.6);
+                            text-align: center;
+                        }
+
+                        .chord-2 {
+                            position: absolute;
+                            line-height: round(@measure_height * 0.6);
+                            top: round(@measure_height * 0.4);
+                            left: round(@measure_width * 0.4);
+                            width: round(@measure_width * 0.6);
+                            text-align: center;
+                        }
+
+                        .chord-name.font-size-normal {
+                            font-size: 20px;
+                        }
+
+                        .chord-name.font-size-small {
+                            font-size: 17px;
+                        }
+
+                        .chord-name.font-size-tiny {
+                            font-size: 13px;
+                        }
+
+                    }
+
+                    &.measure-beatschema-2-1-1 {
+
+                        position: relative;
+
+                        .chord-1 {
+
+                            position: absolute;
+                            line-height: round(@measure_height * 0.6);
+                            width: round(@measure_width * 0.6);
+                            text-align: center;
+
+                            .chord-name.font-size-normal {
+                                font-size: 20px;
+                            }
+
+                            .chord-name.font-size-small {
+                                font-size: 17px;
+                            }
+
+                            .chord-name.font-size-tiny {
+                                font-size: 13px;
+                            }
+
+                        }
+
+                        .chord-2 {
+                            position: absolute;
+                            line-height: round(@measure_height * 0.35);
+                            width: @measure_width;
+                            top: round(@measure_height * 0.65);
+                            text-align: center;
+                        }
+
+                        .chord-3 {
+                            position: absolute;
+                            line-height: @measure_height;
+                            width: round(@measure_width * 0.4);
+                            left: round(@measure_width * 0.6);
+                            text-align: center;
+                        }
+
+                        .chord-2,
+                        .chord-3 {
+
+                            .chord-name.font-size-normal {
+                                font-size: 15px;
+                            }
+
+                            .chord-name.font-size-small {
+                                font-size: 13px;
+                            }
+
+                            .chord-name.font-size-tiny {
+                                font-size: 10px;
+                            }
+
+                        }
+
+                    }
+
+                    &.measure-beatschema-1-1-2 {
+
+                        position: relative;
+
+                        .chord-1 {
+                            position: absolute;
+                            line-height: @measure_height;
+                            width: round(@measure_width * 0.4);
+                            text-align: center;
+                        }
+
+                        .chord-2 {
+                            position: absolute;
+                            line-height: round(@measure_height * 0.35);
+                            width: @measure_width;
+                            text-align: center;
+                        }
+
+                        .chord-1,
+                        .chord-2 {
+
+                            .chord-name.font-size-normal {
+                                font-size: 15px;
+                            }
+
+                            .chord-name.font-size-small {
+                                font-size: 13px;
+                            }
+
+                            .chord-name.font-size-tiny {
+                                font-size: 10px;
+                            }
+
+                        }
+
+                        .chord-3 {
+
+                            position: absolute;
+                            line-height: round(@measure_height * 0.6);
+                            width: round(@measure_width * 0.6);
+                            top: round(@measure_width * 0.4);
+                            left: round(@measure_width * 0.4);
+                            text-align: center;
+
+                            .chord-name.font-size-normal {
+                                font-size: 20px;
+                            }
+
+                            .chord-name.font-size-small {
+                                font-size: 17px;
+                            }
+
+                            .chord-name.font-size-tiny {
+                                font-size: 13px;
+                            }
+
+                        }
+
+                    }
+
+                    &.measure-beatschema-1-1-1-1 {
+
+                        position: relative;
+
+                        .chord-1 {
+                            position: absolute;
+                            font-size: 15px;
+                            line-height: @measure_height;
+                            width: round(@measure_width * 0.4);
+                            text-align: center;
+                        }
+
+                        .chord-2 {
+                            position: absolute;
+                            font-size: 15px;
+                            line-height: round(@measure_height * 0.35);
+                            width: @measure_width;
+                            text-align: center;
+                        }
+
+                        .chord-3 {
+                            position: absolute;
+                            font-size: 15px;
+                            line-height: round(@measure_height * 0.35);
+                            width: @measure_width;
+                            top: round(@measure_height * 0.65);
+                            text-align: center;
+                        }
+
+                        .chord-4 {
+                            position: absolute;
+                            font-size: 15px;
+                            line-height: @measure_height;
+                            width: round(@measure_width * 0.4);
+                            left: round(@measure_width * 0.6);
+                            text-align: center;
+                        }
+
+                        .chord-name.font-size-normal {
+                            font-size: 15px;
+                        }
+
+                        .chord-name.font-size-small {
+                            font-size: 13px;
+                        }
+
+                        .chord-name.font-size-tiny {
+                            font-size: 10px;
+                        }
+
+                    }
+
+                }
+
+                .colspan {
+                    border: none;
+                }
+
+            }
+
+        }
+
+    }
+
+    .section-new {
+        margin: 20px 0 0 @section_sidebar_width;
+        float: left;
+        padding: 10px;
+        font-size: 18px;
+        text-align: center;
+        border: solid 1px #000;
+        border-radius: 5px;
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+}

@@ -1,0 +1,425 @@
+.popup-box {
+    z-index: 10;
+    padding: 10px 0;
+}
+
+.chord-edit {
+
+    display: none;
+
+    .padding {
+        padding: 0 10px;
+    }
+
+    .chord-edit-header {
+
+        overflow: hidden;
+        border: solid #000;
+        border-width: 0 0 1px 0;
+        box-shadow: 0 5px 5px #EEE;
+        margin: 0 0 5px 0;
+
+        nav ul {
+
+            float: left;
+            list-style: none;
+            overflow: hidden;
+
+            li {
+
+                float: left;
+                margin-right: 4px;
+                border: solid #000;
+                border-width: 1px 1px 0 1px;
+                border-radius: 5px 5px 0 0;
+                padding: 4px;
+                margin-top: 4px;
+                background: #EEE;
+                color: #777;
+                cursor: pointer;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                &.active {
+                    background: #FFF;
+                    color: #000;
+                    margin-top: 0;
+                    padding-bottom: 6px;
+                    padding-top: 6px;
+                }
+
+            }
+
+        }
+
+        .close {
+            margin-right: 10px;
+        }
+
+    }
+
+    .chord-settings {
+
+        ul {
+
+            padding: 0;
+            margin-top: 10px;
+            overflow: hidden;
+
+            li {
+
+                &:nth-child(4n) {
+                    margin-right: 0;
+                }
+
+                &:nth-child(4n+1) {
+                    clear: both;
+                }
+
+                &:nth-last-child(1),
+                &:nth-last-child(2),
+                &:nth-last-child(3),
+                &:nth-last-child(4) {
+                    margin-bottom: 0;
+                }
+
+            }
+
+        }
+
+        .setting {
+
+            li.small-font {
+                font-size: 13px;
+            }
+
+            &.note .rest,
+            &.type .toggle,
+            &.alt-bass-note .none {
+                display: block;
+                clear: left;
+                margin-top: 10px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                border: solid 1px #000;
+                border-radius: 5px;
+                box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            &.note .rest,
+            &.alt-bass-note .none {
+                background: #EEE;
+                &.selected {
+                    background: #FFF;
+                }
+            }
+
+        }
+
+        .type, .type-2, .bass {
+            display: none;
+        }
+
+    }
+
+}
+
+.measure-edit {
+
+    display: none;
+
+    h3 {
+        margin: 0;
+        font-weight: normal;
+    }
+
+    .measures {
+
+        padding: 0;
+        list-style: none;
+
+        li {
+
+            float: left;
+            margin: 0 10px 10px 0;
+
+            .measure {
+
+                width: 50px;
+                height: 50px;
+                border: solid 1px #000;
+                box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+                background: #EEE;
+                color: #777;
+                cursor: pointer;
+
+                &.selected {
+                    background: #FFF;
+                    color: #000;
+                }
+
+                &.measure-beatschema-4 {
+
+                    .chord-1 {
+                        font-size: 20px;
+                        line-height: 50px;
+                        text-align: center;
+                    }
+
+                }
+
+                &.measure-beatschema-2-2 {
+
+                    position: relative;
+
+                    .chord-1 {
+                        position: absolute;
+                        font-size: 16px;
+                        line-height: 30px;
+                        width: 30px;
+                        text-align: center;
+                    }
+
+                    .chord-2 {
+                        position: absolute;
+                        font-size: 16px;
+                        top: 24px;
+                        left: 30px;
+                        width: 25px;
+                    }
+
+                }
+
+                &.measure-beatschema-2-1-1 {
+
+                    position: relative;
+
+                    .chord-1 {
+                        position: absolute;
+                        font-size: 13px;
+                        left: 12px;
+                        top: 7px;
+                    }
+
+                    .chord-2 {
+                        position: absolute;
+                        font-size: 13px;
+                        top: 31px;
+                        width: 50px;
+                        text-align: center;
+                    }
+
+                    .chord-3 {
+                        position: absolute;
+                        font-size: 13px;
+                        left: 38px;
+                        top: 17px;
+                    }
+
+                }
+
+                &.measure-beatschema-1-1-2 {
+
+                    position: relative;
+
+                    .chord-1 {
+                        position: absolute;
+                        font-size: 13px;
+                        left: 7px;
+                        top: 16px;
+                    }
+
+                    .chord-2 {
+                        position: absolute;
+                        font-size: 13px;
+                        top: 2px;
+                        left: 21px;
+                    }
+
+                    .chord-3 {
+                        font-size: 13px;
+                        left: 31px;
+                        position: absolute;
+                        top: 26px;
+                    }
+
+                }
+
+                &.measure-beatschema-1-1-1-1 {
+
+                    position: relative;
+
+                    .chord-1 {
+                        position: absolute;
+                        font-size: 13px;
+                        left: 7px;
+                        top: 16px;
+                    }
+
+                    .chord-2 {
+                        position: absolute;
+                        font-size: 13px;
+                        top: 2px;
+                        left: 21px;
+                    }
+
+                    .chord-3 {
+                        position: absolute;
+                        font-size: 13px;
+                        top: 31px;
+                        width: 50px;
+                        text-align: center;
+                    }
+
+                    .chord-4 {
+                        position: absolute;
+                        font-size: 13px;
+                        left: 38px;
+                        top: 17px;
+                    }
+
+
+                }
+
+            }
+
+            &:nth-child(2),
+            &:nth-child(5) {
+                margin-right: 0;
+            }
+
+            &:nth-child(3) {
+                clear: both;
+            }
+
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5) {
+                margin-bottom: 0;
+            }
+
+        }
+
+    }
+
+    .remove {
+        clear: left;
+        overflow: hidden;
+        margin-top: 10px;
+        border: 1px solid #000000;
+        border-radius: 5px 5px 5px 5px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        color: #000000;
+        cursor: pointer;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+}
+
+.section-edit {
+
+    display: none;
+    padding: 0;
+
+    .close {
+        margin: 10px;
+    }
+
+    .name {
+
+        label {
+
+            display: block;
+            padding: 10px;
+            overflow: hidden;
+            cursor: pointer;
+
+            &:first-child {
+                border-bottom: solid 1px #AAA;
+            }
+
+            .radio-button {
+                float: left;
+                padding-right: 10px;
+                line-height: 28px;
+            }
+
+            .label-text {
+                float: left;
+                width: 130px;
+                line-height: 28px;
+            }
+
+            .sequence-letter {
+                float: left;
+                line-height: 28px;
+            }
+
+            .custom-name-input {
+                height: 20px;
+                margin: 0;
+                border: solid 1px #AAA;
+                border-radius: 5px;
+                padding: 5px;
+            }
+
+        }
+
+    }
+
+}
+
+.line-edit {
+
+    display: none;
+    padding: 10px;
+
+    .arrow-up {
+        left: 10px;
+    }
+
+    .box-choice-list {
+
+        padding: 0;
+
+        li {
+
+            &:nth-child(2),
+            &:nth-child(5) {
+                margin-right: 0;
+            }
+
+            &:nth-child(3n) {
+                clear: left;
+            }
+
+        }
+
+    }
+
+    .disable-sidebar {
+        border: 1px solid #000000;
+        border-radius: 5px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        clear: left;
+        color: #000000;
+        cursor: pointer;
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+        margin-top: 10px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+}

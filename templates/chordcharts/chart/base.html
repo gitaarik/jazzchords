@@ -3,7 +3,7 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/apps/chordcharts/chart.less" />
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/apps/chordcharts/chart/base.less" />
 {% endblock %}
 
 {% block javascript %}
@@ -131,6 +131,7 @@
 
                                         <form method="POST" action="{% url "chordcharts:chart_delete" chart_id=chart.id song_slug=chart.song.slug %}">
                                             {% csrf_token %}
+                                            <input type="hidden" name="song_name" value="{{ chart.song.name }}">
                                         </form>
 
                                     </div>

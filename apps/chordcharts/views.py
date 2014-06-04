@@ -161,7 +161,11 @@ def chart_delete(request, song_slug, chart_id):
 
         #Chart.objects.get(id=chart_id, song__slug=song_slug).delete()
 
-        response = render(request, 'chordcharts/chart_deleted.html')
+        context = {
+            'song_name': request.POST.get('song_name')
+        }
+
+        response = render(request, 'chordcharts/chart_deleted.html', context)
 
     else:
         response = HttpResponse(status=405)
