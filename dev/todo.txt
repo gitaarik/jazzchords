@@ -1,9 +1,3 @@
-Annoyance:
-    Just removed the shit that the edit buttons right top were not
-    selectable but actually they should be because the settings button
-    has a popup and you shouldn't select that when you hit it twice in a
-    row, jow.
-
 Make it possible to delete a chart.
 
 Make it possible to change the key of a section.
