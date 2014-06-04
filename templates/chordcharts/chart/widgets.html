@@ -1,0 +1,117 @@
+<section class="chord-edit popup-box">
+
+    <div class="arrow-up"></div>
+
+    <header class="chord-edit-header">
+        <nav>
+            <ul class="tabs padding">
+                <li class="active" data-key="note">Note</li>
+                <li data-key="type">Type</li>
+                <li data-key="alt_bass_note">Bass</li>
+            </ul>
+        </nav>
+        <div class="close"></div>
+    </header>
+
+    <div class="chord-settings padding">
+
+        <div class="setting note" data-key="note">
+            <ul class="box-choice-list"></ul>
+            <div class="rest deselect">rest</div>
+        </div>
+
+        <div class="setting type" data-key="type">
+
+            {% for chord_types in chord_types_sets %}
+
+                <div class="type-part type-part-{{ forloop.counter }}">
+
+                    <ul class="box-choice-list">
+                        {% for chord_type in chord_types %}
+                            <li
+                                {% if chord_type.symbol|length > 4 %}
+                                    class="small-font"
+                                {% endif %}
+                            >
+                                {{ chord_type.symbol }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    {% if forloop.counter == 1 %}
+                        <div class="toggle">more &rsaquo;</div>
+                    {% else %}
+                        <div class="toggle">&lsaquo; back</div>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="setting alt-bass-note" data-key="alt_bass_note">
+            <ul class="box-choice-list"></ul>
+            <div class="none deselect">None</div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="measure-edit popup-box">
+    <div class="arrow-up"></div>
+    <div class="padding">
+        <div class="close"></div>
+        <ul class="measures"></ul>
+        <div class="clearfix"></div>
+        <div class="remove">Remove measure</div>
+    </div>
+</section>
+
+<section class="section-edit popup-box">
+
+    <div class="arrow-up"></div>
+
+    <div class="name">
+
+        <div class="close"></div>
+
+        <label>
+            <span class="radio-button">
+                <input type="radio" name="section-name" value="sequence-letter" class="sequence-letter-radio">
+            </span>
+            <span class="label-text">Sequence letter</span>
+            <span class="sequence-letter"></span>
+        </label>
+
+        <label>
+            <span class="radio-button">
+                <input type="radio" name="section-name" value="custom-name" class="custom-name-radio">
+            </span>
+            <span class="label-text">Custom name</span>
+            <input type="text" class="custom-name-input">
+        </label>
+
+    </div>
+
+</section>
+
+<section class="line-edit popup-box">
+
+    <div class="arrow-up"></div>
+    <div class="header">
+        <div class="close"></div>
+    </div>
+
+    <ul class="letters box-choice-list">
+        <li data-letter="A">A</li>
+        <li data-letter="B">B</li>
+        <li data-letter="C">C</li>
+        <li data-letter="D">D</li>
+        <li data-letter="E">E</li>
+    </ul>
+
+    <div class="disable-sidebar">Disable sidebar</div>
+
+</section>

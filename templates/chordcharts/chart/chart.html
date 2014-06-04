@@ -1,0 +1,94 @@
+{% load colspan %}
+
+<div class="chart{% if edit %} no-select{% endif %}">
+
+    {% for section in chart.sections %}
+
+        <section class="section" style="width: {{ settings.chart_width }}px;">
+
+            <header class="section-header">
+                {% if edit or chart.sections|length > 1 %}
+                    {% if forloop.first %}
+                        {% if chart.sections|length > 1 %}
+                            {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=0 remove=1 %}
+                        {% else %}
+                            {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=0 remove=0 %}
+                        {% endif %}
+                    {% elif forloop.last %}
+                        {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=1 remove=1 %}
+                    {% else %}
+                        {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=1 remove=1 %}
+                    {% endif %}
+                {% endif %}
+            </header>
+
+            <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
+
+            <table>
+
+                <tbody class="lines">
+
+                    {% for line in section.lines %}
+
+                        <tr class="line">
+
+                            {% for measure in line.measures %}
+
+                                <td class="
+                                    measure
+                                    measure-beatschema-{{ measure.beat_schema }}
+                                ">
+
+                                    <div class="chords">
+                                        {% for chord in measure.chords %}
+                                            <div class="chord chord-{{ chord.number }}">
+                                                <span class="chord-name font-size-{{ chord.chart_fontsize }}">
+                                                    {{ chord.chart_output }}
+                                                </span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </td>
+
+                            {% endfor %}
+
+                            {% if line.measures|length < 8 %}
+
+                                {% if edit %}
+
+                                    <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
+                                        <div class="plus">+</div>
+                                    </td>
+
+                                {% else %}
+
+                                    <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+                <tfoot>
+                    {% if edit %}
+                        {% include "chordcharts/chart/section_line_add.html" %}
+                    {% endif %}
+                </tfoot>
+
+            </table>
+
+        </section>
+
+    {% endfor %}
+
+    {% if edit %}
+        <div class="section-new">New section</div>
+    {% endif %}
+
+</div>

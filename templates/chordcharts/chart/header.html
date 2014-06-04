@@ -1,0 +1,98 @@
+<header class="chord-chart-header">
+
+    <h1>{{ chart.song.name }}</h1>
+
+    <div class="header-bar{% if edit %} no-select{% endif %}">
+
+        <div class="key-select">
+            <div class="closed">
+                <div class="current-key">Key of {{ chart.key.name }}</div>
+            </div>
+            <div class="open">
+                <div class="current-key">Key of {{ chart.key.name }}</div>
+                <hr>
+                <div>Transpose to:</div>
+                <ul class="box-choice-list">
+                    {% for key in chart_keys %}
+                        <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
+                            {% if edit %}
+                                <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}?set-default-key={% if set_default_key %}1{% else %}0{% endif %}">{{ key.tone }}</a>
+                            {% else %}
+                                <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% if edit %}
+                    <div class="set-as-default-key clearfix">
+                        <label><input type="checkbox"{% if set_default_key %} checked="checked"{% endif %}> Set as default key</label>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="chart-edit-buttons">
+
+            {% if edit %}
+
+                <div class="button settings" href="">
+
+                    <div class="label">
+                        <div class="text">Settings</div>
+                        <div class="icon">⚙</div>
+                    </div>
+
+                    <div class="widget popup-box">
+
+                        <div class="arrow-up"></div>
+
+                        <div class="sub-buttons">
+
+                            <div class="sub-button delete">
+
+                                <div class="text">Delete chart</div>
+                                <div class="icon">⨯</div>
+
+                                <form method="POST" action="{% url "chordcharts:chart_delete" chart_id=chart.id song_slug=chart.song.slug %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="song_name" value="{{ chart.song.name }}">
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="button">
+                    <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
+                        <div class="text">Done</div>
+                        <div class="icon">✓</div>
+                    </a>
+                </div>
+
+            {% else %}
+
+                <div class="button new">
+                    <a href="{% url "chordcharts:chart_new" %}">
+                        <div class="text">New</div>
+                        <div class="icon">+</div>
+                    </a>
+                </div>
+
+                <div class="button edit">
+                    <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
+                        <div class="text">Edit</div>
+                        <div class="icon">✎</div>
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</header>
