@@ -20,12 +20,10 @@ class Key(models.Model):
         notes - The notes for this key.
     """
 
-    NOTES_CHOICES = (
-        ('Cb', 'Cb'), ('C', 'C'), ('C#', 'C#'), ('Db', 'Db'), ('D', 'D'),
-        ('D#', 'D#'), ('Eb', 'Eb'), ('E', 'E'), ('E#', 'E#'), ('Fb', 'Fb'),
-        ('F', 'F'), ('F#', 'F#'), ('Gb', 'Gb'), ('G', 'G'), ('G#', 'G#'),
-        ('Ab', 'Ab'), ('A', 'A'), ('A#', 'A#'), ('Bb', 'Bb'), ('B', 'B'),
-        ('B#', 'B#')
+    TONES_CHOICES = (
+        ('C', 'C'), ('C#', 'C#'), ('D', 'D'), ('E♭', 'E♭'), ('E', 'E'),
+        ('F', 'F'), ('F#', 'F#'), ('G', 'G'), ('A♭', 'A♭'), ('A', 'A'),
+        ('B♭', 'B♭'), ('B', 'B')
     )
 
     TONALITY_MAJOR = 1
@@ -50,7 +48,7 @@ class Key(models.Model):
 
     tone = models.CharField(
         max_length=2,
-        choices=NOTES_CHOICES,
+        choices=TONES_CHOICES,
         help_text=(
             """The tone for the key. Will be used for displaying the possible
             keys for a certain tonality."""

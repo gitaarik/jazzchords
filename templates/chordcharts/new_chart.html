@@ -132,18 +132,11 @@
                                 <div class="arrow-up"></div>
 
                                 <ul class="box-choice-list">
-                                    <li data-tone="C" class="selected">C</li>
-                                    <li data-tone="C#">C#</li>
-                                    <li data-tone="D">D</li>
-                                    <li data-tone="Eb">Eb</li>
-                                    <li data-tone="E">E</li>
-                                    <li data-tone="F">F</li>
-                                    <li data-tone="F#">F#</li>
-                                    <li data-tone="G">G</li>
-                                    <li data-tone="Ab">Ab</li>
-                                    <li data-tone="A">A</li>
-                                    <li data-tone="Bb">Bb</li>
-                                    <li data-tone="B">B</li>
+                                    {% for key, value in tones %}
+                                        <li data-tone="{{ key }}"{% if forloop.first %} class="selected"{% endif %}>
+                                            {{ value }}
+                                        </li>
+                                    {% endfor %}
                                 </ul>
 
                             </div>
