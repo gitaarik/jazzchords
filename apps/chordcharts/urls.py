@@ -24,4 +24,11 @@ urlpatterns = patterns(
         {'edit': True},
         name='chart_edit',
     ),
+    url(
+        r'^delete/'
+        '(?P<song_slug>[a-z0-9-_]+)/'
+        '(?P<chart_id>\d+)/$',
+        'chordcharts.views.chart_delete',
+        name='chart_delete',
+    )
 )

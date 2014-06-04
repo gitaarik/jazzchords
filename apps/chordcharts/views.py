@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from songs.models import Song
 from .models import Chart, Key, ChordType
@@ -150,5 +151,19 @@ def new_chart(request):
         }
 
         response = render(request, 'chordcharts/new_chart.html', context)
+
+    return response
+
+
+def chart_delete(request, song_slug, chart_id):
+
+    if request.method == 'POST':
+
+        #Chart.objects.get(id=chart_id, song__slug=song_slug).delete()
+
+        response = render(request, 'chordcharts/chart_deleted.html')
+
+    else:
+        response = HttpResponse(status=405)
 
     return response

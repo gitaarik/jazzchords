@@ -78,9 +78,9 @@
 
             <h1>{{ chart.song.name }}</h1>
 
-            <div class="header-bar">
+            <div class="header-bar{% if edit %} no-select{% endif %}">
 
-                <div class="key-select{% if edit %} no-select{% endif %}">
+                <div class="key-select">
                     <div class="closed">
                         <div class="current-key">Key of {{ chart.key.name }}</div>
                     </div>
@@ -122,12 +122,20 @@
 
                                 <div class="arrow-up"></div>
 
-                                <ul>
-                                    <li class="delete">
+                                <div class="sub-buttons">
+
+                                    <div class="sub-button delete">
+
                                         <div class="text">Delete chart</div>
                                         <div class="icon">⨯</div>
-                                    </li>
-                                </ul>
+
+                                        <form method="POST" action="{% url "chordcharts:chart_delete" chart_id=chart.id song_slug=chart.song.slug %}">
+                                            {% csrf_token %}
+                                        </form>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 

@@ -32,3 +32,6 @@ How to read:
 Fit chord names:
     If the chord name is really long, sometimes it doesn't fit in it's
     container. We can probably easily fix this by adjusting the font size.
+
+Make a PDF export:
+    So that people can easily print it out.

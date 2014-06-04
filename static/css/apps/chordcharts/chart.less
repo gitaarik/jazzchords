@@ -172,31 +172,24 @@
                                 left: 65px;
                             }
 
-                            ul {
+                            .delete {
 
-                                padding: 0;
-                                list-style: none;
+                                cursor: pointer;
+                                overflow: hidden;
+                                padding: 5px;
 
-                                li {
+                                &:hover {
+                                    background: #EEE;
+                                    border-radius: 3px;
+                                }
 
-                                    &.delete {
+                                .icon {
+                                    font-size: 20px;
+                                    line-height: 20px;
+                                }
 
-                                        cursor: pointer;
-                                        overflow: hidden;
-                                        padding: 5px;
-
-                                        &:hover {
-                                            background: #EEE;
-                                            border-radius: 3px;
-                                        }
-
-                                        .icon {
-                                            font-size: 20px;
-                                            line-height: 20px;
-                                        }
-
-                                    }
-
+                                form {
+                                    display: none;
                                 }
 
                             }

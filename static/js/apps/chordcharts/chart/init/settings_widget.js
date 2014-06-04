@@ -9,11 +9,11 @@ define(
             widget_el.toggle();
         });
 
-        widget_el.find('li.delete').click(function() {
+        widget_el.find('.sub-buttons .sub-button.delete').click(function() {
 
-            if (confirm("Are you sure you want to delete the chart")) {
+            if (confirm("Are you really sure you want to delete the chart?")) {
 
-                console.log('ja');
+                $(this).find('form').submit();
 
             }
 
