@@ -9,6 +9,9 @@ Make prefixes for Key, Note, ChordTypes and TimeSignature.
 
 Make arrow-up widget transparent.
 
+Index of all charts:
+    Make an index of all charts available on the website.
+
 Search charts:
     Be able to search for charts.
 
