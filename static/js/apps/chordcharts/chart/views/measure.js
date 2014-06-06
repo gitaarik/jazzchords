@@ -103,6 +103,8 @@ define(
                 // Draws the lines that seperate the different measure parts
                 // inside the measure
 
+                this.$el.find('canvas').remove();
+
                 new MeasureWidget(
                     this.$el,
                     this.model.get('beat_schema'),
