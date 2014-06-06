@@ -82,7 +82,5 @@ NewChart.prototype.initKeyTonality = function() {
 };
 
 $(function() {
-
     var newChart = new NewChart();
-    
 });

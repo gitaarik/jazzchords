@@ -1,6 +1,6 @@
 define(
-    ['models/measure', 'views/chord', 'init/measure_edit'],
-    function(Measure, ChordView, measureEdit) {
+    ['models/measure', 'views/chord', 'init/measure_edit', 'widgets/measure'],
+    function(Measure, ChordView, measureEdit, MeasureWidget) {
 
         return Backbone.View.extend({
 
@@ -103,110 +103,13 @@ define(
                 // Draws the lines that seperate the different measure parts
                 // inside the measure
 
-                var box_width = GLOBALS.settings.box_width;
-                var box_height = GLOBALS.settings.box_height;
-                var border_width = GLOBALS.settings.border_width;
-                var canvas;
-                var context;
-
-                switch(this.model.get('beat_schema')) {
-
-                    case '2-2':
-
-                        canvas = document.createElement('canvas');
-                        context = canvas.getContext('2d');
-
-                        canvas.style.position = 'absolute';
-                        canvas.width = box_width;
-                        canvas.height = box_height;
-
-                        context.lineWidth = border_width;
-
-                        context.beginPath();
-                        context.moveTo(box_width, 0);
-                        context.lineTo(0, box_height);
-                        context.stroke();
-
-                        this.chords.prepend(canvas);
-
-                        break;
-
-                    case '2-1-1':
-
-                        canvas = document.createElement('canvas');
-                        context = canvas.getContext('2d');
-
-                        canvas.style.position = 'absolute';
-                        canvas.width = box_width;
-                        canvas.height = box_height;
-
-                        context.lineWidth = border_width;
-
-                        context.beginPath();
-                        context.moveTo(box_width, 0);
-                        context.lineTo(0, box_height);
-                        context.stroke();
-
-                        context.beginPath();
-                        context.moveTo(box_width / 2, box_height / 2);
-                        context.lineTo(box_width, box_height);
-                        context.stroke();
-
-                        this.chords.prepend(canvas);
-
-                        break;
-
-                    case '1-1-2':
-
-                        canvas = document.createElement('canvas');
-                        context = canvas.getContext('2d');
-
-                        canvas.style.position = 'absolute';
-                        canvas.width = box_width;
-                        canvas.height = box_height;
-
-                        context.lineWidth = border_width;
-
-                        context.beginPath();
-                        context.moveTo(box_width, 0);
-                        context.lineTo(0, box_height);
-                        context.stroke();
-
-                        context.beginPath();
-                        context.moveTo(0, 0);
-                        context.lineTo(box_width / 2, box_height / 2);
-                        context.stroke();
-
-                        this.chords.prepend(canvas);
-
-                        break;
-
-                    case '1-1-1-1':
-
-                        canvas = document.createElement('canvas');
-                        context = canvas.getContext('2d');
-
-                        canvas.style.position = 'absolute';
-                        canvas.width = box_width;
-                        canvas.height = box_height;
-
-                        context.lineWidth = border_width;
-
-                        context.beginPath();
-                        context.moveTo(box_width, 0);
-                        context.lineTo(0, box_height);
-                        context.stroke();
-
-                        context.beginPath();
-                        context.moveTo(0, 0);
-                        context.lineTo(box_width, box_height);
-                        context.stroke();
-
-                        this.chords.prepend(canvas);
-
-                        break;
-
-                }
+                new MeasureWidget(
+                    this.$el,
+                    this.model.get('beat_schema'),
+                    GLOBALS.settings.box_width,
+                    GLOBALS.settings.box_height,
+                    GLOBALS.settings.border_width
+                ).measure_draw_separation_lines();
 
             }
 

@@ -5,6 +5,11 @@
     <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/apps/chordcharts/how_to_read.less" />
 {% endblock %}
 
+{% block javascript %}
+    {{ block.super }}
+    <script data-main="{{ STATIC_URL }}js/apps/chordcharts/how_to_read" src="{{ STATIC_URL }}js/libs/require.js"></script>
+{% endblock %}
+
 {% block content %}
 
     <article class="how-to-read">
@@ -15,25 +20,25 @@
 
         <section class="measures">
 
+            <h2>Measures</h2>
+
             <p>
                 A box represents one measure (commonly 4 beats), which can
                 contain one or multiple chords. The space a chord gets
                 inside a box represents the number of beats it has to
                 be played; a full box is 4 beats, half a box is 2 beats
-                and quarter a box 1 beat.
+                and quarter a box 1 beat:
             </p>
 
-            <h3>Number of beats in measures:</h3>
+            <div class="measures">
 
-            <div class="measure-beats-number">
-
-                <div class="measure measure-beatschema-4">
+                <div class="measure measure-beatschema-4" data-beatschema="4">
                     <div class="chord">
                         <span class="chord-name font-size-small">4 beats</span>
                     </div>
                 </div>
 
-                <div class="measure measure-beatschema-2-2">
+                <div class="measure measure-beatschema-2-2" data-beatschema="2-2">
                     <div class="chord chord-1">
                         <span class="chord-name font-size-small">2 beats</span>
                     </div>
@@ -42,7 +47,31 @@
                     </div>
                 </div>
 
-                <div class="measure measure-beatschema-1-1-1-1">
+                <div class="measure measure-beatschema-2-1-1" data-beatschema="2-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-2" data-beatschema="1-1-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">1 beats</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-1-1" data-beatschema="1-1-1-1">
                     <div class="chord chord-1">
                         <span class="chord-name font-size-small">1 beat</span>
                     </div>
@@ -57,7 +86,102 @@
                     </div>
                 </div>
 
+                <div class="clearfix"></div>
+
             </div>
+
+            <p>The order in which the chords should be played is as follows:</p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-2" data-beatschema="2-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-1-1" data-beatschema="2-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-normal">3</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-2" data-beatschema="1-1-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-normal">3</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-1-1" data-beatschema="1-1-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-normal">3</span>
+                    </div>
+                    <div class="chord chord-4">
+                        <span class="chord-name font-size-normal">4</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <h2>Repetition</h2>
+            <p>A box containing a percent sign means the previous measure should be repeated:</p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-normal">%</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <h2>Rests</h2>
+            <p>When no chords should be played, the box indicates a rest:</p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-tiny">REST</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
 
         </section>
 
