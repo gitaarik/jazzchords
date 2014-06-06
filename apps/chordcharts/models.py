@@ -236,7 +236,7 @@ class Chart(models.Model):
         sections - The sections on this chart.
     """
 
-    song = models.ForeignKey(Song)
+    song = models.ForeignKey(Song, related_name='charts')
     short_description = models.CharField(
         max_length=150, default="", blank=True
     )

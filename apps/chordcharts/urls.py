@@ -4,6 +4,11 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns(
     '',
     url(
+        r'^index/$',
+        'chordcharts.views.song_index',
+        name='song_index'
+    ),
+    url(
         r'^(?P<song_slug>[a-z0-9-_]+)/'
         '(?P<chart_id>\d+)/'
         '(?:(?P<key_slug>[a-z0-9-_]+)/)?$',
@@ -30,5 +35,10 @@ urlpatterns = patterns(
         '(?P<chart_id>\d+)/$',
         'chordcharts.views.chart_delete',
         name='chart_delete',
+    ),
+    url(
+        r'^how-to-read/$',
+        'chordcharts.views.how_to_read',
+        name='how_to_read'
     )
 )

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/apps/chordcharts/how_to_read.less" />
+{% endblock %}
+
+{% block content %}
+
+    <article class="how-to-read">
+
+        <header>
+            <h1>How to read</h1>
+        </header>
+
+        <section class="measures">
+
+            <p>
+                A box represents one measure (commonly 4 beats), which can
+                contain one or multiple chords. The space a chord gets
+                inside a box represents the number of beats it has to
+                be played; a full box is 4 beats, half a box is 2 beats
+                and quarter a box 1 beat.
+            </p>
+
+            <h3>Number of beats in measures:</h3>
+
+            <div class="measure-beats-number">
+
+                <div class="measure measure-beatschema-4">
+                    <div class="chord">
+                        <span class="chord-name font-size-small">4 beats</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-4">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </article>
+
+{% endblock %}

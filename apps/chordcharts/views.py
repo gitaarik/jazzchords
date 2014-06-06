@@ -8,6 +8,15 @@ from .settings import BOXED_CHART
 from .helpers.new_chart import process_new_chart_post, FormErrors
 
 
+def song_index(request):
+
+    context = {
+        'songs': Song.objects.all()
+    }
+
+    return render(request, 'chordcharts/song_index.html', context)
+
+
 def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     """
     Renders the view for the chart.
@@ -106,6 +115,9 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
 
 def new_chart(request):
+    """
+    Returns a view where you can create new charts.
+    """
 
     response = None
     errors = []
@@ -157,10 +169,14 @@ def new_chart(request):
 
 
 def chart_delete(request, song_slug, chart_id):
+    """
+    On a POST, will delete the chart specified with `song_slug` and
+    `chart_id`.
+    """
 
     if request.method == 'POST':
 
-        #Chart.objects.get(id=chart_id, song__slug=song_slug).delete()
+        Chart.objects.get(id=chart_id, song__slug=song_slug).delete()
 
         context = {
             'song_name': request.POST.get('song_name')
@@ -172,3 +188,7 @@ def chart_delete(request, song_slug, chart_id):
         response = HttpResponse(status=405)
 
     return response
+
+
+def how_to_read(request):
+    return render(request, 'chordcharts/how_to_read.html')

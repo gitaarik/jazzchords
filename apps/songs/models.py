@@ -14,6 +14,9 @@ class Song(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta():
+        ordering = ['name']
+
     def client_data(self):
         return {
             'name': self.name,
