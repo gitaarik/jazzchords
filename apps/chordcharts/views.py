@@ -192,3 +192,12 @@ def chart_delete(request, song_slug, chart_id):
 
 def how_to_read(request):
     return render(request, 'chordcharts/how_to_read.html')
+
+
+def chord_symbols(request):
+
+    context = {
+        'chord_types': ChordType.objects.all()
+    }
+
+    return render(request, 'chordcharts/chord_symbols.html', context)

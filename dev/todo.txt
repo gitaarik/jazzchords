@@ -7,7 +7,7 @@ Complete all keys.
 
 Make prefixes for Key, Note, ChordTypes and TimeSignature.
 
-Make arrow-up widget transparent.
+Make arrow-up asset in popup widget transparent.
 
 Index of all charts:
     Make an index of all charts available on the website.
@@ -20,6 +20,10 @@ How to read:
     explain things like how to read the measures and the different chord
     symbols. Would be nice if you can move it to the side so you can still
     read the chord chart.
+
+Chord symbol list:
+    A list that maps symbols to chord types, as an extention to the 'How
+    to read' page.
 
 Fit chord names:
     If the chord name is really long, sometimes it doesn't fit in it's

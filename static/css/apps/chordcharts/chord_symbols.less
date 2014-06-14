@@ -1,0 +1,87 @@
+.chord-symbols {
+
+    margin: 0 auto 50px;
+    width: 650px;
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .symbols-list {
+
+        float: left;
+        width: 480px;
+
+        table {
+
+            border-collapse: collapse;
+
+            tr {
+
+                th, td {
+
+                    padding: 2px 50px 2px 0;
+
+                    &:last-child {
+                        padding-right: 0;
+                    }
+
+                }
+
+                th {
+                    text-align: left;
+                }
+
+            }
+
+        }
+
+    }
+
+    .guitar-chord-thingy {
+
+        float: left;
+
+        table {
+
+            border-collapse: collapse;
+
+            tbody {
+
+                td {
+
+                    position: relative;
+                    border: solid 1px #000;
+                    width: 25px;
+                    height: 30px;
+
+                    &:last-child {
+                        border: none;
+                        width: 0;
+                    }
+
+                    span {
+
+                        position: absolute;
+                        line-height: 30px;
+                        top: -1px;
+                        left: -12px;
+                        font-size: 35px;
+
+                        &.root {
+                            font-size: 30px;
+                            left: -10px;
+                            top: -2px;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}

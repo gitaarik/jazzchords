@@ -40,5 +40,10 @@ urlpatterns = patterns(
         r'^how-to-read/$',
         'chordcharts.views.how_to_read',
         name='how_to_read'
+    ),
+    url(
+        r'^chord-symbols/$',
+        'chordcharts.views.chord_symbols',
+        name='chord_symbols'
     )
 )
