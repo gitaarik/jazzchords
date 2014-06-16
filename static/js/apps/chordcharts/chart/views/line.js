@@ -48,7 +48,9 @@ define(
             addMeasureAddWidget: function(colspan) {
                 this.$el.append(
                     '<td class="measure-add colspan" colspan="' + colspan + '">' +
-                        '<div class="plus"><i class="fa fa-plus"></i></div>' +
+                        '<div class="plus">' +
+                            '<span class="fa fa-plus"></span>' +
+                        '</div>' +
                     '</td>'
                 );
             },
