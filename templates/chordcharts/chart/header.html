@@ -6,10 +6,16 @@
 
         <div class="key-select">
             <div class="closed">
-                <div class="current-key">Key of {{ chart.key.name }}</div>
+                <div class="current-key">
+                    <span>Key of {{ chart.key.name }}</span>
+                    <i class="fa fa-lg fa-caret-down"></i>
+                </div>
             </div>
             <div class="open">
-                <div class="current-key">Key of {{ chart.key.name }}</div>
+                <div class="current-key">
+                    <span>Key of {{ chart.key.name }}</span>
+                    <i class="fa fa-lg fa-caret-up"></i>
+                </div>
                 <hr>
                 <div>Transpose to:</div>
                 <ul class="box-choice-list">
@@ -38,8 +44,8 @@
                 <div class="button settings" href="">
 
                     <div class="label">
-                        <div class="text">Settings</div>
-                        <div class="icon">⚙</div>
+                        <span class="text">Settings</span>
+                        <i class="fa fa-cog"></i>
                     </div>
 
                     <div class="widget popup-box">
@@ -68,8 +74,8 @@
 
                 <div class="button">
                     <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
-                        <div class="text">Done</div>
-                        <div class="icon">✓</div>
+                        <span class="text">Done</span>
+                        <i class="fa fa-check"></i>
                     </a>
                 </div>
 
@@ -77,15 +83,15 @@
 
                 <div class="button new">
                     <a href="{% url "chordcharts:chart_new" %}">
-                        <div class="text">New</div>
-                        <div class="icon">+</div>
+                        <span class="text">New</span>
+                        <i class="fa fa-file-o"></i>
                     </a>
                 </div>
 
                 <div class="button edit">
                     <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
-                        <div class="text">Edit</div>
-                        <div class="icon">✎</div>
+                        <span class="text">Edit</span>
+                        <i class="fa fa-pencil"></i>
                     </a>
                 </div>
 

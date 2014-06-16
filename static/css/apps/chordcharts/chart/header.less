@@ -19,15 +19,14 @@
             position: relative;
 
             .current-key {
+
                 cursor: pointer;
-                &:after {
-                    display: inline-block;
-                    position: absolute;
-                    content: '\25BF';
-                    font-size: 20px;
-                    padding: 0 6px;
-                    top: -6px;
+
+                span {
+                    float: left;
+                    margin-right: 7px;
                 }
+
             }
 
             .closed, .open {
@@ -49,10 +48,6 @@
 
                 .current-key {
                     margin-bottom: 10px;
-                    &:after {
-                        transform: rotate(180deg);
-                        top: 9px;
-                    }
                 }
 
                 ul {
@@ -101,30 +96,14 @@
                     padding-right: 0;
                 }
 
-                .text,
-                .icon {
-                    float: left;
-                }
-
                 .text {
-                    padding-right: 7px;
+                    float: left;
+                    padding-right: 6px;
                 }
 
                 a {
-
                     text-decoration: none;
                     color: #000;
-
-                }
-
-                &.new .icon {
-                    font-weight: bold;
-                    font-size: 19px;
-                    line-height: 20px;
-                }
-
-                &.edit .icon {
-                    transform: scale(-1, 1);
                 }
 
                 &.settings {
@@ -132,14 +111,7 @@
                     position: relative;
 
                     .label {
-
                         cursor: pointer;
-
-                        .icon {
-                            font-size: 20px;
-                            line-height: 20px;
-                        }
-
                     }
 
                     .widget {
@@ -164,12 +136,6 @@
                             &:hover {
                                 background: #EEE;
                                 border-radius: 3px;
-                            }
-
-                            .icon {
-                                font-size: 20px;
-                                line-height: 20px;
-                                font-weight: bold;
                             }
 
                             form {

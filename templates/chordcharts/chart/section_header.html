@@ -1,8 +1,8 @@
 <div class="name">{{ section_name }}</div>
 {% if edit %}
     <div class="section-edit-buttons">
-        {% if move_up %}<div class="move-up">⬆</div>{% endif %}
-        {% if move_down %}<div class="move-down">⬇</div>{% endif %}
-        {% if remove %}<div class="remove">⨯</div>{% endif %}
+        {% if move_up %}<i class="move-up fa fa-arrow-up"></i>{% endif %}
+        {% if move_down %}<i class="move-down fa fa-arrow-down"></i>{% endif %}
+        {% if remove %}<i class="remove fa fa-times"></i>{% endif %}
     </div>
 {% endif %}
