@@ -1,3 +1,30 @@
+Use Font Awesome for icons:
+
+    http://fortawesome.github.io/Font-Awesome/get-started/
+
+    Header:
+    delete: http://fortawesome.github.io/Font-Awesome/icon/times/
+    Key widget closed: http://fortawesome.github.io/Font-Awesome/icon/caret-down/
+    Key widget open: http://fortawesome.github.io/Font-Awesome/icon/caret-up/
+    new: http://fortawesome.github.io/Font-Awesome/icon/file/ OR http://fortawesome.github.io/Font-Awesome/icon/file-o/
+    edit: http://fortawesome.github.io/Font-Awesome/icon/pencil/
+    settings: http://fortawesome.github.io/Font-Awesome/icon/cog/
+    done: http://fortawesome.github.io/Font-Awesome/icon/check/
+
+    Chart:
+    arrow up: http://fortawesome.github.io/Font-Awesome/icon/arrow-up/
+    arrow down: http://fortawesome.github.io/Font-Awesome/icon/arrow-down/
+    add: http://fortawesome.github.io/Font-Awesome/icon/plus/
+
+    Guitar fingerboard chord:
+    note: http://fortawesome.github.io/Font-Awesome/icon/circle/
+    key note: http://fortawesome.github.io/Font-Awesome/icon/dot-circle-o/
+    Otherwise for the key note: 3 circles of different sizes on top of
+    each other with the middle sized being white.
+
+    Also close icon in popup boxes still needs to be converted (still
+    using an image).
+
 Make it possible to change the key of a section.
 
 Decide to use Gb Major or F# Major:
