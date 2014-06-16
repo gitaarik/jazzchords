@@ -51,7 +51,7 @@
                             <div class="sub-button delete">
 
                                 <div class="text">Delete chart</div>
-                                <div class="icon">⨯</div>
+                                <i class="fa fa-times"></i>
 
                                 <form method="POST" action="{% url "chordcharts:chart_delete" chart_id=chart.id song_slug=chart.song.slug %}">
                                     {% csrf_token %}
