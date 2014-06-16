@@ -38,40 +38,49 @@
 
     }
 
-    .guitar-chord-thingy {
+    .how-to-play {
 
         float: left;
 
-        table {
+        .guitar-fingerboard-chord {
 
-            border-collapse: collapse;
+            h1 {
+                margin: 0 0 20px 0;
+                text-align: center;
+            }
 
-            tbody {
+            table {
 
-                td {
+                border-collapse: collapse;
 
-                    position: relative;
-                    border: solid 1px #000;
-                    width: 25px;
-                    height: 30px;
+                tbody {
 
-                    &:last-child {
-                        border: none;
-                        width: 0;
-                    }
+                    td {
 
-                    span {
+                        position: relative;
+                        border: solid 1px #000;
+                        width: 25px;
+                        height: 35px;
 
-                        position: absolute;
-                        line-height: 30px;
-                        top: -1px;
-                        left: -12px;
-                        font-size: 35px;
+                        &:last-child {
+                            border: none;
+                            width: 0;
+                        }
 
-                        &.root {
-                            font-size: 30px;
-                            left: -10px;
-                            top: -2px;
+                        span {
+
+                            position: absolute;
+                            line-height: 0;
+                            top: 1px;
+                            left: -12px;
+                            font-size: 35px;
+
+                            &.root {
+                                font-size: 23px;
+                                left: -10px;
+                                top: 0;
+                            }
+
                         }
 
                     }
