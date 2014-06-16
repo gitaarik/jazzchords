@@ -23,7 +23,7 @@ Use Font Awesome for icons:
     each other with the middle sized being white.
 
     Also close icon in popup boxes still needs to be converted (still
-    using an image).
+    using an image). Then get rid of includes/images.less.
 
 Make it possible to change the key of a section.
 
