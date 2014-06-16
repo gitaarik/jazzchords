@@ -7,14 +7,14 @@
         <div class="key-select">
             <div class="closed">
                 <div class="current-key">
-                    <span>Key of {{ chart.key.name }}</span>
-                    <i class="fa fa-lg fa-caret-down"></i>
+                    <span class="text">Key of {{ chart.key.name }}</span>
+                    <span class="fa fa-lg fa-caret-down"></span>
                 </div>
             </div>
             <div class="open">
                 <div class="current-key">
-                    <span>Key of {{ chart.key.name }}</span>
-                    <i class="fa fa-lg fa-caret-up"></i>
+                    <span class="text">Key of {{ chart.key.name }}</span>
+                    <span class="fa fa-lg fa-caret-up"></span>
                 </div>
                 <hr>
                 <div>Transpose to:</div>
@@ -45,7 +45,7 @@
 
                     <div class="label">
                         <span class="text">Settings</span>
-                        <i class="fa fa-cog"></i>
+                        <span class="fa fa-cog"></span>
                     </div>
 
                     <div class="widget popup-box">
@@ -57,7 +57,7 @@
                             <div class="sub-button delete">
 
                                 <div class="text">Delete chart</div>
-                                <i class="fa fa-times"></i>
+                                <span class="fa fa-times"></span>
 
                                 <form method="POST" action="{% url "chordcharts:chart_delete" chart_id=chart.id song_slug=chart.song.slug %}">
                                     {% csrf_token %}
@@ -75,7 +75,7 @@
                 <div class="button">
                     <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
                         <span class="text">Done</span>
-                        <i class="fa fa-check"></i>
+                        <span class="fa fa-check"></span>
                     </a>
                 </div>
 
@@ -84,14 +84,14 @@
                 <div class="button new">
                     <a href="{% url "chordcharts:chart_new" %}">
                         <span class="text">New</span>
-                        <i class="fa fa-file-o"></i>
+                        <span class="fa fa-file-o"></span>
                     </a>
                 </div>
 
                 <div class="button edit">
                     <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=chart.key.slug %}">
                         <span class="text">Edit</span>
-                        <i class="fa fa-pencil"></i>
+                        <span class="fa fa-pencil"></span>
                     </a>
                 </div>
 
