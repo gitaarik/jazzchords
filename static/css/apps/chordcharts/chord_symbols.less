@@ -1,3 +1,6 @@
+@import "../../global/variables.less";
+@import "../../libs/font-awesome/font-awesome.less";
+
 .chord-symbols {
 
     margin: 0 auto 50px;
@@ -57,28 +60,47 @@
 
                     td {
 
-                        position: relative;
+                        padding: 0;
                         border: solid 1px #000;
-                        width: 25px;
+                        width: 30px;
                         height: 35px;
 
-                        &:last-child {
-                            border: none;
-                            width: 0;
-                        }
+                        div {
 
-                        span {
+                            height: 35px;
+                            position: relative;
 
-                            position: absolute;
-                            line-height: 0;
-                            top: 1px;
-                            left: -12px;
-                            font-size: 35px;
+                            span {
 
-                            &.root {
-                                font-size: 23px;
-                                left: -10px;
-                                top: 0;
+                                position: absolute;
+                                width: 30px;
+                                top: 1px;
+                                left: -15px;
+                                line-height: 35px;
+                                text-align: center;
+                                font-size: 26px;
+
+                                &.right {
+                                    left: 15px;
+                                }
+
+                                &.root {
+
+                                    font-size: 30px;
+
+                                    &:after {
+                                        position: absolute;
+                                        content: 'R';
+                                        width: inherit;
+                                        left: 0;
+                                        font-size: 18px;
+                                        font-weight: bold;
+                                        font-family: @default-font;
+                                        color: white;
+                                    }
+
+                                }
+
                             }
 
                         }
