@@ -9,7 +9,8 @@ define(
             },
 
             events: {
-                'click h1': 'toggle'
+                'click h1': 'toggle',
+                'keyup .song-name-input': 'updateSongName'
             },
 
             toggle: function() {
@@ -30,7 +31,6 @@ define(
             focusTextField: function() {
 
                 var song_name_input = this.$el.find('.song-name-input');
-                console.log(song_name_input);
 
                 // set focus on text field
                 song_name_input.focus();
@@ -39,6 +39,14 @@ define(
                 var orig_value = song_name_input.val();
                 song_name_input.val('');
                 song_name_input.val(orig_value);
+
+            },
+
+            updateSongName: function() {
+
+                var song_name_input = this.$el.find('.song-name-input');
+
+                this.$el.find('h1 span').text(song_name_input.val());
 
             }
 
