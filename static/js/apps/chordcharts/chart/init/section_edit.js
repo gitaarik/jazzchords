@@ -11,30 +11,29 @@ define(
 
         $('html').on('click', function(event) {
 
-            // close the edit widget if there was a click outside the edit widget
+            // Close the widget if there was a click outside it.
 
-            if(sectionEdit.get('visible')) {
+            if (sectionEdit.get('visible')) {
 
                 var target = $(event.target);
 
-                // check if the click wasn't a click to open the widget, or a click
-                // inside the widget
-
-                if(!(
-                    (
-                        // click was inside chord chart
-                        target.closest('.chord-chart').length &&
-                        // click was inside the section header
-                        target.closest('.section-header').length &&
+                // Check if the click wasn't a click to open the widget,
+                // or a click inside the widget.
+                if (
+                    !(
                         // click was to open the widget
+                        target
+                            .closest('.section-header')
+                            .closest('.chord-chart')
+                            .length &&
                         target.hasClass('name')
-                    ) || (
-                        // click was inside chord chart
-                        target.closest('.chord-chart').length &&
-                        // click was in the widget
-                        target.closest('.section-edit').length
-                    )
-                )) {
+                    ) &&
+                    // click was in the widget
+                    !target
+                        .closest('.section-edit')
+                        .closest('.chord-chart')
+                        .length
+                ) {
                     // close the widget
                     sectionEdit.set('visible', false);
                 }

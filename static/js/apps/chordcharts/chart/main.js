@@ -6,6 +6,7 @@ require(
         'views/line',
         'views/measure',
         'views/chord',
+        'init/song_name_change_widget',
         'init/key_change_widget',
         'init/settings_widget'
     ],
@@ -16,6 +17,7 @@ require(
         LineView,
         MeasureView,
         ChordView,
+        SongNameChangeWidget,
         keyChangeWidget,
         settingsWidget
     ) {

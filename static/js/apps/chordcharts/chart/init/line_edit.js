@@ -17,8 +17,7 @@ define(
 
         $('html').on('click', function(event) {
 
-            // If the editwidget is visible, hide it if there was a
-            // click outside it.
+            // Close the widget if there was a click outside it.
 
             if (lineEdit.get('visible')) {
 
@@ -26,20 +25,16 @@ define(
 
                 // Check if the click wasn't a click to open the widget,
                 // or a click inside the widget.
-
-                if (!(
-                    (
-                        // click was inside chord chart
-                        target.closest('.chord-chart').length &&
-                        // click was to open the widget
-                        target.closest('.section-sidebar-part').length
-                    ) || (
-                        // click was inside chord chart
-                        target.closest('.chord-chart').length &&
-                        // click was in the widget
-                        target.closest('.line-edit').length
-                    )
-                )) {
+                if (
+                    !target
+                        .closest('.section-sidebar-part')
+                        .closest('.chord-chart')
+                        .length &&
+                    !target
+                        .closest('.line-edit')
+                        .closest('.chord-chart')
+                        .length
+                ) {
                     // close the widget
                     lineEdit.set('visible', false);
                 }

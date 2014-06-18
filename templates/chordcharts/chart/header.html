@@ -1,6 +1,30 @@
 <header class="chord-chart-header">
 
-    <h1>{{ chart.song.name }}</h1>
+    <div class="song-name">
+
+        <h1>
+            <span>{{ chart.song.name }}</span>
+        </h1>
+
+        {% if edit %}
+            <div class="song-name-change popup-box">
+
+                <div class="arrow-up"></div>
+
+                <div class="padding">
+                    <span class="close fa fa-times"></span>
+
+                    <label>
+                        <span>Song name:</span>
+                        <input class="song-name-input text-input" type="text" value="{{ chart.song.name }}">
+                    </label>
+
+                </div>
+
+            </div>
+        {% endif %}
+
+    </div>
 
     <div class="header-bar{% if edit %} no-select{% endif %}">
 

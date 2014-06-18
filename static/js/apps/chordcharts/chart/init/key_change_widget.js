@@ -11,23 +11,24 @@ define(
 
         $('html').on('click', function(event) {
 
-            if(keyChangeWidget.get('visible')) {
+            // Close the widget if there was a click outside it.
+
+            if (keyChangeWidget.get('visible')) {
 
                 var target = $(event.target);
 
-                if(
-                    !(
-                        // click was inside chord chart
-                        target.closest('.chord-chart').length &&
-                        // click was inside the widget
-                        target.closest('.key-select').length
-                    ) || (
-                        // click was inside chord chart
-                        target.closest('.chord-chart').length &&
-                        // click was on the title of the widget
-                        // while the widget was open
-                        target.closest('.current-key').closest('.open').length
-                    )
+                // Check if the click wasn't a click to open the widget,
+                // or a click inside the widget.
+                if (
+                    !target
+                        .closest('.key-select')
+                        .closest('.chord-chart')
+                        .length &&
+                    !target
+                        .closest('.current-key')
+                        .closest('.open')
+                        .closest('.chord-chart')
+                        .length
                 ) {
                     keyChangeWidget.set('visible', false);
                 }

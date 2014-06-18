@@ -9,12 +9,14 @@ define(
             },
 
             events: {
-                'click .closed': 'open',
+                'click .closed': 'toggle',
+                'click .open .current-key': 'toggle',
                 'change .open .set-as-default-key input': 'defaultKeyFlagChanged'
             },
 
-            open: function() {
-                this.model.set('visible', true);
+            toggle: function() {
+                console.log('togglin');
+                this.model.set('visible', !this.model.get('visible'));
             },
 
             defaultKeyFlagChanged: function(event) {
