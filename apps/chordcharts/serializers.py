@@ -9,6 +9,10 @@ class ChartSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'song',
+            'short_description',
+            'video_url',
+            'lyrics_url',
+            'key'
         )
 
 
