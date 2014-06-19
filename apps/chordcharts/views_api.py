@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import views, viewsets
 from .serializers import (
     ChartSerializer, SectionSerializer, LineSerializer,
     MeasureSerializer, ChordSerializer
@@ -78,3 +78,17 @@ class ChordViewSet(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context['measure_id'] = self.kwargs['measure_pk']
         return context
+
+
+class ChartSongName(views.APIView):
+    """
+    Special API to change the songname for the chart.
+
+    If the new name matches an existing song, that song will be used.
+    Otherwise a new song with this name will be created.
+    Then there's a check if the old song still has any relations to it,
+    if not, it will be deleted.
+    """
+
+    def put(self, request):
+        import ipdb; ipdb.set_trace()
