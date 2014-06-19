@@ -10,90 +10,128 @@ class FormErrors(Exception):
         super().__init__()
 
 
-def process_new_chart_post(request):
-    """
-    Processes a POST request from the new chart form. Returns the new
-    chart on success. Raises `FormErrors` on failure.
-    """
+class ProcessNewChartPost():
 
-    song_name = request.POST['song_name']
-    key_tone = request.POST['key_tone']
-    key_tonality = request.POST['key_tonality']
-    short_description = request.POST['short_description']
-    video_url = request.POST['video_url']
-    lyrics_url = request.POST['lyrics_url']
+    def __init__(self, request):
+        self.errors = []
+        self.request = request
 
-    errors = []
+    def process(self):
+        """
+        Processes a POST request from the new chart form. Returns the new
+        chart on success. Raises `FormErrors` on failure.
+        """
 
-    if not song_name:
-        errors.append('empty_song_name')
+        chart = self.get_chart()
 
-    if key_tonality == 'Major':
-        tonality = Key.TONALITY_MAJOR
-    elif key_tonality == 'Minor':
-        tonality = Key.TONALITY_MINOR
-    else:
-        tonality = None
+        if len(self.errors):
+            raise FormErrors(errors=self.errors)
 
-    try:
-        key = Key.objects.get(tone=key_tone, tonality=tonality)
-    except ObjectDoesNotExist:
-        errors.append('invalid_key')
+        chart.save()
+        self.add_initial_submodels(chart)
 
-    songs = Song.objects.filter(name__iexact=song_name)
+        return chart
 
-    if songs.count() > 0:
-        new_song = False
-        song = songs[0]
-    else:
+    def get_chart(self):
+        """
+        Returns a new unsaved chart object.
+        """
 
-        new_song = True
-        song = Song(name=song_name)
+        song = self.get_song()
+        key = self.get_key()
+        short_description = self.request.POST['short_description']
+        video_url = self.request.POST['video_url']
+        lyrics_url = self.request.POST['lyrics_url']
+
+        chart = Chart(
+            song=song,
+            key=key,
+            short_description=short_description,
+            video_url=video_url,
+            lyrics_url=lyrics_url
+        )
 
         try:
-            song.full_clean()
+            chart.full_clean()
         except ValidationError:
-            errors.append('invalid_song_name')
+            self.errors.append('chart_invalid')
 
-    if len(errors):
-        raise FormErrors(errors=errors)
+        return chart
 
-    if new_song:
-        song.save()
+    def get_song(self):
+        """
+        Returns a existing or newly created song.
+        """
 
-    chart = Chart(
-        song=song,
-        key=key,
-        short_description=short_description,
-        video_url=video_url,
-        lyrics_url=lyrics_url
-    )
+        song_name = self.request.POST['song_name']
 
-    try:
-        chart.full_clean()
-    except ValidationError:
-        errors.append('chart_invalid')
+        if not song_name:
+            self.errors.append('empty_song_name')
 
-    if len(errors):
-        raise FormErrors(errors=errors)
+        songs = Song.objects.filter(name__iexact=song_name)
 
-    chart.save()
+        if songs.count() > 0:
+            new_song = False
+            song = songs[0]
+        else:
 
-    section = Section(chart=chart)
-    section.save()
+            new_song = True
+            song = Song(name=song_name)
 
-    line = Line(section=section)
-    line.save()
+            try:
+                song.full_clean()
+            except ValidationError:
+                self.errors.append('invalid_song_name')
 
-    measure = Measure(line=line)
-    measure.save()
+        if len(self.errors):
+            raise FormErrors(errors=self.errors)
 
-    if tonality == Key.TONALITY_MAJOR:
-        chord_type = ChordType.objects.get(name='Major')
-    else:
-        chord_type = ChordType.objects.get(name='Minor')
+        if new_song:
+            song.save()
 
-    chord = Chord(measure=measure, chord_type=chord_type)
-    chord.save()
+        return song
 
-    return chart
+    def get_key(self):
+        """
+        Returns the key.
+        """
+
+        key_tone = self.request.POST['key_tone']
+        key_tonality = self.request.POST['key_tonality']
+
+        if key_tonality == 'Major':
+            tonality = Key.TONALITY_MAJOR
+        elif key_tonality == 'Minor':
+            tonality = Key.TONALITY_MINOR
+        else:
+            tonality = None
+
+        try:
+            key = Key.objects.get(tone=key_tone, tonality=tonality)
+        except ObjectDoesNotExist:
+            self.errors.append('invalid_key')
+
+        return key
+
+    def add_initial_submodels(self, chart):
+        """
+        Add a section containing a line containing a measure containing
+        a chord.
+        """
+
+        section = Section(chart=chart)
+        section.save()
+
+        line = Line(section=section)
+        line.save()
+
+        measure = Measure(line=line)
+        measure.save()
+
+        if section.key().tonality == Key.TONALITY_MAJOR:
+            chord_type = ChordType.objects.get(name='Major')
+        else:
+            chord_type = ChordType.objects.get(name='Minor')
+
+        chord = Chord(measure=measure, chord_type=chord_type)
+        chord.save()

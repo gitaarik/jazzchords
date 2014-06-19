@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from songs.models import Song
 from .models import Chart, Key, ChordType
 from .settings import BOXED_CHART
-from .helpers.new_chart import process_new_chart_post, FormErrors
+from .helpers.new_chart import ProcessNewChartPost, FormErrors
 
 
 def song_index(request):
@@ -125,7 +125,7 @@ def new_chart(request):
     if request.method == 'POST':
 
         try:
-            chart = process_new_chart_post(request)
+            chart = ProcessNewChartPost(request).process()
         except FormErrors as formErrors:
             errors = formErrors.errors
         else:
