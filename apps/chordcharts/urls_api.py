@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 from .views_api import (
     ChartViewSet, SectionViewSet, LineViewSet,
-    MeasureViewSet, ChordViewSet
+    MeasureViewSet, ChordViewSet, ChartSongNameView
 )
 
 charts_router = routers.SimpleRouter(trailing_slash=False)
@@ -39,4 +39,5 @@ urlpatterns = patterns(
     url('^', include(lines_router.urls)),
     url('^', include(measures_router.urls)),
     url('^', include(chords_router.urls)),
+    url('^chart-song-name/(?P<chart_id>\d+)/$', ChartSongNameView.as_view())
 )

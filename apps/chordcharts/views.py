@@ -180,7 +180,7 @@ def chart_delete(request, song_slug, chart_id):
         try:
             song = Song.objects.get(slug=song_slug)
         except ObjectDoesNotExist:
-            return HttpResponseBadRequest()
+            return HttpResponseBadRequest('Song not found')
 
         Chart.objects.get(id=chart_id).delete()
 

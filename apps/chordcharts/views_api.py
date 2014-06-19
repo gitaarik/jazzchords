@@ -1,4 +1,8 @@
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import views, viewsets
+
+from songs.models import Song
 from .serializers import (
     ChartSerializer, SectionSerializer, LineSerializer,
     MeasureSerializer, ChordSerializer
@@ -80,15 +84,46 @@ class ChordViewSet(viewsets.ModelViewSet):
         return context
 
 
-class ChartSongName(views.APIView):
+class ChartSongNameView(views.APIView):
     """
-    Special API to change the songname for the chart.
+    Change the songname for the chart.
 
-    If the new name matches an existing song, that song will be used.
-    Otherwise a new song with this name will be created.
-    Then there's a check if the old song still has any relations to it,
-    if not, it will be deleted.
+    If the new name matches an existing song, that song will be related
+    to the chart. Otherwise a new song with this name will be created.
+    If the old song doesn't have any relations to it anymore, it will be
+    deleted.
     """
 
-    def put(self, request):
-        import ipdb; ipdb.set_trace()
+    def put(self, request, chart_id):
+
+        self.request = request
+
+        try:
+            chart = Chart.objects.get(id=chart_id)
+        except ObjectDoesNotExist:
+            return HttpResponseBadRequest('Chart not found')
+
+        old_song = chart.song
+        new_song = self.get_new_song()
+        chart.song = new_song
+        chart.save()
+
+        if old_song.charts.count() == 0:
+            old_song.delete()
+
+        return HttpResponse('Successfully changed song name')
+
+    def get_new_song(self):
+
+        song_name = self.request.DATA.get('song_name')
+
+        if not song_name:
+            return HttpResponseBadRequest('No songname given')
+
+        try:
+            new_song = Song.objects.get(name=song_name)
+        except ObjectDoesNotExist:
+            new_song = Song(name=song_name)
+            new_song.save()
+
+        return new_song
