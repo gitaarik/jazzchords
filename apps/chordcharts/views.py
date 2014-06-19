@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
 from .models import Chart, Key, ChordType
@@ -176,7 +177,15 @@ def chart_delete(request, song_slug, chart_id):
 
     if request.method == 'POST':
 
-        Chart.objects.get(id=chart_id, song__slug=song_slug).delete()
+        try:
+            song = Song.objects.get(slug=song_slug)
+        except ObjectDoesNotExist:
+            return HttpResponseBadRequest()
+
+        Chart.objects.get(id=chart_id).delete()
+
+        if song.charts.count() == 0:
+            song.delete()
 
         context = {
             'song_name': request.POST.get('song_name')
