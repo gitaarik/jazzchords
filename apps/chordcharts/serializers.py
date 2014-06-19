@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import Section, Line, Measure, Chord
+from .models import Chart, Section, Line, Measure, Chord
+
+
+class ChartSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Chart
+        fields = (
+            'id',
+            'song',
+        )
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -65,7 +75,7 @@ class ChordSerializer(serializers.ModelSerializer):
 
         if instance is None:
             # if `instance` is `None`, it means we're creating a new
-            # object, so we set the `line_id` field.
+            # object, so we set the `measure_id` field.
             attrs['measure_id'] = self.context['measure_id']
 
         return super().restore_object(attrs, instance)

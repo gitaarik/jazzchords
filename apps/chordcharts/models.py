@@ -253,6 +253,9 @@ class Chart(models.Model):
     def __str__(self):
         return str(self.song)
 
+    class Meta():
+        ordering = ['song__name']
+
     def client_data(self):
         return {
             'id': self.id,
@@ -706,29 +709,6 @@ class Chord(models.Model):
 
     def __str__(self):
         return self.chord_notation()
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.set_default_chord_type()
-
-    def set_default_chord_type(self):
-        """
-        If chord_type isn't set, sets it to Major if the key of
-        the section is Major, otherwise we sets it to Minor.
-        """
-
-        # If chord_type isn't set, accessing it would give a
-        # RelatedObjectDoesNotExist exception. This is a dynamic
-        # exception so we can't import it to explicitly check if it was
-        # this exception, however, this is the only expected exception
-        # in this case.
-        try:
-            self.chord_type
-        except:
-            if self.measure.line.section.key().tonality == Key.TONALITY_MAJOR:
-                self.chord_type = ChordType.objects.get(name='Major')
-            else:
-                self.chord_type = ChordType.objects.get(name='Minor')
 
     class Meta:
         ordering = ('number',)

@@ -14,7 +14,7 @@ define(
                     var sections = new Sections();
 
                     sections.url = (
-                        '/api/chart/' + this.get('song').slug + '/' +
+                        '/api/chordcharts/charts/' +
                         this.get('id') + '/sections'
                     );
 

@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from ..models import Key, Chart, Section, Line, Measure, Chord
+from ..models import Key, Chart, Section, Line, Measure, Chord, ChordType
 from songs.models import Song
 
 
@@ -11,14 +11,10 @@ class FormErrors(Exception):
 
 
 def process_new_chart_post(request):
-    '''
-    'key_tonality': 'Major',
-    'key_tone': 'C',
-    'lyrics_url': 'jo',
-    'short_description': 'desc',
-    'song_name': 'Test',
-    'video_url': 'ho'
-    '''
+    """
+    Processes a POST request from the new chart form. Returns the new
+    chart on success. Raises `FormErrors` on failure.
+    """
 
     song_name = request.POST['song_name']
     key_tone = request.POST['key_tone']
@@ -92,7 +88,12 @@ def process_new_chart_post(request):
     measure = Measure(line=line)
     measure.save()
 
-    chord = Chord(measure=measure)
+    if tonality == Key.TONALITY_MAJOR:
+        chord_type = ChordType.objects.get(name='Major')
+    else:
+        chord_type = ChordType.objects.get(name='Minor')
+
+    chord = Chord(measure=measure, chord_type=chord_type)
     chord.save()
 
     return chart

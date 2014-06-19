@@ -10,18 +10,21 @@ urlpatterns = patterns('', )
 
 api_urls = patterns(
     '',
-    url(r'^chart/', include('chordcharts.urls_api', namespace='chordcharts'))
+    url(
+        '^chordcharts/',
+        include('chordcharts.urls_api', namespace='chordcharts')
+    )
 )
 
 urlpatterns += patterns(
     '',
-    url(r'^grappelli/', include('grappelli.urls')),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^chart/', include('chordcharts.urls', namespace='chordcharts')),
-    url(r'^api/', include(api_urls, namespace='api')),
+    url('^grappelli/', include('grappelli.urls')),
+    url('^admin/doc/', include('django.contrib.admindocs.urls')),
+    url('^admin/', include(admin.site.urls)),
+    url('^chart/', include('chordcharts.urls', namespace='chordcharts')),
+    url('^api/', include(api_urls, namespace='api')),
     url(
-        r'^api-auth/',
+        '^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')
     )
 )
@@ -29,5 +32,5 @@ urlpatterns += patterns(
 if settings.DEBUG:
     urlpatterns += patterns(
         '',
-        url(r'^static/(?P<path>.*)$', never_cache(serve_static)),
+        url('^static/(?P<path>.*)$', never_cache(serve_static)),
     )
