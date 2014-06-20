@@ -1,6 +1,9 @@
 import json
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import (
+    HttpResponse, HttpResponseBadRequest, HttpResponsePermanentRedirect
+)
+from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
@@ -28,10 +31,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
     def get_set_default_key():
         """
-        Sets `set_default_key` according to the value of the GET
-        parameter `set-default-key` if it is given.
-
-        `set_default_key` indicates if the key that is given in
+        Returns a boolean indicating if the key that is given in
         `key_slug` should be set as the default key for this chart (in
         case this happens in edit mode).
         """
@@ -47,7 +47,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
 
         return set_default_key
 
-    def set_chart_key(key):
+    def set_chart_key(chart, key_slug, set_default_key):
         """
         Overrides the default key of the chart in case it was given.
         """
@@ -88,31 +88,61 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         ]
         return json.dumps(all_keys_data)
 
-    set_default_key = get_set_default_key()
+    def get_redirect_wrong_slug(chart, song_slug, key_slug):
+        """
+        Returns a redirect response in case the given `song_slug` isn't
+        equal to the chart's song's slug. Otherwise returns `None`.
+        """
 
-    chart = Chart.objects.get(id=chart_id, song__slug=song_slug)
-    set_chart_key(chart)
-    chart.cleanup()
+        if song_slug != chart.song.slug:
 
-    all_keys = Key.objects.all()
-    chart_keys = all_keys.filter(tonality=chart.key.tonality)
-    chord_types = ChordType.objects.all()
-    chart_data = chart.client_data()
+            if edit:
+                view = 'chordcharts:chart_edit'
+            else:
+                view = 'chordcharts:chart'
 
-    context = {
-        'settings': BOXED_CHART,
-        'settings_json': json.dumps(BOXED_CHART),
-        'chart': chart_data,
-        'chart_json': json.dumps(chart_data),
-        'chart_keys': chart_keys,
-        'all_keys_json': keys_json(all_keys),
-        'chord_types_sets': chord_types_sets(chord_types),
-        'chord_types_json': chord_types_json(chord_types),
-        'edit': edit,
-        'set_default_key': set_default_key
-    }
+            kwargs = {
+                'chart_id': chart.id,
+                'song_slug': chart.song.slug,
+            }
 
-    return render(request, 'chordcharts/chart/base.html', context)
+            if key_slug:
+                kwargs['key_slug'] = key_slug
+
+            return HttpResponsePermanentRedirect(
+                reverse(view, kwargs=kwargs)
+            )
+
+    chart = Chart.objects.get(id=chart_id)
+    redirect_response = get_redirect_wrong_slug(chart, song_slug, key_slug)
+
+    if redirect_response:
+        return redirect_response
+    else:
+
+        set_default_key = get_set_default_key()
+        set_chart_key(chart, key_slug, set_default_key)
+        chart.cleanup()
+
+        all_keys = Key.objects.all()
+        chart_keys = all_keys.filter(tonality=chart.key.tonality)
+        chord_types = ChordType.objects.all()
+        chart_data = chart.client_data()
+
+        context = {
+            'settings': BOXED_CHART,
+            'settings_json': json.dumps(BOXED_CHART),
+            'chart': chart_data,
+            'chart_json': json.dumps(chart_data),
+            'chart_keys': chart_keys,
+            'all_keys_json': keys_json(all_keys),
+            'chord_types_sets': chord_types_sets(chord_types),
+            'chord_types_json': chord_types_json(chord_types),
+            'edit': edit,
+            'set_default_key': set_default_key
+        }
+
+        return render(request, 'chordcharts/chart/base.html', context)
 
 
 def new_chart(request):
