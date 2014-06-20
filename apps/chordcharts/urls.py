@@ -10,7 +10,7 @@ urlpatterns = patterns(
     ),
     url(
         '^(?P<chart_id>\d+)/'
-        '(?P<song_slug>[a-z0-9-_]+)/'
+        '(?:(?P<song_slug>[a-z0-9-_]+)/)?'
         '(?:(?P<key_slug>[a-z0-9-_]+)/)?$',
         'chordcharts.views.chart',
         name='chart'
@@ -23,7 +23,7 @@ urlpatterns = patterns(
     url(
         r'^edit/'
         '(?P<chart_id>\d+)/'
-        '(?P<song_slug>[a-z0-9-_]+)/'
+        '(?:(?P<song_slug>[a-z0-9-_]+)/)?'
         '(?:(?P<key_slug>[a-z0-9-_]+)/)?$',
         'chordcharts.views.chart',
         {'edit': True},

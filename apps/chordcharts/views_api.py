@@ -1,6 +1,7 @@
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import views, viewsets
+from rest_framework.exceptions import ParseError
 
 from songs.models import Song
 from .serializers import (
@@ -94,14 +95,14 @@ class ChartSongNameView(views.APIView):
     deleted.
     """
 
-    def put(self, request, chart_id):
+    def post(self, request, chart_id):
 
         self.request = request
 
         try:
             chart = Chart.objects.get(id=chart_id)
         except ObjectDoesNotExist:
-            return HttpResponseBadRequest('Chart not found')
+            raise ParseError('Chart not found')
 
         old_song = chart.song
         new_song = self.get_new_song()
@@ -118,7 +119,7 @@ class ChartSongNameView(views.APIView):
         song_name = self.request.DATA.get('song_name')
 
         if not song_name:
-            return HttpResponseBadRequest('No songname given')
+            raise ParseError('No songname given')
 
         try:
             new_song = Song.objects.get(name=song_name)

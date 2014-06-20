@@ -44,9 +44,14 @@ define(
 
             updateSongName: function() {
 
-                var song_name_input = this.$el.find('.song-name-input');
+                var song_name = this.$el.find('.song-name-input').val();
 
-                this.$el.find('h1 span').text(song_name_input.val());
+                console.log('model url:');
+                console.log(this.model.url);
+                this.model.set('song_name', song_name);
+                this.model.save();
+
+                this.$el.find('h1 span').text(song_name);
 
             }
 

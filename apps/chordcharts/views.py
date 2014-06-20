@@ -201,27 +201,32 @@ def new_chart(request):
 
 def chart_delete(request, song_slug, chart_id):
     """
-    On a POST, will delete the chart specified with `song_slug` and
-    `chart_id`.
+    On a POST, will delete the chart with id `chart_id`.
     """
 
     if request.method == 'POST':
 
         try:
-            song = Song.objects.get(slug=song_slug)
+            chart = Chart.objects.get(id=chart_id)
         except ObjectDoesNotExist:
-            return HttpResponseBadRequest('Song not found')
+            response = HttpResponseBadRequest('Song not found')
+        else:
 
-        Chart.objects.get(id=chart_id).delete()
+            song = chart.song
+            chart.delete()
 
-        if song.charts.count() == 0:
-            song.delete()
+            if song.charts.count() == 0:
+                song.delete()
 
-        context = {
-            'song_name': request.POST.get('song_name')
-        }
+            context = {
+                'song_name': request.POST.get('song_name')
+            }
 
-        response = render(request, 'chordcharts/chart_deleted.html', context)
+            response = render(
+                request,
+                'chordcharts/chart_deleted.html',
+                context
+            )
 
     else:
         response = HttpResponse(status=405)

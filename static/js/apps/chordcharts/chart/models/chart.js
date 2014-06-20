@@ -14,7 +14,7 @@ define(
                     var sections = new Sections();
 
                     sections.url = (
-                        '/api/chordcharts/charts/' +
+                        GLOBALS.api_root_url + 'charts/' +
                         this.get('id') + '/sections'
                     );
 
