@@ -1,3 +1,16 @@
+JazzChords.org kickof:
+    - Finish blog post draft
+    - Update GitHub readme
+    - Create a landingspage for JazzChords.org with a link to the blog
+    - Make sure rik@jazzchords.org, gitaarik@jazzchords.org and
+      info@jazzchords.org work
+    - Publish the blog post
+    - Spread the linkz
+
+Bug:
+    If you click a measure for editing, then click a chord for editing
+    in the same measure, the measure edit widget doesn't close. 
+
 Make it possible to change the key of a section.
 
 Decide to use Gb Major or F# Major:
