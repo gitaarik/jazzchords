@@ -1,13 +1,13 @@
-Chordcharts
+JazzChords.org
 ===========
 
 Create and share good looking chord charts.
 
 ### Normal view:
-![Normal view](https://raw.githubusercontent.com/gitaarik/chordcharts/master/screenshots/normal_view.png)
+![Normal view](https://raw.githubusercontent.com/gitaarik/jazzchords.org/master/screenshots/normal_view.png)
 
 ### Edit view:
-![Edit view](https://raw.githubusercontent.com/gitaarik/chordcharts/master/screenshots/edit_view.png)
+![Edit view](https://raw.githubusercontent.com/gitaarik/jazzchords.org/master/screenshots/edit_view.png)
 
 Requirements
 ------------
@@ -21,8 +21,8 @@ Installation
 
 1. Create a directory for the project and cd there.
 
-        mkdir chordcharts
-        cd chordcharts
+        mkdir jazzchords.org
+        cd jazzchords.org
 
 2. Create a virtual environment and activate it.
 
@@ -31,7 +31,7 @@ Installation
 
 3. Clone the project in the src dir and cd there.
 
-        git clone git@github.com:gitaarik/chordcharts.git src
+        git clone git@github.com:gitaarik/jazzchords.org.git src
         cd src
 
 4. Install requirements in virtual environment. This could take some time.
