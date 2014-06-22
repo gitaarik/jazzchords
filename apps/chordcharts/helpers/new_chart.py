@@ -39,24 +39,30 @@ class ProcessNewChartPost():
 
         song = self.get_song()
         key = self.get_key()
-        short_description = self.request.POST['short_description']
-        video_url = self.request.POST['video_url']
-        lyrics_url = self.request.POST['lyrics_url']
 
-        chart = Chart(
-            song=song,
-            key=key,
-            short_description=short_description,
-            video_url=video_url,
-            lyrics_url=lyrics_url
-        )
+        if not (song and key):
+            # We can't create a chart without a song or key.
+            return False
+        else:
 
-        try:
-            chart.full_clean()
-        except ValidationError:
-            self.errors.append('chart_invalid')
+            short_description = self.request.POST['short_description']
+            video_url = self.request.POST['video_url']
+            lyrics_url = self.request.POST['lyrics_url']
 
-        return chart
+            chart = Chart(
+                song=song,
+                key=key,
+                short_description=short_description,
+                video_url=video_url,
+                lyrics_url=lyrics_url
+            )
+
+            try:
+                chart.full_clean()
+            except ValidationError:
+                self.errors.append('chart_invalid')
+
+            return chart
 
     def get_song(self):
         """
@@ -67,29 +73,31 @@ class ProcessNewChartPost():
 
         if not song_name:
             self.errors.append('empty_song_name')
-
-        songs = Song.objects.filter(name__iexact=song_name)
-
-        if songs.count() > 0:
-            new_song = False
-            song = songs[0]
+            return False
         else:
 
-            new_song = True
-            song = Song(name=song_name)
+            songs = Song.objects.filter(name__iexact=song_name)
 
-            try:
-                song.full_clean()
-            except ValidationError:
-                self.errors.append('invalid_song_name')
+            if songs.count() > 0:
+                new_song = False
+                song = songs[0]
+            else:
 
-        if len(self.errors):
-            raise FormErrors(errors=self.errors)
+                new_song = True
+                song = Song(name=song_name)
 
-        if new_song:
-            song.save()
+                try:
+                    song.full_clean()
+                except ValidationError:
+                    self.errors.append('invalid_song_name')
 
-        return song
+            if len(self.errors):
+                raise FormErrors(errors=self.errors)
+
+            if new_song:
+                song.save()
+
+            return song
 
     def get_key(self):
         """
@@ -110,8 +118,9 @@ class ProcessNewChartPost():
             key = Key.objects.get(tone=key_tone, tonality=tonality)
         except ObjectDoesNotExist:
             self.errors.append('invalid_key')
-
-        return key
+            return False
+        else:
+            return key
 
     def add_initial_submodels(self, chart):
         """
