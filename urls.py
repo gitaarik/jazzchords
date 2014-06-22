@@ -19,6 +19,7 @@ api_urls = patterns(
 
 urlpatterns += patterns(
     '',
+    url('^', include('core.urls', namespace='core')),
     url('^grappelli/', include('grappelli.urls')),
     url('^admin/doc/', include('django.contrib.admindocs.urls')),
     url('^admin/', include(admin.site.urls)),

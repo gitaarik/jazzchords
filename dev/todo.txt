@@ -1,10 +1,8 @@
 JazzChords.org kickof:
-    - Finish blog post draft
-    - Update GitHub readme
-    - Create a landingspage for JazzChords.org with a link to the blog
+    - Fix some styles/theme shit for the blog
+    - Deploy the landing page
     - Make sure rik@jazzchords.org, gitaarik@jazzchords.org and
       info@jazzchords.org work
-    - Publish the blog post
     - Spread the linkz
 
 Bug:
