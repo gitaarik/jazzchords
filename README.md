@@ -12,7 +12,7 @@ Create and share good looking chord charts.
 Requirements
 ------------
 
-- Python 2.7 - http://www.python.org/
+- Python 3.3 - http://www.python.org/
 - pip - http://www.pip-installer.org/
 - virtualenv - http://www.virtualenv.org/
 
@@ -26,7 +26,7 @@ Installation
 
 2. Create a virtual environment and activate it.
 
-        virtualenv --distribute env
+        virtualenv --python=python3 env
         . env/bin/activate
 
 3. Clone the project in the src dir and cd there.
@@ -54,10 +54,16 @@ Installation
 Development
 -----------
 
-A chart I use for development: [http://localhost:8000/chart/jattendrai/](http://localhost:8000/chart/jattendrai/).
+You can see all the songs currently in the database here:
+[http://localhost:8000/chart/index/](http://localhost:8000/chart/index/).
 
-You can access the admin panel from: [http://localhost:8000/admin/](http://localhost:8000/admin/). Log in with credentials created in step 5.
+You can access the admin panel from:
+[http://localhost:8000/admin/](http://localhost:8000/admin/).
+Log in with credentials created in step 5.
 
-The project uses Django 1.5 as it's framework. Information and documentation about this: [https://docs.djangoproject.com/en/1.5/](https://docs.djangoproject.com/en/1.5/).
+The project uses Django 1.8 as it's framework. Information and
+documentation about this:
+[https://docs.djangoproject.com/en/dev/](https://docs.djangoproject.com/en/dev/).
 
-If you have any questions, suggestions or comments, send me a [mail](mailto:gitaarik@gmail.com).
+If you have any questions, suggestions or comments, send me a
+[mail](mailto:rik@jazzchords.org).
