@@ -5,10 +5,6 @@ JazzChords.org kickof:
       info@jazzchords.org work
     - Spread the linkz
 
-Bug:
-    If you click a measure for editing, then click a chord for editing
-    in the same measure, the measure edit widget doesn't close. 
-
 Make it possible to change the key of a section.
 
 Decide to use Gb Major or F# Major:

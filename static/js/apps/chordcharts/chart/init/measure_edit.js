@@ -17,15 +17,24 @@ define(
 
                 var target = $(event.target);
 
-                // Check if the click wasn't a click to open the widget,
-                // or a click inside the widget.
                 if (
-                    !target
-                        .closest('.measure-edit')
-                        .closest('.chord-chart')
-                        .length &&
-                    !target
-                        .closest('.measure')
+                    // Check if the click wasn't a click to open the widget,
+                    // or a click inside the widget.
+                    (
+                        !target
+                            .closest('.measure-edit')
+                            .closest('.chord-chart')
+                            .length &&
+                        !target
+                            .closest('.measure')
+                            .closest('.chord-chart')
+                            .length
+                    ) ||
+                    // Or the click was on a chord (which is also inside
+                    // a measure).
+                    target
+                        .closest('.chord-name')
+                        .closest('.chord')
                         .closest('.chord-chart')
                         .length
                 ) {
