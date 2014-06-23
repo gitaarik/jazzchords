@@ -1,5 +1,5 @@
 https://github.com/django/django/zipball/master
-django-compressor==1.4a1
+django-compressor==1.4
 django-grappelli==2.5.3
 djangorestframework==2.3.13
 drf-nested-routers==0.1.3
