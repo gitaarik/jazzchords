@@ -334,34 +334,51 @@
         margin: 10px;
     }
 
-    .name {
+    .content {
 
-        label {
+        margin: 10px 0;
 
-            display: block;
-            padding: 10px;
-            overflow: hidden;
-            cursor: pointer;
+        section {
 
-            &:first-child {
-                border-bottom: solid 1px #AAA;
+            margin-bottom: 10px;
+
+            h3 {
+                margin: 0;
+                font-size: 16px;
             }
 
-            .radio-button {
-                float: left;
-                padding-right: 10px;
-                line-height: 28px;
-            }
+            &.name {
 
-            .label-text {
-                float: left;
-                width: 130px;
-                line-height: 28px;
-            }
+                label {
 
-            .sequence-letter {
-                float: left;
-                line-height: 28px;
+                    display: block;
+                    padding: 5px 0;
+                    overflow: hidden;
+                    cursor: pointer;
+
+                    &:first-child {
+                        border-bottom: solid 1px #AAA;
+                    }
+
+                    .radio-button {
+                        float: left;
+                        padding-right: 10px;
+                        line-height: 28px;
+                    }
+
+                    .label-text {
+                        float: left;
+                        width: 130px;
+                        line-height: 28px;
+                    }
+
+                    .sequence-letter {
+                        float: left;
+                        line-height: 28px;
+                    }
+
+                }
+
             }
 
         }

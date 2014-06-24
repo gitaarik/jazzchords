@@ -178,7 +178,7 @@ def new_chart(request):
             keys[key.tonality].append(key)
 
         context = {
-            'tones': Key.TONES_CHOICES,
+            'key_select_tones': Key.TONES_CHOICES,
             'keys_major': keys[Key.TONALITY_MAJOR],
             'keys_minor': keys[Key.TONALITY_MINOR],
             'song_name_max_length': Song._meta.get_field('name').max_length,

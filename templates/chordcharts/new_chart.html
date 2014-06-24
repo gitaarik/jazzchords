@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block javascript %}
-    <script src="{{ STATIC_URL }}js/apps/chordcharts/new_chart.js"></script>
+    <script data-main="{{ STATIC_URL }}js/apps/chordcharts/new_chart.js" src="{{ STATIC_URL }}js/libs/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -122,31 +122,7 @@
                             <p>The default key the chart is shown in. You can always change this later.</p>
                         </div>
 
-                        <div class="tone no-select">
-
-                            <div class="currently-selected">C</div>
-                            <input type="hidden" class="tone-input" name="key_tone" value="C">
-
-                            <div class="tone-choices popup-box">
-
-                                <div class="arrow-up"></div>
-
-                                <ul class="box-choice-list">
-                                    {% for key, value in tones %}
-                                        <li data-tone="{{ key }}"{% if forloop.first %} class="selected"{% endif %}>
-                                            {{ value }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-
-                            </div>
-
-                        </div>
-
-                        <div class="tonality no-select">
-                            <span>Major</span>
-                            <input type="hidden" class="tonality-input" name="key_tonality" value="Major">
-                        </div>
+                        {% include "widgets/key_select.html" %}
 
                         <div class="tooltip-button"><span>?</span></div>
 

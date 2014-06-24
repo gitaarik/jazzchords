@@ -1,8 +1,6 @@
 JazzChords.org kickof:
     - Fix some styles/theme shit for the blog
     - Deploy the landing page
-    - Make sure rik@jazzchords.org, gitaarik@jazzchords.org and
-      info@jazzchords.org work
     - Spread the linkz
 
 Make it possible to change the key of a section.
