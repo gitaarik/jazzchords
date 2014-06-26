@@ -1,17 +1,16 @@
 <div class="key-select-widget">
 
-    <div class="tone no-select">
+    <div class="tonic no-select">
 
         <div class="currently-selected">C</div>
-        <input type="hidden" class="tone-input" name="key_tone" value="C">
 
-        <div class="tone-choices popup-box">
+        <div class="tonic-choices popup-box">
 
             <div class="arrow-up"></div>
 
             <ul class="box-choice-list">
-                {% for key, value in key_select_tones %}
-                    <li data-tone="{{ key }}"{% if forloop.first %} class="selected"{% endif %}>
+                {% for key, value in key_select_tonics %}
+                    <li data-tonic="{{ key }}"{% if forloop.first %} class="selected"{% endif %}>
                         {{ value }}
                     </li>
                 {% endfor %}
@@ -23,7 +22,6 @@
 
     <div class="tonality no-select">
         <span>Major</span>
-        <input type="hidden" class="tonality-input" name="key_tonality" value="Major">
     </div>
 
 </div>

@@ -1,6 +1,12 @@
 define(
-    ['models/section_edit', 'views/section_edit'],
-    function(SectionEdit, SectionEditView) {
+    [
+        'models/section_edit',
+        'views/section_edit'
+    ],
+    function(
+        SectionEdit,
+        SectionEditView
+    ) {
 
         var sectionEdit = new SectionEdit();
 

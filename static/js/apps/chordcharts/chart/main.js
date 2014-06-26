@@ -8,7 +8,7 @@ require(
         'views/chord',
         'init/song_name_change_widget',
         'init/key_change_widget',
-        'init/settings_widget'
+        'init/settings_widget',
     ],
     function(
         Chart,

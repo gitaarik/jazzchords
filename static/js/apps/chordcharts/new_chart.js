@@ -1,6 +1,16 @@
 define(['widgets/key_select'], function(KeySelectWidget) {
 
-    new KeySelectWidget();
+    var keySelectWidgetDelegate = function() {};
+
+    keySelectWidgetDelegate.tonic_changed = function(tonic) {
+        $('.tonic-input').attr('value', tonic);
+    };
+
+    keySelectWidgetDelegate.tonality_changed = function(tonality) {
+        $('.tonality-input').attr('value', tonality);
+    };
+
+    new KeySelectWidget($('.key-select-widget'), keyWidgetDelegate);
 
     this.chart_settings = $('.chart-settings');
 

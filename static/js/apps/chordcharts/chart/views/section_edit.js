@@ -1,9 +1,11 @@
 define(
     [
         'models/section',
+        'widgets/key_select'
     ],
     function(
-        Section
+        Section,
+        KeySelectWidget
     ) {
 
         return Backbone.View.extend({
@@ -18,7 +20,24 @@ define(
             },
 
             initialize: function() {
+
+                var keySelectWidgetDelegate = function() { };
+
+                keySelectWidgetDelegate.tonic_changed = function(tonic) {
+                    console.log('new tonic: ' + tonic);
+                };
+
+                keySelectWidgetDelegate.tonality_changed = function(tonality) {
+                    console.log('new tonality: ' + tonality);
+                };
+
+                new KeySelectWidget(
+                    this.$el.find('.key-select-widget'),
+                    keySelectWidgetDelegate
+                );
+
                 this.listenTo(this.model, 'change', this.change);
+
             },
 
             change: function() {

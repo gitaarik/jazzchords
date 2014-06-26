@@ -1,8 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(
         r'^index/$',
         'chordcharts.views.song_index',
@@ -46,4 +45,4 @@ urlpatterns = patterns(
         'chordcharts.views.chord_symbols',
         name='chord_symbols'
     )
-)
+]

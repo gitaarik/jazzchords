@@ -139,7 +139,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
             'chord_types_sets': chord_types_sets(chord_types),
             'chord_types_json': chord_types_json(chord_types),
             'edit': edit,
-            'set_default_key': set_default_key
+            'set_default_key': set_default_key,
+            'key_select_tonics': Key.TONIC_CHOICES
         }
 
         return render(request, 'chordcharts/chart/base.html', context)
@@ -178,7 +179,7 @@ def new_chart(request):
             keys[key.tonality].append(key)
 
         context = {
-            'key_select_tones': Key.TONES_CHOICES,
+            'key_select_tonics': Key.TONIC_CHOICES,
             'keys_major': keys[Key.TONALITY_MAJOR],
             'keys_minor': keys[Key.TONALITY_MINOR],
             'song_name_max_length': Song._meta.get_field('name').max_length,

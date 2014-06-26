@@ -20,7 +20,7 @@ class Key(models.Model):
         notes - The notes for this key.
     """
 
-    TONES_CHOICES = (
+    TONIC_CHOICES = (
         ('C', 'C'), ('C#', 'C#'), ('D', 'D'), ('E♭', 'E♭'), ('E', 'E'),
         ('F', 'F'), ('F#', 'F#'), ('G', 'G'), ('A♭', 'A♭'), ('A', 'A'),
         ('B♭', 'B♭'), ('B', 'B')
@@ -48,9 +48,9 @@ class Key(models.Model):
 
     tone = models.CharField(
         max_length=2,
-        choices=TONES_CHOICES,
+        choices=TONIC_CHOICES,
         help_text=(
-            """The tone for the key. Will be used for displaying the possible
+            """The tonic for the key. Will be used for displaying the possible
             keys for a certain tonality."""
         )
     )

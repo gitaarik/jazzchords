@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from rest_framework_nested import routers
 from .views_api import (
     ChartViewSet, SectionViewSet, LineViewSet,
@@ -32,12 +32,11 @@ chords_router = routers.NestedSimpleRouter(
 )
 chords_router.register('chords', ChordViewSet)
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url('^', include(charts_router.urls)),
     url('^', include(sections_router.urls)),
     url('^', include(lines_router.urls)),
     url('^', include(measures_router.urls)),
     url('^', include(chords_router.urls)),
     url('^chart-song-name/(?P<chart_id>\d+)/$', ChartSongNameView.as_view())
-)
+]
