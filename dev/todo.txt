@@ -1,9 +1,10 @@
 JazzChords.org kickof:
-    - Fix some styles/theme shit for the blog
-    - Deploy the landing page
     - Spread the linkz
 
 Make it possible to change the key of a section.
+
+Show repeat line on measures that repeat previous lines.
+    For example "Repeat first A section".
 
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
@@ -36,3 +37,11 @@ Fit chord names:
 
 Make a PDF export:
     So that people can easily print it out.
+
+Input from people:
+    http://www.reddit.com/r/piano/comments/291l58/introducing_jazzchordsorg_a_site_to_create_and/cigpc9k
+    http://www.reddit.com/r/piano/comments/291l58/introducing_jazzchordsorg_a_site_to_create_and/cih6132
+    http://www.reddit.com/r/transcribe/comments/2926gn/introducing_jazzchordsorg_a_site_to_create_and/cih5bhb
+    http://www.reddit.com/r/WeAreTheMusicMakers/comments/29234j/introducing_jazzchordsorg_a_site_to_create_and/cihk4yc
+    http://www.jazzstudies.us/
+    http://codex.wordpress.org/Using_Permalinks
