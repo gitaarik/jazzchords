@@ -104,8 +104,8 @@ class ProcessNewChartPost():
         Returns the key.
         """
 
-        key_tone = self.request.POST['key_tone']
-        key_tonality = self.request.POST['key_tonality']
+        key_tonic = self.request.POST.get('key_tonic')
+        key_tonality = self.request.POST.get('key_tonality')
 
         if key_tonality == 'Major':
             tonality = Key.TONALITY_MAJOR
@@ -115,7 +115,7 @@ class ProcessNewChartPost():
             tonality = None
 
         try:
-            key = Key.objects.get(tone=key_tone, tonality=tonality)
+            key = Key.objects.get(tonic=key_tonic, tonality=tonality)
         except ObjectDoesNotExist:
             self.errors.append('invalid_key')
             return False
