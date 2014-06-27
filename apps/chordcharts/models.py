@@ -46,9 +46,10 @@ class Key(models.Model):
         )
     )
 
-    tone = models.CharField(
+    tonic = models.CharField(
         max_length=2,
         choices=TONIC_CHOICES,
+        default='C',
         help_text=(
             """The tonic for the key. Will be used for displaying the possible
             keys for a certain tonality."""
