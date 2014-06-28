@@ -1,11 +1,15 @@
 define(
     [
         'models/section',
-        'widgets/key_select'
+        'models/section_key',
+        'widgets/key_select',
+        'init/all_keys'
     ],
     function(
         Section,
-        KeySelectWidget
+        SectionKey,
+        KeySelectWidget,
+        allKeys
     ) {
 
         return Backbone.View.extend({
@@ -21,17 +25,34 @@ define(
 
             initialize: function() {
 
+                var that = this;
                 var keySelectWidgetDelegate = function() { };
 
                 keySelectWidgetDelegate.tonic_changed = function(tonic) {
-                    console.log('new tonic: ' + tonic);
+
+                    var section = that.model.get('section');
+                    var key = section.get('key');
+
+                    var new_key = allKeys.findWhere({
+                        'tonic': tonic,
+                        'tonality': key.tonality
+                    });
+
+                    section.set('key', new_key);
+
+                    new SectionKey({
+                        section: that.model.get('section'),
+                        tonic: tonic,
+                        tonality: key.get('tonality')
+                    }).save();
+
                 };
 
                 keySelectWidgetDelegate.tonality_changed = function(tonality) {
                     console.log('new tonality: ' + tonality);
                 };
 
-                new KeySelectWidget(
+                this.keySelectWidget = new KeySelectWidget(
                     this.$el.find('.key-select-widget'),
                     keySelectWidgetDelegate
                 );
@@ -46,8 +67,7 @@ define(
                     this.show();
                 } else {
                     this.$el.hide();
-                    var section = this.model.get('section');
-                    section.save();
+                    this.model.get('section').save();
                 }
 
             },
@@ -75,6 +95,10 @@ define(
                 } else {
                     this.$el.find('.sequence-letter-radio').prop('checked', true);
                 }
+
+                this.keySelectWidget.updateTonic(
+                    this.model.get('section').get('key').get('tonic')
+                );
 
                 this.$el.show();
 

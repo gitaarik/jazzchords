@@ -3,6 +3,12 @@ define(function() {
     function KeySelect(key_select_el, delegate) {
 
         this.key_select_el = key_select_el;
+        this.tonic_el = this.key_select_el.find('.tonic');
+        this.tonic_currently_selected_el = this.tonic_el.find('.currently-selected');
+        this.tonic_choices_el = this.tonic_el.find('.tonic-choices');
+        this.tonality_el = this.key_select_el.find('.tonality');
+        this.tonality_text_el = this.tonality_el.find('span');
+
         this.delegate = delegate;
 
         this.initKeyTonic();
@@ -15,26 +21,15 @@ define(function() {
     KeySelect.prototype.initKeyTonic = function() {
 
         var that = this;
-        var tonic_el = this.key_select_el.find('.tonic');
-        var tonic_currently_selected_el = tonic_el.find('.currently-selected');
-        var tonic_choices_el = tonic_el.find('.tonic-choices');
 
-        tonic_currently_selected_el.click(function() {
-            tonic_choices_el.toggle();
+        this.tonic_currently_selected_el.click(function() {
+            that.tonic_choices_el.toggle();
         });
 
-        tonic_el.find('.tonic-choices ul li').click(function(el) {
-
-            var tonic_chosen = $(el.target).data('tonic');
-
-            tonic_currently_selected_el.html(tonic_chosen);
-            tonic_el.find('.tonic-input').attr('value', tonic_chosen);
-            that.delegate.tonic_changed(tonic_chosen);
-
-            tonic_choices_el.find('li.selected').removeClass('selected');
-            tonic_choices_el.find('li[data-tonic=' + tonic_chosen + ']').addClass('selected');
-            tonic_choices_el.hide();
-
+        this.tonic_el.find('.tonic-choices ul li').click(function(el) {
+            var tonic = $(el.target).data('tonic');
+            that.updateTonic(tonic);
+            that.delegate.tonic_changed(tonic);
         });
 
         $('html').click(function(el) {
@@ -43,7 +38,7 @@ define(function() {
                 !$(el.target).closest('.tonic').length &&
                 !$(el.target).closest('.tonic-choices').length
             ) {
-                tonic_choices_el.hide();
+                that.tonic_choices_el.hide();
             }
 
         });
@@ -53,24 +48,47 @@ define(function() {
     KeySelect.prototype.initKeyTonality = function() {
 
         var that = this;
-        var tonality_el = this.key_select_el.find('.tonality');
 
-        tonality_el.click(function() {
+        this.tonality_el.click(function() {
 
             var tonality;
-            var tonality_text_el = tonality_el.find('span');
 
-            if (tonality_text_el.html() == 'Major') {
+            if (that.tonality_text_el.html() == 'Major') {
                 tonality = 'Minor';
             } else {
                 tonality = 'Major';
             }
 
-            tonality_text_el.html(tonality);
-            tonality_el.find('input').attr('value', tonality);
+            that.updateTonality(tonality);
             that.delegate.tonality_changed(tonality);
 
         });
+
+    };
+
+    KeySelect.prototype.updateTonic = function(tonic) {
+
+        this.tonic_currently_selected_el.html(tonic);
+
+        this.tonic_choices_el.find('li.selected').removeClass('selected');
+        this.tonic_choices_el.find('li[data-tonic=' + tonic + ']').addClass('selected');
+        this.tonic_choices_el.hide();
+
+    };
+
+    KeySelect.prototype.updateTonality = function(tonality) {
+
+        tonality = tonality.toLowerCase();
+
+        if (tonality == 'major') {
+            tonality_text = 'Major';
+        } else if (tonality == 'minor') {
+            tonality_text = 'Minor';
+        } else {
+            return false;
+        }
+
+        this.tonality_text_el.html(tonality_text);
 
     };
 

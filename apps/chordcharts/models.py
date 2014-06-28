@@ -2,10 +2,8 @@
 import string
 
 from django.db import models
-from django.core.exceptions import ObjectDoesNotExist
 
 from songs.models import Song
-from .exceptions import SectionKeyDoesNotExist
 from .settings import BOXED_CHART
 
 
@@ -37,6 +35,7 @@ class Key(models.Model):
         max_length=25,
         help_text="Appropriate name for this key."
     )
+
     slug = models.SlugField(
         max_length=25,
         unique=True,
@@ -90,6 +89,7 @@ class Key(models.Model):
             'id': self.id,
             'name': self.name,
             'slug': self.slug,
+            'tonic': self.tonic,
             'tonality': self.tonality,
             'notes': [note.client_data() for note in self.notes.all()]
         }
@@ -243,13 +243,6 @@ class Chart(models.Model):
     )
     video_url = models.CharField(max_length=500, default="", blank=True)
     lyrics_url = models.CharField(max_length=500, default="", blank=True)
-    key = models.ForeignKey(
-        Key,
-        help_text=(
-            """The key the chart is in. If the some sections of the song have
-            deviating keys you can overwrite this in the section."""
-        )
-    )
 
     def __str__(self):
         return str(self.song)
@@ -264,6 +257,35 @@ class Chart(models.Model):
             'key': self.key.client_data(),
             'sections': [s.client_data() for s in self.sections.all()]
         }
+
+    @property
+    def key(self):
+        """
+        The key of the chart.
+        """
+        # This is just the key of the first section.
+        return self.sections.first().key
+
+    def update_key(self, key):
+        """
+        Update the key of the chart.
+
+        This updates the keys of all sections with the interval between
+        key of the first section and the given `key`.
+        """
+
+        difference = (
+            key.distance_from_c - self.sections.first().key.distance_from_c
+        )
+
+        for section in self.sections.all():
+            section.key = Key.objects.get(
+                distance_from_c=(
+                    (section.key.distance_from_c + difference) % 12
+                ),
+                tonality=key.tonality
+            )
+            section.save()
 
     def cleanup(self):
         """
@@ -303,9 +325,8 @@ class Section(models.Model):
     """
     A section in a chart.
 
-    Sections are used to divide a chart in differen parts, generally related
-    to the different parts in a song. They can have a deviating key from the
-    chart, indicated by `key_distance_from_chart`.
+    Sections are used to divide a chart in different parts, generally related
+    to the different parts in a song.
 
     Sets on this model:
         lines - The lines in this section.
@@ -317,11 +338,13 @@ class Section(models.Model):
         help_text="The chart this section is in."
     )
 
-    key_distance_from_chart = models.PositiveSmallIntegerField(
-        default=0,
-        help_text="""The distance (in half notes) the key of this section is
-        relative to the key of the chart. If the section is in the same key
-        this will be 0."""
+    key = models.ForeignKey(
+        Key,
+        null=True,
+        help_text=(
+            """The key the chart is in. If the some sections of the song have
+            deviating keys you can overwrite this in the section."""
+        )
     )
 
     number = models.PositiveSmallIntegerField(
@@ -375,7 +398,7 @@ class Section(models.Model):
     def client_data(self):
         return {
             'id': self.id,
-            'key_distance_from_chart': self.key_distance_from_chart,
+            'key': self.key.client_data(),
             'number': self.number,
             'alt_name': self.alt_name,
             'time_signature': self.time_signature.id,
@@ -383,8 +406,8 @@ class Section(models.Model):
             'name': self.name(),
             'sequence_letter': self.sequence_letter(),
             'height': self.height(),
-            'key_id': self.key().id,
-            'key': self.key().client_data(),
+            'key_id': self.key.id,
+            'key': self.key.client_data(),
             'lines': [l.client_data() for l in self.lines.all()]
         }
 
@@ -413,31 +436,6 @@ class Section(models.Model):
                 alt_name='', number__lt=self.number
             ).count()
         ]
-
-    def key(self):
-        """
-        The key the section is in. This will be based on the key of the chart
-        and `self.key_distance_from_chart`.
-        """
-
-        if self.key_distance_from_chart == 0:
-            return self.chart.key
-        else:
-
-            key_distance_from_c = (
-                self.chart.key.distance_from_c +
-                self.key_distance_from_chart
-            ) % 12
-
-            try:
-                key = Key.objects.get(
-                    distance_from_c=key_distance_from_c,
-                    tonality=self.chart.key.tonality
-                )
-            except ObjectDoesNotExist:
-                raise SectionKeyDoesNotExist
-
-            return key
 
     def height(self):
         return ((
@@ -520,6 +518,7 @@ class Line(models.Model):
             'measures': [m.client_data() for m in self.measures.all()]
         }
 
+    @property
     def key(self):
         """
         The key the line is in.
@@ -527,7 +526,7 @@ class Line(models.Model):
         This will be the same as the key of the section the line is
         in.
         """
-        return self.section.key()
+        return self.section.key
 
     def time_signature(self):
         """
@@ -605,13 +604,14 @@ class Measure(models.Model):
             'chords': [c.client_data() for c in self.chords.all()]
         }
 
+    @property
     def key(self):
         """
         The key the measure is in.
 
         This will be the same as the key of the line the measure is in.
         """
-        return self.line.key()
+        return self.line.key
 
     def time_signature(self):
         return self.line.time_signature()
@@ -665,9 +665,8 @@ class Chord(models.Model):
         default=0,
         help_text=(
             """The relative pitch for the chord. This is the amount of half
-            notes the chord note is away from the root of the key the item will
-            be presented in. These half steps should be upwards in the
-            scale."""
+            notes the chord note is away from the root of the key of the
+            section. These half steps should be upwards in the scale."""
         )
     )
 
@@ -724,7 +723,7 @@ class Chord(models.Model):
             'alt_bass_pitch': self.alt_bass_pitch,
             'rest': self.rest,
             'number': self.number,
-            'key_id': self.key().id,
+            'key_id': self.key.id,
             'note': self.note().client_data(),
             'chord_type_id': self.chord_type.id,
             'alt_bass_note': (
@@ -746,13 +745,13 @@ class Chord(models.Model):
         """
 
         if self.alt_bass:
-            return u''.join([
+            return ''.join([
                 self.note().name,
                 self.chord_type.chord_output,
                 '/',
                 self.alt_bass_note().name])
         else:
-            return u''.join([self.note().name, self.chord_type.chord_output])
+            return ''.join([self.note().name, self.chord_type.chord_output])
 
     def chart_output(self):
         """
@@ -795,13 +794,14 @@ class Chord(models.Model):
         else:
             return 'normal'
 
+    @property
     def key(self):
         """
         The key the chord is in.
 
         This will be the same as the key of the measure the chord is in.
         """
-        return self.measure.key()
+        return self.measure.key
 
     def time_signature(self):
         return self.measure.time_signature()
@@ -810,7 +810,7 @@ class Chord(models.Model):
         """
         The note for the chord.
         """
-        return self.key().note(self.chord_pitch)
+        return self.key.note(self.chord_pitch)
 
     def alt_bass_note(self):
         """
@@ -820,6 +820,6 @@ class Chord(models.Model):
         """
 
         if self.alt_bass:
-            return self.key().note(self.alt_bass_pitch)
+            return self.key.note(self.alt_bass_pitch)
         else:
             return False

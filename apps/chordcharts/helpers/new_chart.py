@@ -23,12 +23,13 @@ class ProcessNewChartPost():
         """
 
         chart = self.get_chart()
+        key = self.get_key()
 
         if len(self.errors):
             raise FormErrors(errors=self.errors)
 
         chart.save()
-        self.add_initial_submodels(chart)
+        self.add_first_section(chart, key)
 
         return chart
 
@@ -38,10 +39,9 @@ class ProcessNewChartPost():
         """
 
         song = self.get_song()
-        key = self.get_key()
 
-        if not (song and key):
-            # We can't create a chart without a song or key.
+        if not song:
+            # We can't create a chart without a song.
             return False
         else:
 
@@ -51,7 +51,6 @@ class ProcessNewChartPost():
 
             chart = Chart(
                 song=song,
-                key=key,
                 short_description=short_description,
                 video_url=video_url,
                 lyrics_url=lyrics_url
@@ -122,13 +121,13 @@ class ProcessNewChartPost():
         else:
             return key
 
-    def add_initial_submodels(self, chart):
+    def add_first_section(self, chart, key):
         """
         Add a section containing a line containing a measure containing
         a chord.
         """
 
-        section = Section(chart=chart)
+        section = Section(chart=chart, key=key)
         section.save()
 
         line = Line(section=section)
@@ -137,7 +136,7 @@ class ProcessNewChartPost():
         measure = Measure(line=line)
         measure.save()
 
-        if section.key().tonality == Key.TONALITY_MAJOR:
+        if section.key.tonality == Key.TONALITY_MAJOR:
             chord_type = ChordType.objects.get(name='Major')
         else:
             chord_type = ChordType.objects.get(name='Minor')

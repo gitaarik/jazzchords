@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
 from rest_framework.exceptions import ParseError
 
@@ -8,7 +9,7 @@ from .serializers import (
     ChartSerializer, SectionSerializer, LineSerializer,
     MeasureSerializer, ChordSerializer
 )
-from .models import Chart, Section, Line, Measure, Chord
+from .models import Key, Chart, Section, Line, Measure, Chord
 
 
 class ChartViewSet(viewsets.ModelViewSet):
@@ -97,15 +98,10 @@ class ChartSongNameView(views.APIView):
 
     def post(self, request, chart_id):
 
-        self.request = request
-
-        try:
-            chart = Chart.objects.get(id=chart_id)
-        except ObjectDoesNotExist:
-            raise ParseError('Chart not found')
+        chart = get_object_or_404(Chart, id=chart_id)
 
         old_song = chart.song
-        new_song = self.get_new_song()
+        new_song = self.get_new_song(request)
         chart.song = new_song
         chart.save()
 
@@ -114,9 +110,9 @@ class ChartSongNameView(views.APIView):
 
         return HttpResponse('Successfully changed song name')
 
-    def get_new_song(self):
+    def get_new_song(self, request):
 
-        song_name = self.request.DATA.get('song_name')
+        song_name = request.DATA.get('song_name')
 
         if not song_name:
             raise ParseError('No songname given')
@@ -128,3 +124,40 @@ class ChartSongNameView(views.APIView):
             new_song.save()
 
         return new_song
+
+
+class SectionKeyView(views.APIView):
+
+    def post(self, request, section_id):
+
+        section = get_object_or_404(Section, id=section_id)
+        tonality_word = request.DATA.get('tonality')
+
+        if type(tonality_word) == int:
+            tonality = tonality_word
+        elif tonality_word.lower() == 'major':
+            tonality = Key.TONALITY_MAJOR
+        elif tonality_word.lower() == 'minor':
+            tonality = Key.TONALITY_MINOR
+        else:
+            raise ParseError('Invalid tonality. Choose "major" or "minor".')
+
+        try:
+            key = Key.objects.get(
+                tonic=request.DATA.get('tonic'),
+                tonality=tonality
+            )
+        except ObjectDoesNotExist:
+            raise ParseError('Invalid key')
+
+        difference = section.key.distance_from_c - key.distance_from_c
+        section.key = key
+        section.save()
+
+        for line in section.lines.all():
+            for measure in line.measures.all():
+                for chord in measure.chords.all():
+                    chord.chord_pitch = (chord.chord_pitch + difference) % 12
+                    chord.save()
+
+        return HttpResponse('Successfully changed section key')

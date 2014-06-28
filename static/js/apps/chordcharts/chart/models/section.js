@@ -1,6 +1,12 @@
 define(
-    ['collections/lines'],
-    function(Lines) {
+    [
+        'collections/lines',
+        'init/all_keys'
+    ],
+    function(
+        Lines,
+        allKeys
+    ) {
 
         return Backbone.Model.extend({
 
@@ -13,7 +19,7 @@ define(
 
                 // Only set lines if it hasn't been set yet. Prevents errors
                 // when cloning.
-                if(!(this.get('lines') instanceof Backbone.Collection)) {
+                if (!(this.get('lines') instanceof Backbone.Collection)) {
 
                     var that = this;
                     var lines = new Lines();
@@ -25,6 +31,17 @@ define(
                     });
 
                     this.set('lines', lines);
+
+                }
+
+                if (!(this.get('key') instanceof Backbone.Model)) {
+
+                    this.set(
+                        'key',
+                        allKeys.findWhere({
+                            id: this.get('key_id')
+                        })
+                    );
 
                 }
 
@@ -158,7 +175,6 @@ define(
                 return {
                     number: this.get('number'),
                     alt_name: this.get('alt_name'),
-                    key_distance_from_chart: this.get('key_distance_from_chart'),
                     time_signature: this.get('time_signature'),
                     show_sidebar: this.get('show_sidebar')
                 };

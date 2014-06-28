@@ -5,6 +5,7 @@ from django.http import (
 )
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 
 from songs.models import Song
 from .models import Chart, Key, ChordType
@@ -29,38 +30,25 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     version, `edit` should be `True`.
     """
 
-    def get_set_default_key():
+    class InvalidKeySlug(Exception):
+        pass
+
+    def get_key(key_slug):
         """
-        Returns a boolean indicating if the key that is given in
-        `key_slug` should be set as the default key for this chart (in
-        case this happens in edit mode).
+        Returns the key for the given `key_slug` or `None` if `key_slug`
+        was invalid.
         """
+        try:
+            return Key.objects.get(slug=key_slug)
+        except ObjectDoesNotExist:
+            return None
 
-        set_default_key = request.GET.get('set-default-key')
-
-        if set_default_key:
-            if set_default_key == '0':
-                set_default_key = False
-
-        if set_default_key is None:
-            set_default_key = True
-
-        return set_default_key
-
-    def set_chart_key(chart, key_slug, set_default_key):
+    def set_chart_key(chart, key):
         """
         Overrides the default key of the chart in case it was given.
         """
-        if key_slug:
-
-            try:
-                chart.key = Key.objects.get(slug=key_slug)
-            except:
-                pass
-            else:
-
-                if edit and set_default_key:
-                    chart.save()
+        if key:
+            chart.update_key(key)
 
     def chord_types_sets(chord_types):
         """
@@ -88,40 +76,54 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         ]
         return json.dumps(all_keys_data)
 
-    def get_redirect_wrong_slug(chart, song_slug, key_slug):
+    def get_redirect_wrong_slugs(chart, key, song_slug, key_slug):
         """
         Returns a redirect response in case the given `song_slug` isn't
-        equal to the chart's song's slug. Otherwise returns `None`.
+        equal to the chart's song's slug, and/or if the given `key_slug`
+        is invalid. Otherwise returns `None`.
         """
 
+        redirect = False
+        reverse_kwargs = {}
+
         if song_slug != chart.song.slug:
+            redirect = True
+
+        if key_slug:
+            if key:
+                reverse_kwargs['key_slug'] = key_slug
+            else:
+                # If `key` is `None`, it means that the `key_slug` was
+                # invalid. In this case we want to redirect, so it will
+                # go to the default key.
+                redirect = True
+
+        if redirect:
+
+            reverse_kwargs['chart_id'] = chart.id
+            reverse_kwargs['song_slug'] = chart.song.slug
 
             if edit:
                 view = 'chordcharts:chart_edit'
             else:
                 view = 'chordcharts:chart'
 
-            kwargs = {
-                'chart_id': chart.id,
-                'song_slug': chart.song.slug,
-            }
-
-            if key_slug:
-                kwargs['key_slug'] = key_slug
-
             return HttpResponsePermanentRedirect(
-                reverse(view, kwargs=kwargs)
+                reverse(view, kwargs=reverse_kwargs)
             )
 
-    chart = Chart.objects.get(id=chart_id)
-    redirect_response = get_redirect_wrong_slug(chart, song_slug, key_slug)
+    key = get_key(key_slug)
+    chart = get_object_or_404(Chart, id=chart_id)
+    redirect_wrong_slugs = get_redirect_wrong_slugs(
+        chart, key, song_slug, key_slug
+    )
 
-    if redirect_response:
-        return redirect_response
+    if redirect_wrong_slugs:
+        return redirect_wrong_slugs
     else:
 
-        set_default_key = get_set_default_key()
-        set_chart_key(chart, key_slug, set_default_key)
+        set_chart_key(chart, key)
+
         chart.cleanup()
 
         all_keys = Key.objects.all()
@@ -139,7 +141,6 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
             'chord_types_sets': chord_types_sets(chord_types),
             'chord_types_json': chord_types_json(chord_types),
             'edit': edit,
-            'set_default_key': set_default_key,
             'key_select_tonics': Key.TONIC_CHOICES
         }
 

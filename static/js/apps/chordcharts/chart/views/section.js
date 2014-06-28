@@ -99,7 +99,6 @@ define(
                 }
 
                 if (this.model.collection.size() == 1) {
-                    console.log('removing that shit');
                     edit_buttons_el.find('.remove').hide();
                 }
 

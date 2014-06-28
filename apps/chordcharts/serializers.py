@@ -31,7 +31,6 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = (
             'id',
-            'key_distance_from_chart',
             'number',
             'alt_name',
             'time_signature',
