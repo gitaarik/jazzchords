@@ -46,9 +46,9 @@
                     {% for key in chart_keys %}
                         <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
                             {% if edit %}
-                                <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}?set-default-key={% if set_default_key %}1{% else %}0{% endif %}">{{ key.tone }}</a>
+                                <a href="{% url "chordcharts:chart_edit" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}?set-default-key={% if set_default_key %}1{% else %}0{% endif %}">{{ key.tonic }}</a>
                             {% else %}
-                                <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tone }}</a>
+                                <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tonic }}</a>
                             {% endif %}
                         </li>
                     {% endfor %}
