@@ -10,13 +10,18 @@ Make it possible to change the key of a section.
           resource.
         - Test the hell out of it.
 
+
+Make things ready for production:
+    - Ditch require.js and use Gulp.js and browserify.js to compile
+      js/less.
+    - Finish ansible stuff
+    - Complete all keys.
+
 Show repeat line on measures that repeat previous lines.
     For example "Repeat first A section".
 
 Decide to use Gb Major or F# Major:
     https://en.wikipedia.org/wiki/G-flat_major
-
-Complete all keys.
 
 Make prefixes for Key, Note, ChordTypes and TimeSignature.
 
