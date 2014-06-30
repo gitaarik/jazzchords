@@ -5,9 +5,6 @@ Make it possible to change the key of a section.
     Almost done! Left to do:
         - Update the key change widget if the key of the first section
           has been changed.
-        - Bug: new sections appear not to get a key. If you add a new
-          section and change it's key it gets a 500 on the section-key/
-          resource.
         - Test the hell out of it.
 
 

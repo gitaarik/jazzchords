@@ -17,7 +17,7 @@ class ChartSerializer(serializers.ModelSerializer):
 
 class SectionSerializer(serializers.ModelSerializer):
 
-    key_id = serializers.SerializerMethodField('get_key_id')
+    key_id = serializers.PrimaryKeyRelatedField(source='key')
 
     def get_key_id(self, obj):
         return obj.key.id

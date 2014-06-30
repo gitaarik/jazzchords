@@ -174,6 +174,7 @@ define(
             toJSON: function() {
                 return {
                     number: this.get('number'),
+                    key_id: this.get('key').get('id'),
                     alt_name: this.get('alt_name'),
                     time_signature: this.get('time_signature'),
                     show_sidebar: this.get('show_sidebar')

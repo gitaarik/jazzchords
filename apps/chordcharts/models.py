@@ -340,7 +340,6 @@ class Section(models.Model):
 
     key = models.ForeignKey(
         Key,
-        null=True,
         help_text=(
             """The key the chart is in. If the some sections of the song have
             deviating keys you can overwrite this in the section."""
