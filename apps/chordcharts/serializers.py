@@ -11,12 +11,16 @@ class ChartSerializer(serializers.ModelSerializer):
             'song',
             'short_description',
             'video_url',
-            'lyrics_url',
-            'key'
+            'lyrics_url'
         )
 
 
 class SectionSerializer(serializers.ModelSerializer):
+
+    key_id = serializers.SerializerMethodField('get_key_id')
+
+    def get_key_id(self, obj):
+        return obj.key.id
 
     def restore_object(self, attrs, instance=None):
 
@@ -31,6 +35,7 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = (
             'id',
+            'key_id',
             'number',
             'alt_name',
             'time_signature',
