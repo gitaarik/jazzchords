@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import autoslug.fields
 
 
 class Migration(migrations.Migration):
@@ -13,11 +14,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Song',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
-                ('name', models.CharField(max_length=50)),
-                ('slug', models.SlugField()),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('name', models.CharField(max_length=150)),
+                ('slug', autoslug.fields.AutoSlugField(max_length=150, editable=False)),
             ],
             options={
+                'ordering': ['name'],
             },
             bases=(models.Model,),
         ),
