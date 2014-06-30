@@ -38,9 +38,9 @@ Installation
 
         pip install -r dev/requirements.txt
 
-5. Sync the database. It will ask you to create a superuser, do this, this will be your login for the admin panel later on.
+5. Migrate the database. It will ask you to create a superuser, do this, this will be your login for the admin panel later on.
 
-        ./manage.py syncdb --migrate
+        ./manage.py migrate
 
 5. Load the developer database.
 
