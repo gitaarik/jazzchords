@@ -1,8 +1,14 @@
 JazzChords.org kickof:
     - Spread the linkz
 
+Small things:
+    - Make chart_new/new_chart usage consistent, just use new_chart only.
+    - Use POST.get('fieldname') instead of POST['fieldname'] in
+      new_chart.py.
+
 Make it possible to change the key of a section.
     Almost done! Left to do:
+        - Make tonality switch work.
         - Update the key change widget if the key of the first section
           has been changed.
         - Test the hell out of it.
