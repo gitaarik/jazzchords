@@ -45,9 +45,9 @@ class ProcessNewChartPost():
             return False
         else:
 
-            short_description = self.request.POST['short_description']
-            video_url = self.request.POST['video_url']
-            lyrics_url = self.request.POST['lyrics_url']
+            short_description = self.request.POST.get('short_description')
+            video_url = self.request.POST.get('video_url')
+            lyrics_url = self.request.POST.get('lyrics_url')
 
             chart = Chart(
                 song=song,
@@ -68,7 +68,7 @@ class ProcessNewChartPost():
         Returns a existing or newly created song.
         """
 
-        song_name = self.request.POST['song_name']
+        song_name = self.request.POST.get('song_name')
 
         if not song_name:
             self.errors.append('empty_song_name')

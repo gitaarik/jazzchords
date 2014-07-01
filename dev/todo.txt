@@ -1,10 +1,6 @@
 JazzChords.org kickof:
     - Spread the linkz
 
-Small things:
-    - Use POST.get('fieldname') instead of POST['fieldname'] in
-      new_chart.py.
-
 Make it possible to change the key of a section.
     Almost done! Left to do:
         - Make tonality switch work.
