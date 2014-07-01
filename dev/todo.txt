@@ -2,7 +2,6 @@ JazzChords.org kickof:
     - Spread the linkz
 
 Small things:
-    - Make chart_new/new_chart usage consistent, just use new_chart only.
     - Use POST.get('fieldname') instead of POST['fieldname'] in
       new_chart.py.
 

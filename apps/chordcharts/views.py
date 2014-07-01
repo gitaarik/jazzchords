@@ -104,7 +104,7 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
             reverse_kwargs['song_slug'] = chart.song.slug
 
             if edit:
-                view = 'chordcharts:chart_edit'
+                view = 'chordcharts:edit_chart'
             else:
                 view = 'chordcharts:chart'
 
@@ -163,7 +163,7 @@ def new_chart(request):
             errors = formErrors.errors
         else:
             response = redirect(
-                'chordcharts:chart_edit',
+                'chordcharts:edit_chart',
                 song_slug=chart.song.slug,
                 chart_id=chart.id
             )

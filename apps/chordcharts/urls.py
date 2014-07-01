@@ -17,7 +17,7 @@ urlpatterns = [
     url(
         r'^new/',
         'chordcharts.views.new_chart',
-        name='chart_new',
+        name='new_chart',
     ),
     url(
         r'^edit/'
@@ -26,7 +26,7 @@ urlpatterns = [
         '(?:(?P<key_slug>[a-z0-9-_]+)/)?$',
         'chordcharts.views.chart',
         {'edit': True},
-        name='chart_edit',
+        name='edit_chart',
     ),
     url(
         r'^delete/'
