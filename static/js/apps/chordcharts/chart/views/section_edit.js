@@ -28,28 +28,13 @@ define(
                 var that = this;
                 var keySelectWidgetDelegate = function() { };
 
-                keySelectWidgetDelegate.tonic_changed = function(tonic) {
+                keySelectWidgetDelegate.key_changed = function(key) {
 
-                    var section = that.model.get('section');
-                    var key = section.get('key');
+                    console.log('updating to key:');
+                    console.log(key);
 
-                    var new_key = allKeys.findWhere({
-                        'tonic': tonic,
-                        'tonality': key.tonality
-                    });
+                    that.updateKey(key);
 
-                    section.set('key', new_key);
-
-                    new SectionKey({
-                        section: that.model.get('section'),
-                        tonic: tonic,
-                        tonality: key.get('tonality')
-                    }).save();
-
-                };
-
-                keySelectWidgetDelegate.tonality_changed = function(tonality) {
-                    console.log('new tonality: ' + tonality);
                 };
 
                 this.keySelectWidget = new KeySelectWidget(
@@ -140,6 +125,18 @@ define(
                 if (event.key == 'Enter') {
                     this.close();
                 }
+            },
+
+            updateKey: function(new_key) {
+
+                this.model.get('section').set('key', new_key);
+
+                new SectionKey({
+                    section: this.model.get('section'),
+                    tonic: new_key.get('tonic'),
+                    tonality: new_key.get('tonality')
+                }).save();
+
             }
 
         });

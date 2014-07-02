@@ -3,9 +3,15 @@ JazzChords.org kickof:
 
 Make it possible to change the key of a section.
     Almost done! Left to do:
-        - Make tonality switch work.
         - Update the key change widget if the key of the first section
           has been changed.
+        - Make the key change widget not redirect/refresh the page in
+          edit mode, because of this problem: When you change the key
+          through the key change widget, the key will appear in the URL.
+          Now when you change the key of the first section, the key of
+          the chart changes (because it's the first section), but if you
+          refresh the page, it will reset it back to the key that's in
+          the URL.
         - Test the hell out of it.
 
 

@@ -1,6 +1,9 @@
-define(function() {
+define(['init/all_keys'], function(allKeys) {
 
     function KeySelect(key_select_el, delegate) {
+
+        this.tonic = 'C';
+        this.tonality = 1;
 
         this.key_select_el = key_select_el;
         this.tonic_el = this.key_select_el.find('.tonic');
@@ -29,7 +32,7 @@ define(function() {
         this.tonic_el.find('.tonic-choices ul li').click(function(el) {
             var tonic = $(el.target).data('tonic');
             that.updateTonic(tonic);
-            that.delegate.tonic_changed(tonic);
+            that.updateKey();
         });
 
         $('html').click(function(el) {
@@ -54,13 +57,13 @@ define(function() {
             var tonality;
 
             if (that.tonality_text_el.html() == 'Major') {
-                tonality = 'Minor';
+                tonality = 2;
             } else {
-                tonality = 'Major';
+                tonality = 1;
             }
 
             that.updateTonality(tonality);
-            that.delegate.tonality_changed(tonality);
+            that.updateKey();
 
         });
 
@@ -68,27 +71,39 @@ define(function() {
 
     KeySelect.prototype.updateTonic = function(tonic) {
 
-        this.tonic_currently_selected_el.html(tonic);
+        this.tonic = tonic;
+        this.tonic_currently_selected_el.html(this.tonic);
 
         this.tonic_choices_el.find('li.selected').removeClass('selected');
-        this.tonic_choices_el.find('li[data-tonic=' + tonic + ']').addClass('selected');
+        this.tonic_choices_el.find(
+            'li[data-tonic=' + this.tonic + ']'
+        ).addClass('selected');
         this.tonic_choices_el.hide();
 
     };
 
     KeySelect.prototype.updateTonality = function(tonality) {
 
-        tonality = tonality.toLowerCase();
+        this.tonality = tonality;
 
-        if (tonality == 'major') {
+        if (this.tonality == 1) {
             tonality_text = 'Major';
-        } else if (tonality == 'minor') {
-            tonality_text = 'Minor';
         } else {
-            return false;
+            tonality_text = 'Minor';
         }
 
         this.tonality_text_el.html(tonality_text);
+
+    };
+
+    KeySelect.prototype.updateKey = function() {
+
+        this.delegate.key_changed(
+            allKeys.findWhere({
+                tonic: this.tonic,
+                tonality: this.tonality
+            })
+        );
 
     };
 
