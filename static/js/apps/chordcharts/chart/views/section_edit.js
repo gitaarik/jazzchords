@@ -128,15 +128,8 @@ define(
             },
 
             updateKey: function(new_key) {
-
                 this.model.get('section').set('key', new_key);
-
-                new SectionKey({
-                    section: this.model.get('section'),
-                    tonic: new_key.get('tonic'),
-                    tonality: new_key.get('tonality')
-                }).save();
-
+                new SectionKey({ section: this.model.get('section') }).save();
             }
 
         });

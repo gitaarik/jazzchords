@@ -3,8 +3,8 @@ define(
     function() {
 
         /*
-         * Model specially for the API sync that updates the section's
-         * key without changing the chords.
+         * Model specially for the API sync that updates the chart's
+         * key (which will transpose all chords).
          */
         return Backbone.Model.extend({
 
@@ -12,8 +12,8 @@ define(
 
                 return (
                     GLOBALS.api_root_url +
-                    'section-key/' +
-                    this.get('section').get('id') + '/'
+                    'chart-transpose/' +
+                    GLOBALS.chart_data.id + '/'
                 );
 
             },
@@ -24,11 +24,9 @@ define(
 
             toJSON: function() {
 
-                var section = this.get('section');
-
                 return {
-                    tonic: section.get('tonic'),
-                    tonality: section.get('tonality')
+                    tonic: this.get('tonic'),
+                    tonality: this.get('tonality')
                 };
 
             }

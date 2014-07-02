@@ -42,11 +42,11 @@
                 </div>
                 <hr>
                 <div>Transpose to:</div>
-                <ul class="box-choice-list">
+                <ul class="key-tonics box-choice-list">
                     {% for key in chart_keys %}
                         <li{% if chart.key.id == key.id %} class="selected"{% endif %}>
                             {% if edit %}
-                                <a href="{% url "chordcharts:edit_chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tonic }}</a>
+                                <a data-key-tonic="{{ key.tonic }}">{{ key.tonic }}</a>
                             {% else %}
                                 <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_slug=key.slug %}">{{ key.tonic }}</a>
                             {% endif %}

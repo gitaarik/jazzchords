@@ -38,17 +38,13 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         Returns the key for the given `key_slug` or `None` if `key_slug`
         was invalid.
         """
-        try:
-            return Key.objects.get(slug=key_slug)
-        except ObjectDoesNotExist:
+        if key_slug:
+            try:
+                return Key.objects.get(slug=key_slug)
+            except ObjectDoesNotExist:
+                return None
+        else:
             return None
-
-    def set_chart_key(chart, key):
-        """
-        Overrides the default key of the chart in case it was given.
-        """
-        if key:
-            chart.update_key(key)
 
     def chord_types_sets(chord_types):
         """
@@ -122,7 +118,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         return redirect_wrong_slugs
     else:
 
-        set_chart_key(chart, key)
+        if key:
+            chart.transpose(key.tonic)
 
         chart.cleanup()
 

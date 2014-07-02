@@ -262,20 +262,23 @@ class Chart(models.Model):
     def key(self):
         """
         The key of the chart.
+
+        This is just the key of the first section.
         """
-        # This is just the key of the first section.
         return self.sections.first().key
 
-    def update_key(self, key):
+    def transpose(self, tonic):
         """
-        Update the key of the chart.
+        Transpose the chart to the given `tonic`.
 
-        This updates the keys of all sections with the interval between
-        key of the first section and the given `key`.
+        Will update the tonic of the keys of all sections with the interval
+        between the tonic of the key of the first section and the given
+        `tonic`.
         """
 
         difference = (
-            key.distance_from_c - self.sections.first().key.distance_from_c
+            Key.objects.get(tonic=tonic, tonality=1).distance_from_c -
+            self.sections.first().key.distance_from_c
         )
 
         for section in self.sections.all():
@@ -283,7 +286,7 @@ class Chart(models.Model):
                 distance_from_c=(
                     (section.key.distance_from_c + difference) % 12
                 ),
-                tonality=key.tonality
+                tonality=section.key.tonality
             )
             section.save()
 

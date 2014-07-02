@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
 from rest_framework.exceptions import ParseError
+from rest_framework.response import Response
 
 from songs.models import Song
 from .serializers import (
@@ -88,7 +89,7 @@ class ChordViewSet(viewsets.ModelViewSet):
 
 class ChartSongNameView(views.APIView):
     """
-    Change the songname for the chart.
+    Change the songname of a chart.
 
     If the new name matches an existing song, that song will be related
     to the chart. Otherwise a new song with this name will be created.
@@ -124,6 +125,32 @@ class ChartSongNameView(views.APIView):
             new_song.save()
 
         return new_song
+
+
+class ChartTransposeView(views.APIView):
+    """
+    Transpose a chart.
+
+    Will update the tonic of the keys of all sections with the interval
+    between the tonic of the key of the first section and the tonic in
+    the payload.
+    """
+
+    def post(self, request, chart_id):
+
+        chart = get_object_or_404(Chart, id=chart_id)
+
+        try:
+            key = Key.objects.get(
+                tonic=request.DATA.get('tonic'),
+                tonality=1
+            )
+        except ObjectDoesNotExist:
+            raise ParseError('Invalid key')
+
+        chart.transpose(key.tonic)
+
+        return Response({})
 
 
 class SectionKeyView(views.APIView):
