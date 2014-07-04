@@ -7,7 +7,7 @@ define(
         'views/chord_edit_note',
         'views/chord_edit_chord_type',
         'init/chord_types',
-        'init/all_keys'
+        'widgets/all_keys'
     ],
     function(
         ChordEditNotes,

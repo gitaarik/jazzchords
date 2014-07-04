@@ -2,12 +2,16 @@ JazzChords.org kickof:
     - Spread the linkz
 
 Make it possible to change the key of a section.
-    Left to do:
-        - If you now change the key NOT in edit mode, then it will still
-          save the new key.
-        - Update the key change widget if the key of the first section
-          has been changed.
-        - Test the hell out of it.
+    - Bug: Key select widget doesn't get updated with correct tonality;
+      a section that is Minor still defaults to Major.
+    - Update the key change widget if the key of the first section has
+      been changed.
+    - Rename the key change widget to transpose widget, because it's a
+      better description and causes less confusion with the section key
+      change functionality.
+    - If you now change the key NOT in edit mode, then it will still
+      save the new key.
+    - Test the hell out of it.
 
 
 Make things ready for production:

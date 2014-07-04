@@ -24,11 +24,11 @@ define(
 
             toJSON: function() {
 
-                var section = this.get('section');
+                var key = this.get('section').get('key');
 
                 return {
-                    tonic: section.get('tonic'),
-                    tonality: section.get('tonality')
+                    tonic: key.get('tonic'),
+                    tonality: key.get('tonality')
                 };
 
             }

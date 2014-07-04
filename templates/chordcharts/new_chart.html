@@ -6,7 +6,19 @@
 {% endblock %}
 
 {% block javascript %}
+
+    {{ block.super }}
+
+    <script>
+
+        var GLOBALS = {
+            all_keys: {{ all_keys_json|safe }}
+        }
+
+    </script>
+
     <script data-main="{{ STATIC_URL }}js/apps/chordcharts/new_chart.js" src="{{ STATIC_URL }}js/libs/require.js"></script>
+
 {% endblock %}
 
 {% block content %}

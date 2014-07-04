@@ -2,12 +2,9 @@ define(['widgets/key_select'], function(KeySelectWidget) {
 
     var keySelectWidgetDelegate = function() {};
 
-    keySelectWidgetDelegate.tonic_changed = function(tonic) {
-        $('.key-tonic-input').attr('value', tonic);
-    };
-
-    keySelectWidgetDelegate.tonality_changed = function(tonality) {
-        $('.key-tonality-input').attr('value', tonality);
+    keySelectWidgetDelegate.key_changed = function(key) {
+        $('.key-tonic-input').attr('value', key.get('tonic'));
+        $('.key-tonality-input').attr('value', key.get('tonality'));
     };
 
     new KeySelectWidget($('.key-select-widget'), keySelectWidgetDelegate);

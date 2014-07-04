@@ -19,11 +19,28 @@ define(
             },
 
             render: function() {
-                if(this.model.get('visible')) {
+
+                if (this.model.get('visible')) {
                     this.$el.find('.open').show();
                 } else {
                     this.$el.find('.open').hide();
                 }
+
+                if (this.model.has('key')) {
+
+                    var key = this.model.get('key');
+
+                    this.$el.find('.key-name').html(key.get('name'));
+
+                    this.$el.find('.key-tonics li').removeClass('selected');
+                    this.$el.find(
+                        '.key-tonics li[data-key-tonic=' +
+                            key.get('tonic') +
+                        ']'
+                    ).addClass('selected');
+
+                }
+
             },
 
             changeKey: function(el) {
@@ -35,7 +52,7 @@ define(
                 var target = $(el.target);
 
                 new ChartKey({
-                    tonic: target.data('key-tonic')
+                    tonic: target.parent().data('key-tonic')
                 }).save(null, { success: function() {
                     // Refresh the page so that the transposition will
                     // be visible on the screen. A simple solution for

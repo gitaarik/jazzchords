@@ -1,18 +1,18 @@
-define(['init/all_keys'], function(allKeys) {
+define(['widgets/all_keys'], function(allKeys) {
 
     function KeySelect(key_select_el, delegate) {
+
+        this.key_select_el = key_select_el;
+        this.delegate = delegate;
 
         this.tonic = 'C';
         this.tonality = 1;
 
-        this.key_select_el = key_select_el;
         this.tonic_el = this.key_select_el.find('.tonic');
         this.tonic_currently_selected_el = this.tonic_el.find('.currently-selected');
         this.tonic_choices_el = this.tonic_el.find('.tonic-choices');
         this.tonality_el = this.key_select_el.find('.tonality');
         this.tonality_text_el = this.tonality_el.find('span');
-
-        this.delegate = delegate;
 
         this.initKeyTonic();
         this.initKeyTonality();
@@ -32,7 +32,7 @@ define(['init/all_keys'], function(allKeys) {
         this.tonic_el.find('.tonic-choices ul li').click(function(el) {
             var tonic = $(el.target).data('tonic');
             that.updateTonic(tonic);
-            that.updateKey();
+            that.notifyDelegate();
         });
 
         $('html').click(function(el) {
@@ -63,7 +63,7 @@ define(['init/all_keys'], function(allKeys) {
             }
 
             that.updateTonality(tonality);
-            that.updateKey();
+            that.notifyDelegate();
 
         });
 
@@ -82,6 +82,11 @@ define(['init/all_keys'], function(allKeys) {
 
     };
 
+    KeySelect.prototype.updateKey = function(key) {
+        this.updateTonic(key.get('tonic'));
+        this.updateTonality(key.get('tonality'));
+    };
+
     KeySelect.prototype.updateTonality = function(tonality) {
 
         this.tonality = tonality;
@@ -96,14 +101,18 @@ define(['init/all_keys'], function(allKeys) {
 
     };
 
-    KeySelect.prototype.updateKey = function() {
+    KeySelect.prototype.notifyDelegate = function() {
 
-        this.delegate.key_changed(
-            allKeys.findWhere({
-                tonic: this.tonic,
-                tonality: this.tonality
-            })
-        );
+        if (this.delegate) {
+
+            this.delegate.key_changed(
+                allKeys.findWhere({
+                    tonic: this.tonic,
+                    tonality: this.tonality
+                })
+            );
+
+        }
 
     };
 

@@ -2,14 +2,14 @@ define(
     [
         'models/section',
         'models/section_key',
-        'widgets/key_select',
-        'init/all_keys'
+        'init/key_change_widget',
+        'widgets/key_select'
     ],
     function(
         Section,
         SectionKey,
-        KeySelectWidget,
-        allKeys
+        keyChangeWidget,
+        KeySelectWidget
     ) {
 
         return Backbone.View.extend({
@@ -29,12 +29,7 @@ define(
                 var keySelectWidgetDelegate = function() { };
 
                 keySelectWidgetDelegate.key_changed = function(key) {
-
-                    console.log('updating to key:');
-                    console.log(key);
-
                     that.updateKey(key);
-
                 };
 
                 this.keySelectWidget = new KeySelectWidget(
@@ -128,8 +123,14 @@ define(
             },
 
             updateKey: function(new_key) {
+
                 this.model.get('section').set('key', new_key);
                 new SectionKey({ section: this.model.get('section') }).save();
+
+                if (this.model.get('section').get('number') == 1) {
+                    keyChangeWidget.set('key', new_key);
+                }
+
             }
 
         });

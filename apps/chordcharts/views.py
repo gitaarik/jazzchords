@@ -11,6 +11,7 @@ from songs.models import Song
 from .models import Chart, Key, ChordType
 from .settings import BOXED_CHART
 from .helpers.new_chart import ProcessNewChartPost, FormErrors
+from .helpers.keys_json import keys_json
 
 
 def song_index(request):
@@ -61,16 +62,6 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
             for chord_type in chord_types
         ]
         return json.dumps(chord_types_data)
-
-    def keys_json(keys):
-        """
-        Returns the JSON representation of the given `keys`.
-        """
-        all_keys_data = [
-            key.client_data()
-            for key in all_keys
-        ]
-        return json.dumps(all_keys_data)
 
     def get_redirect_wrong_slugs(chart, key, song_slug, key_slug):
         """
@@ -177,6 +168,7 @@ def new_chart(request):
             keys[key.tonality].append(key)
 
         context = {
+            'all_keys_json': keys_json(Key.objects.all()),
             'key_select_tonics': Key.TONIC_CHOICES,
             'keys_major': keys[Key.TONALITY_MAJOR],
             'keys_minor': keys[Key.TONALITY_MINOR],

@@ -1,7 +1,7 @@
 define(
     [
         'collections/lines',
-        'init/all_keys'
+        'widgets/all_keys'
     ],
     function(
         Lines,

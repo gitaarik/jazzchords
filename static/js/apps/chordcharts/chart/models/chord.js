@@ -1,6 +1,6 @@
 define(
-    ['models/note', 'init/chord_types', 'init/all_keys'],
-    function(Note, chordTypes, allKeys) {
+    ['init/chord_types', 'widgets/all_keys'],
+    function(chordTypes, allKeys) {
 
         return Backbone.Model.extend({
 

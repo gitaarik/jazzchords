@@ -25,8 +25,7 @@ define(
             toJSON: function() {
 
                 return {
-                    tonic: this.get('tonic'),
-                    tonality: this.get('tonality')
+                    tonic: this.get('tonic')
                 };
 
             }
