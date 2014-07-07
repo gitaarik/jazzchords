@@ -2,8 +2,6 @@ JazzChords.org kickof:
     - Spread the linkz
 
 Make it possible to change the key of a section.
-    - Bug: Key select widget doesn't get updated with correct tonality;
-      a section that is Minor still defaults to Major.
     - Update the key change widget if the key of the first section has
       been changed.
     - Rename the key change widget to transpose widget, because it's a

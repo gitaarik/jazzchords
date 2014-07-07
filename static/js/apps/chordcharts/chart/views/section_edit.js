@@ -76,8 +76,8 @@ define(
                     this.$el.find('.sequence-letter-radio').prop('checked', true);
                 }
 
-                this.keySelectWidget.updateTonic(
-                    this.model.get('section').get('key').get('tonic')
+                this.keySelectWidget.updateKey(
+                    this.model.get('section').get('key')
                 );
 
                 this.$el.show();
