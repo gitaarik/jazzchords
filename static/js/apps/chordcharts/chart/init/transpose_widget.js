@@ -1,19 +1,19 @@
 define(
-    ['models/key_change_widget', 'views/key_change_widget'],
-    function(KeyChangeWidget, KeyChangeWidgetView) {
+    ['models/transpose_widget', 'views/transpose_widget'],
+    function(TransposeWidget, TransposeWidgetView) {
 
-        var keyChangeWidget = new KeyChangeWidget();
+        var transposeWidget = new TransposeWidget();
 
-        new KeyChangeWidgetView({
+        new TransposeWidgetView({
             el: $('.chord-chart .key-select'),
-            model: keyChangeWidget
+            model: transposeWidget
         });
 
         $('html').on('click', function(event) {
 
             // Close the widget if there was a click outside it.
 
-            if (keyChangeWidget.get('visible')) {
+            if (transposeWidget.get('visible')) {
 
                 var target = $(event.target);
 
@@ -30,14 +30,14 @@ define(
                         .closest('.chord-chart')
                         .length
                 ) {
-                    keyChangeWidget.set('visible', false);
+                    transposeWidget.set('visible', false);
                 }
 
             }
 
         });
 
-        return keyChangeWidget;
+        return transposeWidget;
 
     }
 );

@@ -3,8 +3,7 @@ define(
     function() {
 
         /*
-         * Model specially for the API sync that updates the chart's
-         * key (which will transpose all chords).
+         * Model specially for the API sync that transposes the chart.
          */
         return Backbone.Model.extend({
 

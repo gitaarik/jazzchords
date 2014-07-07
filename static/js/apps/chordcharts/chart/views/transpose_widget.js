@@ -1,6 +1,6 @@
 define(
-    ['models/chart_key'],
-    function(ChartKey) {
+    ['models/chart_transpose'],
+    function(ChartTranspose) {
 
         return Backbone.View.extend({
 
@@ -51,12 +51,12 @@ define(
 
                 var target = $(el.target);
 
-                new ChartKey({
+                new ChartTranspose({
                     tonic: target.parent().data('key-tonic')
                 }).save(null, { success: function() {
                     // Refresh the page so that the transposition will
                     // be visible on the screen. A simple solution for
-                    // now. We don't want to put the key in the URL
+                    // now. We don't want to put the tonic in the URL
                     // because:
                     // If you change the key of the first section, you
                     // thus change the key for the complete chart, if

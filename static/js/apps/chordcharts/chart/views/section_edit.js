@@ -2,13 +2,13 @@ define(
     [
         'models/section',
         'models/section_key',
-        'init/key_change_widget',
+        'init/transpose_widget',
         'widgets/key_select'
     ],
     function(
         Section,
         SectionKey,
-        keyChangeWidget,
+        transposeWidget,
         KeySelectWidget
     ) {
 
@@ -128,7 +128,7 @@ define(
                 new SectionKey({ section: this.model.get('section') }).save();
 
                 if (this.model.get('section').get('number') == 1) {
-                    keyChangeWidget.set('key', new_key);
+                    transposeWidget.set('key', new_key);
                 }
 
             }

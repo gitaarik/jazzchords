@@ -7,7 +7,7 @@ require(
         'views/measure',
         'views/chord',
         'init/song_name_change_widget',
-        'init/key_change_widget',
+        'init/transpose_widget',
         'init/settings_widget',
     ],
     function(
@@ -17,8 +17,10 @@ require(
         LineView,
         MeasureView,
         ChordView,
+
+        // These files are included just for initialization:
         SongNameChangeWidget,
-        keyChangeWidget,
+        transposeWidget,
         settingsWidget
     ) {
 

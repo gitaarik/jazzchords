@@ -250,12 +250,29 @@ class Chart(models.Model):
     class Meta():
         ordering = ['song__name']
 
-    def client_data(self):
+    def client_data(self, transpose_to_tonic=None):
+
+        if transpose_to_tonic:
+            key = Key.objects.get(
+                tonic=transpose_to_tonic,
+                tonality=self.key.tonality
+            )
+            interval = self.get_transpose_interval(transpose_to_tonic)
+        else:
+            key = self.key
+            interval = 0
+
+        sections_client_data = []
+
+        for section in self.sections.all():
+            section.transpose_with_interval(interval)
+            sections_client_data.append(section.client_data())
+
         return {
             'id': self.id,
             'song': self.song.client_data(),
-            'key': self.key.client_data(),
-            'sections': [s.client_data() for s in self.sections.all()]
+            'key': key.client_data(),
+            'sections': sections_client_data
         }
 
     @property
@@ -276,19 +293,22 @@ class Chart(models.Model):
         `tonic`.
         """
 
-        difference = (
+        interval = self.get_transpose_interval(tonic)
+
+        for section in self.sections.all():
+            section.transpose_with_interval(interval)
+            section.save()
+
+    def get_transpose_interval(self, tonic):
+        """
+        Returns the interval in half notes between the given tonic and
+        the tonic of the key of the chart (which is the same as the
+        tonic of the key of the first section).
+        """
+        return (
             Key.objects.get(tonic=tonic, tonality=1).distance_from_c -
             self.sections.first().key.distance_from_c
         )
-
-        for section in self.sections.all():
-            section.key = Key.objects.get(
-                distance_from_c=(
-                    (section.key.distance_from_c + difference) % 12
-                ),
-                tonality=section.key.tonality
-            )
-            section.save()
 
     def cleanup(self):
         """
@@ -444,6 +464,18 @@ class Section(models.Model):
             self.lines.count() *
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
+
+    def transpose_with_interval(self, interval):
+        """
+        Transposes the key of the section using the given `interval`
+        in half notes.
+        """
+        self.key = Key.objects.get(
+            distance_from_c=(
+                (self.key.distance_from_c + interval) % 12
+            ),
+            tonality=self.key.tonality
+        )
 
     def cleanup(self):
         """

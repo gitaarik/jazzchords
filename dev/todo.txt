@@ -1,15 +1,3 @@
-JazzChords.org kickof:
-    - Spread the linkz
-
-Make it possible to change the key of a section.
-    - Rename the key change widget to transpose widget, because it's a
-      better description and causes less confusion with the section key
-      change functionality.
-    - If you now change the key NOT in edit mode, then it will still
-      save the new key.
-    - Test the hell out of it.
-
-
 Make things ready for production:
     - Ditch require.js and use Gulp.js and browserify.js to compile
       js/less.

@@ -23,7 +23,7 @@ def song_index(request):
     return render(request, 'chordcharts/song_index.html', context)
 
 
-def chart(request, song_slug, chart_id, key_slug=None, edit=False):
+def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
     """
     Renders the view for the chart.
 
@@ -31,43 +31,50 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
     version, `edit` should be `True`.
     """
 
-    class InvalidKeySlug(Exception):
-        pass
-
-    def get_key(key_slug):
+    def get_key(chart, key_tonic):
         """
-        Returns the key for the given `key_slug` or `None` if `key_slug`
-        was invalid.
+        Returns the key for the given `key_tonic` or `None` if
+        `key_tonic` was invalid.
         """
-        if key_slug:
+        if key_tonic:
             try:
-                return Key.objects.get(slug=key_slug)
+                return Key.objects.get(
+                    tonic=key_tonic,
+                    tonality=chart.key.tonality
+                )
             except ObjectDoesNotExist:
                 return None
         else:
             return None
 
-    def chord_types_sets(chord_types):
+    def get_chart_data(key):
+
+        kwargs = {}
+
+        if key:
+            kwargs['transpose_to_tonic'] = key.tonic
+
+        return chart.client_data(**kwargs)
+
+    def get_chord_types_sets(chord_types):
         """
         Returns two sets of chord types lists.
         """
         return (chord_types[:12], chord_types[12:])
 
-    def chord_types_json(chord_types):
+    def get_chord_types_json(chord_types):
         """
         Returns the JSON representation of the given `chord_types`.
         """
-        chord_types_data = [
-            chord_type.client_data()
-            for chord_type in chord_types
-        ]
-        return json.dumps(chord_types_data)
+        return json.dumps(
+            [chord_type.client_data() for chord_type in chord_types]
+        )
 
-    def get_redirect_wrong_slugs(chart, key, song_slug, key_slug):
+    def get_redirect_wrong_slugs(chart, key, song_slug, key_tonic):
         """
         Returns a redirect response in case the given `song_slug` isn't
-        equal to the chart's song's slug, and/or if the given `key_slug`
-        is invalid. Otherwise returns `None`.
+        equal to the chart's song's slug, and/or if the given
+        `key_tonic` is invalid. Otherwise returns `None`.
         """
 
         redirect = False
@@ -76,11 +83,11 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
         if song_slug != chart.song.slug:
             redirect = True
 
-        if key_slug:
+        if key_tonic:
             if key:
-                reverse_kwargs['key_slug'] = key_slug
+                reverse_kwargs['key_tonic'] = key_tonic
             else:
-                # If `key` is `None`, it means that the `key_slug` was
+                # If `key` is `None`, it means that the `key_tonic` was
                 # invalid. In this case we want to redirect, so it will
                 # go to the default key.
                 redirect = True
@@ -99,25 +106,26 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
                 reverse(view, kwargs=reverse_kwargs)
             )
 
-    key = get_key(key_slug)
     chart = get_object_or_404(Chart, id=chart_id)
+    key = get_key(chart, key_tonic)
     redirect_wrong_slugs = get_redirect_wrong_slugs(
-        chart, key, song_slug, key_slug
+        chart, key, song_slug, key_tonic
     )
 
     if redirect_wrong_slugs:
         return redirect_wrong_slugs
     else:
 
-        if key:
-            chart.transpose(key.tonic)
+        if edit:
+            # Only clean up the chart in edit mode, because if we always
+            # do it it might become a bit too much. Besides that,
+            # "unclean" charts should work nevertheless.
+            chart.cleanup()
 
-        chart.cleanup()
-
+        chart_data = get_chart_data(key)
         all_keys = Key.objects.all()
         chart_keys = all_keys.filter(tonality=chart.key.tonality)
         chord_types = ChordType.objects.all()
-        chart_data = chart.client_data()
 
         context = {
             'settings': BOXED_CHART,
@@ -126,8 +134,8 @@ def chart(request, song_slug, chart_id, key_slug=None, edit=False):
             'chart_json': json.dumps(chart_data),
             'chart_keys': chart_keys,
             'all_keys_json': keys_json(all_keys),
-            'chord_types_sets': chord_types_sets(chord_types),
-            'chord_types_json': chord_types_json(chord_types),
+            'chord_types_sets': get_chord_types_sets(chord_types),
+            'chord_types_json': get_chord_types_json(chord_types),
             'edit': edit,
             'key_select_tonics': Key.TONIC_CHOICES
         }
