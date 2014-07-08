@@ -538,6 +538,16 @@ class Line(models.Model):
         )
     )
 
+    merge_with_next_line = models.BooleanField(
+        default=True,
+        help_text=(
+            """If this is checked and the next line has the same letter as this
+            line, then the two lines will be represented as one subsection. If
+            it's not checked, they will be both repretitions of the same
+            subsection."""
+        )
+    )
+
     def __str__(self):
         return "Line {}".format(self.number)
 

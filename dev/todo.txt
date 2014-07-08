@@ -1,8 +1,6 @@
 Change section sidebar behavior:
-    Now the system decides for itself if two lines are the same section or not.
-    Make it more controllable: add a button "Merge down" and "Merge up" to
-    lines that have the same number, and if they're merged, there should be an
-    option "split".
+    Add an checkbox "merge with previous line" and "merge with next
+    line".
 
 Make things ready for production:
     - Ditch require.js and use Gulp.js and browserify.js to compile
