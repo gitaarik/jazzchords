@@ -1,6 +1,5 @@
-Change section sidebar behavior:
-    Add an checkbox "merge with previous line" and "merge with next
-    line".
+Bug:
+    When changing a section's key, the alt bass notes aren't transposed
 
 Make things ready for production:
     - Ditch require.js and use Gulp.js and browserify.js to compile
@@ -9,6 +8,7 @@ Make things ready for production:
     - Decide to use Gb Major or F# Major:
       https://en.wikipedia.org/wiki/G-flat_major
     - Complete all keys.
+    - Turn off Django's DEBUG mode
 
 Show repeat line on measures that repeat previous lines.
     For example "Repeat first A section".

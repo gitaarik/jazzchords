@@ -20,7 +20,7 @@ define(
             measureAdded: function() {
 
                 if(this.model.get('measures').length < 8) {
-                    this.$el.find('.colspan').attr(
+                    this.$el.find('.colspan').prop(
                         'colspan',
                         8 - this.model.get('measures').length
                     );
@@ -37,7 +37,7 @@ define(
                     this.addMeasureAddWidget(1);
                 }
                 else {
-                    this.$el.find('.colspan').attr(
+                    this.$el.find('.colspan').prop(
                         'colspan',
                         8 - this.model.get('measures').length
                     );

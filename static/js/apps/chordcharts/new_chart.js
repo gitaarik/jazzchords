@@ -3,8 +3,8 @@ define(['widgets/key_select'], function(KeySelectWidget) {
     var keySelectWidgetDelegate = function() {};
 
     keySelectWidgetDelegate.key_changed = function(key) {
-        $('.key-tonic-input').attr('value', key.get('tonic'));
-        $('.key-tonality-input').attr('value', key.get('tonality'));
+        $('.key-tonic-input').prop('value', key.get('tonic'));
+        $('.key-tonality-input').prop('value', key.get('tonality'));
     };
 
     new KeySelectWidget($('.key-select-widget'), keySelectWidgetDelegate);

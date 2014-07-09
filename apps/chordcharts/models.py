@@ -539,7 +539,7 @@ class Line(models.Model):
     )
 
     merge_with_next_line = models.BooleanField(
-        default=True,
+        default=False,
         help_text=(
             """If this is checked and the next line has the same letter as this
             line, then the two lines will be represented as one subsection. If
@@ -559,6 +559,7 @@ class Line(models.Model):
             'id': self.id,
             'number': self.number,
             'letter': self.letter,
+            'merge_with_next_line': self.merge_with_next_line,
             'measures': [m.client_data() for m in self.measures.all()]
         }
 

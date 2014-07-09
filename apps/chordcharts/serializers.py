@@ -56,7 +56,7 @@ class LineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Line
-        fields = ('id', 'number', 'letter')
+        fields = ('id', 'number', 'letter', 'merge_with_next_line')
 
 
 class MeasureSerializer(serializers.ModelSerializer):

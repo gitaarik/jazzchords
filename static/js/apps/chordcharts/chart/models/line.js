@@ -8,7 +8,7 @@ define(
 
                 // Only set measures if it hasn't been set yet. Prevents errors
                 // when cloning.
-                if(!(this.get('measures') instanceof Backbone.Collection)) {
+                if (!(this.get('measures') instanceof Backbone.Collection)) {
 
                     var that = this;
                     var measures = new Measures();
@@ -38,9 +38,31 @@ define(
                 this.listenTo(this.get('measures'), 'remove', this.measureRemoved);
             },
 
+            previous: function() {
+                return this.getSibling(-1);
+            },
+
+            next: function() {
+                return this.getSibling(1);
+            },
+
+            /**
+             * Returns the sibling line in the collection that is
+             * `difference` away from this line, where a negative
+             * `difference` will return a previous sibling and a
+             * positive `difference` an upcoming sibling.
+             */
+            getSibling: function(difference) {
+
+                return this.collection.findWhere({
+                    number: this.get('number') + difference
+                });
+
+            },
+
             measureRemoved: function() {
 
-                if(!this.get('measures').length) {
+                if (!this.get('measures').length) {
                     this.destroy();
                 }
 
@@ -54,7 +76,7 @@ define(
                     measures: this.get('measures').copy({ line: copy })
                 });
 
-                if(attributes) {
+                if (attributes) {
                     copy.set(attributes);
                 }
 
@@ -84,7 +106,8 @@ define(
             toJSON: function() {
                 return {
                     number: this.get('number'),
-                    letter: this.get('letter')
+                    letter: this.get('letter'),
+                    merge_with_next_line: this.get('merge_with_next_line')
                 };
             }
 

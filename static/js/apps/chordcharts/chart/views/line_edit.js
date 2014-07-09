@@ -18,6 +18,8 @@ define(
 
             events: {
                 'click .letters li': 'chooseLetter',
+                'change input[name=merge-up]': 'mergeUp',
+                'change input[name=merge-down]': 'mergeDown',
                 'click .disable-sidebar': 'disableSidebar',
                 'click .header .close': 'hide'
             },
@@ -46,6 +48,15 @@ define(
                     left: offset.left
                 });
 
+                this.parseLetters();
+                this.parseMergeOption();
+
+                this.$el.show();
+
+            },
+
+            parseLetters: function() {
+
                 this.$el.find('.letters li').removeClass('selected');
 
                 this.$el.find(
@@ -55,7 +66,50 @@ define(
                     ']'
                 ).addClass('selected');
 
-                this.$el.show();
+            },
+
+            parseMergeOption: function() {
+
+                var this_line = this.model.get('line');
+                var prev_line = this.model.get('line').previous();
+                var next_line = this.model.get('line').next();
+
+                var merge_up_el = this.$el.find('.merge-up');
+                var merge_down_el = this.$el.find('.merge-down');
+
+                if (
+                    prev_line &&
+                    prev_line.get('letter') == this_line.get('letter')
+                ) {
+
+                    if (prev_line.get('merge_with_next_line')) {
+                        merge_up_el.find('input').prop('checked', true);
+                    } else {
+                        merge_up_el.find('input').prop('checked', false);
+                    }
+
+                    merge_up_el.show();
+
+                } else {
+                    merge_up_el.hide();
+                }
+
+                if (
+                    next_line &&
+                    next_line.get('letter') == this_line.get('letter')
+                ) {
+
+                    if (this_line.get('merge_with_next_line')) {
+                        merge_down_el.find('input').prop('checked', true);
+                    } else {
+                        merge_down_el.find('input').prop('checked', false);
+                    }
+
+                    merge_down_el.show();
+
+                } else {
+                    merge_down_el.hide();
+                }
 
             },
 
@@ -100,6 +154,32 @@ define(
 
                 this.render();
                 this.model.get('section_sidebar').trigger('change');
+
+            },
+
+            mergeUp: function(event) {
+
+                var prev_line = this.model.get('line').previous();
+
+                prev_line.set(
+                    'merge_with_next_line',
+                    $(event.target).is(':checked')
+                );
+
+                prev_line.save();
+
+            },
+
+            mergeDown: function(event) {
+
+                var line = this.model.get('line');
+
+                line.set(
+                    'merge_with_next_line',
+                    $(event.target).is(':checked')
+                );
+
+                line.save();
 
             },
 
