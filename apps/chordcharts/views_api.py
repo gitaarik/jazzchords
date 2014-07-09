@@ -177,14 +177,6 @@ class SectionKeyView(views.APIView):
         except ObjectDoesNotExist:
             raise ParseError('Invalid key')
 
-        difference = section.key.distance_from_c - key.distance_from_c
-        section.key = key
-        section.save()
-
-        for line in section.lines.all():
-            for measure in line.measures.all():
-                for chord in measure.chords.all():
-                    chord.chord_pitch = (chord.chord_pitch + difference) % 12
-                    chord.save()
+        section.update_key(key)
 
         return HttpResponse('Successfully changed section key')

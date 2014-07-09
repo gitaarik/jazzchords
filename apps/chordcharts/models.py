@@ -477,6 +477,25 @@ class Section(models.Model):
             tonality=self.key.tonality
         )
 
+    def update_key(self, key):
+        """
+        Updates the section to the given `key` without transposing the
+        chords.
+        """
+
+        difference = self.key.distance_from_c - key.distance_from_c
+        self.key = key
+        self.save()
+
+        for line in self.lines.all():
+            for measure in line.measures.all():
+                for chord in measure.chords.all():
+                    chord.chord_pitch = (chord.chord_pitch + difference) % 12
+                    chord.alt_bass_pitch = (
+                        (chord.alt_bass_pitch + difference) % 12
+                    )
+                    chord.save()
+
     def cleanup(self):
         """
         Cleans up the model by removing empty children and other objects

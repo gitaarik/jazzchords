@@ -1,6 +1,3 @@
-Bug:
-    When changing a section's key, the alt bass notes aren't transposed
-
 Make things ready for production:
     - Ditch require.js and use Gulp.js and browserify.js to compile
       js/less.
