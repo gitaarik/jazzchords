@@ -47,9 +47,11 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
         else:
             return None
 
-    def get_chart_data(key):
+    def get_chart_data(edit, key):
 
-        kwargs = {}
+        kwargs = {
+            'edit': edit
+        }
 
         if key:
             kwargs['transpose_to_tonic'] = key.tonic
@@ -122,7 +124,7 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
             # "unclean" charts should work nevertheless.
             chart.cleanup()
 
-        chart_data = get_chart_data(key)
+        chart_data = get_chart_data(edit, key)
         all_keys = Key.objects.all()
         chart_keys = all_keys.filter(tonality=chart.key.tonality)
         chord_types = ChordType.objects.all()

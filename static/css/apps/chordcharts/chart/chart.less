@@ -55,6 +55,83 @@
 
                 @import "../../../widgets/measure.less";
 
+                .repeating-measure {
+
+                    height: @measure_height;
+                    width: @measure_width;
+                    border: solid @border_width #000;
+                    padding: 0;
+                    position: relative;
+
+                    .repeat-range-heading {
+
+                        position: absolute;
+                        top: 30px;
+                        text-align: center;
+
+                        span {
+                            background: #FFF;
+                        }
+
+                        &.repeat-range-length-4 {
+                            width: @measure_width * 4;
+                        }
+
+                        &.repeat-range-length-5 {
+                            width: @measure_width * 5;
+                        }
+
+                        &.repeat-range-length-6 {
+                            width: @measure_width * 6;
+                        }
+
+                        &.repeat-range-length-7 {
+                            width: @measure_width * 7;
+                        }
+
+                        &.repeat-range-length-8 {
+                            width: @measure_width * 8;
+                        }
+
+                    }
+
+                    .range-line-container {
+
+                        margin-top: 30px;
+                        height: 17px;
+                        overflow: hidden;
+
+                        .range-line {
+                            margin-top: 6px;
+                            height: 5px;
+                            width: 100%;
+                            background: #000;
+                        }
+
+                    }
+
+                    &.first {
+
+                        .range-line-container {
+                            border-left: solid 4px #000;
+                            float: right;
+                            width: 60%;
+                        }
+
+                    }
+
+                    &.last {
+
+                        .range-line-container {
+                            border-right: solid 4px #000;
+                            float: left;
+                            width: 60%;
+                        }
+
+                    }
+
+                }
+
                 .colspan {
                     border: none;
                 }

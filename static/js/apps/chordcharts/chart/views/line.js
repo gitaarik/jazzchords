@@ -19,13 +19,12 @@ define(
 
             measureAdded: function() {
 
-                if(this.model.get('measures').length < 8) {
+                if (this.model.get('measures').length < 8) {
                     this.$el.find('.colspan').prop(
                         'colspan',
                         8 - this.model.get('measures').length
                     );
-                }
-                else {
+                } else {
                     this.$el.find('.measure-add').remove();
                 }
 
@@ -33,10 +32,9 @@ define(
 
             measureRemoved: function() {
 
-                if(this.model.get('measures').length == 7) {
+                if (this.model.get('measures').length == 7) {
                     this.addMeasureAddWidget(1);
-                }
-                else {
+                } else {
                     this.$el.find('.colspan').prop(
                         'colspan',
                         8 - this.model.get('measures').length
@@ -72,12 +70,11 @@ define(
 
                 var measureViewEl = measureView.render().$el;
 
-                if(this.$el.find('.measure-add').length) {
+                if (this.$el.find('.measure-add').length) {
                     measureViewEl.insertBefore(
                         this.$el.find('.measure-add')
                     );
-                }
-                else {
+                } else {
                     this.$el.append(measureViewEl);
                 }
 

@@ -3,6 +3,7 @@ import string
 
 from django.db import models
 
+from core.helpers.number_to_ordinal import number_to_ordinal
 from songs.models import Song
 from .settings import BOXED_CHART
 
@@ -250,7 +251,7 @@ class Chart(models.Model):
     class Meta():
         ordering = ['song__name']
 
-    def client_data(self, transpose_to_tonic=None):
+    def client_data(self, edit=False, transpose_to_tonic=None):
 
         if transpose_to_tonic:
             key = Key.objects.get(
@@ -266,7 +267,9 @@ class Chart(models.Model):
 
         for section in self.sections.all():
             section.transpose_with_interval(interval)
-            sections_client_data.append(section.client_data())
+            sections_client_data.append(
+                section.client_data(edit=edit)
+            )
 
         return {
             'id': self.id,
@@ -417,7 +420,7 @@ class Section(models.Model):
     class Meta:
         ordering = ('number',)
 
-    def client_data(self):
+    def client_data(self, edit=False):
         return {
             'id': self.id,
             'key': self.key.client_data(),
@@ -430,7 +433,7 @@ class Section(models.Model):
             'height': self.height(),
             'key_id': self.key.id,
             'key': self.key.client_data(),
-            'lines': [l.client_data() for l in self.lines.all()]
+            'lines': [l.client_data(edit=edit) for l in self.lines.all()]
         }
 
     def name(self):
@@ -573,14 +576,47 @@ class Line(models.Model):
     class Meta:
         ordering = ('number',)
 
-    def client_data(self):
+    def client_data(self, edit=False):
+
+        measures = [m.client_data() for m in self.measures.all()]
+        repeating_measures = self.repeating_measures_client_data()
+
+        total_measures = len(measures)
+
+        if repeating_measures:
+            total_measures += len(repeating_measures['measures'])
+
+        if not edit and repeating_measures:
+            measures = measures[len(repeating_measures['measures']):]
+
         return {
             'id': self.id,
             'number': self.number,
             'letter': self.letter,
             'merge_with_next_line': self.merge_with_next_line,
-            'measures': [m.client_data() for m in self.measures.all()]
+            'repeating_measures': repeating_measures,
+            'measures': measures,
+            'total_measures': total_measures
         }
+
+    def repeating_measures_client_data(self):
+
+        repeating_measures = self.repeating_measures
+
+        if repeating_measures:
+
+            client_data = {
+                'measures': list(range(repeating_measures['amount'])),
+                'line_letter': repeating_measures['line'].letter,
+                'subsection_number': number_to_ordinal(
+                    repeating_measures['line'].subsection_number
+                )
+            }
+
+        else:
+            client_data = None
+
+        return client_data
 
     @property
     def key(self):
@@ -592,6 +628,7 @@ class Line(models.Model):
         """
         return self.section.key
 
+    @property
     def time_signature(self):
         """
         The time signature of this line.
@@ -600,6 +637,169 @@ class Line(models.Model):
         the line is in.
         """
         return self.section.time_signature
+
+    @property
+    def prev_line(self):
+        """
+        Returns the line preceiding this line.
+        """
+
+        prev_lines = self.section.lines.filter(number__lt=self.number)
+
+        if prev_lines:
+            return prev_lines.last()
+        else:
+            return False
+
+    @property
+    def next_line(self):
+        """
+        Returns the line following this line.
+        """
+
+        next_lines = self.section.lines.filter(number__gt=self.number)
+
+        if next_lines:
+            return next_lines[0]
+        else:
+            return False
+
+    @property
+    def subsection_number(self):
+        """
+        Returns the number of the subsection this line is in, or `False`
+        if the subsection this line is in doesn't have the sidebar
+        enabled.
+
+        A subsection is a collection of adjacent lines that have the
+        same letter and are merged with each other through the
+        `merge_with_next_line` field. This method returns the number of
+        the subsection inside the section.
+        """
+
+        if not self.section.show_sidebar:
+            return False
+
+        subsection_number = 1
+        line = self
+
+        while line:
+
+            prev_line = line.prev_line
+
+            if (
+                prev_line and
+                (
+                    line.letter != prev_line.letter
+                    or not prev_line.merge_with_next_line
+                )
+            ):
+                subsection_number += 1
+
+            line = prev_line
+
+        return subsection_number
+
+    @property
+    def subsection_line_number(self):
+        """
+        Returns the subsection line number for this line if this section
+        has the sidebar enabled, otherwise returns `False`.
+
+        A subsection is a collection of adjacent lines that have the
+        same letter and are merged with each other through the
+        `merge_with_next_line` field. This method returns the line
+        number inside the subsection.
+        """
+
+        if not self.section.show_sidebar:
+            return False
+
+        subsection_line_number = 1
+        line = self
+
+        while line:
+
+            prev_line = line.prev_line
+
+            if (
+                prev_line
+                and prev_line.letter == line.letter
+                and prev_line.merge_with_next_line
+            ):
+                subsection_line_number += 1
+            else:
+                break
+
+            line = prev_line
+
+        return subsection_line_number
+
+    @property
+    def repeating_measures(self):
+        """
+        Returns information about repeating measures if there are any.
+
+        If the first X measures in this line are the same as the first X
+        measures in a previous line with the same letter, and within the
+        same section, this method returns a dict like this:
+
+            {
+                'line': previous_line,
+                'amount': X
+            }
+
+        X will always be 4 or greater. If there aren't lines that have
+        4 or more repeating measures, this method will return `False`.
+        """
+
+        if not self.section.show_sidebar:
+            # If the sidebar is disabled, we cannot show which line
+            # should be repeated.
+            return False
+
+        match = {}
+
+        # Wether the last line in the forloop iteration was matched as
+        # repeating measures. If so, contains this line.
+        last_measure_matched = False
+
+        for line in self.section.lines.filter(
+            letter=self.letter,
+            number__lt=self.number
+        ):
+
+            if (
+                line.subsection_line_number != self.subsection_line_number
+                or line.subsection_number == self.subsection_number
+            ):
+                # The subsection_line_number should match, and we can't
+                # repeat lines from the same subsection.
+                continue
+
+            equal_count = 0
+
+            for line_measure, this_line_measure in (
+                zip(line.measures.all(), self.measures.all())
+            ):
+                if line_measure.equal_to(this_line_measure):
+                    equal_count += 1
+                else:
+                    break
+
+            if equal_count >= 3 and not match:
+                last_measure_matched = line
+                match = {
+                    'line': line,
+                    'amount': equal_count
+                }
+            else:
+                last_measure_matched = False
+
+        if match:
+            return match
+        else:
+            return False
 
     def cleanup(self):
         """
@@ -677,8 +877,9 @@ class Measure(models.Model):
         """
         return self.line.key
 
+    @property
     def time_signature(self):
-        return self.line.time_signature()
+        return self.line.time_signature
 
     def chords_count(self):
         """
@@ -692,9 +893,29 @@ class Measure(models.Model):
         """
         try:
             return self.line.measures.filter(
-                number__lt=self.number).reverse()[0]
+                number__lt=self.number
+            ).reverse()[0]
         except IndexError:
             return None
+
+    def equal_to(self, measure):
+        """
+        Returns a boolean indicating if the given `measure` is equal to
+        this measure.
+        """
+
+        if measure.beat_schema == self.beat_schema:
+
+            is_equal = True
+
+            for chord1, chord2 in zip(measure.chords.all(), self.chords.all()):
+                if not chord1.equal_to(chord2):
+                    is_equal = False
+
+        else:
+            is_equal = False
+
+        return is_equal
 
     def cleanup(self):
         """
@@ -826,7 +1047,7 @@ class Chord(models.Model):
         if self.rest:
             return 'REST'
 
-        time_signature_beats = self.time_signature().beats
+        time_signature_beats = self.time_signature.beats
 
         if self.beats == time_signature_beats and self.measure.previous():
 
@@ -867,8 +1088,9 @@ class Chord(models.Model):
         """
         return self.measure.key
 
+    @property
     def time_signature(self):
-        return self.measure.time_signature()
+        return self.measure.time_signature
 
     def note(self):
         """
@@ -887,3 +1109,22 @@ class Chord(models.Model):
             return self.key.note(self.alt_bass_pitch)
         else:
             return False
+
+    def equal_to(self, chord):
+        """
+        Returns a boolean indicating if the given `chord` is equal to
+        this chord.
+        """
+
+        check_fields = (
+            'beats', 'chord_pitch', 'chord_type',
+            'alt_bass', 'alt_bass_pitch', 'rest'
+        )
+
+        is_equal = True
+
+        for check_field in check_fields:
+            if not getattr(chord, check_field) == getattr(self, check_field):
+                is_equal = False
+
+        return is_equal

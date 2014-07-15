@@ -1,5 +1,3 @@
-{% load colspan %}
-
 <div class="chart{% if edit %} no-select{% endif %}">
 
     {% for section in chart.sections %}
@@ -32,6 +30,35 @@
 
                         <tr class="line">
 
+                            {% if not edit and line.repeating_measures %}
+
+                                {% for repeating_measure in line.repeating_measures.measures %}
+
+                                    <td class="
+                                        repeating-measure
+                                        {% if forloop.first %}first{% endif %}
+                                        {% if forloop.last %}last{% endif %}
+                                    ">
+
+                                        {% if forloop.first %}
+                                            <div class="
+                                                repeat-range-heading
+                                                repeat-range-length-{{ line.repeating_measures.measures|length }}
+                                            ">
+                                                <span>Repeat {{ line.repeating_measures.subsection_number }} {{ line.repeating_measures.line_letter }} section</span>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="range-line-container">
+                                            <div class="range-line"></div>
+                                        </div>
+
+                                    </td>
+
+                                {% endfor %}
+
+                            {% endif %}
+
                             {% for measure in line.measures %}
 
                                 <td class="
@@ -53,11 +80,11 @@
 
                             {% endfor %}
 
-                            {% if line.measures|length < 8 %}
+                            {% if line.total_measures < 8 %}
 
                                 {% if edit %}
 
-                                    <td class="measure-add colspan" colspan="{{ line.measures|colspan }}">
+                                    <td class="measure-add colspan" colspan="{{ line.total_measures|add:"-8" }}">
                                         <div class="plus">
                                             <span class="fa fa-plus"></span>
                                         </div>
@@ -65,7 +92,7 @@
 
                                 {% else %}
 
-                                    <td class="colspan" colspan="{{ line.measures|colspan }}"></td>
+                                    <td class="colspan" colspan="{{ line.total_measures|add:"-8" }}"></td>
 
                                 {% endif %}
 
