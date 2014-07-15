@@ -760,10 +760,6 @@ class Line(models.Model):
 
         match = {}
 
-        # Wether the last line in the forloop iteration was matched as
-        # repeating measures. If so, contains this line.
-        last_measure_matched = False
-
         for line in self.section.lines.filter(
             letter=self.letter,
             number__lt=self.number
@@ -788,13 +784,10 @@ class Line(models.Model):
                     break
 
             if equal_count >= 3 and not match:
-                last_measure_matched = line
                 match = {
                     'line': line,
                     'amount': equal_count
                 }
-            else:
-                last_measure_matched = False
 
         if match:
             return match
