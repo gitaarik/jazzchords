@@ -54,9 +54,7 @@ class LineSerializer(serializers.ModelSerializer):
 
         return super().restore_object(attrs, instance)
 
-    merge_with_next_line = serializers.BooleanField(
-        source='_merge_with_next_line'
-    )
+    merge_with_next_line = serializers.BooleanField()
 
     class Meta:
         model = Line
