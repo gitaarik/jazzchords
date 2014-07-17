@@ -781,6 +781,36 @@ class Line(models.Model):
         to prevent an unending loop.
         """
 
+        def prev_line_valid():
+            """
+            Returns whether this line can contain repeating measures
+            based on the previous line.
+
+            If there is a previous line and it merges with this one, it
+            should have repeating measures over the full length of the
+            line. Otherwise you'll get repeating measures in the second
+            line of a subsection, which is confusing.
+            """
+
+            if self.prev_line and self.merge_with_prev_line:
+
+                repeating_measures_prev_line = (
+                    self.prev_line.repeating_measures(
+                        context_info=False
+                    )
+                )
+
+                if (
+                    not repeating_measures_prev_line
+                    or (
+                        repeating_measures_prev_line['amount'] !=
+                        LINE_MAX_MEASURES
+                    )
+                ):
+                    return False
+
+            return True
+
         def get_match():
             """
             Returns a match or `False` if no match is found.
@@ -875,9 +905,7 @@ class Line(models.Model):
                 'span_prev_line': span_prev_line
             }
 
-        if not self.section.show_sidebar:
-            # If the sidebar is disabled, we cannot show which
-            # subsection should be repeated.
+        if not (self.section.show_sidebar and prev_line_valid()):
             return False
         else:
             return get_match()
