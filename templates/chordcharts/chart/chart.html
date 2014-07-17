@@ -36,8 +36,8 @@
 
                                     <td class="
                                         repeating-measure
-                                        {% if forloop.first %}first{% endif %}
-                                        {% if forloop.last %}last{% endif %}
+                                        {% if forloop.first and not line.repeating_measures.span_prev_line %}first{% endif %}
+                                        {% if forloop.last and not line.repeating_measures.span_next_line %}last{% endif %}
                                     ">
 
                                         {% if forloop.first %}

@@ -5,15 +5,15 @@ from django.db import models
 
 from core.helpers.number_to_ordinal import number_to_ordinal
 from songs.models import Song
-from .settings import BOXED_CHART
+from .settings import BOXED_CHART, LINE_MAX_MEASURES
 
 
 class Key(models.Model):
     """
     The musical key.
 
-    This will define what notes will be used for the relative note indications
-    in the chart.
+    This will define what notes will be used for the relative note
+    indications in the chart.
 
     Sets on this model:
         notes - The notes for this key.
@@ -106,10 +106,11 @@ class Note(models.Model):
     """
     A note belonging to a certain key.
 
-    This actually includes all 12 notes. Only when `key_note` is True, the note
-    is really a note IN the key. The other notes are specified so that we won't
-    have to guess how to represent an out-of-key note. This way all charts will
-    use the same representation of out-of-key notes.
+    This actually includes all 12 notes. Only when `key_note` is True,
+    the note is really a note IN the key. The other notes are specified
+    so that we won't have to guess how to represent an out-of-key note.
+    This way all charts will use the same representation of out-of-key
+    notes.
     """
 
     key = models.ForeignKey(
@@ -164,12 +165,13 @@ class ChordType(models.Model):
     """
     The type of a chord.
 
-    This defines the intervals of the chord. For example, Major, Major Seven,
-    Ninth, Diminished etc.
+    This defines the intervals of the chord. For example, Major, Major
+    Seven, Ninth, Diminished etc.
 
-    This definition is only used to be understandable for humans (who will read
-    the chord charts) and not the code. There's no need for the code to
-    understand this because at the moment there are no features that need this.
+    This definition is only used to be understandable for humans (who
+    will read the chord charts) and not the code. There's no need for
+    the code to understand this because at the moment there are no
+    features that need this.
     """
 
     name = models.CharField(
@@ -397,23 +399,6 @@ class Section(models.Model):
         super().__init__(*args, **kwargs)
         self.set_default_time_signature()
 
-    def set_default_time_signature(self):
-        """
-        If time_signature isn't set, sets it to 4/4 as a default.
-        """
-
-        # If time_signature isn't set, accessing it would give a
-        # RelatedObjectDoesNotExist exception. This is a dynamic
-        # exception so we can't import it to explicitly check if it was
-        # this exception, however, this is the only expected exception
-        # in this case.
-        try:
-            self.time_signature
-        except:
-            self.time_signature = TimeSignature.objects.get(
-                beats=4, beat_unit=4
-            )
-
     def __str__(self):
         return self.name()
 
@@ -435,6 +420,23 @@ class Section(models.Model):
             'key': self.key.client_data(),
             'lines': [l.client_data(edit=edit) for l in self.lines.all()]
         }
+
+    def set_default_time_signature(self):
+        """
+        If time_signature isn't set, sets it to 4/4 as a default.
+        """
+
+        # If time_signature isn't set, accessing it would give a
+        # RelatedObjectDoesNotExist exception. This is a dynamic
+        # exception so we can't import it to explicitly check if it was
+        # this exception, however, this is the only expected exception
+        # in this case.
+        try:
+            self.time_signature
+        except:
+            self.time_signature = TimeSignature.objects.get(
+                beats=4, beat_unit=4
+            )
 
     def name(self):
         """
@@ -519,9 +521,9 @@ class Line(models.Model):
     """
     A line in a section.
 
-    A line is a collection of measures that should be presented on one phisical
-    line. A line usually contains 8 measures, but can be shorter (but not
-    longer).
+    A line is a collection of measures that should be presented on one
+    phisical line. A line contains maximally `LINE_MAX_MEASURES`
+    measures, but can be shorter (but not longer).
 
     Sets on this model:
         measures - The measures in this line.
@@ -560,7 +562,10 @@ class Line(models.Model):
         )
     )
 
-    merge_with_next_line = models.BooleanField(
+    # Preferably don't use this field directly, but use the property
+    # `merge_with_next_line`.
+    _merge_with_next_line = models.BooleanField(
+        db_column='merge_with_next_line',
         default=False,
         help_text=(
             """If this is checked and the next line has the same letter as this
@@ -576,47 +581,30 @@ class Line(models.Model):
     class Meta:
         ordering = ('number',)
 
-    def client_data(self, edit=False):
+    @property
+    def merge_with_next_line(self):
+        """
+        Returns a boolean indicating whether this line merges with the
+        next line.
 
-        measures = [m.client_data() for m in self.measures.all()]
-        repeating_measures = self.repeating_measures_client_data()
+        A line only merges with the next one if `_merge_with_next_line`
+        is `True`, the section's sidebar is enabled and the next line
+        has the same letter as this one.
+        """
+        return (
+            self._merge_with_next_line
+            and self.section.show_sidebar
+            and self.next_line
+            and self.next_line.letter == self.letter
+        )
 
-        total_measures = len(measures)
+    @merge_with_next_line.setter
+    def merge_with_next_line(self, value):
+        self._merge_with_next_line = value
 
-        if repeating_measures:
-            total_measures += len(repeating_measures['measures'])
-
-        if not edit and repeating_measures:
-            measures = measures[len(repeating_measures['measures']):]
-
-        return {
-            'id': self.id,
-            'number': self.number,
-            'letter': self.letter,
-            'merge_with_next_line': self.merge_with_next_line,
-            'repeating_measures': repeating_measures,
-            'measures': measures,
-            'total_measures': total_measures
-        }
-
-    def repeating_measures_client_data(self):
-
-        repeating_measures = self.repeating_measures
-
-        if repeating_measures:
-
-            client_data = {
-                'measures': list(range(repeating_measures['amount'])),
-                'line_letter': repeating_measures['line'].letter,
-                'subsection_number': number_to_ordinal(
-                    repeating_measures['line'].subsection_number
-                )
-            }
-
-        else:
-            client_data = None
-
-        return client_data
+    @property
+    def merge_with_prev_line(self):
+        return self.prev_line.merge_with_next_line
 
     @property
     def key(self):
@@ -681,22 +669,14 @@ class Line(models.Model):
             return False
 
         subsection_number = 1
-        line = self
 
-        while line:
+        for line in self.section.lines.all():
 
-            prev_line = line.prev_line
+            if line.number == self.number:
+                break
 
-            if (
-                prev_line and
-                (
-                    line.letter != prev_line.letter
-                    or not prev_line.merge_with_next_line
-                )
-            ):
+            if line.letter == self.letter and not line.merge_with_next_line:
                 subsection_number += 1
-
-            line = prev_line
 
         return subsection_number
 
@@ -722,11 +702,7 @@ class Line(models.Model):
 
             prev_line = line.prev_line
 
-            if (
-                prev_line
-                and prev_line.letter == line.letter
-                and prev_line.merge_with_next_line
-            ):
+            if prev_line and prev_line.merge_with_next_line:
                 subsection_line_number += 1
             else:
                 break
@@ -735,43 +711,109 @@ class Line(models.Model):
 
         return subsection_line_number
 
-    @property
-    def repeating_measures(self):
+    def client_data(self, edit=False):
+
+        measures = [m.client_data() for m in self.measures.all()]
+        repeating_measures = self.repeating_measures_client_data()
+
+        total_measures = len(measures)
+
+        if repeating_measures:
+            total_measures += len(repeating_measures['measures'])
+
+        if not edit and repeating_measures:
+            measures = measures[len(repeating_measures['measures']):]
+
+        return {
+            'id': self.id,
+            'number': self.number,
+            'letter': self.letter,
+            'merge_with_next_line': self.merge_with_next_line,
+            'repeating_measures': repeating_measures,
+            'measures': measures,
+            'total_measures': total_measures
+        }
+
+    def repeating_measures_client_data(self):
+
+        repeating_measures = self.repeating_measures()
+
+        if repeating_measures:
+
+            client_data = {
+                'measures': list(range(repeating_measures['amount'])),
+                'line_letter': repeating_measures['line'].letter,
+                'subsection_number': number_to_ordinal(
+                    repeating_measures['line'].subsection_number
+                ),
+                'span_next_line': repeating_measures['span_next_line'],
+                'span_prev_line': repeating_measures['span_prev_line']
+            }
+
+        else:
+            client_data = None
+
+        return client_data
+
+    def repeating_measures(self, context_info=True):
         """
         Returns information about repeating measures if there are any.
 
         If the first X measures in this line are the same as the first X
         measures in a previous line with the same letter, and within the
-        same section, this method returns a dict like this:
+        same section, which has the sidebar enabled, this method returns
+        a dict with the following keys:
 
-            {
-                'line': previous_line,
-                'amount': X
-            }
+        line            - The line that this line is repeating.
+        amount          - The amount of measures this line repeats from
+                          `line`.
+        span_next_line  - Wether this repeat range spans to the next
+                          line.
+        span_prev_line  - Wether this repeat range spans to the previous
+                          line.
 
-        X will always be 4 or greater. If there aren't lines that have
-        4 or more repeating measures, this method will return `False`.
+        The `amount` will always be 4 or greater. If there aren't lines
+        that have 4 or more repeating measures, this method will return
+        `False`.
+
+        If `context_info` is `False`, `span_next_line` and
+        `span_prev_line` will be omitted. This is mainly used internally
+        to prevent an unending loop.
         """
 
-        if not self.section.show_sidebar:
-            # If the sidebar is disabled, we cannot show which line
-            # should be repeated.
-            return False
+        def get_match():
+            """
+            Returns a match or `False` if no match is found.
+            """
 
-        match = {}
+            match = False
 
-        for line in self.section.lines.filter(
-            letter=self.letter,
-            number__lt=self.number
-        ):
-
-            if (
-                line.subsection_line_number != self.subsection_line_number
-                or line.subsection_number == self.subsection_number
+            for line in self.section.lines.filter(
+                letter=self.letter,
+                number__lt=self.number
             ):
-                # The subsection_line_number should match, and we can't
-                # repeat lines from the same subsection.
-                continue
+
+                if (
+                    line.subsection_line_number != self.subsection_line_number
+                    or line.subsection_number == self.subsection_number
+                ):
+                    # The `subsection_line_number` should match, and we
+                    # can't repeat lines from the same subsection.
+                    continue
+
+                equal_count = get_equal_count(line)
+
+                if equal_count >= 4:
+                    match = make_match(line, equal_count)
+                    break
+
+            return match
+
+        def get_equal_count(line):
+            """
+            Returns the amount of measures starting from measure 1, that
+            are equal in the given `line` and the current line (`self`).
+            """
 
             equal_count = 0
 
@@ -783,16 +825,62 @@ class Line(models.Model):
                 else:
                     break
 
-            if equal_count >= 3 and not match:
-                match = {
-                    'line': line,
-                    'amount': equal_count
-                }
+            return equal_count
 
-        if match:
+        def make_match(line, equal_count):
+            """
+            Makes and returns a match dict for the given `line` and
+            `equal_count`.
+            """
+
+            match = {
+                'line': line,
+                'amount': equal_count,
+            }
+
+            if context_info:
+                match.update(get_context_info(equal_count))
+
             return match
-        else:
+
+        def get_context_info(equal_count):
+            """
+            Returns a dict with context info about the match.
+            """
+
+            span_next_line = False
+            span_prev_line = False
+
+            if (
+                equal_count == LINE_MAX_MEASURES
+                and self.merge_with_next_line
+                and self.next_line.repeating_measures(context_info=False)
+            ):
+                span_next_line = True
+
+            if self.prev_line and self.merge_with_prev_line:
+
+                repeating_measures = (
+                    self.prev_line.repeating_measures(context_info=False)
+                )
+
+                if (
+                    repeating_measures
+                    and repeating_measures['amount'] == LINE_MAX_MEASURES
+                ):
+                    span_prev_line = True
+
+            return {
+                'span_next_line': span_next_line,
+                'span_prev_line': span_prev_line
+            }
+
+        if not self.section.show_sidebar:
+            # If the sidebar is disabled, we cannot show which
+            # subsection should be repeated.
             return False
+        else:
+            return get_match()
 
     def cleanup(self):
         """

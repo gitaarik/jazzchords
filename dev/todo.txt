@@ -1,3 +1,7 @@
+Rename Section to Part or something.
+    Because it gets confusing with the subsections of lines. Then the
+    subsection can just be named 'section'.
+
 Make things ready for production:
     - Ditch require.js and use Gulp.js and browserify.js to compile
       js/less.
