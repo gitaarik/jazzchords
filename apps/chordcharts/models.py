@@ -5,7 +5,7 @@ from django.db import models
 
 from core.helpers.number_to_ordinal import number_to_ordinal
 from songs.models import Song
-from .settings import BOXED_CHART, LINE_MAX_MEASURES
+from .settings import BOXED_CHART
 
 
 class Key(models.Model):
@@ -522,7 +522,7 @@ class Line(models.Model):
     A line in a section.
 
     A line is a collection of measures that should be presented on one
-    phisical line. A line contains maximally `LINE_MAX_MEASURES`
+    phisical line. A line contains max. `settings.LINE_MAX_MEASURES`
     measures, but can be shorter (but not longer).
 
     Sets on this model:
@@ -804,7 +804,7 @@ class Line(models.Model):
                     not repeating_measures_prev_line
                     or (
                         repeating_measures_prev_line['amount'] !=
-                        LINE_MAX_MEASURES
+                        repeating_measures_prev_line['line'].measures.count()
                     )
                 ):
                     return False
@@ -869,11 +869,11 @@ class Line(models.Model):
             }
 
             if context_info:
-                match.update(get_context_info(equal_count))
+                match.update(get_context_info(match))
 
             return match
 
-        def get_context_info(equal_count):
+        def get_context_info(match):
             """
             Returns a dict with context info about the match.
             """
@@ -882,7 +882,7 @@ class Line(models.Model):
             span_prev_line = False
 
             if (
-                equal_count == LINE_MAX_MEASURES
+                match['amount'] == match['line'].measures.count()
                 and self.merge_with_next_line
                 and self.next_line.repeating_measures(context_info=False)
             ):
@@ -890,13 +890,16 @@ class Line(models.Model):
 
             if self.prev_line and self.merge_with_prev_line:
 
-                repeating_measures = (
+                prev_line_repeating_measures = (
                     self.prev_line.repeating_measures(context_info=False)
                 )
 
                 if (
-                    repeating_measures
-                    and repeating_measures['amount'] == LINE_MAX_MEASURES
+                    prev_line_repeating_measures
+                    and (
+                        prev_line_repeating_measures['amount'] ==
+                        prev_line_repeating_measures['line'].measures.count()
+                    )
                 ):
                     span_prev_line = True
 
