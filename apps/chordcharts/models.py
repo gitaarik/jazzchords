@@ -1,6 +1,4 @@
 # coding=utf8
-import string
-
 from django.db import models
 
 from core.helpers.number_to_ordinal import number_to_ordinal
@@ -381,15 +379,13 @@ class Section(models.Model):
         )
     )
 
-    alt_name = models.CharField(
+    title = models.CharField(
         max_length=25,
         blank=True,
-        help_text="""Alternative title for the section. Normally a section
-        get's assigned a letter (starting with A, next B etc.) which is
-        displayed left of the section's boxed chart. If you fill in this
-        "alternative title" this title will be shown on top of the section's
-        boxed chart. This is appropriate for an intro, outro or maybe a bridge
-        which isn't a regularry repeating section in the song."""
+        help_text=(
+            """Title for the section. If set, will be displayed above the
+            section."""
+        )
     )
 
     time_signature = models.ForeignKey(TimeSignature)
@@ -400,7 +396,7 @@ class Section(models.Model):
         self.set_default_time_signature()
 
     def __str__(self):
-        return self.name()
+        return self.title
 
     class Meta:
         ordering = ('number',)
@@ -410,16 +406,21 @@ class Section(models.Model):
             'id': self.id,
             'key': self.key.client_data(),
             'number': self.number,
-            'alt_name': self.alt_name,
+            'title': self.title,
             'time_signature': self.time_signature.id,
             'show_sidebar': self.show_sidebar,
-            'name': self.name(),
-            'sequence_letter': self.sequence_letter(),
-            'height': self.height(),
+            'height': self.height,
             'key_id': self.key.id,
             'key': self.key.client_data(),
             'lines': [l.client_data(edit=edit) for l in self.lines.all()]
         }
+
+    @property
+    def height(self):
+        return ((
+            self.lines.count() *
+            (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
+        ) + BOXED_CHART['border_width'])
 
     def set_default_time_signature(self):
         """
@@ -437,38 +438,6 @@ class Section(models.Model):
             self.time_signature = TimeSignature.objects.get(
                 beats=4, beat_unit=4
             )
-
-    def name(self):
-        """
-        The name of the section.
-
-        If `alt_name` is set, this is returned, otherwise the
-        `sequence_letter()`.
-        """
-        if self.alt_name:
-            return self.alt_name
-        else:
-            return '{} Section'.format(self.sequence_letter())
-
-    def sequence_letter(self):
-        """
-        The sequence letter.
-
-        This is a letter representing the section sequence.
-        The first section without an `alt_name` will be A, the second B,
-        the third C etc.
-        """
-        return string.ascii_uppercase[
-            self.chart.sections.filter(
-                alt_name='', number__lt=self.number
-            ).count()
-        ]
-
-    def height(self):
-        return ((
-            self.lines.count() *
-            (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
-        ) + BOXED_CHART['border_width'])
 
     def transpose_with_interval(self, interval):
         """
@@ -1105,7 +1074,7 @@ class Chord(models.Model):
     )
 
     def __str__(self):
-        return self.chord_notation()
+        return self.chord_notation
 
     class Meta:
         ordering = ('number',)
@@ -1121,16 +1090,17 @@ class Chord(models.Model):
             'rest': self.rest,
             'number': self.number,
             'key_id': self.key.id,
-            'note': self.note().client_data(),
+            'note': self.note.client_data(),
             'chord_type_id': self.chord_type.id,
             'alt_bass_note': (
-                self.alt_bass_note().client_data()
+                self.alt_bass_note.client_data()
                 if self.alt_bass else False
             ),
-            'chart_output': self.chart_output(),
-            'chart_fontsize': self.chart_fontsize()
+            'chart_output': self.chart_output,
+            'chart_fontsize': self.chart_fontsize
         }
 
+    @property
     def chord_notation(self):
         """
         The notation for the chord.
@@ -1141,15 +1111,17 @@ class Chord(models.Model):
         - Possibly the alternative bass note.
         """
 
-        if self.alt_bass:
-            return ''.join([
-                self.note().name,
-                self.chord_type.chord_output,
-                '/',
-                self.alt_bass_note().name])
-        else:
-            return ''.join([self.note().name, self.chord_type.chord_output])
+        chord_notation = '{}{}'.format(
+            self.note.name,
+            self.chord_type.chord_output
+        )
 
+        if self.alt_bass:
+            chord_notation += '/{}'.format(self.alt_bass_note.name)
+
+        return chord_notation
+
+    @property
     def chart_output(self):
         """
         The way the chord will be displayed on the chart. This can either be
@@ -1179,8 +1151,9 @@ class Chord(models.Model):
             ):
                 return '%'
 
-        return self.chord_notation()
+        return self.chord_notation
 
+    @property
     def chart_fontsize(self):
         """
         Returns a either 'tiny', 'small' or 'normal' to relatively
@@ -1204,12 +1177,14 @@ class Chord(models.Model):
     def time_signature(self):
         return self.measure.time_signature
 
+    @property
     def note(self):
         """
         The note for the chord.
         """
         return self.key.note(self.chord_pitch)
 
+    @property
     def alt_bass_note(self):
         """
         The alternative bass note for this chord.
@@ -1227,16 +1202,10 @@ class Chord(models.Model):
         Returns a boolean indicating if the given `chord` is equal to
         this chord.
         """
-
-        check_fields = (
-            'beats', 'chord_pitch', 'chord_type',
-            'alt_bass', 'alt_bass_pitch', 'rest'
-        )
-
-        is_equal = True
-
-        for check_field in check_fields:
-            if not getattr(chord, check_field) == getattr(self, check_field):
-                is_equal = False
-
-        return is_equal
+        if (
+            (self.rest and chord.rest)
+            or self.chord_notation == chord.chord_notation
+        ):
+            return True
+        else:
+            return False

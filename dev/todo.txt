@@ -1,13 +1,4 @@
-Repeating measures improvement:
-    Instead of LINE_MAX_MEASURES, should check if the amount is the
-    amount of measures in the line. So that shorter than
-    LINE_MAX_MEASURES lines also work.
-
-Rename Section to Part or something.
-    Because it gets confusing with the subsections of lines. Then the
-    subsection can just be named 'section'.
-
-Make things ready for production:
+Make things ready for production demo:
     - Ditch require.js and use Gulp.js and browserify.js to compile
       js/less.
     - Finish ansible stuff

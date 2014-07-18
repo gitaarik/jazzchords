@@ -17,9 +17,9 @@ define(
             model: Section,
 
             events: {
-                'change input[type=radio]': 'changeSectionName',
-                'click input[type=radio]': 'changeSectionName',
-                'keyup .custom-name-input': 'customNameChanged',
+                'change input[type=radio]': 'changeSectionTitle',
+                'click input[type=radio]': 'changeSectionTitle',
+                'keyup .title-input': 'titleChanged',
                 'click .close': 'close'
             },
 
@@ -63,17 +63,14 @@ define(
                     'left': this.model.get('offset').left - 15
                 });
 
-                this.$el.find('.custom-name-input').val(
-                    this.model.get('section').get('alt_name')
-                );
-                this.$el.find('.sequence-letter').html(
-                    this.model.get('section').getSequenceLetter()
+                this.$el.find('.title-input').val(
+                    this.model.get('section').get('title')
                 );
 
-                if (this.model.get('section').get('alt_name')) {
-                    this.$el.find('.custom-name-radio').prop('checked', true);
+                if (this.model.get('section').get('title')) {
+                    this.$el.find('.title-radio').prop('checked', true);
                 } else {
-                    this.$el.find('.sequence-letter-radio').prop('checked', true);
+                    this.$el.find('.no-title-radio').prop('checked', true);
                 }
 
                 this.keySelectWidget.updateKey(
@@ -82,41 +79,31 @@ define(
 
                 this.$el.show();
 
-                if (this.model.get('section').get('alt_name')) {
+                var title_input = this.$el.find('.title-input');
 
-                    var custom_name_input = this.$el.find('.custom-name-input');
+                // set focus on text field
+                title_input.focus();
 
-                    // set focus on text field
-                    custom_name_input.focus();
-
-                    // make sure the cursor is at the end
-                    var orig_value = custom_name_input.val();
-                    custom_name_input.val('');
-                    custom_name_input.val(orig_value);
-
-                }
+                // make sure the cursor is at the end
+                var orig_value = title_input.val();
+                title_input.val('');
+                title_input.val(orig_value);
 
             },
 
-            changeSectionName: function() {
+            changeSectionTitle: function() {
 
-                if (this.$el.find('.custom-name-radio:checked').length) {
+                this.model.get('section').set(
+                    'title', 
+                    this.$el.find('.title-input').val().trim()
+                );
 
-                    this.model.get('section').set(
-                        'alt_name', 
-                        this.$el.find('.custom-name-input').val()
-                    );
-
-                    this.$el.find('.custom-name-input').focus();
-
-                } else if (this.$el.find('.sequence-letter-radio:checked').length) {
-                    this.model.get('section').set('alt_name', '');
-                }
+                this.$el.find('.title-input').focus();
 
             },
 
-            customNameChanged: function(event) {
-                this.changeSectionName();
+            titleChanged: function(event) {
+                this.changeSectionTitle();
                 if (event.key == 'Enter') {
                     this.close();
                 }

@@ -69,15 +69,11 @@ define(
 
             renderHeader: function() {
 
-                var template = _.template(
-                    $('#template-section-header').html()
-                );
-
-                var section_header = template({
-                    section_name: this.model.getName()
-                });
-
+                var template = _.template($('#template-section-header').html());
+                var title = this.model.get('title') || 'Untitled section';
+                var section_header = template({ section_title: title });
                 var section_header_el = this.$el.find('.section-header');
+
                 section_header_el.html(section_header);
 
                 var edit_buttons_el = this.$el.find(

@@ -37,7 +37,7 @@ class SectionSerializer(serializers.ModelSerializer):
             'id',
             'key_id',
             'number',
-            'alt_name',
+            'title',
             'time_signature',
             'show_sidebar'
         )
