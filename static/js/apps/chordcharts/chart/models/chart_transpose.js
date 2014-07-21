@@ -1,35 +1,28 @@
-define(
-    [],
-    function() {
+/*
+ * Model specially for the API sync that transposes the chart.
+ */
+module.exports = Backbone.Model.extend({
 
-        /*
-         * Model specially for the API sync that transposes the chart.
-         */
-        return Backbone.Model.extend({
+    url: function() {
 
-            url: function() {
+        return (
+            GLOBALS.api_root_url +
+            'chart-transpose/' +
+            GLOBALS.chart_data.id + '/'
+        );
 
-                return (
-                    GLOBALS.api_root_url +
-                    'chart-transpose/' +
-                    GLOBALS.chart_data.id + '/'
-                );
+    },
 
-            },
+    isNew: function() {
+        return true;
+    },
 
-            isNew: function() {
-                return true;
-            },
+    toJSON: function() {
 
-            toJSON: function() {
-
-                return {
-                    tonic: this.get('tonic')
-                };
-
-            }
-
-        });
+        return {
+            tonic: this.get('tonic')
+        };
 
     }
-);
+
+});

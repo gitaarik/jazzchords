@@ -1,43 +1,40 @@
-define(
-    ['models/chord_edit', 'views/chord_edit'],
-    function(ChordEdit, ChordEditView) {
+var ChordEdit = require('../models/chord_edit.js');
+var ChordEditView = require('../views/chord_edit.js');
 
-        var chordEdit = new ChordEdit();
 
-        new ChordEditView({
-            el: '.chord-chart .chord-edit',
-            model: chordEdit
-        });
+var chordEdit = new ChordEdit();
 
-        $('html').on('click', function(event) {
+new ChordEditView({
+    el: '.chord-chart .chord-edit',
+    model: chordEdit
+});
 
-            // Close the widget if there was a click outside it.
+$('html').on('click', function(event) {
 
-            if (chordEdit.get('visible')) {
+    // Close the widget if there was a click outside it.
 
-                var target = $(event.target);
+    if (chordEdit.get('visible')) {
 
-                // Check if the click wasn't a click to open the widget,
-                // or a click inside the widget.
-                if (
-                    !(
-                        target.closest('.chord-chart').length &&
-                        target.hasClass('chord-name')
-                    ) &&
-                    !target
-                        .closest('.chord-edit')
-                        .closest('.chord-chart')
-                        .length
-                ) {
-                    // close the widget
-                    chordEdit.set('visible', false);
-                }
+        var target = $(event.target);
 
-            }
-
-        });
-
-        return chordEdit;
+        // Check if the click wasn't a click to open the widget,
+        // or a click inside the widget.
+        if (
+            !(
+                target.closest('.chord-chart').length &&
+                target.hasClass('chord-name')
+            ) &&
+            !target
+                .closest('.chord-edit')
+                .closest('.chord-chart')
+                .length
+        ) {
+            // close the widget
+            chordEdit.set('visible', false);
+        }
 
     }
-);
+
+});
+
+module.exports = chordEdit;

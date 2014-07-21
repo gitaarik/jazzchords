@@ -1,41 +1,38 @@
-define(
-    ['models/song_name_change_widget', 'views/song_name_change_widget'],
-    function(SongNameChangeWidget, SongNameChangeWidgetView) {
+var SongNameChangeWidget = require('../models/song_name_change_widget.js');
+var SongNameChangeWidgetView = require('../views/song_name_change_widget.js');
 
-        var songNameChangeWidget = new SongNameChangeWidget();
 
-        new SongNameChangeWidgetView({
-            el: $('.chord-chart .chord-chart-header .song-name'),
-            model: songNameChangeWidget
-        });
+var songNameChangeWidget = new SongNameChangeWidget();
 
-        $('html').on('click', function(event) {
+new SongNameChangeWidgetView({
+    el: $('.chord-chart .chord-chart-header .song-name'),
+    model: songNameChangeWidget
+});
 
-            if(songNameChangeWidget.get('visible')) {
+$('html').on('click', function(event) {
 
-                var target = $(event.target);
+    if(songNameChangeWidget.get('visible')) {
 
-                if(
-                    !target
-                        .closest('.song-name-change')
-                        .closest('.song-name')
-                        .closest('.chord-chart')
-                        .length &&
-                    !target
-                        .closest('span')
-                        .closest('h1')
-                        .closest('.song-name')
-                        .closest('.chord-chart')
-                        .length
-                ) {
-                    songNameChangeWidget.set('visible', false);
-                }
+        var target = $(event.target);
 
-            }
-
-        });
-
-        return songNameChangeWidget;
+        if(
+            !target
+                .closest('.song-name-change')
+                .closest('.song-name')
+                .closest('.chord-chart')
+                .length &&
+            !target
+                .closest('span')
+                .closest('h1')
+                .closest('.song-name')
+                .closest('.chord-chart')
+                .length
+        ) {
+            songNameChangeWidget.set('visible', false);
+        }
 
     }
-);
+
+});
+
+return songNameChangeWidget;

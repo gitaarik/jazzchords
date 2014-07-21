@@ -1,115 +1,111 @@
-define(
-    ['views/measure'],
-    function(MeasureView) {
+var MeasureView = require('./measure.js');
 
-        return Backbone.View.extend({
 
-            tagName: 'tr',
-            className: 'line',
+module.exports = Backbone.View.extend({
 
-            initialize: function() {
-                this.listenTo(this.model.get('measures'), 'add', this.measureAdded);
-                this.listenTo(this.model.get('measures'), 'remove', this.measureRemoved);
-                this.listenTo(this.model, 'destroy', this.remove);
-            },
+    tagName: 'tr',
+    className: 'line',
 
-            events: {
-                'click .measure-add .plus': 'addMeasure'
-            },
+    initialize: function() {
+        this.listenTo(this.model.get('measures'), 'add', this.measureAdded);
+        this.listenTo(this.model.get('measures'), 'remove', this.measureRemoved);
+        this.listenTo(this.model, 'destroy', this.remove);
+    },
 
-            measureAdded: function() {
+    events: {
+        'click .measure-add .plus': 'addMeasure'
+    },
 
-                if (this.model.get('measures').length < 8) {
-                    this.$el.find('.colspan').prop(
-                        'colspan',
-                        8 - this.model.get('measures').length
-                    );
-                } else {
-                    this.$el.find('.measure-add').remove();
-                }
+    measureAdded: function() {
 
-            },
+        if (this.model.get('measures').length < 8) {
+            this.$el.find('.colspan').prop(
+                'colspan',
+                8 - this.model.get('measures').length
+            );
+        } else {
+            this.$el.find('.measure-add').remove();
+        }
 
-            measureRemoved: function() {
+    },
 
-                if (this.model.get('measures').length == 7) {
-                    this.addMeasureAddWidget(1);
-                } else {
-                    this.$el.find('.colspan').prop(
-                        'colspan',
-                        8 - this.model.get('measures').length
-                    );
-                }
+    measureRemoved: function() {
 
-            },
+        if (this.model.get('measures').length == 7) {
+            this.addMeasureAddWidget(1);
+        } else {
+            this.$el.find('.colspan').prop(
+                'colspan',
+                8 - this.model.get('measures').length
+            );
+        }
 
-            addMeasureAddWidget: function(colspan) {
-                this.$el.append(
-                    '<td class="measure-add colspan" colspan="' + colspan + '">' +
-                        '<div class="plus">' +
-                            '<span class="fa fa-plus"></span>' +
-                        '</div>' +
-                    '</td>'
-                );
-            },
+    },
 
-            addMeasure: function() {
+    addMeasureAddWidget: function(colspan) {
+        this.$el.append(
+            '<td class="measure-add colspan" colspan="' + colspan + '">' +
+                '<div class="plus">' +
+                    '<span class="fa fa-plus"></span>' +
+                '</div>' +
+            '</td>'
+        );
+    },
 
-                var last_measure = this.model.get('measures').last();
-                var new_measure = last_measure.copy({
-                    prev_measure: last_measure,
-                    number: last_measure.get('number') + 1
-                });
+    addMeasure: function() {
 
-                last_measure.set('next_measure', new_measure);
-                this.model.get('measures').add(new_measure);
+        var last_measure = this.model.get('measures').last();
+        var new_measure = last_measure.copy({
+            prev_measure: last_measure,
+            number: last_measure.get('number') + 1
+        });
 
-                var measureView = new MeasureView({
-                    model: new_measure
-                });
+        last_measure.set('next_measure', new_measure);
+        this.model.get('measures').add(new_measure);
 
-                var measureViewEl = measureView.render().$el;
+        var measureView = new MeasureView({
+            model: new_measure
+        });
 
-                if (this.$el.find('.measure-add').length) {
-                    measureViewEl.insertBefore(
-                        this.$el.find('.measure-add')
-                    );
-                } else {
-                    this.$el.append(measureViewEl);
-                }
+        var measureViewEl = measureView.render().$el;
 
-                new_measure.saveRecursive();
+        if (this.$el.find('.measure-add').length) {
+            measureViewEl.insertBefore(
+                this.$el.find('.measure-add')
+            );
+        } else {
+            this.$el.append(measureViewEl);
+        }
 
-            },
+        new_measure.saveRecursive();
 
-            render: function() {
+    },
 
-                var measureViews = [];
-                var measureView;
+    render: function() {
 
-                this.model.get('measures').each(function(measure) {
+        var measureViews = [];
+        var measureView;
 
-                    measureView = new MeasureView({
-                        model: measure
-                    });
+        this.model.get('measures').each(function(measure) {
 
-                    measureViews.push(measureView.render().el);
+            measureView = new MeasureView({
+                model: measure
+            });
 
-                });
-
-                this.$el.append(measureViews);
-
-                var measureVoid = 8 - this.model.get('measures').length;
-
-                if (measureVoid) {
-                    this.addMeasureAddWidget(measureVoid);
-                }
-
-                return this;
-
-            }
+            measureViews.push(measureView.render().el);
 
         });
 
+        this.$el.append(measureViews);
+
+        var measureVoid = 8 - this.model.get('measures').length;
+
+        if (measureVoid) {
+            this.addMeasureAddWidget(measureVoid);
+        }
+
+        return this;
+
     }
-);
+
+});

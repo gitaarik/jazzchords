@@ -1,35 +1,31 @@
-define(
-    ['collections/sections'],
-    function(Sections) {
+var Sections = require('../collections/sections.js');
 
-        return Backbone.Model.extend({
 
-            initialize: function() {
+module.exports = Backbone.Model.extend({
 
-                // Only set sections if it hasn't been set yet. Prevents errors
-                // when cloning.
-                if(!(this.get('sections') instanceof Backbone.Collection)) {
+    initialize: function() {
 
-                    var that = this;
-                    var sections = new Sections();
+        // Only set sections if it hasn't been set yet. Prevents errors
+        // when cloning.
+        if (!(this.get('sections') instanceof Backbone.Collection)) {
 
-                    sections.url = (
-                        GLOBALS.api_root_url + 'charts/' +
-                        this.get('id') + '/sections'
-                    );
+            var that = this;
+            var sections = new Sections();
 
-                    _.each(this.get('sections'), function(section_data) {
-                        section_data.chart = that;
-                        sections.add(section_data);
-                    });
+            sections.url = (
+                GLOBALS.api_root_url + 'charts/' +
+                this.get('id') + '/sections'
+            );
 
-                    this.set('sections', sections);
+            _.each(this.get('sections'), function(section_data) {
+                section_data.chart = that;
+                sections.add(section_data);
+            });
 
-                }
+            this.set('sections', sections);
 
-            }
-
-        });
+        }
 
     }
-);
+
+});

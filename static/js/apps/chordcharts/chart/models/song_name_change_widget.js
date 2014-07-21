@@ -1,32 +1,25 @@
-define(
-    [],
-    function() {
+module.exports = Backbone.Model.extend({
 
-        return Backbone.Model.extend({
+    defaults: {
+        visible: false
+    },
 
-            defaults: {
-                visible: false
-            },
+    url: (
+        GLOBALS.api_root_url +
+        'chart-song-name/' +
+        GLOBALS.chart_data.id + '/'
+    ),
 
-            url: (
-                GLOBALS.api_root_url +
-                'chart-song-name/' +
-                GLOBALS.chart_data.id + '/'
-            ),
+    isNew: function() {
+        return true;
+    },
 
-            isNew: function() {
-                return true;
-            },
+    toJSON: function() {
 
-            toJSON: function() {
-
-                return {
-                    song_name: this.get('song_name'),
-                };
-
-            }
-
-        });
+        return {
+            song_name: this.get('song_name'),
+        };
 
     }
-);
+
+});

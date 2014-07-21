@@ -1,29 +1,25 @@
-define(
-    ['models/line'],
-    function(Line) {
+var Line = require('../models/line.js');
 
-        return Backbone.Collection.extend({
 
-            model: Line,
+module.exports = Backbone.Collection.extend({
 
-            copy: function(attributes) {
+    model: Line,
 
-                var copy = this.clone();
-                var line_copy;
-                var line_copies = [];
+    copy: function(attributes) {
 
-                copy.each(function(line) {
-                    line_copy = line.copy(attributes);
-                    line_copies.push(line_copy);
-                });
+        var copy = this.clone();
+        var line_copy;
+        var line_copies = [];
 
-                copy.reset(line_copies);
-
-                return copy;
-
-            }
-
+        copy.each(function(line) {
+            line_copy = line.copy(attributes);
+            line_copies.push(line_copy);
         });
 
+        copy.reset(line_copies);
+
+        return copy;
+
     }
-);
+
+});

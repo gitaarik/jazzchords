@@ -1,8 +1,1 @@
-define(
-    [],
-    function() {
-
-        return Backbone.Model.extend();
-
-    }
-);
+module.exports = Backbone.Model.extend();

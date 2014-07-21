@@ -1,10 +1,6 @@
-define(
-    ['models/chord_type'],
-    function(ChordType) {
+var ChordType = require('../models/chord_type.js');
 
-        return Backbone.Collection.extend({
-            model: ChordType
-        });
 
-    }
-);
+module.exports = Backbone.Collection.extend({
+    model: ChordType
+});

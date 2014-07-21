@@ -1,10 +1,6 @@
-define(
-    ['models/measure_edit_measure'],
-    function(MeasureEditMeasure) {
+var MeasureEditMeasure = require('../models/measure_edit_measure.js');
 
-        return Backbone.Collection.extend({
-            model: MeasureEditMeasure
-        })
 
-    }
-)
+module.exports = Backbone.Collection.extend({
+    model: MeasureEditMeasure
+});

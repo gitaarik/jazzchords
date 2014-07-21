@@ -1,74 +1,70 @@
-define(
-    ['models/chart_transpose'],
-    function(ChartTranspose) {
+var ChartTranspose = require('../models/chart_transpose.js');
 
-        return Backbone.View.extend({
 
-            initialize: function() {
-                this.listenTo(this.model, 'change', this.render);
-            },
+module.exports = Backbone.View.extend({
 
-            events: {
-                'click .closed': 'toggle',
-                'click .open .current-key': 'toggle',
-                'click .key-tonics li a': 'changeKey'
-            },
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
-            toggle: function() {
-                this.model.set('visible', !this.model.get('visible'));
-            },
+    events: {
+        'click .closed': 'toggle',
+        'click .open .current-key': 'toggle',
+        'click .key-tonics li a': 'changeKey'
+    },
 
-            render: function() {
+    toggle: function() {
+        this.model.set('visible', !this.model.get('visible'));
+    },
 
-                if (this.model.get('visible')) {
-                    this.$el.find('.open').show();
-                } else {
-                    this.$el.find('.open').hide();
-                }
+    render: function() {
 
-                if (this.model.has('key')) {
+        if (this.model.get('visible')) {
+            this.$el.find('.open').show();
+        } else {
+            this.$el.find('.open').hide();
+        }
 
-                    var key = this.model.get('key');
+        if (this.model.has('key')) {
 
-                    this.$el.find('.key-name').html(key.get('name'));
+            var key = this.model.get('key');
 
-                    this.$el.find('.key-tonics li').removeClass('selected');
-                    this.$el.find(
-                        '.key-tonics li[data-key-tonic=' +
-                            key.get('tonic') +
-                        ']'
-                    ).addClass('selected');
+            this.$el.find('.key-name').html(key.get('name'));
 
-                }
+            this.$el.find('.key-tonics li').removeClass('selected');
+            this.$el.find(
+                '.key-tonics li[data-key-tonic=' +
+                    key.get('tonic') +
+                ']'
+            ).addClass('selected');
 
-            },
+        }
 
-            changeKey: function(el) {
+    },
 
-                if (!GLOBALS.edit) {
-                    return;
-                }
+    changeKey: function(el) {
 
-                var target = $(el.target);
+        if (!GLOBALS.edit) {
+            return;
+        }
 
-                new ChartTranspose({
-                    tonic: target.parent().data('key-tonic')
-                }).save(null, { success: function() {
-                    // Refresh the page so that the transposition will
-                    // be visible on the screen. A simple solution for
-                    // now. We don't want to put the tonic in the URL
-                    // because:
-                    // If you change the key of the first section, you
-                    // thus change the key for the complete chart, if
-                    // the key would be in the URL and you would refresh
-                    // the page, you would transpose the chart again,
-                    // which is not what you want.
-                    location.reload();
-                }});
+        var target = $(el.target);
 
-            }
-
-        });
+        new ChartTranspose({
+            tonic: target.parent().data('key-tonic')
+        }).save(null, { success: function() {
+            // Refresh the page so that the transposition will
+            // be visible on the screen. A simple solution for
+            // now. We don't want to put the tonic in the URL
+            // because:
+            // If you change the key of the first section, you
+            // thus change the key for the complete chart, if
+            // the key would be in the URL and you would refresh
+            // the page, you would transpose the chart again,
+            // which is not what you want.
+            location.reload();
+        }});
 
     }
-);
+
+});

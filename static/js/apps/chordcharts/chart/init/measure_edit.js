@@ -1,52 +1,49 @@
-define(
-    ['models/measure_edit', 'views/measure_edit'],
-    function(MeasureEdit, MeasureEditView) {
+var MeasureEdit = require('../models/measure_edit.js');
+var MeasureEditView = require('../views/measure_edit.js');
 
-        var measureEdit = new MeasureEdit();
 
-        new MeasureEditView({
-            el: '.chord-chart .measure-edit',
-            model: measureEdit
-        });
+var measureEdit = new MeasureEdit();
 
-        $('html').on('click', function(event) {
+new MeasureEditView({
+    el: '.chord-chart .measure-edit',
+    model: measureEdit
+});
 
-            // Close the widget if there was a click outside it.
+$('html').on('click', function(event) {
 
-            if (measureEdit.get('visible')) {
+    // Close the widget if there was a click outside it.
 
-                var target = $(event.target);
+    if (measureEdit.get('visible')) {
 
-                if (
-                    // Check if the click wasn't a click to open the widget,
-                    // or a click inside the widget.
-                    (
-                        !target
-                            .closest('.measure-edit')
-                            .closest('.chord-chart')
-                            .length &&
-                        !target
-                            .closest('.measure')
-                            .closest('.chord-chart')
-                            .length
-                    ) ||
-                    // Or the click was on a chord (which is also inside
-                    // a measure).
-                    target
-                        .closest('.chord-name')
-                        .closest('.chord')
-                        .closest('.chord-chart')
-                        .length
-                ) {
-                    // close the widget
-                    measureEdit.set('visible', false);
-                }
+        var target = $(event.target);
 
-            }
-
-        });
-
-        return measureEdit;
+        if (
+            // Check if the click wasn't a click to open the widget,
+            // or a click inside the widget.
+            (
+                !target
+                    .closest('.measure-edit')
+                    .closest('.chord-chart')
+                    .length &&
+                !target
+                    .closest('.measure')
+                    .closest('.chord-chart')
+                    .length
+            ) ||
+            // Or the click was on a chord (which is also inside
+            // a measure).
+            target
+                .closest('.chord-name')
+                .closest('.chord')
+                .closest('.chord-chart')
+                .length
+        ) {
+            // close the widget
+            measureEdit.set('visible', false);
+        }
 
     }
-);
+
+});
+
+module.exports = measureEdit;

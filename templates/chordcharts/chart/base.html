@@ -22,7 +22,6 @@
         }
 
     </script>
-    <script data-main="{{ STATIC_URL }}js/apps/chordcharts/chart/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
 
     <script type="text/template" id="template-measure-edit-measure">
         <div class="measure measure-beatschema-<%= beat_schema %>">
@@ -67,6 +66,8 @@
         </script>
 
     {% endif %}
+
+    <script src="{{ STATIC_URL }}js/apps/chordcharts/chart/bundle.js"></script>
 
 {% endblock %}
 

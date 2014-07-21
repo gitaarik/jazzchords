@@ -1,29 +1,25 @@
-define(
-    ['models/chord'],
-    function(Chord) {
+var Chord = require('../models/chord.js');
 
-        return Backbone.Collection.extend({
 
-            model: Chord,
+module.exports = Backbone.Collection.extend({
 
-            copy: function(attributes) {
+    model: Chord,
 
-                var copy = this.clone();
-                var chord_copy;
-                var chords_copies = [];
+    copy: function(attributes) {
 
-                copy.each(function(chord) {
-                    chord_copy = chord.copy(attributes);
-                    chords_copies.push(chord_copy);
-                });
+        var copy = this.clone();
+        var chord_copy;
+        var chords_copies = [];
 
-                copy.reset(chords_copies);
-
-                return copy;
-
-            }
-
+        copy.each(function(chord) {
+            chord_copy = chord.copy(attributes);
+            chords_copies.push(chord_copy);
         });
 
+        copy.reset(chords_copies);
+
+        return copy;
+
     }
-);
+
+});

@@ -1,12 +1,5 @@
-define(
-    [],
-    function() {
-
-        return Backbone.Model.extend({
-            defaults: {
-                visible: false
-            }
-        });
-
+module.exports = Backbone.Model.extend({
+    defaults: {
+        visible: false
     }
-);
+});

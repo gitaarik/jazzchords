@@ -1,11 +1,6 @@
-define(
-    ['models/chord_edit_note'],
-    function(ChordEditNote) {
+var ChordEditNote = require('../models/chord_edit_note.js');
 
-        return Backbone.Collection.extend({
-            model: ChordEditNote
-        })
 
-    }
-)
-
+module.exports = Backbone.Collection.extend({
+    model: ChordEditNote
+});

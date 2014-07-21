@@ -1,31 +1,27 @@
-define(
-    ['models/section'],
-    function(Section) {
+var Section = require('../models/section.js');
 
-        return Backbone.Collection.extend({
 
-            model: Section,
+module.exports = Backbone.Collection.extend({
 
-            comparator: 'number',
+    model: Section,
 
-            /**
-             * Resets the numbers on the sections.
-             *
-             * Will take the current order of the sections and reset the
-             * `number` field, starting with 1 and counting up.
-             */
-            resetNumbers: function() {
+    comparator: 'number',
 
-                var number = 1;
+    /**
+     * Resets the numbers on the sections.
+     *
+     * Will take the current order of the sections and reset the
+     * `number` field, starting with 1 and counting up.
+     */
+    resetNumbers: function() {
 
-                this.each(function(section) {
-                    section.set('number', number++);
-                    section.save();
-                });
+        var number = 1;
 
-            }
-
+        this.each(function(section) {
+            section.set('number', number++);
+            section.save();
         });
 
     }
-);
+
+});

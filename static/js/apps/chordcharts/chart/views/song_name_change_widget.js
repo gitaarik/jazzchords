@@ -1,61 +1,54 @@
-define(
-    [],
-    function() {
+module.exports = Backbone.View.extend({
 
-        return Backbone.View.extend({
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
-            initialize: function() {
-                this.listenTo(this.model, 'change', this.render);
-            },
+    events: {
+        'click h1': 'toggle',
+        'keyup .song-name-input': 'updateSongName'
+    },
 
-            events: {
-                'click h1': 'toggle',
-                'keyup .song-name-input': 'updateSongName'
-            },
+    toggle: function() {
+        this.model.set('visible', !this.model.get('visible'));
+    },
 
-            toggle: function() {
-                this.model.set('visible', !this.model.get('visible'));
-            },
+    render: function() {
 
-            render: function() {
+        if (this.model.get('visible')) {
+            this.$el.find('.song-name-change').show();
+            this.focusTextField();
+        } else {
+            this.$el.find('.song-name-change').hide();
+        }
 
-                if (this.model.get('visible')) {
-                    this.$el.find('.song-name-change').show();
-                    this.focusTextField();
-                } else {
-                    this.$el.find('.song-name-change').hide();
-                }
+    },
 
-            },
+    focusTextField: function() {
 
-            focusTextField: function() {
+        var song_name_input = this.$el.find('.song-name-input');
 
-                var song_name_input = this.$el.find('.song-name-input');
+        // set focus on text field
+        song_name_input.focus();
 
-                // set focus on text field
-                song_name_input.focus();
+        // make sure the cursor is at the end
+        var orig_value = song_name_input.val();
+        song_name_input.val('');
+        song_name_input.val(orig_value);
 
-                // make sure the cursor is at the end
-                var orig_value = song_name_input.val();
-                song_name_input.val('');
-                song_name_input.val(orig_value);
+    },
 
-            },
+    updateSongName: function() {
 
-            updateSongName: function() {
+        var song_name = this.$el.find('.song-name-input').val();
 
-                var song_name = this.$el.find('.song-name-input').val();
+        console.log('model url:');
+        console.log(this.model.url);
+        this.model.set('song_name', song_name);
+        this.model.save();
 
-                console.log('model url:');
-                console.log(this.model.url);
-                this.model.set('song_name', song_name);
-                this.model.save();
-
-                this.$el.find('h1 span').text(song_name);
-
-            }
-
-        });
+        this.$el.find('h1 span').text(song_name);
 
     }
-);
+
+});

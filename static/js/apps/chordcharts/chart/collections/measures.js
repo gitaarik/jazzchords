@@ -1,48 +1,44 @@
-define(
-    ['models/measure'],
-    function(Measure) {
+var Measure = require('../models/measure.js');
 
-        return Backbone.Collection.extend({
 
-            model: Measure,
+module.exports = Backbone.Collection.extend({
 
-            initPrevNextMeasures: function() {
+    model: Measure,
 
-                var prev_measure = null;
+    initPrevNextMeasures: function() {
 
-                this.each(function(measure) {
+        var prev_measure = null;
 
-                    if (prev_measure) {
-                        prev_measure.set('next_measure', measure);
-                        measure.set('prev_measure', prev_measure);
-                    }
+        this.each(function(measure) {
 
-                    prev_measure = measure;
-
-                });
-
-            },
-
-            copy: function(attributes) {
-
-                var copy = this.clone();
-                var measure_copy;
-                var measure_copies = [];
-                var prev_measure;
-
-                copy.each(function(measure) {
-                    measure_copy = measure.copy(attributes);
-                    measure_copies.push(measure_copy);
-                });
-
-                copy.reset(measure_copies);
-                copy.initPrevNextMeasures(copy.models);
-
-                return copy;
-
+            if (prev_measure) {
+                prev_measure.set('next_measure', measure);
+                measure.set('prev_measure', prev_measure);
             }
+
+            prev_measure = measure;
 
         });
 
+    },
+
+    copy: function(attributes) {
+
+        var copy = this.clone();
+        var measure_copy;
+        var measure_copies = [];
+        var prev_measure;
+
+        copy.each(function(measure) {
+            measure_copy = measure.copy(attributes);
+            measure_copies.push(measure_copy);
+        });
+
+        copy.reset(measure_copies);
+        copy.initPrevNextMeasures(copy.models);
+
+        return copy;
+
     }
-);
+
+});

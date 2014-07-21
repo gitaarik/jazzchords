@@ -7,8 +7,12 @@ Make things ready for production demo:
     - Complete all keys.
     - Turn off Django's DEBUG mode
 
-Show repeat line on measures that repeat previous lines.
-    For example "Repeat first A section".
+Inconsistency:
+    The section edit popup doesn't close when you click the section
+    title again.
+
+Keyboard shortcuts:
+    Like Esc to close a popup.
 
 Make prefixes for Key, Note, ChordTypes and TimeSignature.
 

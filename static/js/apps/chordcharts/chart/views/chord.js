@@ -1,74 +1,71 @@
-define(
-    ['models/chord', 'init/chord_edit'],
-    function(Chord, chordEdit) {
+var Chord = require('../models/chord.js');
+var chordEdit = require('../init/chord_edit.js');
 
-        return Backbone.View.extend({
 
-            model: Chord,
-            className: 'chord',
+module.exports = Backbone.View.extend({
 
-            initialize: function() {
-                this.listenTo(this.model, 'change', this.render);
-            },
+    model: Chord,
+    className: 'chord',
 
-            events: {
-                'click .chord-name': 'openChordEdit'
-            },
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
-            /**
-             * Opens the edit widget for this chord
-             */
-            openChordEdit: function() {
+    events: {
+        'click .chord-name': 'openChordEdit'
+    },
 
-                if (!GLOBALS.edit) {
-                    return;
-                }
+    /**
+     * Opens the edit widget for this chord
+     */
+    openChordEdit: function() {
 
-                // If the chord edit widget is already open for this chord then
-                // close it, otherwise open it.
-                if (
-                    chordEdit.get('visible') &&
-                    chordEdit.get('chord') == this.model
-                ) {
-                    chordEdit.set('visible', false);
-                } else {
-                    chordEdit.set({
-                        visible: true,
-                        chord: this.model,
-                        offset: this.$el.offset()
-                    });
-                }
+        if (!GLOBALS.edit) {
+            return;
+        }
 
-            },
+        // If the chord edit widget is already open for this chord then
+        // close it, otherwise open it.
+        if (
+            chordEdit.get('visible') &&
+            chordEdit.get('chord') == this.model
+        ) {
+            chordEdit.set('visible', false);
+        } else {
+            chordEdit.set({
+                visible: true,
+                chord: this.model,
+                offset: this.$el.offset()
+            });
+        }
 
-            render: function() {
+    },
 
-                if (!this.model.get('measure')) {
-                    // only parse next measure if whole chart has been done parsing
-                    return;
-                }
+    render: function() {
 
-                this.$el.addClass('chord-' + this.model.get('number'));
+        if (!this.model.get('measure')) {
+            // only parse next measure if whole chart has been done parsing
+            return;
+        }
 
-                var font_size;
+        this.$el.addClass('chord-' + this.model.get('number'));
 
-                if (this.model.get('rest')) {
-                    font_size = 'tiny';
-                } else {
-                    font_size = 'normal';
-                }
+        var font_size;
 
-                this.$el.html(
-                    '<span class="chord-name font-size-' + font_size + '">' + 
-                        this.model.chartOutput() +
-                    '</span>'
-                );
+        if (this.model.get('rest')) {
+            font_size = 'tiny';
+        } else {
+            font_size = 'normal';
+        }
 
-                return this;
+        this.$el.html(
+            '<span class="chord-name font-size-' + font_size + '">' + 
+                this.model.chartOutput() +
+            '</span>'
+        );
 
-            },
+        return this;
 
-        });
+    },
 
-    }
-);
+});

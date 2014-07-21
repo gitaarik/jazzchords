@@ -1,44 +1,40 @@
-define(
-    ['models/chord_edit_note'],
-    function(ChordEditNote) {
+var ChordEditNote = require('../models/chord_edit_note.js');
 
-        return Backbone.View.extend({
 
-            tagName: 'li',
-            model: ChordEditNote,
+module.exports = Backbone.View.extend({
 
-            initialize: function() {
-                this.listenTo(this.model, 'change', this.render);
-            },
+    tagName: 'li',
+    model: ChordEditNote,
 
-            events: {
-                'click': 'chooseNote'
-            },
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
-            chooseNote: function() {
-                // Sets the chosen note on the editWidget
-                this.model.get('editWidget').set(
-                    this.model.get('note_type'),
-                    this.model.get('note')
-                );
-                return this;
-            },
+    events: {
+        'click': 'chooseNote'
+    },
 
-            render: function() {
+    chooseNote: function() {
+        // Sets the chosen note on the editWidget
+        this.model.get('editWidget').set(
+            this.model.get('note_type'),
+            this.model.get('note')
+        );
+        return this;
+    },
 
-                this.$el.html(this.model.get('note').get('name'));
+    render: function() {
 
-                if(this.model.get('selected')) {
-                    this.$el.addClass('selected');
-                } else {
-                    this.$el.removeClass('selected');
-                }
+        this.$el.html(this.model.get('note').get('name'));
 
-                return this;
+        if(this.model.get('selected')) {
+            this.$el.addClass('selected');
+        } else {
+            this.$el.removeClass('selected');
+        }
 
-            }
-
-        });
+        return this;
 
     }
-);
+
+});

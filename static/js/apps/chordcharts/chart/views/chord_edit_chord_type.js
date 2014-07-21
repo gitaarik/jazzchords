@@ -1,38 +1,36 @@
-define(
-    ['models/chord_edit_chord_type'],
-    function(ChordEditChordType) {
+var ChordEditChordType = require('../models/chord_edit_chord_type.js');
 
-        return Backbone.View.extend({
 
-            model: ChordEditChordType,
+module.exports = Backbone.View.extend({
 
-            initialize: function() {
-                this.listenTo(this.model, 'change', this.render)
-            },
+    model: ChordEditChordType,
 
-            events: {
-                'click': 'chooseSymbol'
-            },
+    initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
-            chooseSymbol: function() {
-                this.model.get('editWidget').set('chord_type',
-                    this.model.get('chord_type'))
-            },
+    events: {
+        'click': 'chooseSymbol'
+    },
 
-            render: function() {
+    chooseSymbol: function() {
+        this.model.get('editWidget').set(
+            'chord_type',
+            this.model.get('chord_type')
+        );
+    },
 
-                this.$el.html(this.model.get('symbol'))
+    render: function() {
 
-                if(this.model.get('selected')) {
-                    this.$el.addClass('selected')
-                }
-                else {
-                    this.$el.removeClass('selected')
-                }
+        this.$el.html(this.model.get('symbol'));
 
-            }
-
-        })
+        if(this.model.get('selected')) {
+            this.$el.addClass('selected');
+        }
+        else {
+            this.$el.removeClass('selected');
+        }
 
     }
-)
+
+});
