@@ -992,6 +992,7 @@ class Measure(models.Model):
             for chord1, chord2 in zip(measure.chords.all(), self.chords.all()):
                 if not chord1.equal_to(chord2):
                     is_equal = False
+                    break
 
         else:
             is_equal = False
