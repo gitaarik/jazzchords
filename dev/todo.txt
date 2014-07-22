@@ -7,10 +7,6 @@ Make things ready for production demo:
     - Complete all keys.
     - Turn off Django's DEBUG mode
 
-Inconsistency:
-    The section edit popup doesn't close when you click the section
-    title again.
-
 Keyboard shortcuts:
     Like Esc to close a popup.
 

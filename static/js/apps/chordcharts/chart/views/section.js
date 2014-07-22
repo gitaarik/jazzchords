@@ -1,6 +1,6 @@
 var Line = require('../models/line.js');
 var SectionSidebar = require('../models/section_sidebar.js');
-var SectionEdit = require('../init/section_edit.js');
+var sectionEdit = require('../init/section_edit.js');
 var SectionSidebarView = require('./section_sidebar.js');
 var LineView = require('./line.js');
 
@@ -15,7 +15,7 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        'click .section-header .name': 'openSectionEdit',
+        'click .section-header .name': 'toggleSectionEdit',
         'click .section-header .section-edit-buttons .move-up': 'moveUp',
         'click .section-header .section-edit-buttons .move-down': 'moveDown',
         'click .section-header .section-edit-buttons .remove': 'removeSection',
@@ -28,17 +28,21 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.model.get('lines'), 'remove', this.renderSidebar);
     },
 
-    openSectionEdit: function(event) {
+    toggleSectionEdit: function(event) {
 
         if (!GLOBALS.edit) {
             return;
         }
 
-        SectionEdit.set({
-            visible: true,
-            section: this.model,
-            offset: $(event.target).offset()
-        });
+        if (sectionEdit.get('visible')) {
+            sectionEdit.set('visible', false);
+        } else {
+            sectionEdit.set({
+                visible: true,
+                section: this.model,
+                offset: $(event.target).offset()
+            });
+        }
 
     },
 
