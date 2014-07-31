@@ -12,9 +12,10 @@ module.exports = Backbone.View.extend({
 
     initialize: function() {
 
-        if(!this.$el.find('.chords').length) {
+        if (!this.$el.find('.chords').length) {
             this.$el.html('<div class="chords"></div>');
         }
+
         this.chords = this.$el.find('.chords');
 
         this.listenTo(this.model, 'change', this.render);

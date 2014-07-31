@@ -11,11 +11,11 @@ new SongNameChangeWidgetView({
 
 $('html').on('click', function(event) {
 
-    if(songNameChangeWidget.get('visible')) {
+    if (songNameChangeWidget.get('visible')) {
 
         var target = $(event.target);
 
-        if(
+        if (
             !target
                 .closest('.song-name-change')
                 .closest('.song-name')
@@ -31,6 +31,14 @@ $('html').on('click', function(event) {
             songNameChangeWidget.set('visible', false);
         }
 
+    }
+
+});
+
+$('html').on('keyup', function(event) {
+
+    if (songNameChangeWidget.get('visible') && event.key == 'Esc') {
+        songNameChangeWidget.set('visible', false);
     }
 
 });

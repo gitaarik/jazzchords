@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
 
         this.$el.html(this.model.get('note').get('name'));
 
-        if(this.model.get('selected')) {
+        if (this.model.get('selected')) {
             this.$el.addClass('selected');
         } else {
             this.$el.removeClass('selected');

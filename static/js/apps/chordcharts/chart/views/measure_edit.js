@@ -29,11 +29,11 @@ module.exports = Backbone.View.extend({
 
     change: function() {
 
-        if(this.model.get('visible')) {
+        if (this.model.get('visible')) {
 
             // Only set the beat_schema on the measure if the edit
             // widget is visible.
-            if(this.model.previousAttributes().visible) {
+            if (this.model.previousAttributes().visible) {
 
                 this.model.get('measure').set(
                     'beat_schema',
@@ -46,8 +46,7 @@ module.exports = Backbone.View.extend({
 
             this.show();
 
-        }
-        else {
+        } else {
             this.$el.hide();
         }
 
@@ -95,7 +94,7 @@ module.exports = Backbone.View.extend({
             'selected': true
         });
 
-        if(current_selected) {
+        if (current_selected) {
             current_selected.set('selected', false);
         }
 

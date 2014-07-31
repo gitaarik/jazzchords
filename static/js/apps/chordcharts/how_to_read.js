@@ -1,12 +1,10 @@
-define(['widgets/measure'], function(MeasureWidget) {
+var MeasureWidget = require('./widgets/measure.js');
 
-    $('.how-to-read .measures .measures .measure').each(function() {
+$('.how-to-read .measures .measures .measure').each(function() {
 
-        var measure = $(this);
+    var measure = $(this);
 
-        new MeasureWidget(measure, measure.data('beatschema'), 100, 100, 1)
-            .measure_draw_separation_lines();
-
-    });
+    new MeasureWidget(measure, measure.data('beatschema'), 100, 100, 1)
+        .measure_draw_separation_lines();
 
 });

@@ -70,7 +70,7 @@ module.exports = Backbone.Model.extend({
             lines: this.get('lines').copy({ section: copy })
         });
 
-        if(attributes) {
+        if (attributes) {
             copy.set(attributes);
         }
 

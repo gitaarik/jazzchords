@@ -37,4 +37,12 @@ $('html').on('click', function(event) {
 
 });
 
+$('html').on('keyup', function(event) {
+
+    if (transposeWidget.get('visible') && event.key == 'Esc') {
+        transposeWidget.set('visible', false);
+    }
+
+});
+
 module.exports = transposeWidget;

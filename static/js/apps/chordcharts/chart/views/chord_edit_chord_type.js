@@ -24,10 +24,9 @@ module.exports = Backbone.View.extend({
 
         this.$el.html(this.model.get('symbol'));
 
-        if(this.model.get('selected')) {
+        if (this.model.get('selected')) {
             this.$el.addClass('selected');
-        }
-        else {
+        } else {
             this.$el.removeClass('selected');
         }
 

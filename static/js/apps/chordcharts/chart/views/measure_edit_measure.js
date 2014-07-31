@@ -25,15 +25,14 @@ module.exports = Backbone.View.extend({
 
     render: function() {
 
-        if(!this.measures_drawn) {
+        if (!this.measures_drawn) {
             this.drawMeasures();
             this.measures_drawn = true;
         }
 
-        if(this.model.get('selected')) {
+        if (this.model.get('selected')) {
             this.$el.find('.measure').addClass('selected');
-        }
-        else {
+        } else {
             this.$el.find('.measure').removeClass('selected');
         }
 

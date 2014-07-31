@@ -1,5 +1,5 @@
-LineEdit = require('../models/line_edit.js');
-LineEditView = require('../views/line_edit.js');
+var LineEdit = require('../models/line_edit.js');
+var LineEditView = require('../views/line_edit.js');
         
 
 var lineEdit = new LineEdit();
@@ -33,6 +33,14 @@ $('html').on('click', function(event) {
             lineEdit.set('visible', false);
         }
 
+    }
+
+});
+
+$('html').on('keyup', function(event) {
+
+    if (lineEdit.get('visible') && event.key == 'Esc') {
+        lineEdit.set('visible', false);
     }
 
 });

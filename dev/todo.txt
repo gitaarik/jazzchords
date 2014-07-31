@@ -7,8 +7,9 @@ Make things ready for production demo:
     - Complete all keys.
     - Turn off Django's DEBUG mode
 
-Keyboard shortcuts:
-    Like Esc to close a popup.
+Help popup:
+    Make a help popup that contains the how-to-read page, that can be
+    opened from a chart page.
 
 Make prefixes for Key, Note, ChordTypes and TimeSignature.
 

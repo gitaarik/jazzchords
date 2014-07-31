@@ -125,3 +125,20 @@
     <div class="disable-sidebar">Disable sidebar</div>
 
 </article>
+
+<article class="help-widget popup-box">
+
+    <header class="help-widget-header">
+        <nav>
+            <ul class="tabs padding">
+                <li class="active" data-key="how-to-read">How to read</li>
+                <li data-key="chord-symbols">Chord Symbols</li>
+            </ul>
+        </nav>
+        <span class="close fa fa-times"></span>
+    </header>
+
+    <iframe class="how-to-read" src="{% url "chordcharts:how_to_read" %}"></iframe>
+    <iframe class="chord-symbols" src="{% url "chordcharts:chord_symbols" %}"></iframe>
+
+</article>

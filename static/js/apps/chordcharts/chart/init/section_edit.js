@@ -42,4 +42,12 @@ $('html').on('click', function(event) {
 
 });
 
+$('html').on('keyup', function(event) {
+
+    if (sectionEdit.get('visible') && event.key == 'Esc') {
+        sectionEdit.set('visible', false);
+    }
+
+});
+
 module.exports = sectionEdit;

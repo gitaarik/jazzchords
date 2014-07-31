@@ -46,4 +46,12 @@ $('html').on('click', function(event) {
 
 });
 
+$('html').on('keyup', function(event) {
+
+    if (measureEdit.get('visible') && event.key == 'Esc') {
+        measureEdit.set('visible', false);
+    }
+
+});
+
 module.exports = measureEdit;

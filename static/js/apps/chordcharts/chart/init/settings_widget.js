@@ -17,7 +17,7 @@ $('html').click(function(event) {
 
     if (widget_el.is(':visible')) {
 
-        if(
+        if (
             !$(event.target)
                 .closest('.settings')
                 .closest('.chart-edit-buttons')
@@ -27,6 +27,14 @@ $('html').click(function(event) {
             widget_el.hide();
         }
 
+    }
+
+});
+
+$('html').on('keyup', function(event) {
+
+    if (widget_el.is(':visible') && event.key == 'Esc') {
+        widget_el.hide();
     }
 
 });

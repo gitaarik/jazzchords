@@ -136,7 +136,7 @@ module.exports = Backbone.Model.extend({
                 prev_measure.unset('next_measure');
             }
 
-        } else if(next_measure) {
+        } else if (next_measure) {
             next_measure.unset('prev_measure');
         }
 
