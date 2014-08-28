@@ -1,0 +1,44 @@
+.tab-header {
+
+    overflow: hidden;
+    border: solid #000;
+    border-width: 0 0 1px 0;
+    box-shadow: 0 5px 5px #EEE;
+    margin: 0 0 5px 0;
+
+    nav ul {
+
+        float: left;
+        list-style: none;
+        overflow: hidden;
+
+        li {
+
+            float: left;
+            margin-right: 4px;
+            border: solid #000;
+            border-width: 1px 1px 0 1px;
+            border-radius: 5px 5px 0 0;
+            padding: 4px;
+            margin-top: 4px;
+            background: #EEE;
+            color: #777;
+            cursor: pointer;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            &.active {
+                background: #FFF;
+                color: #000;
+                margin-top: 0;
+                padding-bottom: 6px;
+                padding-top: 6px;
+            }
+
+        }
+
+    }
+
+}

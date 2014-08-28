@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/chordcharts/chart.css" />
+{% endblock %}
+
+{% block javascript %}
+
+    {{ block.super }}
+
+    <script>
+
+        var GLOBALS = {
+            api_root_url: '/api/chordcharts/',
+            settings: {{ settings_json|safe }},
+            chart_data: {{ chart_json|safe }},
+            all_keys: {{ all_keys_json|safe }},
+            chord_types: {{ chord_types_json|safe }},
+            edit: {% if edit %}true{% else %}false{% endif %},
+            parsed: false
+        }
+
+    </script>
+
+    <script type="text/template" id="template-measure-edit-measure">
+        <div class="measure measure-beatschema-<%= beat_schema %>">
+            <%
+            for(var i = 1; i <= num_chords; i++) {
+                %>
+                <div class="chord-<%= i %>"><%= i %></div>
+                <%
+            }
+            %>
+        </div>
+    </script>
+
+    <script type="text/template" id="template-section-sidebar-part">
+        <div class="section-sidebar-part <%= mode %>" style="width: <%= width %>px; height: <%= height %>px;" data-line-number="<%= line_number %>">
+            <div class="letter" style="width: <%= width %>px; line-height: <%= height %>px;">
+                <%= letter %>
+            </div>
+            <canvas></canvas>
+        </div>
+    </script>
+
+    {% if edit %}
+
+        <script type="text/template" id="template-section-header">
+            {% include "chordcharts/chart/section_header.html" with section_title="<%- section_title %>" move_down=1 move_up=1 remove=1 %}
+        </script>
+
+        <script type="text/template" id="template-lines">
+            <table class="lines">
+                {% include "chordcharts/chart/section_line_add.html" %}
+            </table>
+        </script>
+
+        <script type="text/template" id="template-section">
+            <header class="section-header"></header>
+            <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
+            <table>
+                <tbody class="lines"></tbody>
+                <tfoot>{% include "chordcharts/chart/section_line_add.html" %}</tfoot>
+            </table>
+        </script>
+
+    {% endif %}
+
+    <script src="{{ STATIC_URL }}js/chordcharts/chart.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <article class="chord-chart{% if edit %} edit-on{% endif %}">
+
+        {% include "chordcharts/chart/header.html" %}
+        {% include "chordcharts/chart/chart.html" %}
+
+        {% if edit %}
+            {% include "chordcharts/chart/widgets.html" %}
+        {% endif %}
+
+    </article>
+
+{% endblock %}

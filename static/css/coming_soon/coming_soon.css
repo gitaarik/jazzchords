@@ -1,0 +1,21 @@
+.coming-soon {
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+.coming-soon h1 {
+  font-size: 35px;
+  margin: 0 0 20px 0;
+}
+.coming-soon p {
+  padding-bottom: 10px;
+  line-height: 25px;
+}
+.coming-soon .preview {
+  margin-top: 40px;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 50px #BBB;
+  border: solid 1px #999;
+}

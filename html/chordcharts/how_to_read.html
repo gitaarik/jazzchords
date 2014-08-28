@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/chordcharts/how_to_read.css" />
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/chordcharts/how_to_read.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <article class="how-to-read">
+
+        <header>
+            <h1>How to read</h1>
+        </header>
+
+        <section class="measures">
+
+            <h2>Measures</h2>
+
+            <p>
+                A box represents one measure (commonly 4 beats), which can
+                contain one or multiple chords. The space a chord gets
+                inside a box represents the number of beats it has to
+                be played; a full box is 4 beats, half a box is 2 beats
+                and quarter a box 1 beat:
+            </p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-small">4 beats</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-2" data-beatschema="2-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-1-1" data-beatschema="2-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-2" data-beatschema="1-1-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">1 beats</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-small">2 beats</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-1-1" data-beatschema="1-1-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                    <div class="chord chord-4">
+                        <span class="chord-name font-size-small">1 beat</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <p>The order in which the chords should be played is as follows:</p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-2" data-beatschema="2-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-2-1-1" data-beatschema="2-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-normal">3</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-2" data-beatschema="1-1-2">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-normal">3</span>
+                    </div>
+                </div>
+
+                <div class="measure measure-beatschema-1-1-1-1" data-beatschema="1-1-1-1">
+                    <div class="chord chord-1">
+                        <span class="chord-name font-size-normal">1</span>
+                    </div>
+                    <div class="chord chord-2">
+                        <span class="chord-name font-size-normal">2</span>
+                    </div>
+                    <div class="chord chord-3">
+                        <span class="chord-name font-size-normal">3</span>
+                    </div>
+                    <div class="chord chord-4">
+                        <span class="chord-name font-size-normal">4</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <h2>Repetition</h2>
+            <p>A box containing a percent sign means the previous measure should be repeated:</p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-normal">%</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <h2>Rests</h2>
+            <p>When no chords should be played, the box indicates a rest:</p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-tiny">REST</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+            <h2>Chords</h2>
+
+            <p>
+                The chords are written with their name and symbol. For a
+                list of what which symbol means see the
+                <a href="{% url "chordcharts:chord_symbols" %}">chord symbol list</a>.
+            </p>
+
+            <h2>Alternative bass note</h2>
+
+            <p>
+                A chord can have an alternative bass note. Instead of
+                playing the root note as lowest tone in the chord, you
+                play an alternative note. In this case the chord name
+                and symbol will be followed by a slash ( / ) and the
+                alternative bass note. For example, this is a E7 chord
+                with a B as the bass note:
+            </p>
+
+            <div class="measures">
+
+                <div class="measure measure-beatschema-4" data-beatschema="4">
+                    <div class="chord">
+                        <span class="chord-name font-size-normal">E7/B</span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+
+        </section>
+
+    </article>
+
+{% endblock %}

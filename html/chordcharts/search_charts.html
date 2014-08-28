@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="{{ STATIC_URL }}css/chordcharts/search_charts.less" />
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ STATIC_URL }}js/chordcharts/search_charts.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="search_charts">
+
+        <header>
+            <h1>Search charts</h1>
+        </header>
+
+    </div>
+
+{% endblock %}

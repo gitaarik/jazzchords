@@ -1,0 +1,177 @@
+.chart {
+
+    overflow: hidden;
+    letter-spacing: 1px;
+
+    .section {
+
+        margin: 0 auto 15px;
+        overflow: hidden;
+
+        .section-header {
+
+            overflow: hidden;
+            margin: 20px 0 10px @section_sidebar_width;
+
+            .name {
+                float: left;
+                font-size: 20px;
+            }
+
+        }
+
+        &:first-child .section-header {
+            margin-top: 0;
+        }
+
+        .section-sidebar {
+
+            position: relative;
+            float: left;
+            width: @section_sidebar_width;
+
+            .section-sidebar-part {
+
+                .letter {
+                    position: absolute;
+                    width: @section_sidebar_width;
+                    text-align: center;
+                    font-size: 20px;
+                    background: #FFF;
+                }
+
+                canvas {
+                    position: absolute;
+                    width: @section_sidebar_width;
+                }
+
+            }
+
+        }
+
+        .lines {
+
+            .line {
+
+                @import "../../core/widgets/measure.less";
+
+                .repeating-measure {
+
+                    height: @measure_height;
+                    width: @measure_width;
+                    border: solid @border_width #000;
+                    padding: 0;
+                    position: relative;
+
+                    .repeat-range-heading {
+
+                        position: absolute;
+                        top: 30px;
+                        text-align: center;
+
+                        span {
+                            background: #FFF;
+                        }
+
+                        &.repeat-range-length-4 {
+                            width: (@measure_width + @border_width) * 4;
+                        }
+
+                        &.repeat-range-length-5 {
+                            width: (@measure_width + @border_width) * 5;
+                        }
+
+                        &.repeat-range-length-6 {
+                            width: (@measure_width + @border_width) * 6;
+                        }
+
+                        &.repeat-range-length-7 {
+                            width: (@measure_width + @border_width) * 7;
+                        }
+
+                        &.repeat-range-length-8 {
+                            width: (@measure_width + @border_width) * 8;
+                        }
+
+                    }
+
+                    .range-line-container {
+
+                        margin-top: 30px;
+                        height: 17px;
+                        overflow: hidden;
+
+                        .range-line {
+                            margin-top: 6px;
+                            height: 5px;
+                            width: 100%;
+                            background: #000;
+                        }
+
+                    }
+
+                    &.first {
+
+                        .range-line-container {
+                            border-left: solid 4px #000;
+                            float: right;
+                            width: 60%;
+                        }
+
+                    }
+
+                    &.last {
+
+                        .range-line-container {
+                            border-right: solid 4px #000;
+                            float: left;
+                            width: 60%;
+                        }
+
+                    }
+
+                    &.span-prev-line {
+
+                        .range-line-container {
+                            float: right;
+                            width: 90%;
+                        }
+
+                    }
+
+                    &.span-next-line {
+
+                        .range-line-container {
+                            float: left;
+                            width: 90%;
+                        }
+
+                    }
+
+                }
+
+                .colspan {
+                    border: none;
+                }
+
+            }
+
+        }
+
+    }
+
+    .section-new {
+        margin: 20px 0 0 @section_sidebar_width;
+        float: left;
+        padding: 10px;
+        font-size: 18px;
+        text-align: center;
+        border: solid 1px #000;
+        border-radius: 5px;
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+}

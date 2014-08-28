@@ -1,0 +1,168 @@
+.how-to-read {
+  /*margin: 0 auto 50px;
+    width: 650px;*/
+}
+.how-to-read h1 {
+  font-size: 30px;
+}
+.how-to-read h2 {
+  font-size: 25px;
+}
+.how-to-read .measures .measure {
+  height: 100px;
+  width: 100px;
+  border: solid 1px #000000;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.how-to-read .measures .measure .chords {
+  position: relative;
+  height: 100px;
+  width: 100px;
+}
+.how-to-read .measures .measure.measure-beatschema-4 .chord {
+  line-height: 100px;
+  text-align: center;
+}
+.how-to-read .measures .measure.measure-beatschema-4 .chord .chord-name.font-size-normal {
+  font-size: 27px;
+}
+.how-to-read .measures .measure.measure-beatschema-4 .chord .chord-name.font-size-small {
+  font-size: 23px;
+}
+.how-to-read .measures .measure.measure-beatschema-4 .chord .chord-name.font-size-tiny {
+  font-size: 18px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-2 .chord {
+  position: absolute;
+  line-height: 60px;
+  width: 60px;
+  text-align: center;
+}
+.how-to-read .measures .measure.measure-beatschema-2-2 .chord.chord-2 {
+  bottom: 0;
+  right: 0;
+}
+.how-to-read .measures .measure.measure-beatschema-2-2 .chord .chord-name.font-size-normal {
+  font-size: 20px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-2 .chord .chord-name.font-size-small {
+  font-size: 17px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-2 .chord .chord-name.font-size-tiny {
+  font-size: 13px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord {
+  position: absolute;
+  text-align: center;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-1 {
+  line-height: 60px;
+  width: 60px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-1 .chord-name.font-size-normal {
+  font-size: 20px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-1 .chord-name.font-size-small {
+  font-size: 17px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-1 .chord-name.font-size-tiny {
+  font-size: 13px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-2 {
+  line-height: 35px;
+  width: 100px;
+  bottom: 0;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-3 {
+  line-height: 100px;
+  width: 40px;
+  right: 0;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-2 .chord-name.font-size-normal,
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-3 .chord-name.font-size-normal {
+  font-size: 15px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-2 .chord-name.font-size-small,
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-3 .chord-name.font-size-small {
+  font-size: 13px;
+}
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-2 .chord-name.font-size-tiny,
+.how-to-read .measures .measure.measure-beatschema-2-1-1 .chord.chord-3 .chord-name.font-size-tiny {
+  font-size: 10px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord {
+  position: absolute;
+  text-align: center;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-1 {
+  line-height: 100px;
+  width: 40px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-2 {
+  line-height: 35px;
+  width: 100px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-1 .chord-name.font-size-normal,
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-2 .chord-name.font-size-normal {
+  font-size: 15px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-1 .chord-name.font-size-small,
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-2 .chord-name.font-size-small {
+  font-size: 13px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-1 .chord-name.font-size-tiny,
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-2 .chord-name.font-size-tiny {
+  font-size: 10px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-3 {
+  line-height: 60px;
+  width: 60px;
+  bottom: 0;
+  right: 0;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-3 .chord-name.font-size-normal {
+  font-size: 20px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-3 .chord-name.font-size-small {
+  font-size: 17px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-2 .chord.chord-3 .chord-name.font-size-tiny {
+  font-size: 13px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord {
+  position: absolute;
+  text-align: center;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord.chord-1 {
+  line-height: 100px;
+  width: 40px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord.chord-2 {
+  line-height: 35px;
+  width: 100px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord.chord-3 {
+  line-height: 35px;
+  width: 100px;
+  bottom: 0;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord.chord-4 {
+  line-height: 100px;
+  width: 40px;
+  right: 0;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord .chord-name.font-size-normal {
+  font-size: 15px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord .chord-name.font-size-small {
+  font-size: 13px;
+}
+.how-to-read .measures .measure.measure-beatschema-1-1-1-1 .chord .chord-name.font-size-tiny {
+  font-size: 10px;
+}
+.how-to-read .measures .measure {
+  float: left;
+  margin-right: 20px;
+}

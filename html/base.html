@@ -1,0 +1,29 @@
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Chord Charts</title>
+        <base href="{{ STATIC_URL }}">
+        <link type="text/css" rel="stylesheet" href="css/core/base.css" />
+        {% block css %}{% endblock %}
+    </head>
+
+    <body>
+
+        {% block content %}{% endblock %} 
+
+        <div id="js-templates">
+            {% block js_templates %}{% endblock %}
+        </div>
+
+        {% compress js %}
+            <script src="js/core/base.js"></script>
+            {% block javascript %}{% endblock %}
+        {% endcompress %}
+
+    </body>
+
+</html>
