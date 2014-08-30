@@ -7,7 +7,7 @@
         <meta charset="utf-8" />
         <title>Chord Charts</title>
         <base href="{{ STATIC_URL }}">
-        <link type="text/css" rel="stylesheet" href="css/core/base.css" />
+        <link type="text/css" rel="stylesheet" href="css/core.css" />
         {% block css %}{% endblock %}
     </head>
 
@@ -20,7 +20,7 @@
         </div>
 
         {% compress js %}
-            <script src="js/core/base.js"></script>
+            <script src="js/core.js"></script>
             {% block javascript %}{% endblock %}
         {% endcompress %}
 

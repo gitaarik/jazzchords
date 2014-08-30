@@ -1,165 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ChordEditChordType = require('../models/chord_edit_chord_type.js');
-
-
-module.exports = Backbone.Collection.extend({
-    model: ChordEditChordType
-});
-
-},{"../models/chord_edit_chord_type.js":23}],2:[function(require,module,exports){
-var ChordEditNote = require('../models/chord_edit_note.js');
-
-
-module.exports = Backbone.Collection.extend({
-    model: ChordEditNote
-});
-
-},{"../models/chord_edit_note.js":24}],3:[function(require,module,exports){
-var ChordType = require('../models/chord_type.js');
-
-
-module.exports = Backbone.Collection.extend({
-    model: ChordType
-});
-
-},{"../models/chord_type.js":25}],4:[function(require,module,exports){
-var Chord = require('../models/chord.js');
-
-
-module.exports = Backbone.Collection.extend({
-
-    model: Chord,
-
-    copy: function(attributes) {
-
-        var copy = this.clone();
-        var chord_copy;
-        var chords_copies = [];
-
-        copy.each(function(chord) {
-            chord_copy = chord.copy(attributes);
-            chords_copies.push(chord_copy);
-        });
-
-        copy.reset(chords_copies);
-
-        return copy;
-
-    }
-
-});
-
-},{"../models/chord.js":21}],5:[function(require,module,exports){
-var Line = require('../models/line.js');
-
-
-module.exports = Backbone.Collection.extend({
-
-    model: Line,
-
-    copy: function(attributes) {
-
-        var copy = this.clone();
-        var line_copy;
-        var line_copies = [];
-
-        copy.each(function(line) {
-            line_copy = line.copy(attributes);
-            line_copies.push(line_copy);
-        });
-
-        copy.reset(line_copies);
-
-        return copy;
-
-    }
-
-});
-
-},{"../models/line.js":26}],6:[function(require,module,exports){
-var MeasureEditMeasure = require('../models/measure_edit_measure.js');
-
-
-module.exports = Backbone.Collection.extend({
-    model: MeasureEditMeasure
-});
-
-},{"../models/measure_edit_measure.js":30}],7:[function(require,module,exports){
-var Measure = require('../models/measure.js');
-
-
-module.exports = Backbone.Collection.extend({
-
-    model: Measure,
-
-    initPrevNextMeasures: function() {
-
-        var prev_measure = null;
-
-        this.each(function(measure) {
-
-            if (prev_measure) {
-                prev_measure.set('next_measure', measure);
-                measure.set('prev_measure', prev_measure);
-            }
-
-            prev_measure = measure;
-
-        });
-
-    },
-
-    copy: function(attributes) {
-
-        var copy = this.clone();
-        var measure_copy;
-        var measure_copies = [];
-        var prev_measure;
-
-        copy.each(function(measure) {
-            measure_copy = measure.copy(attributes);
-            measure_copies.push(measure_copy);
-        });
-
-        copy.reset(measure_copies);
-        copy.initPrevNextMeasures(copy.models);
-
-        return copy;
-
-    }
-
-});
-
-},{"../models/measure.js":28}],8:[function(require,module,exports){
-var Section = require('../models/section.js');
-
-
-module.exports = Backbone.Collection.extend({
-
-    model: Section,
-
-    comparator: 'number',
-
-    /**
-     * Resets the numbers on the sections.
-     *
-     * Will take the current order of the sections and reset the
-     * `number` field, starting with 1 and counting up.
-     */
-    resetNumbers: function() {
-
-        var number = 1;
-
-        this.each(function(section) {
-            section.set('number', number++);
-            section.save();
-        });
-
-    }
-
-});
-
-},{"../models/section.js":31}],9:[function(require,module,exports){
 var Chart = require('./models/chart.js');
 var ChartView = require('./views/chart.js');
 var SectionView = require('./views/section.js');
@@ -252,7 +91,168 @@ chartView.$el.find('.section').each(function() {
 
 GLOBALS.parsed = true;
 
-},{"./init/help_widget.js":12,"./init/settings_widget.js":16,"./init/song_name_change_widget.js":17,"./init/transpose_widget.js":18,"./models/chart.js":19,"./views/chart.js":37,"./views/chord.js":38,"./views/line.js":42,"./views/measure.js":44,"./views/section.js":47}],10:[function(require,module,exports){
+},{"./init/help_widget.js":12,"./init/settings_widget.js":16,"./init/song_name_change_widget.js":17,"./init/transpose_widget.js":18,"./models/chart.js":19,"./views/chart.js":37,"./views/chord.js":38,"./views/line.js":42,"./views/measure.js":44,"./views/section.js":47}],2:[function(require,module,exports){
+var ChordEditChordType = require('../models/chord_edit_chord_type.js');
+
+
+module.exports = Backbone.Collection.extend({
+    model: ChordEditChordType
+});
+
+},{"../models/chord_edit_chord_type.js":23}],3:[function(require,module,exports){
+var ChordEditNote = require('../models/chord_edit_note.js');
+
+
+module.exports = Backbone.Collection.extend({
+    model: ChordEditNote
+});
+
+},{"../models/chord_edit_note.js":24}],4:[function(require,module,exports){
+var ChordType = require('../models/chord_type.js');
+
+
+module.exports = Backbone.Collection.extend({
+    model: ChordType
+});
+
+},{"../models/chord_type.js":25}],5:[function(require,module,exports){
+var Chord = require('../models/chord.js');
+
+
+module.exports = Backbone.Collection.extend({
+
+    model: Chord,
+
+    copy: function(attributes) {
+
+        var copy = this.clone();
+        var chord_copy;
+        var chords_copies = [];
+
+        copy.each(function(chord) {
+            chord_copy = chord.copy(attributes);
+            chords_copies.push(chord_copy);
+        });
+
+        copy.reset(chords_copies);
+
+        return copy;
+
+    }
+
+});
+
+},{"../models/chord.js":21}],6:[function(require,module,exports){
+var Line = require('../models/line.js');
+
+
+module.exports = Backbone.Collection.extend({
+
+    model: Line,
+
+    copy: function(attributes) {
+
+        var copy = this.clone();
+        var line_copy;
+        var line_copies = [];
+
+        copy.each(function(line) {
+            line_copy = line.copy(attributes);
+            line_copies.push(line_copy);
+        });
+
+        copy.reset(line_copies);
+
+        return copy;
+
+    }
+
+});
+
+},{"../models/line.js":26}],7:[function(require,module,exports){
+var MeasureEditMeasure = require('../models/measure_edit_measure.js');
+
+
+module.exports = Backbone.Collection.extend({
+    model: MeasureEditMeasure
+});
+
+},{"../models/measure_edit_measure.js":30}],8:[function(require,module,exports){
+var Measure = require('../models/measure.js');
+
+
+module.exports = Backbone.Collection.extend({
+
+    model: Measure,
+
+    initPrevNextMeasures: function() {
+
+        var prev_measure = null;
+
+        this.each(function(measure) {
+
+            if (prev_measure) {
+                prev_measure.set('next_measure', measure);
+                measure.set('prev_measure', prev_measure);
+            }
+
+            prev_measure = measure;
+
+        });
+
+    },
+
+    copy: function(attributes) {
+
+        var copy = this.clone();
+        var measure_copy;
+        var measure_copies = [];
+        var prev_measure;
+
+        copy.each(function(measure) {
+            measure_copy = measure.copy(attributes);
+            measure_copies.push(measure_copy);
+        });
+
+        copy.reset(measure_copies);
+        copy.initPrevNextMeasures(copy.models);
+
+        return copy;
+
+    }
+
+});
+
+},{"../models/measure.js":28}],9:[function(require,module,exports){
+var Section = require('../models/section.js');
+
+
+module.exports = Backbone.Collection.extend({
+
+    model: Section,
+
+    comparator: 'number',
+
+    /**
+     * Resets the numbers on the sections.
+     *
+     * Will take the current order of the sections and reset the
+     * `number` field, starting with 1 and counting up.
+     */
+    resetNumbers: function() {
+
+        var number = 1;
+
+        this.each(function(section) {
+            section.set('number', number++);
+            section.save();
+        });
+
+    }
+
+});
+
+},{"../models/section.js":31}],10:[function(require,module,exports){
 var ChordEdit = require('../models/chord_edit.js');
 var ChordEditView = require('../views/chord_edit.js');
 
@@ -314,7 +314,7 @@ _.each(GLOBALS.chord_types, function(chord_type) {
 
 module.exports = chord_types;
 
-},{"../collections/chord_types.js":3}],12:[function(require,module,exports){
+},{"../collections/chord_types.js":4}],12:[function(require,module,exports){
 var help_button = $('.chord-chart .chart-edit-buttons .button.help');
 var widget_el = $('.chord-chart .help-widget');
 
@@ -694,7 +694,7 @@ module.exports = Backbone.Model.extend({
 
 });
 
-},{"../collections/sections.js":8}],20:[function(require,module,exports){
+},{"../collections/sections.js":9}],20:[function(require,module,exports){
 /*
  * Model specially for the API sync that transposes the chart.
  */
@@ -1119,7 +1119,7 @@ module.exports = Backbone.Model.extend({
 
 });
 
-},{"../collections/measures.js":7}],27:[function(require,module,exports){
+},{"../collections/measures.js":8}],27:[function(require,module,exports){
 module.exports=require(22)
 },{}],28:[function(require,module,exports){
 var Chords = require('../collections/chords.js');
@@ -1311,7 +1311,7 @@ module.exports = Backbone.Model.extend({
 
 });
 
-},{"../collections/chords.js":4}],29:[function(require,module,exports){
+},{"../collections/chords.js":5}],29:[function(require,module,exports){
 module.exports=require(22)
 },{}],30:[function(require,module,exports){
 module.exports=require(22)
@@ -1427,7 +1427,7 @@ module.exports = Backbone.Model.extend({
 
 });
 
-},{"../../../core/widgets/all_keys.js":52,"../collections/lines.js":5}],32:[function(require,module,exports){
+},{"../../../core/widgets/all_keys.js":52,"../collections/lines.js":6}],32:[function(require,module,exports){
 module.exports=require(22)
 },{}],33:[function(require,module,exports){
 /*
@@ -1557,7 +1557,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../collections/lines.js":5,"../collections/measures.js":7,"../models/chart.js":19,"./section.js":47}],38:[function(require,module,exports){
+},{"../collections/lines.js":6,"../collections/measures.js":8,"../models/chart.js":19,"./section.js":47}],38:[function(require,module,exports){
 var Chord = require('../models/chord.js');
 var chordEdit = require('../init/chord_edit.js');
 
@@ -2102,7 +2102,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../../../core/widgets/all_keys.js":52,"../collections/chord_edit_chord_types.js":1,"../collections/chord_edit_notes.js":2,"../init/chord_types.js":11,"../models/chord_edit.js":22,"../models/chord_edit_note.js":24,"./chord_edit_chord_type.js":40,"./chord_edit_note.js":41}],40:[function(require,module,exports){
+},{"../../../core/widgets/all_keys.js":52,"../collections/chord_edit_chord_types.js":2,"../collections/chord_edit_notes.js":3,"../init/chord_types.js":11,"../models/chord_edit.js":22,"../models/chord_edit_note.js":24,"./chord_edit_chord_type.js":40,"./chord_edit_note.js":41}],40:[function(require,module,exports){
 var ChordEditChordType = require('../models/chord_edit_chord_type.js');
 
 
@@ -2728,7 +2728,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../collections/measure_edit_measures.js":6,"../models/measure_edit.js":29,"../models/measure_edit_measure.js":30,"./measure_edit_measure.js":46}],46:[function(require,module,exports){
+},{"../collections/measure_edit_measures.js":7,"../models/measure_edit.js":29,"../models/measure_edit_measure.js":30,"./measure_edit_measure.js":46}],46:[function(require,module,exports){
 var MeasureEditMeasure = require('../models/measure_edit_measure.js');
 
 
@@ -4006,4 +4006,4 @@ Measure.prototype.measure_draw_separation_lines = function() {
 
 module.exports = Measure;
 
-},{}]},{},[9])
+},{}]},{},[1])

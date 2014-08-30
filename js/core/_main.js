@@ -1,7 +1,8 @@
 window.$ = window.jQuery = require('./libs/jquery');
 window._ = window.Underscore = require('./libs/underscore');
 window.Backbone = require('./libs/backbone');
-window.jQueryCookie = require('./libs/jquery.cookie');
+window.Backbone.$ = $;
+require('./libs/jquery.cookie');
 
 // Adds the CSRF token to jQuery AJAX requests using the HTTP methods
 // POST, PUT, PATCH and DELETE.
