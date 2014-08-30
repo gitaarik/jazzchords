@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var through = require('through2');
 var glob = require('glob');
 var es = require('event-stream');
 var source = require('vinyl-source-stream')
