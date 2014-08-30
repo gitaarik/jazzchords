@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var minimist = require('minimist');
 var glob = require('glob');
 var es = require('event-stream');
 var source = require('vinyl-source-stream')
@@ -7,7 +8,11 @@ var path = require('path');
 var less = require('gulp-less');
 var browserify = require('browserify');
 
+// Root directory of the repository, relative from this file.
 var root = '../';
+
+// Filters to use when searching for files to parse.
+var filters = [];
 
 function parse_static(options) {
 
@@ -23,12 +28,25 @@ function parse_static(options) {
         options.src_dir + '**/*.' + options.src_ext
     );
 
-    var main_file_name = '_main.' + options.src_ext;
-    var main_files = glob.sync(
-        options.src_dir + '**/' + main_file_name
-    );
+    if (filters) {
 
-    var main_file_dirs = []
+        all_files = all_files.filter(function(file) {
+            return filters.filter(function(filter) {
+                return file.indexOf(filter) > -1;
+            }).length;
+        });
+
+    }
+
+    var main_file_name = '_main.' + options.src_ext;
+    var main_files = all_files.filter(function(file) {
+        return (
+            file.slice(-(main_file_name.length + 1)) ==
+            '/' + main_file_name
+        );
+    });
+
+    var main_file_dirs = [];
 
     main_files.map(function(file) {
         main_file_dirs.push(
@@ -65,7 +83,7 @@ function parse_static(options) {
     });
 
     streams = streams.concat(other_files.map(function(file) {
-        return parse_file(file, function(){});
+        return parse_file(file, function(){ });
     }));
 
     return es.merge.apply(streams);
@@ -104,11 +122,16 @@ gulp.task('parsejs', function() {
 
 gulp.task('parsestatic', ['parsecss', 'parsejs']);
 
-gulp.task('bla', function() {
-    console.log('is this one?');
-});
-
 gulp.task('watchit', function () {
+
+    var args = minimist(process.argv);
+    var extra_filters = args.f;
+
+    if (extra_filters) {
+        filters = filters.concat(extra_filters.split(' '));
+    }
+
     gulp.watch(root + 'css/**', ['parsecss']);
     gulp.watch(root + 'js/**', ['parsejs']);
+
 });
