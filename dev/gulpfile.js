@@ -72,7 +72,7 @@ function parse_static(options) {
 
 }
 
-gulp.task('parsestatic', function() {
+gulp.task('parsecss', function() {
 
     parse_static({
         src_dir: root + 'css/',
@@ -84,6 +84,10 @@ gulp.task('parsestatic', function() {
         dest_dir: root + 'static/css',
         dest_ext: 'css'
     });
+
+});
+
+gulp.task('parsejs', function() {
 
     parse_static({
         src_dir: root + 'js/',
@@ -98,6 +102,13 @@ gulp.task('parsestatic', function() {
 
 });
 
+gulp.task('parsestatic', ['parsecss', 'parsejs']);
+
+gulp.task('bla', function() {
+    console.log('is this one?');
+});
+
 gulp.task('watchit', function () {
-    gulp.watch([root + 'css/**', root + 'js/**'], ['parsestatic'])
+    gulp.watch(root + 'css/**', ['parsecss']);
+    gulp.watch(root + 'js/**', ['parsejs']);
 });
