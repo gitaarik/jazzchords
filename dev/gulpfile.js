@@ -7,6 +7,7 @@ var path = require('path');
 var less = require('gulp-less');
 var browserify = require('browserify');
 
+var root = '../';
 
 function parse_static(options) {
 
@@ -74,29 +75,29 @@ function parse_static(options) {
 gulp.task('parsestatic', function() {
 
     parse_static({
-        src_dir: '../css/',
+        src_dir: root + 'css/',
         src_ext: 'less',
         build_stream_func: function(file) {
             return gulp.src(file, { base: '.' }).pipe(less());
         },
         parse_func: less,
-        dest_dir: '../static/css',
+        dest_dir: root + 'static/css',
         dest_ext: 'css'
     });
 
     parse_static({
-        src_dir: '../js/',
+        src_dir: root + 'js/',
         src_ext: 'js',
         build_stream_func: function(file) {
             return browserify(file).bundle().pipe(source(file));
         },
         parse_func: browserify,
-        dest_dir: '../static/js',
+        dest_dir: root + 'static/js',
         dest_ext: 'js'
     });
 
 });
 
 gulp.task('watchit', function () {
-    gulp.watch(['../css/**', '../js/**'], ['parsestatic'])
+    gulp.watch([root + 'css/**', root + 'js/**'], ['parsestatic'])
 });
