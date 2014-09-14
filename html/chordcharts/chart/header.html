@@ -56,10 +56,37 @@
             </div>
         </div>
 
-        <div class="chart-edit-buttons">
+        <div class="chart-menu">
 
             <div class="button help">
-                Help
+
+                <div class="label">
+                    <span class="text">Help</span>
+                    <span class="fa fa-question"></span>
+                </div>
+
+                <div class="widget popup-box">
+
+                    <div class="arrow-up"></div>
+
+                    <div class="sub-buttons">
+
+                        <div class="sub-button delete">
+                            <div class="text">
+                                <a href="{% url "chordcharts:how_to_read" %}">How to read</a>
+                            </div>
+                        </div>
+
+                        <div class="sub-button delete">
+                            <div class="text">
+                                <a href="{% url "chordcharts:chord_symbols" %}">Chord symbols</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
             {% if edit %}

@@ -89,7 +89,7 @@
 
         }
 
-        .chart-edit-buttons {
+        .chart-menu {
 
             float: right;
 
@@ -97,6 +97,7 @@
 
                 float: left;
                 padding-right: 20px;
+                position: relative;
 
                 &:last-child {
                     padding-right: 0;
@@ -112,44 +113,43 @@
                     color: #000;
                 }
 
-                &.settings {
+                .label {
+                    cursor: pointer;
+                }
 
-                    position: relative;
+                .widget {
 
-                    .label {
-                        cursor: pointer;
+                    position: absolute;
+                    display: none;
+                    left: -50px;
+                    top: 40px;
+                    padding: 10px;
+                    width: 120px;
+
+                    .arrow-up {
+                        left: 65px;
                     }
 
-                    .widget {
+                    .sub-button {
 
-                        position: absolute;
+                        cursor: pointer;
+                        overflow: hidden;
+                        padding: 5px;
+                        white-space: nowrap;
+
+                        &:hover {
+                            background: #EEE;
+                            border-radius: 3px;
+                        }
+
+                    }
+
+                }
+
+                &.settings.widget.delete {
+
+                    form {
                         display: none;
-                        left: -50px;
-                        top: 40px;
-                        padding: 10px;
-                        width: 120px;
-
-                        .arrow-up {
-                            left: 65px;
-                        }
-
-                        .delete {
-
-                            cursor: pointer;
-                            overflow: hidden;
-                            padding: 5px;
-
-                            &:hover {
-                                background: #EEE;
-                                border-radius: 3px;
-                            }
-
-                            form {
-                                display: none;
-                            }
-
-                        }
-
                     }
 
                 }

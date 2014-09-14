@@ -28,7 +28,7 @@ function parse_static(options) {
         options.src_dir + '**/*.' + options.src_ext
     );
 
-    if (filters) {
+    if (filters.length) {
 
         all_files = all_files.filter(function(file) {
             return filters.filter(function(filter) {

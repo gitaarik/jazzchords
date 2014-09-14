@@ -7,8 +7,8 @@ var ChordView = require('./views/chord.js');
 
 require('./init/song_name_change_widget.js');
 require('./init/transpose_widget.js');
+require('./init/menu.js');
 require('./init/settings_widget.js');
-require('./init/help_widget.js');
 
 
 // Bind data from server to models/collections

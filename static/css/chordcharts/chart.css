@@ -162,31 +162,29 @@
 .chord-chart .chord-chart-header .header-bar .key-select .open ul li:nth-child(4n+1) {
   clear: both;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons {
+.chord-chart .chord-chart-header .header-bar .chart-menu {
   float: right;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button {
   float: left;
   padding-right: 20px;
+  position: relative;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button:last-child {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button:last-child {
   padding-right: 0;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button .text {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button .text {
   float: left;
   padding-right: 6px;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button a {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button a {
   text-decoration: none;
   color: #000;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings {
-  position: relative;
-}
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings .label {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button .label {
   cursor: pointer;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings .widget {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button .widget {
   position: absolute;
   display: none;
   left: -50px;
@@ -194,19 +192,20 @@
   padding: 10px;
   width: 120px;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings .widget .arrow-up {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button .widget .arrow-up {
   left: 65px;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings .widget .delete {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button .widget .sub-button {
   cursor: pointer;
   overflow: hidden;
   padding: 5px;
+  white-space: nowrap;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings .widget .delete:hover {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button .widget .sub-button:hover {
   background: #EEE;
   border-radius: 3px;
 }
-.chord-chart .chord-chart-header .header-bar .chart-edit-buttons .button.settings .widget .delete form {
+.chord-chart .chord-chart-header .header-bar .chart-menu .button.settings.widget.delete form {
   display: none;
 }
 .chord-chart .chart {
@@ -807,6 +806,7 @@
   text-decoration: none;
 }
 .chord-chart .help-widget {
+  display: none;
   position: fixed;
   box-sizing: border-box;
   top: 5%;
@@ -857,7 +857,6 @@
 .chord-chart .help-widget iframe {
   border: none;
   width: 93%;
-  height: 97%;
 }
 .chord-chart .help-widget iframe.chord-symbols {
   display: none;
