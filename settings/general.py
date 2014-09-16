@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'core',
     'compressor',
+    'users',
     'songs',
     'chordcharts',
 )

@@ -1,29 +1,22 @@
 from django.conf.urls import url
+from . import views
 
 
 urlpatterns = [
-    url(
-        r'^index/$',
-        'chordcharts.views.song_index',
-        name='song_index'
-    ),
+    url(r'^index/$', views.song_index, name='song_index'),
     url(
         '^(?P<chart_id>\d+)/'
         '(?:(?P<song_slug>[a-z0-9-_]+)/)?'
         '(?:(?P<key_tonic>[A-Z#♭]+)/)?$',
-        'chordcharts.views.chart',
+        views.chart,
         name='chart'
     ),
-    url(
-        r'^new/',
-        'chordcharts.views.new_chart',
-        name='new_chart',
-    ),
+    url(r'^new/', views.new_chart, name='new_chart'),
     url(
         r'^edit/'
         '(?P<chart_id>\d+)/'
         '(?:(?P<song_slug>[a-z0-9-_]+)/)?$',
-        'chordcharts.views.chart',
+        views.chart,
         {'edit': True},
         name='edit_chart',
     ),
@@ -31,17 +24,9 @@ urlpatterns = [
         r'^delete/'
         '(?P<song_slug>[a-z0-9-_]+)/'
         '(?P<chart_id>\d+)/$',
-        'chordcharts.views.chart_delete',
-        name='chart_delete',
+        views.delete_chart,
+        name='delete_chart',
     ),
-    url(
-        r'^how-to-read/$',
-        'chordcharts.views.how_to_read',
-        name='how_to_read'
-    ),
-    url(
-        r'^chord-symbols/$',
-        'chordcharts.views.chord_symbols',
-        name='chord_symbols'
-    )
+    url(r'^how-to-read/$', views.how_to_read, name='how_to_read'),
+    url(r'^chord-symbols/$', views.chord_symbols, name='chord_symbols')
 ]

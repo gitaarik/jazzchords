@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/register.css" />
+{% endblock %}
+
+{% block content %}
+
+    <article class="users-register">
+
+        <h1>Register</h1>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <table>
+                <tr>
+                    <th>Username</th>
+                    <td>
+
+                        <input name="username" type="text" value="{{ user.username }}">
+
+                        {% for error in errors.username %}
+                            {{ error }}
+                        {% endfor %}
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>
+
+                        <input name="password" type="password">
+
+                        {% for error in errors.password %}
+                            {{ error }}
+                        {% endfor %}
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>
+                        
+                        <input name="email" type="email" value="{{ user.email }}">
+
+                        {% for error in errors.email %}
+                            {{ error }}
+                        {% endfor %}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Register"></td>
+                </tr>
+            </table>
+
+        </form>
+
+    </article>
+
+{% endblock %}

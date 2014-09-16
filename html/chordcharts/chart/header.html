@@ -109,7 +109,7 @@
                                 <div class="text">Delete chart</div>
                                 <span class="fa fa-times"></span>
 
-                                <form method="POST" action="{% url "chordcharts:chart_delete" chart_id=chart.id song_slug=chart.song.slug %}">
+                                <form method="POST" action="{% url "chordcharts:delete_chart" chart_id=chart.id song_slug=chart.song.slug %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="song_name" value="{{ chart.song.name }}">
                                 </form>

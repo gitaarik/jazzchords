@@ -200,7 +200,7 @@ def new_chart(request):
     return response
 
 
-def chart_delete(request, song_slug, chart_id):
+def delete_chart(request, song_slug, chart_id):
     """
     On a POST, will delete the chart with id `chart_id`.
     """
