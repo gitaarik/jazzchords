@@ -7,55 +7,66 @@
 
 {% block content %}
 
-    <article class="users-register">
+    <article class="register">
 
-        <h1>Register</h1>
+        <header>
+            <h1>Registation</h1>
+        </header>
 
         <form method="POST">
 
             {% csrf_token %}
 
-            <table>
+            <table class="formtable">
+
+                {% for error in errors.username %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
                 <tr>
-                    <th>Username</th>
-                    <td>
-
-                        <input name="username" type="text" value="{{ user.username }}">
-
-                        {% for error in errors.username %}
-                            {{ error }}
-                        {% endfor %}
-
-                    </td>
+                    <th>Username:</th>
+                    <td><input name="username" type="text" value="{{ user.username }}"></td>
+                    <td></td>
                 </tr>
+
+                {% for error in errors.password %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
                 <tr>
-                    <th>Password</th>
-                    <td>
-
-                        <input name="password" type="password">
-
-                        {% for error in errors.password %}
-                            {{ error }}
-                        {% endfor %}
-
-                    </td>
+                    <th>Password:</th>
+                    <td><input name="password" type="password"></td>
+                    <td></td>
                 </tr>
+
+                {% for error in errors.email %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
                 <tr>
-                    <th>Email</th>
-                    <td>
-                        
-                        <input name="email" type="email" value="{{ user.email }}">
-
-                        {% for error in errors.email %}
-                            {{ error }}
-                        {% endfor %}
-
-                    </td>
+                    <th>Email:</th>
+                    <td><input name="email" type="email" value="{{ user.email }}"></td>
+                    <td></td>
                 </tr>
+
                 <tr>
                     <td></td>
                     <td><input type="submit" value="Register"></td>
+                    <td></td>
                 </tr>
+
             </table>
 
         </form>

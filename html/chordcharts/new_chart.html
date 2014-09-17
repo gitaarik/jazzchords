@@ -23,7 +23,7 @@
 
 {% block content %}
 
-    <div class="new">
+    <article class="new">
 
         <header>
             <h1>New chord chart</h1>
@@ -33,11 +33,10 @@
 
             {% csrf_token %}
 
-            <table>
+            <table class="formtable">
 
                 <tr>
                     <th>
-
                         <label for="song">Song title:</label>
                     </th>
                     <td>
@@ -58,7 +57,6 @@
 
                 <tr>
                     <th>
-
                         <label for="short_description">Short description:</label>
                     </th>
                     <td>
@@ -157,6 +155,6 @@
             </table>
         </form>
 
-    </div>
+    </article>
 
 {% endblock %}
