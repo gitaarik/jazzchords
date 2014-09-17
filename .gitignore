@@ -3,5 +3,6 @@
 .DS_Store
 dev/node_modules/
 database.sqlite
-static/css/
-static/js/
+static/
+dev/static/js/
+dev/static/css/

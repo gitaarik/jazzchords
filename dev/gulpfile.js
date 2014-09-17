@@ -9,7 +9,10 @@ var less = require('gulp-less');
 var browserify = require('browserify');
 
 // Root directory of the repository, relative from this file.
-var root = '../';
+var root_dir = '../';
+
+// Static files directory, where the parsed files should be placed.
+var static_dir = root_dir + 'static/';
 
 // Filters to use when searching for files to parse.
 var filters = [];
@@ -93,13 +96,13 @@ function parse_static(options) {
 gulp.task('parsecss', function() {
 
     parse_static({
-        src_dir: root + 'css/',
+        src_dir: root_dir + 'css/',
         src_ext: 'less',
         build_stream_func: function(file) {
             return gulp.src(file, { base: '.' }).pipe(less());
         },
         parse_func: less,
-        dest_dir: root + 'static/css',
+        dest_dir: root_dir + 'static/css',
         dest_ext: 'css'
     });
 
@@ -108,13 +111,13 @@ gulp.task('parsecss', function() {
 gulp.task('parsejs', function() {
 
     parse_static({
-        src_dir: root + 'js/',
+        src_dir: root_dir + 'js/',
         src_ext: 'js',
         build_stream_func: function(file) {
             return browserify(file).bundle().pipe(source(file));
         },
         parse_func: browserify,
-        dest_dir: root + 'static/js',
+        dest_dir: root_dir + 'static/js',
         dest_ext: 'js'
     });
 
@@ -131,7 +134,7 @@ gulp.task('watchit', function () {
         filters = filters.concat(extra_filters.split(' '));
     }
 
-    gulp.watch(root + 'css/**', ['parsecss']);
-    gulp.watch(root + 'js/**', ['parsejs']);
+    gulp.watch(static_dir + 'css/**', ['parsecss']);
+    gulp.watch(static_dir + 'js/**', ['parsejs']);
 
 });

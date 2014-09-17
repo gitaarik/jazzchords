@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.staticfiles.views import serve as serve_static
-from django.views.decorators.cache import never_cache
+from django.conf.urls.static import static
 
 
 admin.autodiscover()
@@ -28,8 +27,3 @@ urlpatterns = [
         include('rest_framework.urls', namespace='rest_framework')
     )
 ]
-
-if settings.DEBUG:
-    urlpatterns += [
-        url('^static/(?P<path>.*)$', never_cache(serve_static)),
-    ]

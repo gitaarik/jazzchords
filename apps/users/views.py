@@ -27,6 +27,8 @@ def register(request):
             except Exception as error:
                 errors = error.message_dict
             else:
+
+                user.send_confirmation_email()
                 response = render(request, 'users/registered.html')
 
     if not response:

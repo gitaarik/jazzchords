@@ -4,13 +4,6 @@ from .general import INSTALLED_APPS
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# Watch LESS files - automatically refresh less changes.
-# You can also temporarily enable watching by appending #!watch to the url.
-LESS_WATCH = False
-
-COMPRESS_ENABLED = False
-COMPRESS_PRECOMPILERS = ()
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -21,3 +14,5 @@ DATABASES = {
 }
 
 INSTALLED_APPS += ('django.contrib.staticfiles',)
+
+DOMAIN_NAME = 'localhost'

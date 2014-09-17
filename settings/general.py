@@ -7,6 +7,7 @@ import sys
 DJANGO_ROOT = os.path.abspath(os.path.join(
     os.path.dirname(__file__), os.path.pardir))
 sys.path.insert(0, os.path.join(DJANGO_ROOT, 'apps'))
+DEV_ROOT = os.path.join(DJANGO_ROOT, 'dev')
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -68,6 +69,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(DEV_ROOT, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -76,7 +78,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -126,7 +127,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'rest_framework',
     'core',
-    'compressor',
     'users',
     'songs',
     'chordcharts',
@@ -162,14 +162,3 @@ LOGGING = {
 }
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
-
-COMPRESS_ENABLED = True
-COMPRESS_PRECOMPILERS = (
-    (
-        'text/less',
-        'lessc {} {} --rootpath={}'.format(
-            '{infile}',
-            '{outfile}',
-            STATIC_URL)
-    ),
-)

@@ -1,6 +1,7 @@
 from random import randint
 from django.db import models
 from django.core import validators
+from django.core.mail import send_mail
 
 
 class User(models.Model):
@@ -53,3 +54,11 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+
+    def send_confirmation_email(self):
+        send_mail(
+            'Subject here',
+            'Here is the message.',
+            'registration@{}'.format(settings.DOMAIN_NAME),
+            [user.email]
+        )
