@@ -16,3 +16,4 @@ DATABASES = {
 INSTALLED_APPS += ('django.contrib.staticfiles',)
 
 DOMAIN_NAME = 'localhost'
+WEBSITE_URL = 'http://{}:8000'.format(DOMAIN_NAME)

@@ -14,3 +14,4 @@ DATABASES = {
 }
 
 DOMAIN_NAME = 'jazzchords.com'
+WEBSITE_URL = 'http://www.{}'.format(DOMAIN_NAME)

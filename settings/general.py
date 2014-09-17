@@ -162,3 +162,5 @@ LOGGING = {
 }
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+WEBSITE_NAME = 'JazzChords.com'

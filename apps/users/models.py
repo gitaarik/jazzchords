@@ -1,7 +1,9 @@
 from random import randint
+from django.conf import settings
 from django.db import models
 from django.core import validators
 from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 
 
 class User(models.Model):
@@ -46,8 +48,8 @@ class User(models.Model):
         ]
     )
 
-    email_verified = models.BooleanField(default=False)
-    email_verification_token = models.CharField(
+    email_validated = models.BooleanField(default=False)
+    email_validation_token = models.CharField(
         max_length=50,
         default=generate_token
     )
@@ -56,9 +58,23 @@ class User(models.Model):
         return self.username
 
     def send_confirmation_email(self):
-        send_mail(
-            'Subject here',
-            'Here is the message.',
-            'registration@{}'.format(settings.DOMAIN_NAME),
-            [user.email]
+
+        subject = "{} registration".format(settings.WEBSITE_NAME)
+        from_email = 'registration@{}'.format(settings.DOMAIN_NAME)
+        recipients = [self.email]
+
+        message = (
+            "Welcome to {}! Please click the following link to "
+            "activate your account:"
+            "\n\n{}".format(
+                settings.WEBSITE_NAME,
+                '{}{}?email={}validation_token={}'.format(
+                    settings.WEBSITE_URL,
+                    reverse('users:validate_email'),
+                    self.email,
+                    self.validation_token
+                )
+            )
         )
+
+        send_mail(subject, message, from_email, recipients)

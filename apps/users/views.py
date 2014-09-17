@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from .models import User
 
 
@@ -40,3 +41,27 @@ def register(request):
         )
 
     return response
+
+
+def validate_email(request):
+
+    success = False
+
+    try:
+        user = User.objects.get(email=request.GET.get('email'))
+    except ObjectDoesNotExist:
+        pass
+    else:
+
+        if request.GET.get('validation_token') == user.email_validation_token:
+            success = True
+
+    if success:
+        user.email_validated = True
+        user.save()
+
+    return render(
+        request,
+        'users/validate_email.html',
+        {'success': success}
+    )
