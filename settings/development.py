@@ -14,6 +14,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS += ('django.contrib.staticfiles',)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DOMAIN_NAME = 'localhost'
 WEBSITE_URL = 'http://{}:8000'.format(DOMAIN_NAME)

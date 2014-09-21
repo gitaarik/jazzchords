@@ -1,8 +1,8 @@
-from django.conf import settings as proj_settings
+from django.conf import settings as django_settings
 
 
 def settings(request):
 
     return {
-        'DEBUG': proj_settings.TEMPLATE_DEBUG,
+        'settings': django_settings
     }

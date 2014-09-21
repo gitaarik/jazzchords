@@ -79,7 +79,7 @@ class User(models.Model):
             "activate your account:"
             "\n\n{}".format(
                 settings.WEBSITE_NAME,
-                '{}{}?email={}validation_token={}'.format(
+                '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
                     reverse('users:validate_email'),
                     self.email,
@@ -101,7 +101,7 @@ class User(models.Model):
             "to the following page to do so:\n\n{}"
             .format(
                 settings.WEBSITE_NAME,
-                '{}{}?email={}validation_token={}'.format(
+                '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
                     reverse('users:reset_password'),
                     self.email,
