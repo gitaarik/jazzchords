@@ -1,4 +1,5 @@
 import json
+
 from django.shortcuts import render, redirect
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponsePermanentRedirect
@@ -8,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 
 from songs.models import Song
+from core.helpers.fields_maxlength import fields_maxlength
+
 from .models import Chart, Key, ChordType
 from .settings import BOXED_CHART
 from .helpers.new_chart import ProcessNewChartPost, FormErrors
@@ -150,6 +153,40 @@ def new_chart(request):
     Returns a view where you can create new charts.
     """
 
+    def get_keys():
+        """
+        Returns a dict with a list of keys for each tonality.
+        """
+
+        keys = {}
+
+        for key in Key.objects.all():
+
+            if key.tonality not in keys:
+                keys[key.tonality] = []
+
+            keys[key.tonality].append(key)
+
+        return keys
+
+    def get_maxlength():
+        """
+        Returns the maximum lengths for the fields used in the form.
+
+        Will be a dict with the fieldname in the key and the maximum
+        lenght in the value.
+        """
+
+        maxlength = fields_maxlength(Song, ['name'])
+        maxlength['song_name'] = maxlength.pop('name')
+        maxlength.update(
+            fields_maxlength(
+                Chart, ['short_description', 'video_url', 'lyrics_url']
+            )
+        )
+
+        return maxlength
+
     response = None
     errors = []
 
@@ -168,30 +205,14 @@ def new_chart(request):
 
     if not response:
 
-        keys = {}
-
-        for key in Key.objects.all():
-
-            if key.tonality not in keys:
-                keys[key.tonality] = []
-
-            keys[key.tonality].append(key)
+        keys = get_keys()
 
         context = {
             'all_keys_json': keys_json(Key.objects.all()),
             'key_select_tonics': Key.TONIC_CHOICES,
             'keys_major': keys[Key.TONALITY_MAJOR],
             'keys_minor': keys[Key.TONALITY_MINOR],
-            'song_name_max_length': Song._meta.get_field('name').max_length,
-            'short_description_max_length': (
-                Chart._meta.get_field('short_description').max_length
-            ),
-            'video_url_max_length': (
-                Chart._meta.get_field('video_url').max_length
-            ),
-            'lyrics_url_max_length': (
-                Chart._meta.get_field('lyrics_url').max_length
-            ),
+            'maxlength': get_maxlength(),
             'errors': errors
         }
 

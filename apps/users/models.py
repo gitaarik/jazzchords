@@ -4,6 +4,7 @@ from django.db import models
 from django.core import validators
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from core.helpers.lazy import LazyStr
 
 
 class User(models.Model):
@@ -29,16 +30,26 @@ class User(models.Model):
     email = models.EmailField(
         unique=True,
         error_messages={
-            'blank': "Please fill in your email address.",
+            'blank': (
+                "Please fill in your email address. We use it to "
+                "confirm ownership in case you lost your password."
+            ),
             'max_length': "An email address can at most have 254 characters.",
-            'invalid': "Sorry but this email address is not valid."
+            'invalid': "Sorry but this email address is not valid.",
+            'unique': LazyStr(lambda: (
+                "There's already an account that uses this email "
+                "address. If you forgot your password, you can <a "
+                "href=\"{}\">reset it over here</a>.".format(
+                    reverse('users:reset_password')
+                )
+            ))
         }
     )
 
     password = models.CharField(
         max_length=50,
         error_messages={
-            'blank': "Please fill in a password.",
+            'blank': "Please create a password.",
             'max_length': "Please choose a password with max 50 characters.",
         },
         validators=[
@@ -48,8 +59,8 @@ class User(models.Model):
         ]
     )
 
-    email_validated = models.BooleanField(default=False)
-    email_validation_token = models.CharField(
+    validated = models.BooleanField(default=False)
+    validation_token = models.CharField(
         max_length=50,
         default=generate_token
     )
@@ -59,8 +70,8 @@ class User(models.Model):
 
     def send_confirmation_email(self):
 
-        subject = "{} registration".format(settings.WEBSITE_NAME)
-        from_email = 'registration@{}'.format(settings.DOMAIN_NAME)
+        subject = "{} account creation".format(settings.WEBSITE_NAME)
+        from_email = 'accounts@{}'.format(settings.DOMAIN_NAME)
         recipients = [self.email]
 
         message = (
@@ -71,6 +82,28 @@ class User(models.Model):
                 '{}{}?email={}validation_token={}'.format(
                     settings.WEBSITE_URL,
                     reverse('users:validate_email'),
+                    self.email,
+                    self.validation_token
+                )
+            )
+        )
+
+        send_mail(subject, message, from_email, recipients)
+
+    def send_reset_password_email(self):
+
+        subject = "{} password reset".format(settings.WEBSITE_NAME)
+        from_email = 'accounts@{}'.format(settings.DOMAIN_NAME)
+        recipients = [self.email]
+
+        message = (
+            "You have requested to reset your {} account password. Go "
+            "to the following page to do so:\n\n{}"
+            .format(
+                settings.WEBSITE_NAME,
+                '{}{}?email={}validation_token={}'.format(
+                    settings.WEBSITE_URL,
+                    reverse('users:reset_password'),
                     self.email,
                     self.validation_token
                 )

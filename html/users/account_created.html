@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/account_created.css" />
+{% endblock %}
+
+{% block content %}
+
+    <article class="account-created">
+
+        <h1>Validate your email address</h1>
+
+        <p>
+            Thanks for joining {{ settings.WEBSITE_NAME }}! Please
+            validate your email address by following the instructions
+            in the email we've just send you. After this you can use
+            your account.
+        </p>
+
+    </article>
+
+{% endblock %}

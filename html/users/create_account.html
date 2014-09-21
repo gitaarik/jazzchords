@@ -2,15 +2,15 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/register.css" />
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/create_account.css" />
 {% endblock %}
 
 {% block content %}
 
-    <article class="register">
+    <article class="create-account">
 
         <header>
-            <h1>Registation</h1>
+            <h1>Create Account</h1>
         </header>
 
         <form method="POST">
@@ -22,48 +22,48 @@
                 {% for error in errors.username %}
                     <tr class="error">
                         <td></td>
-                        <td>{{ error }}</td>
+                        <td>{{ error|safe }}</td>
                         <td></td>
                     </tr>
                 {% endfor %}
 
                 <tr>
-                    <th>Username:</th>
-                    <td><input name="username" type="text" value="{{ user.username }}"></td>
+                    <th><label for="username">Username:</label></th>
+                    <td><input name="username" id="username" type="text" value="{{ user.username }}" maxlength="{{ maxlength.username }}"></td>
                     <td></td>
                 </tr>
 
                 {% for error in errors.password %}
                     <tr class="error">
                         <td></td>
-                        <td>{{ error }}</td>
+                        <td>{{ error|safe }}</td>
                         <td></td>
                     </tr>
                 {% endfor %}
 
                 <tr>
-                    <th>Password:</th>
-                    <td><input name="password" type="password"></td>
+                    <th><label for="password">Password:</label></th>
+                    <td><input name="password" id="password" type="password" maxlength="{{ maxlength.password }}"></td>
                     <td></td>
                 </tr>
 
                 {% for error in errors.email %}
                     <tr class="error">
                         <td></td>
-                        <td>{{ error }}</td>
+                        <td>{{ error|safe }}</td>
                         <td></td>
                     </tr>
                 {% endfor %}
 
                 <tr>
-                    <th>Email:</th>
-                    <td><input name="email" type="email" value="{{ user.email }}"></td>
+                    <th><label for="email">Email:</label></th>
+                    <td><input name="email" id="email" type="email" value="{{ user.email }}" maxlength="{{ maxlength.email }}"></td>
                     <td></td>
                 </tr>
 
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="Register"></td>
+                    <td><input type="submit" value="create"></td>
                     <td></td>
                 </tr>
 
