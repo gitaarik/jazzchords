@@ -1,5 +1,30 @@
-{% if success %}
-    yeah man! that's good!
-{% else %}
-    Sorry, no validate for u!
-{% endif %}
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/validate_email.css" />
+{% endblock %}
+
+{% block content %}
+
+    <article class="validate-email">
+
+        {% if success %}
+            <h1>Email address validated</h2>
+            <p>
+                Welcome to {{ settings.WEBSITE_NAME }}! Your email
+                address has been validated and you can start using your
+                new account!
+            </p>
+        {% else %}
+            <h1>Validation failed</h1>
+            <p>
+                Sorry but this validation link is expired. Don't you
+                have a newer validation email? If not, try to create
+                your account again.
+            </p>
+        {% endif %}
+
+    </article>
+
+{% endblock %}

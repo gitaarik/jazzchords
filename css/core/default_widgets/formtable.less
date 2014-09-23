@@ -6,10 +6,32 @@ table.formtable {
     tr {
 
         th, td {
+
             padding: 5px;
             font-size: 16px;
             font-weight: normal;
             text-align: left;
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                padding-right: 0;
+            }
+
+        }
+
+        &:first-child {
+            td, th {
+                padding-top: 0;
+            }
+        }
+
+        &:last-child {
+            td, th {
+                padding-bottom: 0;
+            }
         }
 
         th {
@@ -25,6 +47,7 @@ table.formtable {
             input[type=text],
             input[type=password],
             input[type=email] {
+
                 width: 100%;
                 background: #FFF;
                 font-size: 16px;
@@ -32,6 +55,13 @@ table.formtable {
                 border-radius: 5px;
                 padding: 10px;
                 box-sizing: border-box;
+
+                &:hover,
+                &:focus {
+                    background-color: @hover_background_color;
+                    border-color: @hover_border_color;
+                }
+
             }
 
             ::-webkit-input-placeholder { /* WebKit browsers */
@@ -67,7 +97,8 @@ table.formtable {
                 padding: 11px 15px 7px 15px;
                 box-sizing: border-box;
 
-                &:hover {
+                &:hover,
+                &:focus {
                     background-color: @hover_background_color;
                     border-color: @hover_border_color;
                 }

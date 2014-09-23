@@ -1,3 +1,10 @@
+Accounts:
+    - rename user model to account
+    - max length in reset password email field
+    - validate passwords
+    - return appropriate http status code when right session vars are
+      not present.
+
 Make things ready for production demo:
     - Ditch require.js and use Gulp.js and browserify.js to compile
       js/less.

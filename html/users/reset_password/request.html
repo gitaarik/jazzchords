@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 
 {% block css %}
+
     {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/reset_password.css" />
+
+    <style type="text/css">
+
+        .reset-password-request {
+            margin: 0 auto;
+            width: 500px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+            $('#email').focus();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
 
-    <article class="reset-password">
+    <article class="reset-password-request">
 
         <header>
             <h1>Reset password</h1>
@@ -26,9 +44,7 @@
 
                 {% for error in errors %}
                     <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
+                        <td colspan="3">{{ error|safe }}</td>
                     </tr>
                 {% endfor %}
 

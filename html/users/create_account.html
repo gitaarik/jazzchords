@@ -5,6 +5,14 @@
     <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/users/create_account.css" />
 {% endblock %}
 
+{% block javascript %}
+    <script>
+        $(function() {
+            $('#username').focus();
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 
     <article class="create-account">
@@ -63,7 +71,7 @@
 
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="create"></td>
+                    <td><input type="submit" value="Create Account"></td>
                     <td></td>
                 </tr>
 

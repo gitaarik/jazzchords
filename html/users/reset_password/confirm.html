@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block css %}
+
+    {{ block.super }}
+
+    <style type="text/css">
+
+        .reset-password-confirm {
+            margin: 0 auto;
+            width: 500px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+    <article class="reset-password-confirm">
+
+        <header>
+            <h1>Reset password</h1>
+        </header>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <table class="formtable">
+
+                {% for error in errors %}
+                    <tr class="error">
+                        <td colspan="3">{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th><label for="email">New password:</label></th>
+                    <td><input id="password1" name="password1" type="password" maxlength=""></Td>
+                </tr>
+
+                <tr>
+                    <th><label for="email">Repeat new password:</label></th>
+                    <td><input id="password2" name="password2" type="password" maxlength=""></Td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Reset password"></td>
+                </tr>
+
+            </table>
+
+        </form>
+
+    </article>
+
+{% endblock %}

@@ -103,7 +103,7 @@ class User(models.Model):
                 settings.WEBSITE_NAME,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
-                    reverse('users:reset_password'),
+                    reverse('users:reset_password:confirm'),
                     self.email,
                     self.validation_token
                 )
