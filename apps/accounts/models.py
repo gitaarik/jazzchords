@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from core.helpers.lazy import LazyStr
 
 
-class User(models.Model):
+class Account(models.Model):
 
     def generate_token():
         return randint(1000000000, 9999999999)
@@ -40,7 +40,7 @@ class User(models.Model):
                 "There's already an account that uses this email "
                 "address. If you forgot your password, you can <a "
                 "href=\"{}\">reset it over here</a>.".format(
-                    reverse('users:reset_password')
+                    reverse('accounts:reset_password:request')
                 )
             ))
         }
@@ -81,7 +81,7 @@ class User(models.Model):
                 settings.WEBSITE_NAME,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
-                    reverse('users:validate_email'),
+                    reverse('accounts:create:completed'),
                     self.email,
                     self.validation_token
                 )
@@ -103,7 +103,7 @@ class User(models.Model):
                 settings.WEBSITE_NAME,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
-                    reverse('users:reset_password:confirm'),
+                    reverse('accounts:reset_password:confirm'),
                     self.email,
                     self.validation_token
                 )

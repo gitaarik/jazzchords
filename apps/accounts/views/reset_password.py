@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.urlresolvers import reverse
-from ..models import User
+from ..models import Account
 
 
 def request(request):
@@ -26,27 +26,27 @@ def request(request):
         else:
 
             try:
-                user = User.objects.get(email=email)
+                account = Account.objects.get(email=email)
             except ObjectDoesNotExist:
                 errors = [
                     "There is no account with this email address. You "
                     "can <a href=\"{}\">create<a> it if you like."
-                    .format(reverse('users:create_account'))
+                    .format(reverse('accounts:create_account'))
                 ]
             else:
 
-                user.validation_token = user._meta.get_field('validation_token').default()
-                user.send_reset_password_email()
-                user.save()
+                account.validation_token = account._meta.get_field('validation_token').default()
+                account.send_reset_password_email()
+                account.save()
 
-                response = redirect('users:reset_password:requested')
+                response = redirect('accounts:reset_password:requested')
                 request.session['reset_password_email'] = email
 
     if not response:
 
         response = render(
             request,
-            'users/reset_password/request.html',
+            'accounts/reset_password/request.html',
             {
                 'email': email,
                 'errors': errors
@@ -61,7 +61,7 @@ def requested(request):
 
     return render(
         request,
-        'users/reset_password/requested.html',
+        'accounts/reset_password/requested.html',
         {'email': email}
     )
 
@@ -75,7 +75,7 @@ def confirm(request):
 
     return render(
         request,
-        'users/reset_password/confirm.html',
+        'accounts/reset_password/confirm.html',
         {'email': email}
     )
 
@@ -83,5 +83,5 @@ def completed(request):
 
     return render(
         request,
-        'users/reset_password/completed.html',
+        'accounts/reset_password/completed.html',
     )

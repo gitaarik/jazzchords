@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from ..models import User
+from ..models import Account
 
 
 class CreateAccount():
@@ -12,9 +12,9 @@ class CreateAccount():
         # The Django request object that for the create account page.
         self.request = request
 
-        # If the HTML form is submitted, this will contain a user
+        # If the HTML form is submitted, this will contain an account
         # object, otherwise will remain `None`.
-        self.user = None
+        self.account = None
 
         # If the HTML form is submitted, this will contain any errors
         # raised while validating the request. Otherwise will remain an
@@ -23,7 +23,7 @@ class CreateAccount():
 
         # If the HTML form is submitted, these are the fields that will
         # be read from the request's POST data and written to the new
-        # user object.
+        # account object.
         self.fields = ['username', 'password', 'email']
 
     def process(self):
@@ -44,44 +44,44 @@ class CreateAccount():
                 for field in self.fields
             }
 
-            self.user = User(**posted_data)
+            self.account = Account(**posted_data)
 
             try:
-                self.user.full_clean()
+                self.account.full_clean()
             except ValidationError as error:
-                self.update_existing_unvalidated_user(error)
+                self.update_existing_unvalidated_account(error)
                 self.errors = error.message_dict
 
             if not self.errors:
 
                 try:
-                    self.user.save()
+                    self.account.save()
                 except ValidationError as error:
                     self.errors = error.message_dict
                 else:
-                    self.user.send_confirmation_email()
+                    self.account.send_confirmation_email()
                     success = True
 
         return success
 
-    def update_existing_unvalidated_user(self, validation_error):
+    def update_existing_unvalidated_account(self, validation_error):
         """
-        If there's already a user with the same email address (and
+        If there's already an account with the same email address (and
         possibly username), but has not been validated yet, we update
-        this existing user and remove the errors associated with this
+        this existing account and remove the errors associated with this
         conflict.
         """
 
         if self.get_error(validation_error, 'email', 'unique'):
 
-            existing_user = User.objects.get(email=self.user.email)
+            existing_account = Account.objects.get(email=self.account.email)
 
-            if not existing_user.validated:
+            if not existing_account.validated:
 
                 for field in self.fields:
-                    setattr(existing_user, field, getattr(self.user, field))
+                    setattr(existing_account, field, getattr(self.account, field))
 
-                self.user = existing_user
+                self.account = existing_account
 
                 self.remove_error(validation_error, 'email', 'unique')
                 self.remove_error(validation_error, 'username', 'unique')

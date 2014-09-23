@@ -127,7 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'rest_framework',
     'core',
-    'users',
+    'accounts',
     'songs',
     'chordcharts',
 )
