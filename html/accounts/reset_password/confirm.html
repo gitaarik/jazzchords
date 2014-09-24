@@ -38,7 +38,7 @@
 
                 <tr>
                     <th><label for="new_password1">New password:</label></th>
-                    <td><input id="new_password1" name="new_password1" type="password" maxlength=""></Td>
+                    <td><input id="new_password1" name="new_password1" type="password" maxlength="{{ maxlength.password }}"></Td>
                 </tr>
 
                 {% for error in errors.new_password2 %}
@@ -50,7 +50,7 @@
 
                 <tr>
                     <th><label for="new_password2">Repeat new password:</label></th>
-                    <td><input id="new_password2" name="new_password2" type="password" maxlength=""></Td>
+                    <td><input id="new_password2" name="new_password2" type="password" maxlength="{{ maxlength.password }}"></Td>
                 </tr>
 
                 <tr>

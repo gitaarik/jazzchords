@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.urlresolvers import reverse
+
+from core.helpers.fields_maxlength import fields_maxlength
 from ..models import Account
 
 
@@ -45,7 +47,8 @@ def request(request):
             'accounts/reset_password/request.html',
             {
                 'email': email,
-                'errors': errors
+                'errors': errors,
+                'maxlength': fields_maxlength(Account, ['email'])
             }
         )
 
@@ -123,14 +126,17 @@ def confirm(request):
             response = render(
                 request,
                 'accounts/reset_password/confirm.html',
-                {'errors': errors}
+                {
+                    'errors': errors,
+                    'maxlength': fields_maxlength(Account, ['password'])
+                }
             )
 
     else:
 
         response = render(
             request,
-            'accounts/reset_password/invalid_token.html',
+            'accounts/reset_password/invalid_token.html'
         )
 
     return response

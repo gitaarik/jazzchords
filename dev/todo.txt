@@ -1,18 +1,16 @@
 Accounts:
-    - rename user model to account
-    - max length in reset password email field
     - validate passwords
+    - encrypt passwords
+    - more unique validation tokens
     - return appropriate http status code when right session vars are
       not present.
 
 Make things ready for production demo:
-    - Ditch require.js and use Gulp.js and browserify.js to compile
-      js/less.
     - Finish ansible stuff
     - Decide to use Gb Major or F# Major:
       https://en.wikipedia.org/wiki/G-flat_major
     - Complete all keys.
-    - Turn off Django's DEBUG mode
+    - Configure django settings for production mode
 
 Help popup:
     Make a help popup that contains the how-to-read page, that can be
