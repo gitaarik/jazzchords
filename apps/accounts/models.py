@@ -1,4 +1,5 @@
-from random import randint
+import string
+from random import choice
 from django.conf import settings
 from django.db import models
 from django.core import validators
@@ -8,9 +9,6 @@ from core.helpers.lazy import LazyStr
 
 
 class Account(models.Model):
-
-    def generate_token():
-        return randint(1000000000, 9999999999)
 
     username = models.CharField(
         max_length=50,
@@ -60,10 +58,7 @@ class Account(models.Model):
     )
 
     validated = models.BooleanField(default=False)
-    validation_token = models.CharField(
-        max_length=50,
-        default=generate_token
-    )
+    validation_token = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.username
@@ -86,10 +81,19 @@ class Account(models.Model):
         """
         Resets the `validation_token` field to a new validation token.
         """
-        self.validation_token = (
-            self._meta.get_field('validation_token').default()
-        )
+        self.validation_token = ''.join([
+            choice(string.ascii_letters + string.digits)
+            for i in range(10)
+        ])
         self.save()
+
+    def create(self):
+        """
+        Will reset the `validation_token`, save the model and send a
+        confirmation email. `save()` could raise validation errors.
+        """
+        self.reset_validation_token()
+        self.send_confirmation_email()
 
     def send_confirmation_email(self):
 

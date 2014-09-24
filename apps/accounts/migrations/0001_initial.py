@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(error_messages={'unique': "fu", 'max_length': 'An email address can at most have 254 characters.', 'blank': 'Please fill in your email address. We use it to confirm ownership in case you lost your password.', 'invalid': 'Sorry but this email address is not valid.'}, max_length=254, unique=True)),
                 ('password', models.CharField(error_messages={'max_length': 'Please choose a password with max 50 characters.', 'blank': 'Please create a password.'}, max_length=50, validators=[django.core.validators.MinLengthValidator(8, "Please choose a password that's at least 8 characters long.")])),
                 ('validated', models.BooleanField(default=False)),
-                ('validation_token', models.CharField(default=accounts.models.Account.generate_token, max_length=50)),
+                ('validation_token', models.CharField(max_length=50)),
             ],
             options={
             },

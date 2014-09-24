@@ -55,11 +55,10 @@ class CreateAccount():
             if not self.errors:
 
                 try:
-                    self.account.save()
+                    self.account.create()
                 except ValidationError as error:
                     self.errors = error.message_dict
                 else:
-                    self.account.send_confirmation_email()
                     success = True
 
         return success
