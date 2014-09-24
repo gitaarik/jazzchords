@@ -16,16 +16,21 @@ def request(request):
     errors = []
     response = None
 
-    if email:
+    if request.method == 'POST':
 
-        validate_email = django_validate_email
-        validate_email.message = "Please enter a valid email address."
-
-        try:
-            validate_email(email)
-        except ValidationError as error:
-            errors = error.messages
+        if not email:
+            errors = ["Please fill in your email address."]
         else:
+
+            validate_email = django_validate_email
+            validate_email.message = "Please enter a valid email address."
+
+            try:
+                validate_email(email)
+            except ValidationError as error:
+                errors = error.messages
+
+        if not errors:
 
             try:
                 account = Account.objects.get(email=email)
@@ -33,7 +38,7 @@ def request(request):
                 errors = [
                     "There is no account with this email address. You "
                     "can <a href=\"{}\">create<a> it if you like."
-                    .format(reverse('accounts:create_account'))
+                    .format(reverse('accounts:create:create'))
                 ]
             else:
                 account.reset_password_request()

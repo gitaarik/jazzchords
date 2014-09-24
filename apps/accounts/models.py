@@ -32,7 +32,7 @@ class Account(models.Model):
         error_messages={
             'blank': (
                 "Please fill in your email address. We use it to "
-                "confirm ownership in case you lost your password."
+                "reset your password in case you lost it."
             ),
             'max_length': "An email address can at most have 254 characters.",
             'invalid': "Sorry but this email address is not valid.",
