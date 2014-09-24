@@ -50,7 +50,7 @@ class Account(models.Model):
         max_length=50,
         error_messages={
             'blank': "Please create a password.",
-            'max_length': "Please choose a password with max 50 characters.",
+            'max_length': "Please create a password with max 50 characters.",
         },
         validators=[
             validators.MinLengthValidator(8,
@@ -67,6 +67,29 @@ class Account(models.Model):
 
     def __str__(self):
         return self.username
+
+    def validate_with_token(self, validation_token):
+        """
+        Try to validate the account with the given `validation_token`.
+        If the validation was succesful, will reset the
+        `validation_token` so it can't be reused, and will return
+        `True`. In case of a unsuccesful validation, returns `False`.
+        """
+        if validation_token == self.validation_token:
+            self.validated = True
+            self.reset_validation_token()
+            return True
+        else:
+            return False
+
+    def reset_validation_token(self):
+        """
+        Resets the `validation_token` field to a new validation token.
+        """
+        self.validation_token = (
+            self._meta.get_field('validation_token').default()
+        )
+        self.save()
 
     def send_confirmation_email(self):
 
@@ -89,6 +112,14 @@ class Account(models.Model):
         )
 
         send_mail(subject, message, from_email, recipients)
+
+    def reset_password_request(self):
+        """
+        Will reset the `validation_token` and send a reset password
+        email.
+        """
+        self.reset_validation_token()
+        self.send_reset_password_email()
 
     def send_reset_password_email(self):
 

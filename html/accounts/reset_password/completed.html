@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block css %}
+
+    {{ block.super }}
+
+    <style type="text/css">
+
+        .reset-password-completed {
+            margin: 0 auto;
+            width: 500px;
+        }
+
+        .reset-password-completed p {
+            text-align: center;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+    <article class="reset-password-completed">
+
+        <header>
+            <h1>Your password has been reset</h1>
+        </header>
+
+        <p>
+            You can now log in with your new password.
+        </p>
+
+    </article>
+
+{% endblock %}

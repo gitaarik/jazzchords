@@ -34,11 +34,7 @@ def request(request):
                     .format(reverse('accounts:create_account'))
                 ]
             else:
-
-                account.validation_token = account._meta.get_field('validation_token').default()
-                account.send_reset_password_email()
-                account.save()
-
+                account.reset_password_request()
                 response = redirect('accounts:reset_password:requested')
                 request.session['reset_password_email'] = email
 
@@ -71,13 +67,73 @@ def confirm(request):
     """
 
     email = request.GET.get('email')
-    token = request.GET.get('validation_token')
+    validation_token = request.GET.get('validation_token')
+    valid = False
 
-    return render(
-        request,
-        'accounts/reset_password/confirm.html',
-        {'email': email}
-    )
+    try:
+        account = Account.objects.get(email=email)
+    except ObjectDoesNotExist:
+        account = None
+    else:
+        if account.validation_token == validation_token:
+            valid = True
+
+    if valid:
+
+        response = None
+        errors = {}
+
+        if request.method == 'POST':
+
+            new_password1 = request.POST.get('new_password1')
+            new_password2 = request.POST.get('new_password2')
+
+            account._meta.get_field('password').error_messages['blank'] = (
+                "Please fill in your new password."
+            )
+
+            if not new_password2:
+                errors['new_password2'] = ["Please repeat your new password."]
+
+            if not errors and new_password1 != new_password2:
+                errors['new_password1'] = [
+                    "Sorry, the passwords don't match. Please try it "
+                    "again."
+                ]
+
+            account.password = new_password1
+
+            try:
+                account.full_clean()
+            except ValidationError as error:
+
+                if 'new_password1' not in errors:
+                    errors['new_password1'] = []
+
+                errors['new_password1'].extend(
+                    error.message_dict['password']
+                )
+
+            if not errors:
+                account.save()
+                response = redirect('accounts:reset_password:completed')
+
+        if not response:
+
+            response = render(
+                request,
+                'accounts/reset_password/confirm.html',
+                {'errors': errors}
+            )
+
+    else:
+
+        response = render(
+            request,
+            'accounts/reset_password/invalid_token.html',
+        )
+
+    return response
 
 def completed(request):
 

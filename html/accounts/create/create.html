@@ -6,11 +6,7 @@
 {% endblock %}
 
 {% block javascript %}
-    <script>
-        $(function() {
-            $('#username').focus();
-        });
-    </script>
+    <script src="{{ STATIC_URL }}js/accounts/create.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -37,8 +33,20 @@
 
                 <tr>
                     <th><label for="username">Username:</label></th>
-                    <td><input name="username" id="username" type="text" value="{{ account.username }}" maxlength="{{ maxlength.username }}"></td>
-                    <td></td>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Username</h4>
+                            <p>
+                                Your username will be your public identity on the website. For example,
+                                when you create a chart, your username will be displayed with it.
+                            </p>
+                        </div>
+                        <input name="username" id="username" type="text" value="{{ account.username }}" maxlength="{{ maxlength.username }}">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
                 </tr>
 
                 {% for error in errors.password %}
@@ -51,8 +59,19 @@
 
                 <tr>
                     <th><label for="password">Password:</label></th>
-                    <td><input name="password" id="password" type="password" maxlength="{{ maxlength.password }}"></td>
-                    <td></td>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Password</h4>
+                            <p>
+                                Please choose a good password that won't be easy to guess.
+                            </p>
+                        </div>
+                        <input name="password" id="password" type="password" maxlength="{{ maxlength.password }}">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
                 </tr>
 
                 {% for error in errors.email %}
@@ -65,8 +84,20 @@
 
                 <tr>
                     <th><label for="email">Email:</label></th>
-                    <td><input name="email" id="email" type="email" value="{{ account.email }}" maxlength="{{ maxlength.email }}"></td>
-                    <td></td>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Email</h4>
+                            <p>
+                                Your email address will be used to retrieve your password in case you
+                                lost it.
+                            </p>
+                        </div>
+                        <input name="email" id="email" type="email" value="{{ account.email }}" maxlength="{{ maxlength.email }}">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
                 </tr>
 
                 <tr>

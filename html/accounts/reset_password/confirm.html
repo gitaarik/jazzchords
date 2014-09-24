@@ -29,20 +29,28 @@
 
             <table class="formtable">
 
-                {% for error in errors %}
+                {% for error in errors.new_password1 %}
                     <tr class="error">
-                        <td colspan="3">{{ error|safe }}</td>
+                        <td></td>
+                        <td>{{ error|safe }}</td>
                     </tr>
                 {% endfor %}
 
                 <tr>
-                    <th><label for="email">New password:</label></th>
-                    <td><input id="password1" name="password1" type="password" maxlength=""></Td>
+                    <th><label for="new_password1">New password:</label></th>
+                    <td><input id="new_password1" name="new_password1" type="password" maxlength=""></Td>
                 </tr>
 
+                {% for error in errors.new_password2 %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
                 <tr>
-                    <th><label for="email">Repeat new password:</label></th>
-                    <td><input id="password2" name="password2" type="password" maxlength=""></Td>
+                    <th><label for="new_password2">Repeat new password:</label></th>
+                    <td><input id="new_password2" name="new_password2" type="password" maxlength=""></Td>
                 </tr>
 
                 <tr>

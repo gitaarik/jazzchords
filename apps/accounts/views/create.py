@@ -34,7 +34,8 @@ def create(request):
 
 def validate_email(request):
     """
-    The page after a successful account creation.
+    The page after a successful account creation, where the user gets
+    instructions about the validation email.
     """
 
     email = request.session.get('create_account_email')
@@ -48,7 +49,8 @@ def validate_email(request):
 
 def completed(request):
     """
-    The page the user comes to from the "validate email address" email.
+    The page the user comes to from the "validate email address" email,
+    where his/her account gets validated.
     """
 
     success = False
@@ -58,13 +60,8 @@ def completed(request):
     except ObjectDoesNotExist:
         pass
     else:
-
-        if request.GET.get('validation_token') == account.validation_token:
+        if account.validate_with_token(request.GET.get('validation_token')):
             success = True
-
-    if success:
-        account.validated = True
-        account.save()
 
     return render(
         request,
