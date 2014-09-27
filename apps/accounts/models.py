@@ -1,67 +1,44 @@
 import string
 from random import choice
+
 from django.conf import settings
-from django.db import models
 from django.core import validators
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.contrib.auth.hashers import check_password, make_password
+
 from core.helpers.lazy import LazyStr
 
 
 class Account(models.Model):
 
-    username = models.CharField(
-        max_length=50,
-        unique=True,
-        error_messages={
-            'blank': "Please choose a username.",
-            'max_length': "A username can at most have 50 characters.",
-            'unique': "Sorry, this username is already taken."
-        },
-        validators=[
-            validators.MinLengthValidator(2,
-                "A username should have at least 2 characters."
-            )
-        ]
-    )
-
-    email = models.EmailField(
-        unique=True,
-        error_messages={
-            'blank': (
-                "Please fill in your email address. We use it to "
-                "reset your password in case you lost it."
-            ),
-            'max_length': "An email address can at most have 254 characters.",
-            'invalid': "Sorry but this email address is not valid.",
-            'unique': LazyStr(lambda: (
-                "There's already an account that uses this email "
-                "address. If you forgot your password, you can <a "
-                "href=\"{}\">reset it over here</a>.".format(
-                    reverse('accounts:reset_password:request')
-                )
-            ))
-        }
-    )
-
-    password = models.CharField(
-        max_length=50,
-        error_messages={
-            'blank': "Please create a password.",
-            'max_length': "Please create a password with max 50 characters.",
-        },
-        validators=[
-            validators.MinLengthValidator(8,
-                "Please choose a password that's at least 8 characters long."
-            )
-        ]
-    )
-
+    username = models.CharField(max_length=50, unique=True)
+    email = models.EmailField(unique=True)
+    password_encoded = models.CharField(max_length=128)
     validated = models.BooleanField(default=False)
     validation_token = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.username
+
+    @property
+    def password(self):
+        return self.password_encoded
+
+    @password.setter
+    def password(self, raw_password):
+        self.password_encoded = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        """
+        Returns a boolean of whether the raw_password was correct. Handles
+        hashing formats behind the scenes.
+        """
+        def setter(raw_password):
+            self.set_password(raw_password)
+            self.save(update_fields=['password'])
+        return check_password(raw_password, self.password, setter)
 
     def validate_with_token(self, validation_token):
         """
@@ -83,14 +60,14 @@ class Account(models.Model):
         """
         self.validation_token = ''.join([
             choice(string.ascii_letters + string.digits)
-            for i in range(10)
+            for i in range(25)
         ])
         self.save()
 
     def create(self):
         """
         Will reset the `validation_token`, save the model and send a
-        confirmation email. `save()` could raise validation errors.
+        confirmation email.
         """
         self.reset_validation_token()
         self.send_confirmation_email()

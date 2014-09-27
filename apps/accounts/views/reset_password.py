@@ -60,6 +60,10 @@ def request(request):
     return response
 
 def requested(request):
+    """
+    The page after a successful password reset request, where the user
+    get's instructed to check his email for further instructions.
+    """
 
     email = request.session.get('reset_password_email')
 
@@ -87,58 +91,8 @@ def confirm(request):
             valid = True
 
     if valid:
-
-        response = None
-        errors = {}
-
-        if request.method == 'POST':
-
-            new_password1 = request.POST.get('new_password1')
-            new_password2 = request.POST.get('new_password2')
-
-            account._meta.get_field('password').error_messages['blank'] = (
-                "Please fill in your new password."
-            )
-
-            if not new_password2:
-                errors['new_password2'] = ["Please repeat your new password."]
-
-            if not errors and new_password1 != new_password2:
-                errors['new_password1'] = [
-                    "Sorry, the passwords don't match. Please try it "
-                    "again."
-                ]
-
-            account.password = new_password1
-
-            try:
-                account.full_clean()
-            except ValidationError as error:
-
-                if 'new_password1' not in errors:
-                    errors['new_password1'] = []
-
-                errors['new_password1'].extend(
-                    error.message_dict['password']
-                )
-
-            if not errors:
-                account.save()
-                response = redirect('accounts:reset_password:completed')
-
-        if not response:
-
-            response = render(
-                request,
-                'accounts/reset_password/confirm.html',
-                {
-                    'errors': errors,
-                    'maxlength': fields_maxlength(Account, ['password'])
-                }
-            )
-
+        response = confirm_valid(request)
     else:
-
         response = render(
             request,
             'accounts/reset_password/invalid_token.html'
@@ -146,7 +100,66 @@ def confirm(request):
 
     return response
 
+def confirm_valid(request):
+    """
+    The page a validated user comes to from the password reset email.
+    """
+
+    response = None
+    errors = {}
+
+    if request.method == 'POST':
+
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+
+        account._meta.get_field('password').error_messages['blank'] = (
+            "Please fill in your new password."
+        )
+
+        if not new_password2:
+            errors['new_password2'] = ["Please repeat your new password."]
+
+        if not errors and new_password1 != new_password2:
+            errors['new_password1'] = [
+                "Sorry, the passwords don't match. Please try it "
+                "again."
+            ]
+
+        account.password = new_password1
+
+        try:
+            account.full_clean()
+        except ValidationError as error:
+
+            if 'new_password1' not in errors:
+                errors['new_password1'] = []
+
+            errors['new_password1'].extend(
+                error.message_dict['password']
+            )
+
+        if not errors:
+            account.save()
+            response = redirect('accounts:reset_password:completed')
+
+    if not response:
+
+        response = render(
+            request,
+            'accounts/reset_password/confirm.html',
+            {
+                'errors': errors,
+                'maxlength': fields_maxlength(Account, ['password'])
+            }
+        )
+
+    return response
+
 def completed(request):
+    """
+    The page the user sees when the password reset has been completed.
+    """
 
     return render(
         request,

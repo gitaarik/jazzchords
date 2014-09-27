@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from core.helpers.fields_maxlength import fields_maxlength
 from ..models import Account
-from ..helpers.create_account import CreateAccount
+from ..forms.create_account import CreateAccountForm
 
 
 def create(request):
@@ -11,22 +11,33 @@ def create(request):
     Where the user can create a new account.
     """
 
-    create_account = CreateAccount(request)
+    response = None
 
-    if create_account.process():
-        request.session['create_account_email'] = create_account.account.email
-        response = redirect('accounts:create:validate_email')
+    if request.method == 'POST':
+
+        create_account_form = CreateAccountForm(request.POST)
+
+        if create_account_form.is_valid():
+            account = create_account_form.create()
+            request.session['create_account_email'] = account.email
+            response = redirect('accounts:create:validate_email')
+        else:
+            context = {
+                'data': create_account_form.data,
+                'errors': create_account_form.errors,
+                #'maxlength': fields_maxlength(
+                #    Account, ['username', 'password', 'email']
+                #)
+            }
+
     else:
+        context = {}
+
+    if not response:
         response = render(
             request,
             'accounts/create/create.html',
-            {
-                'errors': create_account.errors,
-                'account': create_account.account,
-                'maxlength': fields_maxlength(
-                    Account, ['username', 'password', 'email']
-                )
-            }
+            context
         )
 
     return response

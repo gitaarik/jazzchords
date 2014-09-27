@@ -1,7 +1,5 @@
 Accounts:
-    - validate passwords
-    - encrypt passwords
-    - more unique validation tokens
+    - Fix reset password.
     - return appropriate http status code when right session vars are
       not present.
 

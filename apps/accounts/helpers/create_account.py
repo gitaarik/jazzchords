@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from ..models import Account
+from ..forms.create_account import CreateAccountForm
 
 
 class CreateAccount():
@@ -12,19 +13,19 @@ class CreateAccount():
         # The Django request object that for the create account page.
         self.request = request
 
-        # If the HTML form is submitted, this will contain an account
-        # object, otherwise will remain `None`.
+        # If the HTML form is submitted, this will contain the
+        # `CreateAccountForm` object that's used to process the form.
+        # Otherwise will remain `None`.
+        self.create_account_form = None
+
+        # If the `CreateAccountForm` was successfully saved, this will
+        # contain the `Account` object that was created.
         self.account = None
 
         # If the HTML form is submitted, this will contain any errors
         # raised while validating the request. Otherwise will remain an
         # empty dict.
         self.errors = {}
-
-        # If the HTML form is submitted, these are the fields that will
-        # be read from the request's POST data and written to the new
-        # account object.
-        self.fields = ['username', 'password', 'email']
 
     def process(self):
         """
@@ -39,23 +40,16 @@ class CreateAccount():
 
         if self.request.method == 'POST':
 
-            posted_data = {
-                field: self.request.POST.get(field)
-                for field in self.fields
-            }
+            self.create_account_form = CreateAccountForm(self.request.POST)
 
-            self.account = Account(**posted_data)
-
-            try:
-                self.account.full_clean()
-            except ValidationError as error:
-                self.update_existing_unvalidated_account(error)
-                self.errors = error.message_dict
+            if not self.create_account_form.is_valid():
+                #self.update_existing_unvalidated_account(error)
+                self.errors = self.create_account_form.errors
 
             if not self.errors:
 
                 try:
-                    self.account.create()
+                    self.account = self.create_account_form.create()
                 except ValidationError as error:
                     self.errors = error.message_dict
                 else:
