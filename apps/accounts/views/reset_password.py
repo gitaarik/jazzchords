@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.core.urlresolvers import reverse
 
-from core.helpers.fields_maxlength import fields_maxlength
 from ..models import Account
+from ..forms import ResetPasswordRequestForm, ResetPasswordConfirmForm
 
 
 def request(request):
@@ -12,49 +11,32 @@ def request(request):
     The user requests a password reset.
     """
 
-    email = request.POST.get('email') or ''
-    errors = []
     response = None
+    reset_password_request_form = ResetPasswordRequestForm(request.POST)
+
+    context = {
+        'fields': reset_password_request_form.fields
+    }
 
     if request.method == 'POST':
 
-        if not email:
-            errors = ["Please fill in your email address."]
+        account = reset_password_request_form.reset_password_request()
+
+        if account:
+            response = redirect('accounts:reset_password:requested')
+            request.session['reset_password_email'] = account.email
         else:
-
-            validate_email = django_validate_email
-            validate_email.message = "Please enter a valid email address."
-
-            try:
-                validate_email(email)
-            except ValidationError as error:
-                errors = error.messages
-
-        if not errors:
-
-            try:
-                account = Account.objects.get(email=email)
-            except ObjectDoesNotExist:
-                errors = [
-                    "There is no account with this email address. You "
-                    "can <a href=\"{}\">create<a> it if you like."
-                    .format(reverse('accounts:create:create'))
-                ]
-            else:
-                account.reset_password_request()
-                response = redirect('accounts:reset_password:requested')
-                request.session['reset_password_email'] = email
+            context.update({
+                'data': reset_password_request_form.data,
+                'errors': reset_password_request_form.errors
+            })
 
     if not response:
 
         response = render(
             request,
             'accounts/reset_password/request.html',
-            {
-                'email': email,
-                'errors': errors,
-                'maxlength': fields_maxlength(Account, ['email'])
-            }
+            context
         )
 
     return response
@@ -91,7 +73,7 @@ def confirm(request):
             valid = True
 
     if valid:
-        response = confirm_valid(request)
+        response = confirm_valid(request, account)
     else:
         response = render(
             request,
@@ -100,58 +82,36 @@ def confirm(request):
 
     return response
 
-def confirm_valid(request):
+def confirm_valid(request, account):
     """
     The page a validated user comes to from the password reset email.
     """
 
     response = None
-    errors = {}
+    reset_password_confirm_form = (
+        ResetPasswordConfirmForm(request.POST, account)
+    )
+    context = {
+        'fields': reset_password_confirm_form.fields
+    }
 
     if request.method == 'POST':
 
-        new_password1 = request.POST.get('new_password1')
-        new_password2 = request.POST.get('new_password2')
-
-        account._meta.get_field('password').error_messages['blank'] = (
-            "Please fill in your new password."
-        )
-
-        if not new_password2:
-            errors['new_password2'] = ["Please repeat your new password."]
-
-        if not errors and new_password1 != new_password2:
-            errors['new_password1'] = [
-                "Sorry, the passwords don't match. Please try it "
-                "again."
-            ]
-
-        account.password = new_password1
-
-        try:
-            account.full_clean()
-        except ValidationError as error:
-
-            if 'new_password1' not in errors:
-                errors['new_password1'] = []
-
-            errors['new_password1'].extend(
-                error.message_dict['password']
-            )
-
-        if not errors:
-            account.save()
+        if reset_password_confirm_form.reset_password():
             response = redirect('accounts:reset_password:completed')
+        else:
+            context.update({
+                'data': reset_password_confirm_form.data,
+                'errors': reset_password_confirm_form.errors,
+                'errors_all': reset_password_confirm_form.errors.get('__all__')
+            })
 
     if not response:
 
         response = render(
             request,
             'accounts/reset_password/confirm.html',
-            {
-                'errors': errors,
-                'maxlength': fields_maxlength(Account, ['password'])
-            }
+            context
         )
 
     return response

@@ -15,6 +15,18 @@
 
 {% endblock %}
 
+{% block javascript %}
+
+    {{ block.super }}
+
+    <script>
+        $(function() {
+            $('#new_password1').focus();
+        });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
     <article class="reset-password-confirm">
@@ -29,6 +41,13 @@
 
             <table class="formtable">
 
+                {% for error in errors_all %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
                 {% for error in errors.new_password1 %}
                     <tr class="error">
                         <td></td>
@@ -38,7 +57,7 @@
 
                 <tr>
                     <th><label for="new_password1">New password:</label></th>
-                    <td><input id="new_password1" name="new_password1" type="password" maxlength="{{ maxlength.password }}"></Td>
+                    <td><input id="new_password1" name="new_password1" type="password" maxlength="{{ fields.new_password1.max_length }}"></td>
                 </tr>
 
                 {% for error in errors.new_password2 %}
@@ -50,7 +69,7 @@
 
                 <tr>
                     <th><label for="new_password2">Repeat new password:</label></th>
-                    <td><input id="new_password2" name="new_password2" type="password" maxlength="{{ maxlength.password }}"></Td>
+                    <td><input id="new_password2" name="new_password2" type="password" maxlength="{{ fields.new_password2.max_length }}"></td>
                 </tr>
 
                 <tr>

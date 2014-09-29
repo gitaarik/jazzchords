@@ -123,3 +123,11 @@ class Account(models.Model):
         )
 
         send_mail(subject, message, from_email, recipients)
+
+    def reset_password(self, new_password):
+        """
+        Resets the password for this account to the given
+        `new_password`.
+        """
+        self.account.password = new_password
+        self.account.reset_validation_token()

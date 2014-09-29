@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block javascript %}
+    {{ block.super }}
     <script src="{{ STATIC_URL }}js/accounts/create.js"></script>
 {% endblock %}
 
@@ -42,7 +43,7 @@
                                 when you create a chart, your username will be displayed with it.
                             </p>
                         </div>
-                        <input name="username" id="username" type="text" value="{{ data.username }}" maxlength="{{ maxlength.username }}">
+                        <input name="username" id="username" type="text" value="{{ data.username }}" maxlength="{{ fields.username.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -67,7 +68,7 @@
                                 Please choose a good password that won't be easy to guess for others.
                             </p>
                         </div>
-                        <input name="password" id="password" type="password" maxlength="{{ maxlength.password }}">
+                        <input name="password" id="password" type="password" maxlength="{{ fields.password.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -93,7 +94,7 @@
                                 lost it.
                             </p>
                         </div>
-                        <input name="email" id="email" type="email" value="{{ data.email }}" maxlength="{{ maxlength.email }}">
+                        <input name="email" id="email" type="email" value="{{ data.email }}" maxlength="{{ fields.email.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>

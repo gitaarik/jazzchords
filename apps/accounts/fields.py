@@ -1,7 +1,24 @@
-from django.forms import CharField
+from django.forms import CharField, EmailField as DjangoEmailField
+from core.helpers.init_defaulter import InitDefaulter
+from core.helpers.lazy import LazyStr
+from .models import Account
 
 
-class AccountPasswordField(CharField):
+class UsernameField(InitDefaulter, CharField):
+
+    _init_defaults = {
+        'min_length': 2,
+        'max_length': Account._meta.get_field('username').max_length
+    }
+
+    default_error_messages = {
+        'required': "Please create a username.",
+        'max_length': "A username can at most have 50 characters.",
+        'unique': "Sorry, this username is already taken."
+    }
+
+
+class PasswordField(InitDefaulter, CharField):
     """
     The Django Forms field to use for an account password.
 
@@ -12,8 +29,13 @@ class AccountPasswordField(CharField):
     MIN_LENGTH = 8
     MAX_LENGTH = 50
 
+    _init_defaults = {
+        'min_length': MIN_LENGTH,
+        'max_length': MAX_LENGTH
+    }
+
     default_error_messages = {
-        'blank': "Please create a password.",
+        'required': "Please create a password.",
         'min_length': (
             "Please choose a password that's at least {} characters "
             "long.".format(MIN_LENGTH)
@@ -24,16 +46,30 @@ class AccountPasswordField(CharField):
         ),
     }
 
-    def __init__(
-        self,
-        *args,
-        min_length=MIN_LENGTH,
-        max_length=MAX_LENGTH,
-        **kwargs
-    ):
-        super().__init__(
-            *args,
-            min_length=min_length,
-            max_length=max_length,
-            **kwargs
-        )
+
+class EmailField(InitDefaulter, DjangoEmailField):
+
+    MAX_LENGTH = Account._meta.get_field('email').max_length
+
+    _init_defaults = {
+        'max_length': MAX_LENGTH
+    }
+
+    default_error_messages = {
+        'required': (
+            "Please fill in your email address. We use it to "
+            "reset your password in case you lost it."
+        ),
+        'max_length': (
+            "An email address can at most have {} characters."
+            .format(MAX_LENGTH)
+        ),
+        'invalid': "Sorry but this email address is not valid.",
+        'unique': LazyStr(lambda: (
+            "There's already an account that uses this email "
+            "address. If you forgot your password, you can <a "
+            "href=\"{}\">reset it over here</a>.".format(
+                reverse('accounts:reset_password:request')
+            )
+        ))
+    }
