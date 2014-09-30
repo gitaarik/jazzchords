@@ -12,6 +12,7 @@ from songs.models import Song
 from core.helpers.fields_maxlength import fields_maxlength
 
 from .models import Chart, Key, ChordType
+from .forms import CreateChartForm
 from .settings import BOXED_CHART
 from .helpers.new_chart import ProcessNewChartPost, FormErrors
 from .helpers.keys_json import keys_json
@@ -188,33 +189,41 @@ def new_chart(request):
         return maxlength
 
     response = None
-    errors = []
+    context = {}
+    create_chart_form = CreateChartForm(request.POST)
 
     if request.method == 'POST':
 
-        try:
-            chart = ProcessNewChartPost(request).process()
-        except FormErrors as formErrors:
-            errors = formErrors.errors
+        if create_chart_form.is_valid():
+            create_chart_form.save()
         else:
-            response = redirect(
-                'chordcharts:edit_chart',
-                song_slug=chart.song.slug,
-                chart_id=chart.id
-            )
+            context.update({
+                'data': create_chart_form.data,
+                'errors': create_chart_form.errors
+            })
+
+        #try:
+        #    chart = ProcessNewChartPost(request).process()
+        #except FormErrors as formErrors:
+        #    errors = formErrors.errors
+        #else:
+        #    response = redirect(
+        #        'chordcharts:edit_chart',
+        #        song_slug=chart.song.slug,
+        #        chart_id=chart.id
+        #    )
 
     if not response:
 
         keys = get_keys()
 
-        context = {
+        context.update({
             'all_keys_json': keys_json(Key.objects.all()),
             'key_select_tonics': Key.TONIC_CHOICES,
             'keys_major': keys[Key.TONALITY_MAJOR],
             'keys_minor': keys[Key.TONALITY_MINOR],
-            'maxlength': get_maxlength(),
-            'errors': errors
-        }
+            'maxlength': get_maxlength()
+        })
 
         response = render(request, 'chordcharts/new_chart.html', context)
 

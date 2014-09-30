@@ -12,11 +12,8 @@ def create(request):
     """
 
     response = None
+    context = {}
     create_account_form = CreateAccountForm(request.POST)
-
-    context = {
-        'fields': create_account_form.fields
-    }
 
     if request.method == 'POST':
 
@@ -31,6 +28,9 @@ def create(request):
             })
 
     if not response:
+
+        context['fields'] = create_account_form.fields
+
         response = render(
             request,
             'accounts/create/create.html',

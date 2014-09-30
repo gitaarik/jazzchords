@@ -1,12 +1,16 @@
+Fix create chart:
+    Apparantly broken when you choose C Minor, can also directly use Django
+    Forms when we're at it.
+    - Don't forget maxlength.
+
+Global input style:
+    Use the input style that is used in forms globally, so also in the
+    chord chart.
+
 Accounts:
     - Create 'change email' and 'change password'.
     - Return appropriate http status code when right session vars are
       not present.
-
-Fix create chart:
-    Apparantly broken, can also directly use Django Forms when we're at
-    it.
-    - Don't forget maxlength.
 
 Make things ready for production demo:
     - Finish ansible stuff

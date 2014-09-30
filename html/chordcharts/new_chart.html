@@ -35,16 +35,24 @@
 
             <table class="formtable">
 
+                {% for error in errors.song_name %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
                 <tr>
                     <th>
-                        <label for="song">Song title:</label>
+                        <label for="song">Song name:</label>
                     </th>
                     <td>
                         <div class="tooltip-popup popup-box">
                             <div class="arrow-up"></div>
-                            <h4>Song title</h4>
+                            <h4>Song name</h4>
                             <p>
-                                Chord charts with the same song title will be associated with each
+                                Chord charts with the same song name will be associated with each
                                 other, so that people can easily find diffent charts for the same song.
                             </p>
                         </div>
@@ -54,6 +62,14 @@
                         <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
+
+                {% for error in errors.short_description %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
 
                 <tr>
                     <th>
@@ -77,6 +93,14 @@
                         <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
+
+                {% for error in errors.video_url %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
 
                 <tr>
 
@@ -102,6 +126,14 @@
 
                 </tr>
 
+                {% for error in errors.lyrics_url %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
                 <tr>
                     <th>
                         <label for="lyrics_url">Lyrics URL:</label>
@@ -118,6 +150,22 @@
                         <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
+
+                {% for error in errors.key_tonic %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                {% for error in errors.key_tonality %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
 
                 <tr class="key">
 
@@ -137,7 +185,7 @@
                         <div class="tooltip-button"><span>?</span></div>
 
                         <input type="hidden" class="key-tonic-input" name="key_tonic" value="C">
-                        <input type="hidden" class="key-tonality-input" name="key_tonality" value="Major">
+                        <input type="hidden" class="key-tonality-input" name="key_tonality" value="1">
 
                     </td>
                     <td></td>

@@ -12,11 +12,8 @@ def request(request):
     """
 
     response = None
+    context = {}
     reset_password_request_form = ResetPasswordRequestForm(request.POST)
-
-    context = {
-        'fields': reset_password_request_form.fields
-    }
 
     if request.method == 'POST':
 
@@ -32,6 +29,8 @@ def request(request):
             })
 
     if not response:
+
+        context['fields'] = reset_password_request_form.fields
 
         response = render(
             request,
@@ -88,12 +87,10 @@ def confirm_valid(request, account):
     """
 
     response = None
+    context = {}
     reset_password_confirm_form = (
         ResetPasswordConfirmForm(request.POST, account)
     )
-    context = {
-        'fields': reset_password_confirm_form.fields
-    }
 
     if request.method == 'POST':
 
@@ -107,6 +104,8 @@ def confirm_valid(request, account):
             })
 
     if not response:
+
+        context['fields'] = reset_password_confirm_form.fields
 
         response = render(
             request,
