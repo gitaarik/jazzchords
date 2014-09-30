@@ -1,8 +1,3 @@
-Fix create chart:
-    Apparantly broken when you choose C Minor, can also directly use Django
-    Forms when we're at it.
-    - Don't forget maxlength.
-
 Global input style:
     Use the input style that is used in forms globally, so also in the
     chord chart.

@@ -14,7 +14,6 @@ from core.helpers.fields_maxlength import fields_maxlength
 from .models import Chart, Key, ChordType
 from .forms import CreateChartForm
 from .settings import BOXED_CHART
-from .helpers.new_chart import ProcessNewChartPost, FormErrors
 from .helpers.keys_json import keys_json
 
 
@@ -170,24 +169,6 @@ def new_chart(request):
 
         return keys
 
-    def get_maxlength():
-        """
-        Returns the maximum lengths for the fields used in the form.
-
-        Will be a dict with the fieldname in the key and the maximum
-        lenght in the value.
-        """
-
-        maxlength = fields_maxlength(Song, ['name'])
-        maxlength['song_name'] = maxlength.pop('name')
-        maxlength.update(
-            fields_maxlength(
-                Chart, ['short_description', 'video_url', 'lyrics_url']
-            )
-        )
-
-        return maxlength
-
     response = None
     context = {}
     create_chart_form = CreateChartForm(request.POST)
@@ -195,34 +176,28 @@ def new_chart(request):
     if request.method == 'POST':
 
         if create_chart_form.is_valid():
-            create_chart_form.save()
+            chart = create_chart_form.save()
+            response = redirect(
+                'chordcharts:edit_chart',
+                song_slug=chart.song.slug,
+                chart_id=chart.id
+            )
         else:
             context.update({
                 'data': create_chart_form.data,
                 'errors': create_chart_form.errors
             })
 
-        #try:
-        #    chart = ProcessNewChartPost(request).process()
-        #except FormErrors as formErrors:
-        #    errors = formErrors.errors
-        #else:
-        #    response = redirect(
-        #        'chordcharts:edit_chart',
-        #        song_slug=chart.song.slug,
-        #        chart_id=chart.id
-        #    )
-
     if not response:
 
         keys = get_keys()
 
         context.update({
+            'fields': create_chart_form.fields,
             'all_keys_json': keys_json(Key.objects.all()),
             'key_select_tonics': Key.TONIC_CHOICES,
             'keys_major': keys[Key.TONALITY_MAJOR],
-            'keys_minor': keys[Key.TONALITY_MINOR],
-            'maxlength': get_maxlength()
+            'keys_minor': keys[Key.TONALITY_MINOR]
         })
 
         response = render(request, 'chordcharts/new_chart.html', context)
