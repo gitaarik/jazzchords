@@ -6,14 +6,24 @@ from .models import Account
 
 class UsernameField(InitDefaulter, CharField):
 
+    MIN_LENGTH = 2
+    MAX_LENGTH = Account._meta.get_field('username').max_length
+
     _init_defaults = {
-        'min_length': 2,
-        'max_length': Account._meta.get_field('username').max_length
+        'min_length': MIN_LENGTH,
+        'max_length': MAX_LENGTH
     }
 
     default_error_messages = {
         'required': "Please create a username.",
-        'max_length': "A username can at most have 50 characters.",
+        'min_length': (
+            "A username should at least contain {} characters."
+            .format(MIN_LENGTH)
+        ),
+        'max_length': (
+            "A username can at most have {} characters."
+            .format(MAX_LENGTH)
+        ),
         'unique': "Sorry, this username is already taken."
     }
 

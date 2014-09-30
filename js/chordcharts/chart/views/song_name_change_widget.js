@@ -17,24 +17,10 @@ module.exports = Backbone.View.extend({
 
         if (this.model.get('visible')) {
             this.$el.find('.song-name-change').show();
-            this.focusTextField();
+            this.$el.find('.song-name-input').focusAtEnd()
         } else {
             this.$el.find('.song-name-change').hide();
         }
-
-    },
-
-    focusTextField: function() {
-
-        var song_name_input = this.$el.find('.song-name-input');
-
-        // set focus on text field
-        song_name_input.focus();
-
-        // make sure the cursor is at the end
-        var orig_value = song_name_input.val();
-        song_name_input.val('');
-        song_name_input.val(orig_value);
 
     },
 

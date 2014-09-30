@@ -9,8 +9,6 @@ module.exports = Backbone.View.extend({
     model: Section,
 
     events: {
-        'change input[type=radio]': 'changeSectionTitle',
-        'click input[type=radio]': 'changeSectionTitle',
         'keyup .title-input': 'titleChanged',
         'click .close': 'close'
     },
@@ -74,31 +72,21 @@ module.exports = Backbone.View.extend({
         var title_input = this.$el.find('.title-input');
 
         // set focus on text field
-        title_input.focus();
-
-        // make sure the cursor is at the end
-        var orig_value = title_input.val();
-        title_input.val('');
-        title_input.val(orig_value);
+        title_input.focusAtEnd();
 
     },
 
-    changeSectionTitle: function() {
+    titleChanged: function(event) {
 
         this.model.get('section').set(
             'title', 
             this.$el.find('.title-input').val().trim()
         );
 
-        this.$el.find('.title-input').focus();
-
-    },
-
-    titleChanged: function(event) {
-        this.changeSectionTitle();
         if (event.key == 'Enter') {
             this.close();
         }
+
     },
 
     updateKey: function(new_key) {
