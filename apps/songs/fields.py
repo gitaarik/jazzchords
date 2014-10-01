@@ -3,7 +3,7 @@ from core.helpers.init_defaulter import InitDefaulter
 from .models import Song
 
 
-class SongNameField(CharField):
+class SongNameField(InitDefaulter, CharField):
 
     MAX_LENGTH = Song._meta.get_field('name').max_length
 

@@ -8,5 +8,8 @@ keySelectWidgetDelegate.key_changed = function(key) {
     $('.key-tonality-input').prop('value', key.get('tonality'));
 };
 
-
 new KeySelectWidget($('.key-select-widget'), keySelectWidgetDelegate);
+
+$(function() {
+    $('#song').focusAtEnd();
+});
