@@ -1,6 +1,3 @@
-@hover_background_color: #F7F7F7;
-@hover_border_color: #666;
-
 table.formtable {
 
     tr {
@@ -47,21 +44,7 @@ table.formtable {
             input[type=text],
             input[type=password],
             input[type=email] {
-
-                width: 100%;
-                background: #FFF;
-                font-size: 16px;
-                border: solid 1px #999;
-                border-radius: 5px;
-                padding: 10px;
-                box-sizing: border-box;
-
-                &:hover,
-                &:focus {
-                    background-color: @hover_background_color;
-                    border-color: @hover_border_color;
-                }
-
+                ._text-input;
             }
 
             ::-webkit-input-placeholder { /* WebKit browsers */
@@ -89,20 +72,7 @@ table.formtable {
 
             input[type=submit],
             input[type=button] {
-
-                background: #FFF;
-                border: solid 1px #999;
-                font-size: 20px;
-                border-radius: 5px;
-                padding: 11px 15px 7px 15px;
-                box-sizing: border-box;
-
-                &:hover,
-                &:focus {
-                    background-color: @hover_background_color;
-                    border-color: @hover_border_color;
-                }
-
+                ._button;
             }
 
             .tooltip-popup {
@@ -173,8 +143,8 @@ table.formtable {
             input[type=text],
             input[type=password],
             input[type=email] {
-                background-color: @hover_background_color;
-                border-color: @hover_border_color;
+                background-color: @input_hover_background_color;
+                border-color: @input_hover_border_color;
             }
 
         }
@@ -190,5 +160,3 @@ table.formtable {
     }
 
 }
-
-

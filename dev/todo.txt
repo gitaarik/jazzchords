@@ -1,6 +1,12 @@
-Global input style:
-    Use the input style that is used in forms globally, so also in the
-    chord chart.
+Use "name" instead of "title" for sections.
+    Because for songs we also use "name".
+    Also in the edit widget put "Section name" instead of just "title"
+    to make it clear it's for the section.
+
+Section key besides section name.
+    It would probably be nice if the section key is next to the name in
+    a smaller font, so that it's more prominent so people won't forget
+    the key of the section (in both edit and readonly mode).
 
 Accounts:
     - Create 'change email' and 'change password'.
