@@ -3,6 +3,12 @@ Section key besides section name.
     a smaller font, so that it's more prominent so people won't forget
     the key of the section (in both edit and readonly mode).
 
+    - Updating the key isn't going good yet.
+    - Key tonic select widget is spacing (I guess because the container
+      widget is smaller than himself).
+    - Widgets aren't on same height (probably because font size
+      differnece).
+
 Accounts:
     - Create 'change email' and 'change password'.
     - Return appropriate http status code when right session vars are

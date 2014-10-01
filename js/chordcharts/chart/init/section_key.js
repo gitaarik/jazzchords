@@ -1,19 +1,19 @@
-var SectionEdit = require('../models/section_edit.js');
-var SectionEditView = require('../views/section_edit.js');
+var SectionKey = require('../models/section_key.js');
+var SectionKeyView = require('../views/section_key.js');
 
 
-var sectionEdit = new SectionEdit();
+var sectionKey = new SectionKey();
 
-new SectionEditView({
-    el: '.chord-chart .section-edit',
-    model: sectionEdit
+new SectionKeyView({
+    el: '.chord-chart .section-key',
+    model: sectionKey
 });
 
 $('html').on('click', function(event) {
 
     // Close the widget if there was a click outside it.
 
-    if (sectionEdit.get('visible')) {
+    if (sectionKey.get('visible')) {
 
         var target = $(event.target);
 
@@ -26,16 +26,16 @@ $('html').on('click', function(event) {
                     .closest('.section-header')
                     .closest('.chord-chart')
                     .length &&
-                target.hasClass('name')
+                target.hasClass('key')
             ) &&
             // click was in the widget
             !target
-                .closest('.section-edit')
+                .closest('.section-key')
                 .closest('.chord-chart')
                 .length
         ) {
             // close the widget
-            sectionEdit.set('visible', false);
+            sectionKey.set('visible', false);
         }
 
     }
@@ -44,10 +44,10 @@ $('html').on('click', function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (sectionEdit.get('visible') && event.key == 'Esc') {
-        sectionEdit.set('visible', false);
+    if (sectionKey.get('visible') && event.key == 'Esc') {
+        sectionKey.set('visible', false);
     }
 
 });
 
-module.exports = sectionEdit;
+module.exports = sectionKey;

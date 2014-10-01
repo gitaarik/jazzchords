@@ -1,6 +1,7 @@
 var Line = require('../models/line.js');
 var SectionSidebar = require('../models/section_sidebar.js');
-var sectionEdit = require('../init/section_edit.js');
+var sectionName = require('../init/section_name.js');
+var sectionKey = require('../init/section_key.js');
 var SectionSidebarView = require('./section_sidebar.js');
 var LineView = require('./line.js');
 
@@ -15,7 +16,8 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        'click .section-header .name': 'toggleSectionEdit',
+        'click .section-header .name': 'toggleSectionName',
+        'click .section-header .key': 'toggleSectionKey',
         'click .section-header .section-edit-buttons .move-up': 'moveUp',
         'click .section-header .section-edit-buttons .move-down': 'moveDown',
         'click .section-header .section-edit-buttons .remove': 'removeSection',
@@ -28,16 +30,34 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.model.get('lines'), 'remove', this.renderSidebar);
     },
 
-    toggleSectionEdit: function(event) {
+    toggleSectionName: function(event) {
 
         if (!GLOBALS.edit) {
             return;
         }
 
-        if (sectionEdit.get('visible')) {
-            sectionEdit.set('visible', false);
+        if (sectionName.get('visible')) {
+            sectionName.set('visible', false);
         } else {
-            sectionEdit.set({
+            sectionName.set({
+                visible: true,
+                section: this.model,
+                offset: $(event.target).offset()
+            });
+        }
+
+    },
+
+    toggleSectionKey: function(event) {
+
+        if (!GLOBALS.edit) {
+            return;
+        }
+
+        if (sectionKey.get('visible')) {
+            sectionKey.set('visible', false);
+        } else {
+            sectionKey.set({
                 visible: true,
                 section: this.model,
                 offset: $(event.target).offset()

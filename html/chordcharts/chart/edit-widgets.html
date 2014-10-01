@@ -69,27 +69,31 @@
     </div>
 </article>
 
-<article class="section-edit popup-box">
+<article class="section-name popup-box">
 
     <div class="arrow-up"></div>
     <span class="close fa fa-times"></span>
 
     <div class="content padding">
-
-        <section class="name">
-            <h3>Section name:</h3>
+        <label class="name">
+            <span>Section name:</span>
             <input type="text" class="name-input _text-input">
-        </section>
+        </label>
+    </div>
 
-        <section class="key">
+</article>
 
-            <h3>Key:</h3>
+<article class="section-key popup-box">
 
+    <div class="arrow-up"></div>
+    <span class="close fa fa-times"></span>
+
+    <div class="content padding">
+        <label class="key">
+            <span>Key:</span>
             {% include "core/widgets/key_select.html" %}
             <div class="_clearfix"></div>
-
-        </section>
-
+        </label>
     </div>
 
 </article>

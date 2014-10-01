@@ -9,7 +9,6 @@ module.exports = Backbone.View.extend({
     model: Section,
 
     events: {
-        'keyup .name-input': 'nameChanged',
         'click .close': 'close'
     },
 
@@ -50,42 +49,14 @@ module.exports = Backbone.View.extend({
 
         this.$el.css({
             'top': this.model.get('offset').top + 42,
-            'left': this.model.get('offset').left - 15
+            'left': this.model.get('offset').left - 30
         });
-
-        this.$el.find('.name-input').val(
-            this.model.get('section').get('name')
-        );
-
-        if (this.model.get('section').get('name')) {
-            this.$el.find('.name-radio').prop('checked', true);
-        } else {
-            this.$el.find('.no-name-radio').prop('checked', true);
-        }
 
         this.keySelectWidget.updateKey(
             this.model.get('section').get('key')
         );
 
         this.$el.show();
-
-        var name_input = this.$el.find('.name-input');
-
-        // set focus on text field
-        name_input.focusAtEnd();
-
-    },
-
-    nameChanged: function(event) {
-
-        this.model.get('section').set(
-            'name', 
-            this.$el.find('.name-input').val().trim()
-        );
-
-        if (event.key == 'Enter') {
-            this.close();
-        }
 
     },
 
