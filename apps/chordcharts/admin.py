@@ -66,7 +66,7 @@ class LineInline(admin.StackedInline):
 
 
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'chart', 'key', 'number', 'key')
+    list_display = ('name', 'chart', 'key', 'number', 'key')
     inlines = (LineInline,)
 
 

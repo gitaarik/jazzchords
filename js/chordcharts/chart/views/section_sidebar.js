@@ -236,7 +236,7 @@ module.exports = Backbone.View.extend({
             context.strokeStyle = '#CCC';
         }
 
-        // from top to title
+        // from top to letter
         context.beginPath();
 
         context.moveTo(sidebar_half_width, line_margin);
@@ -246,7 +246,7 @@ module.exports = Backbone.View.extend({
         );
         context.stroke();
 
-        // from title to bottom
+        // from letter to bottom
         context.beginPath();
         context.moveTo(
             sidebar_half_width,

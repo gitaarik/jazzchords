@@ -65,8 +65,8 @@ module.exports = Backbone.View.extend({
     renderHeader: function() {
 
         var template = _.template($('#template-section-header').html());
-        var title = this.model.get('title') || 'Untitled section';
-        var section_header = template({ section_title: title });
+        var name = this.model.get('name') || 'Untitled section';
+        var section_header = template({ section_name: name });
         var section_header_el = this.$el.find('.section-header');
 
         section_header_el.html(section_header);

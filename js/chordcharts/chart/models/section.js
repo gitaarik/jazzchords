@@ -101,7 +101,7 @@ module.exports = Backbone.Model.extend({
         return {
             number: this.get('number'),
             key_id: this.get('key').get('id'),
-            title: this.get('title'),
+            name: this.get('name'),
             time_signature: this.get('time_signature'),
             show_sidebar: this.get('show_sidebar')
         };

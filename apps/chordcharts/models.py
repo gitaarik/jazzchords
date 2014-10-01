@@ -379,11 +379,11 @@ class Section(models.Model):
         )
     )
 
-    title = models.CharField(
+    name = models.CharField(
         max_length=25,
         blank=True,
         help_text=(
-            """Title for the section. If set, will be displayed above the
+            """Name for the section. If set, will be displayed above the
             section."""
         )
     )
@@ -396,7 +396,7 @@ class Section(models.Model):
         self.set_default_time_signature()
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
         ordering = ('number',)
@@ -406,7 +406,7 @@ class Section(models.Model):
             'id': self.id,
             'key': self.key.client_data(),
             'number': self.number,
-            'title': self.title,
+            'name': self.name,
             'time_signature': self.time_signature.id,
             'show_sidebar': self.show_sidebar,
             'height': self.height,
