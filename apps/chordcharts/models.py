@@ -407,6 +407,10 @@ class Section(models.Model):
             'key': self.key.client_data(),
             'number': self.number,
             'name': self.name,
+            'show_key': self.show_key,
+            'can_move_down': self.can_move_down,
+            'can_move_up': self.can_move_up,
+            'can_delete': self.can_delete,
             'time_signature': self.time_signature.id,
             'show_sidebar': self.show_sidebar,
             'height': self.height,
@@ -421,6 +425,76 @@ class Section(models.Model):
             self.lines.count() *
             (BOXED_CHART['box_height'] + BOXED_CHART['border_width'])
         ) + BOXED_CHART['border_width'])
+
+    @property
+    def show_key(self):
+        """
+        Returns a boolean indicating whether to show the key of this
+        section.
+
+        The key will only be showed if it's different from the previous
+        section, if there isn't a previous section, it won't be shown.
+        """
+
+        if not self.prev_section:
+            return False
+
+        return self.key != self.prev_section.key
+
+    @property
+    def can_move_down(self):
+        """
+        Returns a boolean indicating whether the section can be moved
+        down.
+        """
+        return bool(self.next_section)
+
+    @property
+    def can_move_up(self):
+        """
+        Returns a boolean indicating whether the section can be moved
+        up.
+        """
+        return bool(self.prev_section)
+
+    @property
+    def can_delete(self):
+        """
+        Returns a boolean indicathing whether the section can be
+        deleted.
+
+        A section can always be deleted unless it's the only section in
+        the chart.
+        """
+        return bool(self.chart.sections.count() - 1)
+
+    @property
+    def prev_section(self):
+        """
+        Returns the section preceiding this section or `False` if there
+        isn't a preceiding section.
+        """
+
+        prev_sections = self.chart.sections.filter(number__lt=self.number)
+
+        if prev_sections:
+            return prev_sections.last()
+        else:
+            return False
+
+    @property
+    def next_section(self):
+        """
+        Returns the section following this section or 'False' if there
+        isn't a following section.
+        """
+
+        next_sections = self.chart.sections.filter(number__gt=self.number)
+
+        if next_sections:
+            return next_sections[0]
+        else:
+            return False
 
     def set_default_time_signature(self):
         """
@@ -598,7 +672,8 @@ class Line(models.Model):
     @property
     def prev_line(self):
         """
-        Returns the line preceiding this line.
+        Returns the line preceiding this line or `False` if there isn't
+        a preceiding line.
         """
 
         prev_lines = self.section.lines.filter(number__lt=self.number)
@@ -611,7 +686,8 @@ class Line(models.Model):
     @property
     def next_line(self):
         """
-        Returns the line following this line.
+        Returns the line following this line or `False` if there isn't a
+        following line.
         """
 
         next_lines = self.section.lines.filter(number__gt=self.number)

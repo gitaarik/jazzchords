@@ -1,13 +1,11 @@
-Section key besides section name.
-    It would probably be nice if the section key is next to the name in
-    a smaller font, so that it's more prominent so people won't forget
-    the key of the section (in both edit and readonly mode).
+Change transpose widget when moving sections:
+    When you have a section with a different key underneath the first
+    section, and you switch those sections, the transpose widget should
+    be updated to the key of the new first section.
 
-    - Updating the key isn't going good yet.
-    - Key tonic select widget is spacing (I guess because the container
-      widget is smaller than himself).
-    - Widgets aren't on same height (probably because font size
-      differnece).
+Update chords when section's key changed:
+    When a section's key changed, the chords notation could be
+    different, so the chordnames should be refreshed.
 
 Accounts:
     - Create 'change email' and 'change password'.
@@ -21,11 +19,8 @@ Make things ready for production demo:
     - Complete all keys.
     - Configure django settings for production mode
 
-Help popup:
-    Make a help popup that contains the how-to-read page, that can be
-    opened from a chart page.
-
-Make prefixes for Key, Note, ChordTypes and TimeSignature.
+Make manage.py command to make prefixes for Key, Note, ChordTypes and
+TimeSignature.
 
 Make arrow-up asset in popup widget transparent.
 

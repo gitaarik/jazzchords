@@ -48,7 +48,7 @@ module.exports = Backbone.View.extend({
     show: function() {
 
         this.$el.css({
-            'top': this.model.get('offset').top + 42,
+            'top': this.model.get('offset').top + 36,
             'left': this.model.get('offset').left - 30
         });
 

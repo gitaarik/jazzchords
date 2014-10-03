@@ -6,9 +6,11 @@
     {% endif %}
 </div>
 
-<div class="key">
-    A♭ Major
-</div>
+{% if show_key or edit %}
+    <div class="key">
+        Key of {{ key_name }}
+    </div>
+{% endif %}
 
 {% if edit %}
     <div class="section-edit-buttons">

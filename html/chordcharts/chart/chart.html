@@ -6,17 +6,7 @@
 
             <header class="section-header">
                 {% if edit or chart.sections|length > 1 %}
-                    {% if forloop.first %}
-                        {% if chart.sections|length > 1 %}
-                            {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=0 remove=1 %}
-                        {% else %}
-                            {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=0 remove=0 %}
-                        {% endif %}
-                    {% elif forloop.last %}
-                        {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=0 move_up=1 remove=1 %}
-                    {% else %}
-                        {% include "chordcharts/chart/section_header.html" with section_name=section.name move_down=1 move_up=1 remove=1 %}
-                    {% endif %}
+                    {% include "chordcharts/chart/section_header.html" with section_name=section.name show_key=section.show_key key_name=section.key.name move_down=section.can_move_down move_up=section.can_move_up remove=section.can_delete %}
                 {% endif %}
             </header>
 
