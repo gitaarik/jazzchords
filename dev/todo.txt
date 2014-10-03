@@ -1,8 +1,3 @@
-Change transpose widget when moving sections:
-    When you have a section with a different key underneath the first
-    section, and you switch those sections, the transpose widget should
-    be updated to the key of the new first section.
-
 Update chords when section's key changed:
     When a section's key changed, the chords notation could be
     different, so the chordnames should be refreshed.

@@ -2,6 +2,7 @@ var Line = require('../models/line.js');
 var SectionSidebar = require('../models/section_sidebar.js');
 var sectionName = require('../init/section_name.js');
 var sectionKey = require('../init/section_key.js');
+var transposeWidget = require('../init/transpose_widget.js');
 var SectionSidebarView = require('./section_sidebar.js');
 var LineView = require('./line.js');
 
@@ -174,6 +175,10 @@ module.exports = Backbone.View.extend({
         this.model.set('number', prev_section_number);
         this.model.collection.sort();
 
+        if (this.model.get('number') == 1) {
+            transposeWidget.set('key', this.model.get('key'));
+        }
+
         this.model.trigger('change');
         prev_section.trigger('change');
 
@@ -198,6 +203,10 @@ module.exports = Backbone.View.extend({
         next_section.set('number', this_section_number);
         this.model.set('number', next_section_number);
         this.model.collection.sort();
+
+        if (next_section.get('number') == 1) {
+            transposeWidget.set('key', next_section.get('key'));
+        }
 
         this.model.trigger('change');
         next_section.trigger('change');
