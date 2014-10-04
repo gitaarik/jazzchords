@@ -1,3 +1,8 @@
+Repeat section stuff:
+    At "I got my love to keep me warm", the section repeating at the
+    bottom is a bit weird, it would be more logical if it would just say
+    "repeat 2nd A section".
+
 Accounts:
     - Rename it to 'users' again, because it's less formal and more
       flexible.
