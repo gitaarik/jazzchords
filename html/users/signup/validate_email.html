@@ -2,12 +2,12 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="css/users/account_created.css" />
+    <link type="text/css" rel="stylesheet" href="css/users/signup.css" />
 {% endblock %}
 
 {% block content %}
 
-    <article class="account-created">
+    <article class="signup">
 
         <h1>Validate your email address</h1>
 
@@ -15,7 +15,7 @@
             Thanks for joining {{ settings.WEBSITE_NAME }}! Please
             validate your email address by following the instructions
             in the email we've just send to <strong>{{ email }}</strong>.
-            After this you can log in and use your account.
+            After this you can log in and create charts!
         </p>
 
     </article>

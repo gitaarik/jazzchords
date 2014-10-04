@@ -11,6 +11,10 @@
             width: 500px;
         }
 
+        p {
+            text-align: center;
+        }
+
     </style>
 
 {% endblock %}
@@ -34,6 +38,8 @@
         <header>
             <h1>Reset password</h1>
         </header>
+
+        <p>You can now fill in your new password.</p>
 
         <form method="POST">
 
@@ -68,7 +74,7 @@
                 {% endfor %}
 
                 <tr>
-                    <th><label for="new_password2">Repeat new password:</label></th>
+                    <th><label for="new_password2">Confirm new password:</label></th>
                     <td><input id="new_password2" name="new_password2" type="password" maxlength="{{ fields.new_password2.max_length }}"></td>
                 </tr>
 

@@ -1,13 +1,13 @@
 from django.forms import CharField, EmailField as DjangoEmailField
 from core.helpers.init_defaulter import InitDefaulter
 from core.helpers.lazy import LazyStr
-from .models import Account
+from .models import User
 
 
 class UsernameField(InitDefaulter, CharField):
 
     MIN_LENGTH = 2
-    MAX_LENGTH = Account._meta.get_field('username').max_length
+    MAX_LENGTH = User._meta.get_field('username').max_length
 
     _init_defaults = {
         'min_length': MIN_LENGTH,
@@ -30,7 +30,7 @@ class UsernameField(InitDefaulter, CharField):
 
 class PasswordField(InitDefaulter, CharField):
     """
-    The Django Forms field to use for an account password.
+    The Django Forms field to use for a user password.
 
     Because the password is stored encrypted, you can't use the password
     field on the model. Use this field instead.
@@ -59,7 +59,7 @@ class PasswordField(InitDefaulter, CharField):
 
 class EmailField(InitDefaulter, DjangoEmailField):
 
-    MAX_LENGTH = Account._meta.get_field('email').max_length
+    MAX_LENGTH = User._meta.get_field('email').max_length
 
     _init_defaults = {
         'max_length': MAX_LENGTH
@@ -76,10 +76,10 @@ class EmailField(InitDefaulter, DjangoEmailField):
         ),
         'invalid': "Sorry but this email address is not valid.",
         'unique': LazyStr(lambda: (
-            "There's already an account that uses this email "
-            "address. If you forgot your password, you can <a "
-            "href=\"{}\">reset it over here</a>.".format(
-                reverse('accounts:reset_password:request')
+            "There's already a user that uses this email address. If "
+            "you forgot your password, you can <a href=\"{}\">reset it "
+            "over here</a>.".format(
+                reverse('users:reset_password:request')
             )
         ))
     }

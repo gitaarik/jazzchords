@@ -11,7 +11,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from core.helpers.lazy import LazyStr
 
 
-class Account(models.Model):
+class User(models.Model):
 
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(unique=True)
@@ -42,7 +42,7 @@ class Account(models.Model):
 
     def validate_with_token(self, validation_token):
         """
-        Try to validate the account with the given `validation_token`.
+        Try to validate the user with the given `validation_token`.
         If the validation was succesful, will reset the
         `validation_token` so it can't be reused, and will return
         `True`. In case of a unsuccesful validation, returns `False`.
@@ -64,7 +64,7 @@ class Account(models.Model):
         ])
         self.save()
 
-    def create(self):
+    def signup(self):
         """
         Will reset the `validation_token`, save the model and send a
         confirmation email.
@@ -74,18 +74,18 @@ class Account(models.Model):
 
     def send_confirmation_email(self):
 
-        subject = "{} account creation".format(settings.WEBSITE_NAME)
-        from_email = 'accounts@{}'.format(settings.DOMAIN_NAME)
+        subject = "{} sign up".format(settings.WEBSITE_NAME)
+        from_email = 'users@{}'.format(settings.DOMAIN_NAME)
         recipients = [self.email]
 
         message = (
             "Welcome to {}! Please click the following link to "
-            "activate your account:"
+            "complete your registration:"
             "\n\n{}".format(
                 settings.WEBSITE_NAME,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
-                    reverse('accounts:create:completed'),
+                    reverse('users:signup:completed'),
                     self.email,
                     self.validation_token
                 )
@@ -105,17 +105,17 @@ class Account(models.Model):
     def send_reset_password_email(self):
 
         subject = "{} password reset".format(settings.WEBSITE_NAME)
-        from_email = 'accounts@{}'.format(settings.DOMAIN_NAME)
+        from_email = 'users@{}'.format(settings.DOMAIN_NAME)
         recipients = [self.email]
 
         message = (
-            "You have requested to reset your {} account password. Go "
-            "to the following page to do so:\n\n{}"
+            "You have requested to reset your {} password. Go to the "
+            "following page to do so:\n\n{}"
             .format(
                 settings.WEBSITE_NAME,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
-                    reverse('accounts:reset_password:confirm'),
+                    reverse('users:reset_password:confirm'),
                     self.email,
                     self.validation_token
                 )
@@ -126,8 +126,7 @@ class Account(models.Model):
 
     def reset_password(self, new_password):
         """
-        Resets the password for this account to the given
-        `new_password`.
+        Resets the password for this user to the given `new_password`.
         """
-        self.account.password = new_password
-        self.account.reset_validation_token()
+        self.password = new_password
+        self.reset_validation_token()

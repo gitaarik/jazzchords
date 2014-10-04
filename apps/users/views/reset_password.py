@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
-from ..models import Account
+from ..models import User
 from ..forms import ResetPasswordRequestForm, ResetPasswordConfirmForm
 
 
@@ -17,11 +17,11 @@ def request(request):
 
     if request.method == 'POST':
 
-        account = reset_password_request_form.reset_password_request()
+        user = reset_password_request_form.reset_password_request()
 
-        if account:
-            response = redirect('accounts:reset_password:requested')
-            request.session['reset_password_email'] = account.email
+        if user:
+            response = redirect('users:reset_password:requested')
+            request.session['reset_password_email'] = user.email
         else:
             context.update({
                 'data': reset_password_request_form.data,
@@ -34,7 +34,7 @@ def request(request):
 
         response = render(
             request,
-            'accounts/reset_password/request.html',
+            'users/reset_password/request.html',
             context
         )
 
@@ -50,7 +50,7 @@ def requested(request):
 
     return render(
         request,
-        'accounts/reset_password/requested.html',
+        'users/reset_password/requested.html',
         {'email': email}
     )
 
@@ -64,24 +64,24 @@ def confirm(request):
     valid = False
 
     try:
-        account = Account.objects.get(email=email)
+        user = User.objects.get(email=email)
     except ObjectDoesNotExist:
-        account = None
+        user = None
     else:
-        if account.validation_token == validation_token:
+        if user.validation_token == validation_token:
             valid = True
 
     if valid:
-        response = confirm_valid(request, account)
+        response = confirm_valid(request, user)
     else:
         response = render(
             request,
-            'accounts/reset_password/invalid_token.html'
+            'users/reset_password/invalid_token.html'
         )
 
     return response
 
-def confirm_valid(request, account):
+def confirm_valid(request, user):
     """
     The page a validated user comes to from the password reset email.
     """
@@ -89,13 +89,13 @@ def confirm_valid(request, account):
     response = None
     context = {}
     reset_password_confirm_form = (
-        ResetPasswordConfirmForm(request.POST, account)
+        ResetPasswordConfirmForm(request.POST, user)
     )
 
     if request.method == 'POST':
 
         if reset_password_confirm_form.reset_password():
-            response = redirect('accounts:reset_password:completed')
+            response = redirect('users:reset_password:completed')
         else:
             context.update({
                 'data': reset_password_confirm_form.data,
@@ -109,7 +109,7 @@ def confirm_valid(request, account):
 
         response = render(
             request,
-            'accounts/reset_password/confirm.html',
+            'users/reset_password/confirm.html',
             context
         )
 
@@ -122,5 +122,5 @@ def completed(request):
 
     return render(
         request,
-        'accounts/reset_password/completed.html',
+        'users/reset_password/completed.html',
     )

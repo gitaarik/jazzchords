@@ -19,7 +19,7 @@ urlpatterns = [
     url('^grappelli/', include('grappelli.urls')),
     url('^admin/doc/', include('django.contrib.admindocs.urls')),
     url('^admin/', include(admin.site.urls)),
-    url('^account/', include('accounts.urls', namespace='accounts')),
+    url('^users/', include('users.urls', namespace='users')),
     url('^chart/', include('chordcharts.urls', namespace='chordcharts')),
     url('^api/', include(api_urls, namespace='api')),
     url(

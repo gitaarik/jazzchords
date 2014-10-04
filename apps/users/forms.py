@@ -3,28 +3,28 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.urlresolvers import reverse
 from django.forms import Form, ModelForm
 
-from .models import Account
+from .models import User
 from .fields import UsernameField, PasswordField, EmailField
 
 
-class CreateAccountForm(ModelForm):
+class SignUpForm(ModelForm):
 
     username = UsernameField()
     password = PasswordField()
     email = EmailField()
 
     class Meta:
-        model = Account
+        model = User
         fields = ['username', 'email']
 
-    def create(self):
+    def signup(self):
         """
-        Creates the account model, calls `create()` on it and returns
+        Creates the user model, calls `signup()` on it and returns
         it.
         """
-        account = self.save(commit=False)
-        account.create()
-        return account
+        user = self.save(commit=False)
+        user.signup()
+        return user
 
     def save(self, *args, **kwargs):
         """
@@ -55,29 +55,29 @@ class ResetPasswordRequestForm(Form):
 
     def reset_password_request(self):
         """
-        If there was an account matching the given email address, it
-        will call `reset_password_request()` on that account and returns
-        that account. Otherwise, returns `False`.
+        If there was an user matching the given email address, it will
+        call `reset_password_request()` on that user object and returns
+        that user. Otherwise, returns `False`.
         """
         if self.is_valid():
-            self.account.reset_password_request()
-            return self.account
+            self.user.reset_password_request()
+            return self.user
         else:
             return False
 
     def clean_email(self, *args, **kwargs):
         try:
-            self.account = Account.objects.get(
+            self.user = User.objects.get(
                 email=self.cleaned_data['email']
             )
         except ObjectDoesNotExist:
             raise ValidationError(
                 message=(
-                    "There is no account with this email address. You "
+                    "There is no user with this email address. You "
                     "can <a href=\"{}\">create<a> it if you like."
-                    .format(reverse('accounts:create:create'))
+                    .format(reverse('users:create:create'))
                 ),
-                code='account_not_found'
+                code='user_not_found'
             )
         else:
             return self.cleaned_data['email']
@@ -95,17 +95,17 @@ class ResetPasswordConfirmForm(Form):
         'max_length': ""
     })
 
-    def __init__(self, data, account):
-        self.account = account
+    def __init__(self, data, user):
+        self.user = user
         super().__init__(data)
 
     def reset_password(self):
         """
-        If the form was valid, resets the password on the account and
+        If the form was valid, resets the password for the user and
         returns `True`, otherwise returns `False`.
         """
         if self.is_valid():
-            self.account.reset_password(self.cleaned_data['new_password1'])
+            self.user.reset_password(self.cleaned_data['new_password1'])
             return True
         else:
             return False
