@@ -1,6 +1,3 @@
-Bug:
-    When removing a measure, the first line lacks a border on the right.
-
 Accounts:
     - Create 'change email' and 'change password'.
     - Return appropriate http status code when right session vars are
