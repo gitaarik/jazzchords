@@ -91,7 +91,7 @@ module.exports = Backbone.View.extend({
         // Applies the changes made in the edit widget to the chord
 
         var note = Boolean(this.model.get('note'));
-        var alt_bass = Boolean(this.model.get('alt_bass_note'));
+        var alt_bass = this.model.get('alt_bass');
 
         var chord_data = {
             chord_type_id: this.model.get('chord_type').get('id'),
@@ -106,12 +106,12 @@ module.exports = Backbone.View.extend({
         }
 
         if (alt_bass) {
-            chord_data.alt_bass_note = this.model.get('alt_bass_note');
+            chord_data.alt_bass = true;
             chord_data.alt_bass_pitch = (
                 this.model.get('alt_bass_note').get('distance_from_root')
             );
         } else {
-            chord_data.alt_bass_note = false;
+            chord_data.alt_bass = false;
         }
 
         this.model.get('chord').set(chord_data);
@@ -430,19 +430,27 @@ module.exports = Backbone.View.extend({
 
         var chord = this.model.get('chord');
         var rest = chord.get('rest');
+        var alt_bass = chord.get('alt_bass');
         var note;
+        var alt_bass_note;
 
         if (rest) {
             note = false;
         } else {
-            note = chord.get('note');
+            note = chord.getNote();
+        }
+
+        if (alt_bass) {
+            alt_bass_note = chord.getAltBassNote();
+        } else {
+            alt_bass_note = false;
         }
 
         this.model.set({
             note: note,
             chord_type: chord.get('chord_type'),
-            alt_bass: chord.get('alt_bass'),
-            alt_bass_note: chord.get('alt_bass_note'),
+            alt_bass: alt_bass,
+            alt_bass_note: alt_bass_note,
             rest: rest,
             note_choices: (
                 allKeys.findWhere({

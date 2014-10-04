@@ -90,6 +90,7 @@ class Key(models.Model):
             'slug': self.slug,
             'tonic': self.tonic,
             'tonality': self.tonality,
+            'distance_from_c': self.distance_from_c,
             'notes': [note.client_data() for note in self.notes.all()]
         }
 
@@ -532,6 +533,7 @@ class Section(models.Model):
         """
 
         difference = self.key.distance_from_c - key.distance_from_c
+
         self.key = key
         self.save()
 

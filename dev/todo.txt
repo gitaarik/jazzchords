@@ -1,6 +1,5 @@
-Update chords when section's key changed:
-    When a section's key changed, the chords notation could be
-    different, so the chordnames should be refreshed.
+Bug:
+    When removing a measure, the first line lacks a border on the right.
 
 Accounts:
     - Create 'change email' and 'change password'.

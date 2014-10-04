@@ -37,6 +37,10 @@ module.exports = Backbone.Model.extend({
         this.listenTo(this.get('measures'), 'remove', this.measureRemoved);
     },
 
+    getKey: function() {
+        return this.get('section').get('key');
+    },
+
     previous: function() {
         return this.getSibling(-1);
     },
@@ -52,19 +56,15 @@ module.exports = Backbone.Model.extend({
      * positive `difference` an upcoming sibling.
      */
     getSibling: function(difference) {
-
         return this.collection.findWhere({
             number: this.get('number') + difference
         });
-
     },
 
     measureRemoved: function() {
-
         if (!this.get('measures').length) {
             this.destroy();
         }
-
     },
 
     copy: function(attributes) {

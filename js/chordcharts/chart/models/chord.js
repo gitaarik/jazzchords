@@ -15,7 +15,7 @@ module.exports = Backbone.Model.extend({
             this.initChordType();
         }
 
-        if (!this.get('key')) {
+        if (!this.getKey()) {
             this.initKey();
         }
 
@@ -25,9 +25,6 @@ module.exports = Backbone.Model.extend({
         this.stopListening();
         this.listenTo(this, 'change', this.parseNextMeasure);
         this.listenTo(this, 'change:chord_type_id', this.initChordType);
-        this.listenTo(this, 'change:key_id', this.initKey);
-        this.listenTo(this, 'change:chord_pitch', this.initNote);
-        this.listenTo(this, 'change:alt_bass_pitch', this.initAltBassNote);
     },
 
     /**
@@ -41,43 +38,16 @@ module.exports = Backbone.Model.extend({
         );
     },
 
-    /**
-     * Initializes the `note` and `alt_bass_note` based on the
-     * current key.
-     */
-    initKey: function() {
-        this.set('key', allKeys.get(this.get('key_id')));
-        this.initNote();
-        this.initAltBassNote();
+    getNote: function() {
+        return this.getKey().note(this.get('chord_pitch'));
     },
 
-    /**
-     * Initializes the note in the current key
-     */
-    initNote: function() {
-        this.set(
-            'note',
-            this.get('key').note(this.get('chord_pitch'))
-        );
+    getAltBassNote: function() {
+        return this.getKey().note(this.get('alt_bass_pitch'));
     },
 
-    /**
-     * Initializes the `alt_bass_note` in the current key based
-     * on `alt_bass_pitch` if it is on (determined by
-     * the `alt_bass` boolean), else sets it to `false`.
-     */
-    initAltBassNote: function() {
-
-        var alt_bass_note;
-
-        if (this.get('alt_bass')) {
-            alt_bass_note = this.get('key').note(this.get('alt_bass_pitch'));
-        } else {
-            alt_bass_note = false;
-        }
-
-        this.set('alt_bass_note', alt_bass_note);
-
+    getKey: function() {
+        return this.get('measure').getKey();
     },
 
     /**
@@ -183,13 +153,13 @@ module.exports = Backbone.Model.extend({
         var bass_note;
 
         if (this.get('alt_bass')) {
-            bass_note = '/' + this.get('alt_bass_note').get('name');
+            bass_note = '/' + this.getAltBassNote().get('name');
         } else {
             bass_note = '';
         }
 
         return (
-            this.get('note').get('name') +
+            this.getNote().get('name') +
             this.get('chord_type').get('chord_output') +
             bass_note
         );
@@ -230,9 +200,7 @@ module.exports = Backbone.Model.extend({
     copy: function(attributes) {
 
         var copy = this.clone();
-        copy.set({
-            id: null
-        });
+        copy.set('id', null);
 
         if (attributes) {
             copy.set(attributes);

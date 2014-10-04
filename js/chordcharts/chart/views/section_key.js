@@ -62,7 +62,7 @@ module.exports = Backbone.View.extend({
 
     updateKey: function(new_key) {
 
-        this.model.get('section').set('key', new_key);
+        this.model.get('section').updateKey(new_key);
         new SectionKey({ section: this.model.get('section') }).save();
 
         if (this.model.get('section').get('number') == 1) {

@@ -29,6 +29,10 @@ module.exports = Backbone.Model.extend({
 
     },
 
+    getKey: function() {
+        return this.get('line').getKey();
+    },
+
     chordsUrl: function() {
         return this.url() + '/chords';
     },

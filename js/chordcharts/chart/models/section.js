@@ -62,6 +62,39 @@ module.exports = Backbone.Model.extend({
         ) + GLOBALS.settings.border_width;
     },
 
+    /**
+     * Updates the section to the given `key` without transposing the
+     * chords.
+     */
+    updateKey: function(key) {
+
+        var difference = (
+            this.get('key').get('distance_from_c') -
+            key.get('distance_from_c')
+        );
+
+        this.set('key', key);
+
+        this.get('lines').each(function(line) {
+            line.get('measures').each(function(measure) {
+                measure.get('chords').each(function(chord) {
+
+                    chord.set(
+                        'chord_pitch',
+                        (chord.get('chord_pitch') + difference + 12) % 12
+                    );
+
+                    chord.set(
+                        'alt_bass_pitch',
+                        (chord.get('alt_bass_pitch') + difference + 12) % 12
+                    );
+
+                });
+            });
+        });
+
+    },
+
     copy: function(attributes) {
 
         var copy = this.clone();
