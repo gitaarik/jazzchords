@@ -1,39 +1,27 @@
-Repeat section stuff:
-    At "I got my love to keep me warm", the section repeating at the
-    bottom is a bit weird, it would be more logical if it would just say
-    "repeat 2nd A section".
+Update normalize.css.
 
-Accounts:
-    - Rename it to 'users' again, because it's less formal and more
-      flexible.
-    - Create 'change email' and 'change password'.
-    - Return appropriate http status code when right session vars are
-      not present.
+Create header, navigation and footer:
+    - Use good html5 tags like <main> <menu> <nav> etc.
 
 Make things ready for alpha release:
-    - Finish accounts
     - Finish ansible stuff
     - Decide to use Gb Major or F# Major:
       https://en.wikipedia.org/wiki/G-flat_major
     - Complete all keys.
     - Configure django settings for production mode
 
+Repeat section stuff:
+    At "I got my love to keep me warm", the section repeating at the
+    bottom is a bit weird, it would be more logical if it would just say
+    "repeat 2nd A section".
+
 Make manage.py command to make prefixes for Key, Note, ChordTypes and
 TimeSignature.
 
 Make arrow-up asset in popup widget transparent.
 
-Index of all charts:
-    Make an index of all charts available on the website.
-
 Search charts:
     Be able to search for charts.
-
-How to read:
-    Make a how to read information popup that you can open on the page. Should
-    explain things like how to read the measures and the different chord
-    symbols. Would be nice if you can move it to the side so you can still
-    read the chord chart.
 
 Chord symbol list:
     A list that maps symbols to chord types, as an extention to the 'How

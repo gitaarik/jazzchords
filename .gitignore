@@ -2,7 +2,7 @@
 *.swp
 .DS_Store
 dev/node_modules/
-database.sqlite
+dev/database.sqlite
 static/
 dev/static/js/
 dev/static/css/

@@ -1,0 +1,20 @@
+{% extends "users/signup/base.html" %}
+
+{% block users_content %}
+
+    <article class="default-content">
+
+        <header>
+            <h1>Validate your email address</h1>
+        </header>
+
+        <p>
+            Thanks for joining {{ settings.WEBSITE_NAME }}! Please
+            validate your email address by following the instructions
+            in the email we've just send to <strong>{{ email }}</strong>.
+            After this you can log in and create charts!
+        </p>
+
+    </article>
+
+{% endblock %}

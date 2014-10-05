@@ -1,17 +1,67 @@
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm
+from django.forms import fields as django_fields
 
+from core.helpers.lazy import LazyStr
 from .models import User
-from .fields import UsernameField, PasswordField, EmailField
+from . import fields
 
 
 class SignUpForm(ModelForm):
 
-    username = UsernameField()
-    password = PasswordField()
-    email = EmailField()
+    username = fields.UsernameField(
+        error_messages={
+            'required': "Please create a username.",
+            'min_length': (
+                "A username should at least contain {} characters."
+                .format(fields.UsernameField.MIN_LENGTH)
+            ),
+            'max_length': (
+                "A username can at most have {} characters."
+                .format(fields.UsernameField.MAX_LENGTH)
+            ),
+            'unique': "Sorry, this username is already taken.",
+            'username_is_email': "Please don't use an email address as a username"
+        }
+    )
+
+    password1 = fields.PasswordField(
+        error_messages={
+            'required': "Please create a password.",
+            'min_length': (
+                "Please choose a password that's at least {} characters "
+                "long.".format(fields.PasswordField.MIN_LENGTH)
+            ),
+            'max_length': (
+                "Please create a password with max {} characters."
+                .format(fields.PasswordField.MAX_LENGTH)
+            ),
+        }
+    )
+
+    password2 = fields.PasswordField(
+        error_messages={
+            'required': "Please repeat the password.",
+            'min_length': "",
+            'max_length': "",
+        }
+    )
+
+    email = fields.EmailField(
+        error_messages={
+            'required': (
+                "Please fill in your email address. We use it to "
+                "reset your password in case you lost it."
+            ),
+            'max_length': (
+                "An email address can at most have {} characters."
+                .format(fields.EmailField.MAX_LENGTH)
+            ),
+            'invalid': "Sorry but this email address is not valid."
+        }
+    )
 
     class Meta:
         model = User
@@ -37,19 +87,51 @@ class SignUpForm(ModelForm):
         kwargs['commit'] = False
 
         model = super().save(*args, **kwargs)
-        model.password = self.data['password']
+        model.set_password(self.data['password1'])
 
         if commit:
             model.save()
 
         return model
 
+    def clean_email(self):
+
+        email = self.cleaned_data.get('email')
+
+        if User.objects.filter(email=email).exists():
+            raise ValidationError(
+                "There's already a user that uses this email address. If "
+                "you forgot your password, you can <a href=\"{}\">reset it "
+                "over here</a>.".format(
+                    reverse('users:reset_password:request')
+                ),
+                'unique'
+            )
+
+        return email
+
+    def clean(self, *args, **kwargs):
+
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if self.data['password2'] and password1 != password2:
+            raise ValidationError(
+                "The passwords didn't match. Please try again.",
+                'passwords_dont_match'
+            )
+
 
 class ResetPasswordRequestForm(Form):
 
-    email = EmailField(
+    email = fields.EmailField(
         error_messages={
-            'required': "Please fill in your email address."
+            'required': "Please fill in your email address.",
+            'max_length': (
+                "An email address can at most have {} characters."
+                .format(fields.EmailField.MAX_LENGTH)
+            ),
+            'invalid': "Sorry but this email address is not valid.",
         }
     )
 
@@ -85,11 +167,19 @@ class ResetPasswordRequestForm(Form):
 
 class ResetPasswordConfirmForm(Form):
 
-    new_password1 = PasswordField(error_messages={
+    new_password1 = fields.PasswordField(error_messages={
         'required': "Please fill in your new password.",
+        'min_length': (
+            "Please choose a password that's at least {} characters "
+            "long.".format(fields.PasswordField.MIN_LENGTH)
+        ),
+        'max_length': (
+            "Please create a password with max {} characters."
+            .format(fields.PasswordField.MAX_LENGTH)
+        )
     })
 
-    new_password2 = PasswordField(error_messages={
+    new_password2 = fields.PasswordField(error_messages={
         'required': "Please repeat your password.",
         'min_length': "",
         'max_length': ""
@@ -110,13 +200,115 @@ class ResetPasswordConfirmForm(Form):
         else:
             return False
 
-    def clean(self, *args, **kwargs):
+    def clean(self):
 
         new_password1 = self.cleaned_data.get('new_password1')
         new_password2 = self.cleaned_data.get('new_password2')
 
-        if self.data['new_password2'] and new_password1 != new_password2:
+        if self.data.get('new_password2') and new_password1 != new_password2:
             raise ValidationError(
-                "The passwords didn't match. Please try it again.",
-                'passwords_dont_match'
+                "The passwords didn't match. Please try again.",
+                'passwords_mismatch'
+            )
+
+
+class LoginForm(Form):
+
+    user = None
+
+    username_email = django_fields.CharField(
+        error_messages={
+            'required': "Please fill in your username or email address."
+        }
+    )
+
+    password = django_fields.CharField(
+        error_messages={
+            'required': "Please fill in your password.",
+        }
+    )
+
+    def clean_username_email(self):
+
+        value = self.cleaned_data['username_email']
+
+        try:
+            fields.EmailField().clean(value)
+        except ValidationError:
+            field = 'username'
+        else:
+            field = 'email'
+
+        try:
+            self.user = User.objects.get(**{field: value})
+        except ObjectDoesNotExist:
+            raise ValidationError(
+                "Sorry, the login failed. Please try again.",
+                'login_failed'
+            )
+
+    def clean(self):
+
+        password = self.cleaned_data.get('password')
+
+        if self.user and password:
+
+            self.user = authenticate(
+                username=self.user.username,
+                password=password
+            )
+
+            if not self.user:
+                raise ValidationError(
+                    "Sorry, the login failed. Please try again.",
+                    'login_failed'
+                )
+            elif not self.user.validated:
+                raise ValidationError(
+                    "The email address of this account has not been "
+                    'validated yet. Please <a href="{}?email={}">'
+                    "validate your email address</a>.".format(
+                        reverse('users:signup:resend_validation_email'),
+                        self.user.email
+                    ),
+                    'not_validated'
+                )
+
+    def get_user(self):
+        return self.user
+
+
+class UpdatePasswordForm(Form):
+
+    new_password1 = fields.PasswordField(
+        error_messages={
+            'required': "Please fill in your new password.",
+            'min_length': (
+                "Please choose a password that's at least {} characters "
+                "long.".format(fields.PasswordField.MIN_LENGTH)
+            ),
+            'max_length': (
+                "Please create a password with max {} characters."
+                .format(fields.PasswordField.MAX_LENGTH)
+            ),
+        }
+    )
+
+    new_password2 = fields.PasswordField(
+        error_messages={
+            'required': "Please repeat your new password.",
+            'min_length': "",
+            'max_length': "",
+        }
+    )
+
+    def clean(self):
+
+        new_password1 = self.cleaned_data.get('new_password1')
+        new_password2 = self.cleaned_data.get('new_password2')
+
+        if self.data.get('new_password2') and new_password1 != new_password2:
+            raise ValidationError(
+                "The passwords didn't match. Please try again.",
+                'passwords_mismatch'
             )

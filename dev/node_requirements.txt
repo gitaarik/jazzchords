@@ -1,2 +1,2 @@
 browserify@4.2.3
-watchify@0.10.2
+gulp@3.8.7

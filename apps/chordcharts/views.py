@@ -23,7 +23,7 @@ def song_index(request):
         'songs': Song.objects.all()
     }
 
-    return render(request, 'chordcharts/song_index.html', context)
+    return render(request, 'chordcharts/song-index.html', context)
 
 
 def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
@@ -200,7 +200,7 @@ def new_chart(request):
             'keys_minor': keys[Key.TONALITY_MINOR]
         })
 
-        response = render(request, 'chordcharts/new_chart.html', context)
+        response = render(request, 'chordcharts/new-chart.html', context)
 
     return response
 
@@ -230,7 +230,7 @@ def delete_chart(request, song_slug, chart_id):
 
             response = render(
                 request,
-                'chordcharts/chart_deleted.html',
+                'chordcharts/chart-deleted.html',
                 context
             )
 
@@ -241,7 +241,7 @@ def delete_chart(request, song_slug, chart_id):
 
 
 def how_to_read(request):
-    return render(request, 'chordcharts/how_to_read.html')
+    return render(request, 'chordcharts/how-to-read.html')
 
 
 def chord_symbols(request):
@@ -250,4 +250,4 @@ def chord_symbols(request):
         'chord_types': ChordType.objects.all()
     }
 
-    return render(request, 'chordcharts/chord_symbols.html', context)
+    return render(request, 'chordcharts/chord-symbols.html', context)

@@ -1,0 +1,47 @@
+@import "_base.less";
+
+.users {
+
+    .edit-account {
+
+        table {
+
+            table-layout:fixed;
+            width: @users_container_width;
+
+            th {
+                width: 129px;
+            }
+
+            .password-view {
+
+                .hidden-password, .change {
+                    float: left;
+                }
+
+                .change {
+                    margin-left: 10px;
+                }
+
+                .password-updated {
+                    display: none;
+                    padding-top: 10px;
+                }
+
+            }
+
+            .password-edit {
+
+                display: none;
+
+                .new-password-error, .repeat-password-error {
+                    display: none;
+                }
+
+            }
+
+        }
+
+    }
+
+}

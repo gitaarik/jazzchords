@@ -1,0 +1,53 @@
+@import "../core/widgets/_box-choice-list.less";
+@import "../core/widgets/_key-select.less";
+
+@hover_background_color: #F7F7F7;
+@hover_border_color: #666;
+
+.new {
+
+    margin: 0 auto;
+    width: 600px;
+    border-radius: 5px;
+
+    header {
+        text-align: center;
+    }
+
+    .chart-settings {
+
+        margin: 0 auto;
+
+        table {
+
+            tr {
+
+                &.key {
+
+                    .tooltip-button {
+                        float: left;
+                        margin: 12px 0 0 5px;
+                    }
+
+                    .tooltip-popup {
+                        left: -20px;
+                        top: 60px;
+                    }
+
+                }
+
+                &.tooltip-highlighted.key {
+                    .tonic .currently-selected,
+                    .tonality {
+                        background-color: @hover_background_color;
+                        border-color: @hover_border_color;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+}

@@ -1,0 +1,49 @@
+{% extends "users/reset-password/base.html" %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $(function() {
+            $('#email').focusAtEnd();
+        });
+    </script>
+{% endblock %}
+
+{% block users_content %}
+
+    <article>
+
+        <header>
+            <h1>Reset password</h1>
+        </header>
+
+        <p>
+            Please enter your email address. We'll send you an email
+            which you can use to reset your password.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <table class="_form-table">
+
+                {% for error in errors.email %}
+                    <tr class="error">
+                        <td colspan="3">{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th><label for="email">Email:</label></th>
+                    <td><input id="email" name="email" type="email" value="{{ data.email }}" maxlength="{{ fields.email.max_length }}" required></td>
+                    <td><input type="submit" value="Reset password"></td>
+                </tr>
+
+            </table>
+
+        </form>
+
+    </article>
+
+{% endblock %}

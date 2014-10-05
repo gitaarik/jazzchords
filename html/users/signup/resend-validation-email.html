@@ -1,0 +1,22 @@
+{% extends "users/signup/base.html" %}
+
+{% block users_content %}
+
+    <article>
+
+        <h1>Validate your email address</h1>
+
+        <p>
+            Please follow the instructions we've just send to
+            {{ email }} to validate your email address.
+        </p>
+
+        <p>
+            If this is not your correct email address, please
+            <a href="{% url "users:signup:signup" %}">sign up again</a>
+            with your correct email address.
+        </p>
+
+    </article>
+
+{% endblock %}

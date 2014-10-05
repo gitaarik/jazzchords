@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 
 from core.helpers.fields_maxlength import fields_maxlength
+from core.helpers.form_errors import copy_global_error, remove_empty_errors
 from ..models import User
 from ..forms import SignUpForm
 
@@ -13,29 +14,63 @@ def signup(request):
 
     response = None
     context = {}
-    sign_up_form = SignUpForm(request.POST)
+    signup_form = SignUpForm(request.POST)
 
     if request.method == 'POST':
 
-        if sign_up_form.is_valid():
-            user = sign_up_form.signup()
+        if signup_form.is_valid():
+            user = signup_form.signup()
             request.session['signup_email'] = user.email
             response = redirect('users:signup:validate_email')
         else:
+            import ipdb; ipdb.set_trace()
+            copy_global_error(signup_form, 'passwords_dont_match', 'password1')
+            remove_empty_errors(signup_form)
             context.update({
-                'data': sign_up_form.data,
-                'errors': sign_up_form.errors
+                'data': signup_form.data,
+                'errors': signup_form.errors
             })
 
     if not response:
 
-        context['fields'] = sign_up_form.fields
+        context['fields'] = signup_form.fields
 
         response = render(
             request,
             'users/signup/signup.html',
             context
         )
+
+    return response
+
+
+def resend_validation_email(request):
+    """
+    Asks the user if he wants to resend the validation email (to confirm
+    his/her email address).
+    """
+
+    email = request.GET.get('email')
+
+    if not email:
+        response = redirect('users:login')
+    else:
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            response = redirect('users:signup:signup')
+        else:
+
+            if user.validated:
+                response = redirect('users:home')
+            else:
+                user.send_validation_email()
+                response = render(
+                    request,
+                    'users/signup/resend-validation-email.html',
+                    {'email': email}
+                )
 
     return response
 
@@ -50,7 +85,7 @@ def validate_email(request):
 
     return render(
         request,
-        'users/signup/validate_email.html',
+        'users/signup/validate-email.html',
         {'email': email}
     )
 

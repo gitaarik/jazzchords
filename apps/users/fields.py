@@ -1,7 +1,7 @@
 from django.forms import CharField, EmailField as DjangoEmailField
 from core.helpers.init_defaulter import InitDefaulter
-from core.helpers.lazy import LazyStr
 from .models import User
+from . import validators
 
 
 class UsernameField(InitDefaulter, CharField):
@@ -11,20 +11,8 @@ class UsernameField(InitDefaulter, CharField):
 
     _init_defaults = {
         'min_length': MIN_LENGTH,
-        'max_length': MAX_LENGTH
-    }
-
-    default_error_messages = {
-        'required': "Please create a username.",
-        'min_length': (
-            "A username should at least contain {} characters."
-            .format(MIN_LENGTH)
-        ),
-        'max_length': (
-            "A username can at most have {} characters."
-            .format(MAX_LENGTH)
-        ),
-        'unique': "Sorry, this username is already taken."
+        'max_length': MAX_LENGTH,
+        'validators': [validators.validate_username]
     }
 
 
@@ -44,18 +32,6 @@ class PasswordField(InitDefaulter, CharField):
         'max_length': MAX_LENGTH
     }
 
-    default_error_messages = {
-        'required': "Please create a password.",
-        'min_length': (
-            "Please choose a password that's at least {} characters "
-            "long.".format(MIN_LENGTH)
-        ),
-        'max_length': (
-            "Please create a password with max {} characters."
-            .format(MAX_LENGTH)
-        ),
-    }
-
 
 class EmailField(InitDefaulter, DjangoEmailField):
 
@@ -63,23 +39,4 @@ class EmailField(InitDefaulter, DjangoEmailField):
 
     _init_defaults = {
         'max_length': MAX_LENGTH
-    }
-
-    default_error_messages = {
-        'required': (
-            "Please fill in your email address. We use it to "
-            "reset your password in case you lost it."
-        ),
-        'max_length': (
-            "An email address can at most have {} characters."
-            .format(MAX_LENGTH)
-        ),
-        'invalid': "Sorry but this email address is not valid.",
-        'unique': LazyStr(lambda: (
-            "There's already a user that uses this email address. If "
-            "you forgot your password, you can <a href=\"{}\">reset it "
-            "over here</a>.".format(
-                reverse('users:reset_password:request')
-            )
-        ))
     }

@@ -6,7 +6,7 @@
 
             <header class="section-header">
                 {% if edit or chart.sections|length > 1 %}
-                    {% include "chordcharts/chart/section_header.html" with section_name=section.name show_key=section.show_key key_name=section.key.name move_down=section.can_move_down move_up=section.can_move_up remove=section.can_delete %}
+                    {% include "chordcharts/chart/section-header.html" with section_name=section.name show_key=section.show_key key_name=section.key.name move_down=section.can_move_down move_up=section.can_move_up remove=section.can_delete %}
                 {% endif %}
             </header>
 
@@ -110,7 +110,7 @@
 
                 <tfoot>
                     {% if edit %}
-                        {% include "chordcharts/chart/section_line_add.html" %}
+                        {% include "chordcharts/chart/section-line-add.html" %}
                     {% endif %}
                 </tfoot>
 

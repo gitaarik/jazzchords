@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="css/coming-soon.css" />
+{% endblock %}
+
+{% block content %}
+
+    <article class="coming-soon">
+
+        <h1>JazzChords.org</h1>
+
+        <p>
+            JazzChords.org will become a place where people can create<br>
+            and share good looking chord charts, with a focus on jazz music.
+        </p>
+
+        <p>
+            The screenshot below gives a quick impression of the chart
+            editor.
+        </p>
+
+        <p>
+            <a href="http://blog.jazzchords.org/">
+                Follow the progress of JazzChords.org on the blog.
+            </a>
+        </p>
+
+        <div class="preview">
+            <a href="http://blog.jazzchords.org/wp-content/uploads/2014/06/singin-in-the-bathtub-edit-view.png"><img alt="JazzChords.org screenshot" src="http://blog.jazzchords.org/wp-content/uploads/2014/06/singin-in-the-bathtub-edit-view.png" width="100%" height="100%"></a>
+        </div>
+
+    </article>
+
+{% endblock %}

@@ -1,44 +1,38 @@
-import string
-from random import choice
-
 from django.conf import settings
 from django.core import validators
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.hashers import check_password, make_password
 
 from core.helpers.lazy import LazyStr
+from .managers import UserManager
+from .helpers import generate_token
 
 
-class User(models.Model):
+class User(PermissionsMixin, AbstractBaseUser):
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(unique=True)
-    password_encoded = models.CharField(max_length=128)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     validated = models.BooleanField(default=False)
     validation_token = models.CharField(max_length=50, blank=True)
+
+    objects = UserManager()
 
     def __str__(self):
         return self.username
 
-    @property
-    def password(self):
-        return self.password_encoded
+    def get_full_name(self):
+        return self.username
 
-    @password.setter
-    def password(self, raw_password):
-        self.password_encoded = make_password(raw_password)
-
-    def check_password(self, raw_password):
-        """
-        Returns a boolean of whether the raw_password was correct. Handles
-        hashing formats behind the scenes.
-        """
-        def setter(raw_password):
-            self.set_password(raw_password)
-            self.save(update_fields=['password'])
-        return check_password(raw_password, self.password, setter)
+    def get_short_name(self):
+        return self.username
 
     def validate_with_token(self, validation_token):
         """
@@ -58,21 +52,26 @@ class User(models.Model):
         """
         Resets the `validation_token` field to a new validation token.
         """
-        self.validation_token = ''.join([
-            choice(string.ascii_letters + string.digits)
-            for i in range(25)
-        ])
+        self.validation_token = generate_token()
         self.save()
 
     def signup(self):
         """
         Will reset the `validation_token`, save the model and send a
-        confirmation email.
+        validation email.
         """
         self.reset_validation_token()
-        self.send_confirmation_email()
+        self.send_validation_email()
 
-    def send_confirmation_email(self):
+    def send_validation_email(self):
+        """
+        Will send an email to the user that he/she can use to validate
+        their email address.
+
+        When the user opens the link in the email, the user will be
+        validated (e.g. the `validated` field on the user will be
+        `True`.)
+        """
 
         subject = "{} sign up".format(settings.WEBSITE_NAME)
         from_email = 'users@{}'.format(settings.DOMAIN_NAME)
@@ -128,5 +127,5 @@ class User(models.Model):
         """
         Resets the password for this user to the given `new_password`.
         """
-        self.password = new_password
+        self.set_password(new_password)
         self.reset_validation_token()

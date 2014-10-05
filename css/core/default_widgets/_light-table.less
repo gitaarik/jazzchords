@@ -1,0 +1,42 @@
+.light-table {
+
+    tbody {
+
+        tr {
+
+            th, td {
+                padding-top: 14px;
+                padding-bottom: 14px;
+            }
+
+            th {
+                padding-left: 5px;
+                padding-right: 15px;
+                text-align: right;
+                white-space: nowrap;
+                font-weight: normal;
+            }
+
+            td {
+                padding-left: 5px;
+                padding-right: 5px;
+                text-align: left;
+                width: 100%;
+            }
+
+            th, td {
+                border-bottom: solid 1px #BBB;
+            }
+
+            &.merge-to-next {
+                td, th {
+                    border-bottom: none;
+                    padding-bottom: 0;
+                }
+            }
+
+        }
+
+    }
+
+}

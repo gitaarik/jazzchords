@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="css/chordcharts/new-chart.css" />
+{% endblock %}
+
+{% block javascript %}
+
+    {{ block.super }}
+
+    <script>
+
+        var GLOBALS = {
+            all_keys: {{ all_keys_json|safe }}
+        }
+
+    </script>
+
+    <script src="{{ STATIC_URL }}js/chordcharts/new-chart.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <article class="new">
+
+        <header>
+            <h1>New chord chart</h1>
+        </header>
+
+        <form class="chart-settings" method="POST">
+
+            {% csrf_token %}
+
+            <table class="_form-table">
+
+                {% for error in errors.song_name %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th>
+                        <label for="song">Song name:</label>
+                    </th>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Song name</h4>
+                            <p>
+                                Chord charts with the same song name will be associated with each
+                                other, so that people can easily find diffent charts for the same song.
+                            </p>
+                        </div>
+                        <input type="text" name="song_name" id="song" maxlength="{{ fields.song_name.max_length }}">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
+                </tr>
+
+                {% for error in errors.short_description %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th>
+                        <label for="short_description">Short description:</label>
+                    </th>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Short description</h4>
+                            <p>For example:</p>
+                            <ul>
+                                <li>Song version (e.g. <em>“Billie Holiday version”)</em></li>
+                                <li>Style (e.g. <em>“Swing style”</em>)</li>
+                                <li>Aimed instrument (e.g. <em>“For guitar”</em>)</li>
+                            </ul>
+                            <p>Leave blank if nothing special applies.</p>
+                        </div>
+                        <input type="text" name="short_description" id="short_description" placeholder="optional" maxlength="{{ fields.short_description.max_length }}">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
+                </tr>
+
+                {% for error in errors.video_url %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+
+                    <th>
+                        <label for="video_url">Video URL:</label>
+                    </th>
+
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Video URL</h4>
+                            <p>
+                                A URL to a video of the song, preferrably matching the chords in the
+                                chart.
+                            </p>
+                        </div>
+                        <input type="text" name="video_url" id="video_url" placeholder="optional" maxlength="{{ fields.video_url.max_length }}">
+                    </td>
+
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
+
+                </tr>
+
+                {% for error in errors.lyrics_url %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th>
+                        <label for="lyrics_url">Lyrics URL:</label>
+                    </th>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Lyrics URL</h4>
+                            <p>A URL to lyrics (if there are any) that go along with the chart.</p>
+                        </div>
+                        <input type="text" name="lyrics_url" id="lyrics_url" placeholder="optional" maxlength="{{ fields.lyrics_url.max_length }}">
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
+                </tr>
+
+                {% for error in errors.key_tonic %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                {% for error in errors.key_tonality %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                <tr class="key">
+
+                    <th>
+                        <label>Key:</label>
+                    </th>
+                    <td>
+
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Key</h4>
+                            <p>The default key the chart is shown in. You can always change this later.</p>
+                        </div>
+
+                        {% include "core/widgets/key-select.html" %}
+
+                        <div class="tooltip-button"><span>?</span></div>
+
+                        <input type="hidden" class="key-tonic-input" name="key_tonic" value="C">
+                        <input type="hidden" class="key-tonality-input" name="key_tonality" value="1">
+
+                    </td>
+                    <td></td>
+
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Create">
+                    </td>
+                    <td></td>
+                </tr>
+
+            </table>
+        </form>
+
+    </article>
+
+{% endblock %}

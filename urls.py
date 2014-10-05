@@ -6,6 +6,10 @@ from django.conf.urls.static import static
 
 admin.autodiscover()
 
+ajax_urls = [
+    url('^users/', include('users.urls_ajax', namespace='users'))
+]
+
 api_urls = [
     url(
         '^chordcharts/',
@@ -21,6 +25,7 @@ urlpatterns = [
     url('^admin/', include(admin.site.urls)),
     url('^users/', include('users.urls', namespace='users')),
     url('^chart/', include('chordcharts.urls', namespace='chordcharts')),
+    url('^ajax/', include(ajax_urls, namespace='ajax')),
     url('^api/', include(api_urls, namespace='api')),
     url(
         '^api-auth/',

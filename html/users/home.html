@@ -1,0 +1,80 @@
+{% extends "users/base.html" %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/users/home.js"></script>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="css/users/home.css" />
+{% endblock %}
+
+{% block users_content %}
+
+    <article>
+
+        <header>
+            <h1>My Account</h1>
+        </header>
+
+        <form class="edit-account">
+
+            <table class="light-table">
+
+                <tbody>
+                    <tr>
+                        <th>Username:</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email address:</th>
+                        <td>
+                            {{ user.email }}
+                        </td>
+                    </tr>
+                    <tr class="password-view">
+                        <th>Password:</th>
+                        <td>
+                            <div class="hidden-password">*********</div>
+                            <div class="change">(<a href="javascript:void(0)" class="_link">change</a>)</div>
+                            <div class="password-updated _clearfix _success">
+                                Your password has been updated.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody class="password-edit">
+                    <tr class="new-password-error merge-to-next _error">
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr class="new-password merge-to-next">
+                        <th>New Password:</th>
+                        <td><input class="_text-input" type="password" required></td>
+                    </tr>
+                    <tr class="repeat-password-error merge-to-next _error">
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr class="repeat-password merge-to-next">
+                        <th>Repeat password:</th>
+                        <td><input class="_text-input" type="password" required></td>
+                    </tr>
+                    <tr class="buttons">
+                        <th></th>
+                        <td>
+                            <input class="submit _button" type="submit" value="Change password">
+                            <input class="cancel _button" type="button" value="Cancel">
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </form>
+
+    </article>
+
+{% endblock %}

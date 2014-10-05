@@ -2,7 +2,7 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="css/chordcharts/chart.css" />
+    <link type="text/css" rel="stylesheet" href="css/chordcharts/chart/chart.css" />
 {% endblock %}
 
 {% block javascript %}
@@ -47,12 +47,12 @@
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
-            {% include "chordcharts/chart/section_header.html" with section_name="<%- section_name %>" key_name="<%- key_name %>" move_down=1 move_up=1 remove=1 %}
+            {% include "chordcharts/chart/section-header.html" with section_name="<%- section_name %>" key_name="<%- key_name %>" move_down=1 move_up=1 remove=1 %}
         </script>
 
         <script type="text/template" id="template-lines">
             <table class="lines">
-                {% include "chordcharts/chart/section_line_add.html" %}
+                {% include "chordcharts/chart/section-line-add.html" %}
             </table>
         </script>
 
@@ -61,13 +61,13 @@
             <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
             <table>
                 <tbody class="lines"></tbody>
-                <tfoot>{% include "chordcharts/chart/section_line_add.html" %}</tfoot>
+                <tfoot>{% include "chordcharts/chart/section-line-add.html" %}</tfoot>
             </table>
         </script>
 
     {% endif %}
 
-    <script src="{{ STATIC_URL }}js/chordcharts/chart.js"></script>
+    <script src="{{ STATIC_URL }}js/chordcharts/chart/chart.js"></script>
 
 {% endblock %}
 

@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
+from core.helpers.form_errors import copy_global_error
 from ..models import User
 from ..forms import ResetPasswordRequestForm, ResetPasswordConfirmForm
+from ..decorators import redirect_authenticated
 
 
+@redirect_authenticated
 def request(request):
     """
     The user requests a password reset.
@@ -34,12 +37,13 @@ def request(request):
 
         response = render(
             request,
-            'users/reset_password/request.html',
+            'users/reset-password/request.html',
             context
         )
 
     return response
 
+@redirect_authenticated
 def requested(request):
     """
     The page after a successful password reset request, where the user
@@ -50,10 +54,11 @@ def requested(request):
 
     return render(
         request,
-        'users/reset_password/requested.html',
+        'users/reset-password/requested.html',
         {'email': email}
     )
 
+@redirect_authenticated
 def confirm(request):
     """
     The page a user comes to from the password reset email.
@@ -76,11 +81,12 @@ def confirm(request):
     else:
         response = render(
             request,
-            'users/reset_password/invalid_token.html'
+            'users/reset-password/invalid-token.html'
         )
 
     return response
 
+@redirect_authenticated
 def confirm_valid(request, user):
     """
     The page a validated user comes to from the password reset email.
@@ -97,10 +103,16 @@ def confirm_valid(request, user):
         if reset_password_confirm_form.reset_password():
             response = redirect('users:reset_password:completed')
         else:
+
+            copy_global_error(
+                reset_password_confirm_form,
+                'passwords_mismatch',
+                'new_password1'
+            )
+
             context.update({
                 'data': reset_password_confirm_form.data,
-                'errors': reset_password_confirm_form.errors,
-                'errors_all': reset_password_confirm_form.errors.get('__all__')
+                'errors': reset_password_confirm_form.errors
             })
 
     if not response:
@@ -109,12 +121,13 @@ def confirm_valid(request, user):
 
         response = render(
             request,
-            'users/reset_password/confirm.html',
+            'users/reset-password/confirm.html',
             context
         )
 
     return response
 
+@redirect_authenticated
 def completed(request):
     """
     The page the user sees when the password reset has been completed.
@@ -122,5 +135,5 @@ def completed(request):
 
     return render(
         request,
-        'users/reset_password/completed.html',
+        'users/reset-password/completed.html',
     )

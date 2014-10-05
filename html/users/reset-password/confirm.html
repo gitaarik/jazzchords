@@ -1,0 +1,70 @@
+{% extends "users/reset-password/base.html" %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $(function() {
+            $('#new_password1').focusAtEnd();
+        });
+    </script>
+{% endblock %}
+
+{% block users_content %}
+
+    <article>
+
+        <header>
+            <h1>Reset password</h1>
+        </header>
+
+        <p>You can now enter your new password.</p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <table class="_form-table">
+
+                {% for error in errors_all %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
+                {% for error in errors.new_password1 %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th><label for="new_password1">New password:</label></th>
+                    <td><input id="new_password1" name="new_password1" type="password" maxlength="{{ fields.new_password1.max_length }}" required></td>
+                </tr>
+
+                {% for error in errors.new_password2 %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th><label for="new_password2">Confirm new password:</label></th>
+                    <td><input id="new_password2" name="new_password2" type="password" maxlength="{{ fields.new_password2.max_length }}" required></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Reset password"></td>
+                </tr>
+
+            </table>
+
+        </form>
+
+    </article>
+
+{% endblock %}

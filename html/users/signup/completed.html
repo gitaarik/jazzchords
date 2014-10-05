@@ -1,23 +1,22 @@
-{% extends "base.html" %}
+{% extends "users/signup/base.html" %}
 
-{% block css %}
-    {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="css/users/signup.css" />
-{% endblock %}
+{% block users_content %}
 
-{% block content %}
-
-    <article class="signup">
+    <article>
 
         {% if success %}
-            <h1>Email address validated</h2>
+            <header>
+                <h1>Email address validated</h2>
+            </header>
             <p>
                 Welcome to {{ settings.WEBSITE_NAME }}! Your email
                 address has been validated and you can start making
                 charts!
             </p>
         {% else %}
-            <h1>Validation failed</h1>
+            <header>
+                <h1>Validation failed</h1>
+            </header>
             <p>
                 Sorry but this validation link is expired. Don't you
                 have a newer validation email? If not, try to sign up

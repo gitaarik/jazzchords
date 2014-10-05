@@ -1,28 +1,23 @@
-{% extends "base.html" %}
-
-{% block css %}
-    {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="css/users/signup.css" />
-{% endblock %}
+{% extends "users/signup/base.html" %}
 
 {% block javascript %}
     {{ block.super }}
     <script src="{{ STATIC_URL }}js/users/signup.js"></script>
 {% endblock %}
 
-{% block content %}
+{% block users_content %}
 
-    <article class="signup">
+    <article>
 
         <header>
-            <h1>Create Account</h1>
+            <h1>Sign up</h1>
         </header>
 
         <form method="POST">
 
             {% csrf_token %}
 
-            <table class="formtable">
+            <table class="_form-table">
 
                 {% for error in errors.username %}
                     <tr class="error">
@@ -43,14 +38,14 @@
                                 when you create a chart, your username will be displayed with it.
                             </p>
                         </div>
-                        <input name="username" id="username" type="text" value="{{ data.username }}" maxlength="{{ fields.username.max_length }}">
+                        <input name="username" id="username" type="text" value="{{ data.username }}" maxlength="{{ fields.username.max_length }}" required>
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
 
-                {% for error in errors.password %}
+                {% for error in errors.password1 %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>
@@ -59,7 +54,7 @@
                 {% endfor %}
 
                 <tr>
-                    <th><label for="password">Password:</label></th>
+                    <th><label for="password1">Password:</label></th>
                     <td>
                         <div class="tooltip-popup popup-box">
                             <div class="arrow-up"></div>
@@ -68,7 +63,32 @@
                                 Please choose a good password that won't be easy to guess for others.
                             </p>
                         </div>
-                        <input name="password" id="password" type="password" maxlength="{{ fields.password.max_length }}">
+                        <input name="password1" id="password1" type="password" maxlength="{{ fields.password1.max_length }}" required>
+                    </td>
+                    <td>
+                        <div class="tooltip-button"><span>?</span></div>
+                    </td>
+                </tr>
+
+                {% for error in errors.password2 %}
+                    <tr class="error">
+                        <td></td>
+                        <td>{{ error|safe }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th><label for="password2">Repeat password:</label></th>
+                    <td>
+                        <div class="tooltip-popup popup-box">
+                            <div class="arrow-up"></div>
+                            <h4>Password</h4>
+                            <p>
+                                Please choose a good password that won't be easy to guess for others.
+                            </p>
+                        </div>
+                        <input name="password2" id="password2" type="password" maxlength="{{ fields.password2.max_length }}" required>
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -94,7 +114,7 @@
                                 lost it.
                             </p>
                         </div>
-                        <input name="email" id="email" type="email" value="{{ data.email }}" maxlength="{{ fields.email.max_length }}">
+                        <input name="email" id="email" type="email" value="{{ data.email }}" maxlength="{{ fields.email.max_length }}" required>
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -103,7 +123,7 @@
 
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="Create Account"></td>
+                    <td><input type="submit" value="Sign Up"></td>
                     <td></td>
                 </tr>
 

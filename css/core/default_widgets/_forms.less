@@ -1,0 +1,57 @@
+@import "_form-table.less";
+
+
+._text-input,
+table._form-table input[type=text],
+table._form-table input[type=password],
+table._form-table input[type=email] {
+
+    background: #FFF;
+    font-size: 16px;
+    border: solid 1px #999;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+
+    // Disable possible default box-shadow/outline some browsers add.
+    box-shadow: none;
+    outline: none;
+
+    &:hover,
+    &:focus {
+        background-color: @input-hover-background-color;
+        border-color: @input-hover-border-color;
+    }
+
+    &:focus {
+        box-shadow: 0 0 3px #999;
+    }
+
+}
+
+form._submit-attempted ._text-input:invalid,
+form._submit-attempted table._form-table input[type=text]:invalid,
+form._submit-attempted table._form-table input[type=password]:invalid,
+form._submit-attempted table._form-table input[type=email]:invalid {
+    border-color: @input-invalid-after-submit-border-color;
+    box-shadow: 0 0 3px @input-invalid-after-submit-border-color;
+}
+
+._button,
+._form-table input[type=submit],
+._form-table input[type=button] {
+
+    background: #FFF;
+    border: solid 1px #999;
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 11px 15px 7px 15px;
+    box-sizing: border-box;
+
+    &:hover,
+    &:focus {
+        background-color: @input-hover-background-color;
+        border-color: @input-hover-border-color;
+    }
+
+}

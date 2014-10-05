@@ -5,21 +5,14 @@
         <meta charset="utf-8" />
         <title>Chord Charts</title>
         <base href="{{ STATIC_URL }}">
-        <link type="text/css" rel="stylesheet" href="css/core.css" />
+        <link type="text/css" rel="stylesheet" href="css/core/core.css" />
         {% block css %}{% endblock %}
     </head>
 
     <body>
-
         {% block content %}{% endblock %} 
-
-        <div id="js-templates">
-            {% block js_templates %}{% endblock %}
-        </div>
-
-        <script src="js/core.js"></script>
+        <script src="js/core/core.js"></script>
         {% block javascript %}{% endblock %}
-
     </body>
 
 </html>
