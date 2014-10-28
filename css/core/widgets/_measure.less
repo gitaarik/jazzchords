@@ -1,8 +1,12 @@
+@measure-width: 100px;
+@measure-height: 100px;
+@border-width: 1px;
+
 .measure {
 
-    height: @measure_height;
-    width: @measure_width;
-    border: solid @border_width #000;
+    height: @measure-height;
+    width: @measure-width;
+    border: solid @border-width #000;
     position: relative;
     margin: 0;
     padding: 0;
@@ -14,15 +18,15 @@
     }
 
     .chords {
-        height: @measure_height;
-        width: @measure_width;
+        height: @measure-height;
+        width: @measure-width;
     }
 
     &.measure-beatschema-4 {
 
         .chord {
 
-            line-height: @measure_height;
+            line-height: @measure-height;
             text-align: center;
 
             .chord-name.font-size-normal {
@@ -46,8 +50,8 @@
         .chord {
 
             position: absolute;
-            line-height: round(@measure_height * 0.6);
-            width: round(@measure_width * 0.6);
+            line-height: round(@measure-height * 0.6);
+            width: round(@measure-width * 0.6);
             text-align: center;
 
             &.chord-2 {
@@ -80,8 +84,8 @@
 
             &.chord-1 {
 
-                line-height: round(@measure_height * 0.6);
-                width: round(@measure_width * 0.6);
+                line-height: round(@measure-height * 0.6);
+                width: round(@measure-width * 0.6);
 
                 .chord-name.font-size-normal {
                     font-size: 20px;
@@ -98,14 +102,14 @@
             }
 
             &.chord-2 {
-                line-height: round(@measure_height * 0.35);
-                width: @measure_width;
+                line-height: round(@measure-height * 0.35);
+                width: @measure-width;
                 bottom: 0;
             }
 
             &.chord-3 {
-                line-height: @measure_height;
-                width: round(@measure_width * 0.4);
+                line-height: @measure-height;
+                width: round(@measure-width * 0.4);
                 right: 0;
             }
 
@@ -138,13 +142,13 @@
             text-align: center;
 
             &.chord-1 {
-                line-height: @measure_height;
-                width: round(@measure_width * 0.4);
+                line-height: @measure-height;
+                width: round(@measure-width * 0.4);
             }
 
             &.chord-2 {
-                line-height: round(@measure_height * 0.35);
-                width: @measure_width;
+                line-height: round(@measure-height * 0.35);
+                width: @measure-width;
             }
 
             &.chord-1,
@@ -166,8 +170,8 @@
 
             &.chord-3 {
 
-                line-height: round(@measure_height * 0.6);
-                width: round(@measure_width * 0.6);
+                line-height: round(@measure-height * 0.6);
+                width: round(@measure-width * 0.6);
                 bottom: 0;
                 right: 0;
 
@@ -197,24 +201,24 @@
             text-align: center;
 
             &.chord-1 {
-                line-height: @measure_height;
-                width: round(@measure_width * 0.4);
+                line-height: @measure-height;
+                width: round(@measure-width * 0.4);
             }
 
             &.chord-2 {
-                line-height: round(@measure_height * 0.35);
-                width: @measure_width;
+                line-height: round(@measure-height * 0.35);
+                width: @measure-width;
             }
 
             &.chord-3 {
-                line-height: round(@measure_height * 0.35);
-                width: @measure_width;
+                line-height: round(@measure-height * 0.35);
+                width: @measure-width;
                 bottom: 0;
             }
 
             &.chord-4 {
-                line-height: @measure_height;
-                width: round(@measure_width * 0.4);
+                line-height: @measure-height;
+                width: round(@measure-width * 0.4);
                 right: 0;
             }
 

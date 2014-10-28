@@ -10,9 +10,34 @@
     </head>
 
     <body>
-        {% block content %}{% endblock %} 
+
+        <main>
+
+            <header class="_base-header">
+                <div class="content">
+                    <h1>JazzChords</h1>
+                    <div class="search">
+                        <div class="search-term">
+                            <input type="text" class="_text-input" placeholder="Search charts">
+                        </div>
+                        <div class="search-button">
+                            <button type="submit" class="fa fa-search _button" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {% block content %}{% endblock %} 
+
+            <footer>
+                footer
+            </footer>
+
+        </main>
+
         <script src="js/core/core.js"></script>
         {% block javascript %}{% endblock %}
+
     </body>
 
 </html>
