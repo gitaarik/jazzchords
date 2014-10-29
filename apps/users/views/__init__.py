@@ -1,10 +1,11 @@
+from core.helpers.form_errors import copy_global_error
+from django.shortcuts import render, redirect
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout
 )
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from core.helpers.form_errors import copy_global_error
+
 from ..models import User
 from ..forms import LoginForm
 from ..decorators import redirect_authenticated

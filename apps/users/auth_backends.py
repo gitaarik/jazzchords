@@ -6,10 +6,16 @@ from .models import User
 
 class UserBackend(ModelBackend):
 
-    def authenticate(self, username=None, password=None, **kwargs):
+    def authenticate(
+        self,
+        username=None,
+        password=None,
+        validation_token=None,
+        **kwargs
+    ):
         """
-        Authenticate using - either a username or email address - and a
-        password.
+        Authenticate using a username (which is can also be the email
+        of the user) and a password or validation_token.
 
         The given `username` can either be a username or an email
         address. This method checks if the value of `username` is either
@@ -33,5 +39,9 @@ class UserBackend(ModelBackend):
         except User.DoesNotExist:
             pass
         else:
-            if user.check_password(password):
+
+            if validation_token and validation_token == user.validation_token:
+                return user
+
+            if password and user.check_password(password):
                 return user

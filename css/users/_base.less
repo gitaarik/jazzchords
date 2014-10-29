@@ -1,23 +1,27 @@
 @users_container_width: 500px;
 
 
-.users {
+._base-content {
 
-    article {
+    .users {
 
-        margin: 0 auto;
-        width: @users_container_width;
+        article {
 
-        header {
+            margin: 0 auto;
+            width: @users_container_width;
 
-            h1 {
+            header {
+
+                h1 {
+                    text-align: center;
+                }
+
+            }
+
+            > p {
                 text-align: center;
             }
 
-        }
-
-        > p {
-            text-align: center;
         }
 
     }

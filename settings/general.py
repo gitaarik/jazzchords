@@ -168,4 +168,5 @@ AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = ('users.auth_backends.UserBackend',)
 LOGIN_URL = 'users:login'
 
-WEBSITE_NAME = 'JazzChords.com'
+WEBSITE_NAME = 'JazzChords'
+WEBSITE_NAME_DOMAIN = '{}.com'.format(WEBSITE_NAME)

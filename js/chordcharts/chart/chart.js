@@ -7,7 +7,6 @@ var ChordView = require('./views/_chord.js');
 
 require('./init/_song-name-change-widget.js');
 require('./init/_transpose-widget.js');
-require('./init/_menu.js');
 require('./init/_settings-widget.js');
 
 

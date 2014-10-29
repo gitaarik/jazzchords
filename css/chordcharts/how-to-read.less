@@ -1,23 +1,29 @@
-.how-to-read {
+@import "../core/_vars.less";
 
-    margin: 0 auto 50px;
-    width: 650px;
 
-    h1 {
-        font-size: 30px;
-    }
+._base-content {
 
-    h2 {
-        font-size: 25px;
-    }
+    .how-to-read {
 
-    .measures {
+        margin-bottom: 50px;
 
-        @import "../core/widgets/_measure.less";
+        h1 {
+            font-size: 30px;
+        }
 
-        .measure {
-            float: left;
-            margin-right: 20px;
+        h2 {
+            font-size: 25px;
+        }
+
+        .measures {
+
+            @import "../core/widgets/_measure.less";
+
+            .measure {
+                float: left;
+                margin-right: 20px;
+            }
+
         }
 
     }

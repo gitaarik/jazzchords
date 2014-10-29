@@ -2,6 +2,8 @@ Update normalize.css.
 
 Create header, navigation and footer:
     - Use good html5 tags like <main> <menu> <nav> etc.
+    - Namespace JS css class selectors in chordcharts to
+      `_base-content`.
 
 Make things ready for alpha release:
     - Finish ansible stuff

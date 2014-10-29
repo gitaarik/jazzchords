@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import authenticate, login
 
 from core.helpers.fields_maxlength import fields_maxlength
 from core.helpers.form_errors import copy_global_error, remove_empty_errors
 from ..models import User
 from ..forms import SignUpForm
+from ..decorators import redirect_authenticated
 
 
+@redirect_authenticated
 def signup(request):
     """
     Where the user can sign up.
@@ -23,7 +26,6 @@ def signup(request):
             request.session['signup_email'] = user.email
             response = redirect('users:signup:validate_email')
         else:
-            import ipdb; ipdb.set_trace()
             copy_global_error(signup_form, 'passwords_dont_match', 'password1')
             remove_empty_errors(signup_form)
             context.update({
@@ -44,6 +46,7 @@ def signup(request):
     return response
 
 
+@redirect_authenticated
 def resend_validation_email(request):
     """
     Asks the user if he wants to resend the validation email (to confirm
@@ -75,6 +78,7 @@ def resend_validation_email(request):
     return response
 
 
+@redirect_authenticated
 def validate_email(request):
     """
     The page after a successful sign up, where the user gets
@@ -90,25 +94,23 @@ def validate_email(request):
     )
 
 
+@redirect_authenticated
 def completed(request):
     """
     The page the user comes to from the "validate email address" email,
     where his/her email address gets validated.
     """
 
-    success = False
+    user = authenticate(
+        username=request.GET.get('email'),
+        validation_token=request.GET.get('validation_token')
+    )
 
-    try:
-        user = User.objects.get(email=request.GET.get('email'))
-    except ObjectDoesNotExist:
-        pass
+    if user:
+        login(request, user)
+        success = True
     else:
-
-        if (
-            user.validated or
-            user.validate_with_token(request.GET.get('validation_token'))
-        ):
-            success = True
+        success = False
 
     return render(
         request,

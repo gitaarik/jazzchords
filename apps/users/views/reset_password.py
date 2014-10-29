@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
 from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 
 from core.helpers.form_errors import copy_global_error
 from ..models import User
@@ -64,19 +65,12 @@ def confirm(request):
     The page a user comes to from the password reset email.
     """
 
-    email = request.GET.get('email')
-    validation_token = request.GET.get('validation_token')
-    valid = False
+    user = authenticate(
+        username=request.GET.get('email'),
+        validation_token=request.GET.get('validation_token')
+    )
 
-    try:
-        user = User.objects.get(email=email)
-    except ObjectDoesNotExist:
-        user = None
-    else:
-        if user.validation_token == validation_token:
-            valid = True
-
-    if valid:
+    if user:
         response = confirm_valid(request, user)
     else:
         response = render(
@@ -101,6 +95,7 @@ def confirm_valid(request, user):
     if request.method == 'POST':
 
         if reset_password_confirm_form.reset_password():
+            login(request, user)
             response = redirect('users:reset_password:completed')
         else:
 
@@ -127,7 +122,6 @@ def confirm_valid(request, user):
 
     return response
 
-@redirect_authenticated
 def completed(request):
     """
     The page the user sees when the password reset has been completed.

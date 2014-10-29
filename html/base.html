@@ -14,8 +14,12 @@
         <main>
 
             <header class="_base-header">
+
                 <div class="content">
-                    <h1>JazzChords</h1>
+
+                    <h1>
+                        <a href="{% url "core:frontpage" %}">{{ core__settings.WEBSITE_NAME }}</a>
+                    </h1>
                     <div class="search">
                         <div class="search-term">
                             <input type="text" class="_text-input" placeholder="Search charts">
@@ -24,14 +28,60 @@
                             <button type="submit" class="fa fa-search _button" value="Search">
                         </div>
                     </div>
+
+                    <nav>
+
+                        <div class="nav-item help _popup-box-opener">
+
+                            <div class="label">
+                                <span class="text">help</span>
+                            </div>
+
+                            <div class="help-popup _popup-box">
+
+                                <div class="arrow-up"></div>
+
+                                <div class="sub-buttons">
+
+                                    <div class="sub-button delete">
+                                        <div class="text">
+                                            <a href="{% url "chordcharts:how_to_read" %}">How to read</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-button delete">
+                                        <div class="text">
+                                            <a href="{% url "chordcharts:chord_symbols" %}">Chord symbols</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="nav-item login">
+                            <a href="{% url "users:login" %}">
+                                <span class="text">log in</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-item signup">
+                            <a href="{% url "users:signup:signup" %}">
+                                <span class="text">sign up</span>
+                            </a>
+                        </div>
+
+                    </nav>
+
                 </div>
+
             </header>
 
-            {% block content %}{% endblock %} 
-
-            <footer>
-                footer
-            </footer>
+            <div class="_base-content">
+                {% block content %}{% endblock %} 
+            </div>
 
         </main>
 

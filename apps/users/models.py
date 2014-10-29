@@ -73,7 +73,7 @@ class User(PermissionsMixin, AbstractBaseUser):
         `True`.)
         """
 
-        subject = "{} sign up".format(settings.WEBSITE_NAME)
+        subject = "{} sign up".format(settings.WEBSITE_NAME_DOMAIN)
         from_email = 'users@{}'.format(settings.DOMAIN_NAME)
         recipients = [self.email]
 
@@ -81,7 +81,7 @@ class User(PermissionsMixin, AbstractBaseUser):
             "Welcome to {}! Please click the following link to "
             "complete your registration:"
             "\n\n{}".format(
-                settings.WEBSITE_NAME,
+                settings.WEBSITE_NAME_DOMAIN,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
                     reverse('users:signup:completed'),
@@ -103,7 +103,7 @@ class User(PermissionsMixin, AbstractBaseUser):
 
     def send_reset_password_email(self):
 
-        subject = "{} password reset".format(settings.WEBSITE_NAME)
+        subject = "{} password reset".format(settings.WEBSITE_NAME_DOMAIN)
         from_email = 'users@{}'.format(settings.DOMAIN_NAME)
         recipients = [self.email]
 
@@ -111,7 +111,7 @@ class User(PermissionsMixin, AbstractBaseUser):
             "You have requested to reset your {} password. Go to the "
             "following page to do so:\n\n{}"
             .format(
-                settings.WEBSITE_NAME,
+                settings.WEBSITE_NAME_DOMAIN,
                 '{}{}?email={}&validation_token={}'.format(
                     settings.WEBSITE_URL,
                     reverse('users:reset_password:confirm'),

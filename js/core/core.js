@@ -5,6 +5,7 @@ window.Backbone.$ = $;
 require('./libs/_jquery.cookie');
 require('./default_widgets/_forms');
 require('./default_widgets/_light-table');
+require('./default_widgets/_popup-box');
 
 // Adds the CSRF token to jQuery AJAX requests using the HTTP methods
 // POST, PUT, PATCH and DELETE.

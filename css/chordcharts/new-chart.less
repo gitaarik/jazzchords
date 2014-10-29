@@ -4,44 +4,46 @@
 @hover_background_color: #F7F7F7;
 @hover_border_color: #666;
 
-.new {
+._base-content {
 
-    margin: 0 auto;
-    width: 600px;
-    border-radius: 5px;
+    .new-chart {
 
-    header {
-        text-align: center;
-    }
+        border-radius: 5px;
 
-    .chart-settings {
+        header {
+            text-align: center;
+        }
 
-        margin: 0 auto;
+        .chart-settings {
 
-        table {
+            margin: 0 auto;
 
-            tr {
+            table {
 
-                &.key {
+                tr {
 
-                    .tooltip-button {
-                        float: left;
-                        margin: 12px 0 0 5px;
+                    &.key {
+
+                        .tooltip-button {
+                            float: left;
+                            margin: 12px 0 0 5px;
+                        }
+
+                        .tooltip-popup {
+                            left: -20px;
+                            top: 60px;
+                        }
+
                     }
 
-                    .tooltip-popup {
-                        left: -20px;
-                        top: 60px;
+                    &.tooltip-highlighted.key {
+                        .tonic .currently-selected,
+                        .tonality {
+                            background-color: @hover_background_color;
+                            border-color: @hover_border_color;
+                        }
                     }
 
-                }
-
-                &.tooltip-highlighted.key {
-                    .tonic .currently-selected,
-                    .tonality {
-                        background-color: @hover_background_color;
-                        border-color: @hover_border_color;
-                    }
                 }
 
             }

@@ -2,18 +2,23 @@
 @import "../../core/widgets/_key-select.less";
 @import "../../core/_vars.less";
 
-.chord-chart {
+._base-content {
 
-    margin: 0 auto 200px;
-    width: @chart-width + @chart-section-sidebar-width;
-    user-select: none;
+    .chord-chart {
 
-    @import "_header.less";
-    @import "_chart.less";
-    @import "_widgets.less";
+        margin: 0 auto;
+        margin-bottom: 200px;
+        width: @chart-width + @chart-section-sidebar-width;
+        user-select: none;
 
-    &.edit-on {
-        @import "_edit.less";
+        @import "_header.less";
+        @import "_chart.less";
+        @import "_widgets.less";
+
+        &.edit-on {
+            @import "_edit.less";
+        }
+
     }
 
 }

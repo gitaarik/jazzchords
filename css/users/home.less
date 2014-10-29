@@ -1,41 +1,45 @@
 @import "_base.less";
 
-.users {
+._base-content {
 
-    .edit-account {
+    .users {
 
-        table {
+        .edit-account {
 
-            table-layout:fixed;
-            width: @users_container_width;
+            table {
 
-            th {
-                width: 129px;
-            }
+                table-layout:fixed;
+                width: @users_container_width;
 
-            .password-view {
-
-                .hidden-password, .change {
-                    float: left;
+                th {
+                    width: 129px;
                 }
 
-                .change {
-                    margin-left: 10px;
+                .password-view {
+
+                    .hidden-password, .change {
+                        float: left;
+                    }
+
+                    .change {
+                        margin-left: 10px;
+                    }
+
+                    .password-updated {
+                        display: none;
+                        padding-top: 10px;
+                    }
+
                 }
 
-                .password-updated {
+                .password-edit {
+
                     display: none;
-                    padding-top: 10px;
-                }
 
-            }
+                    .new-password-error, .repeat-password-error {
+                        display: none;
+                    }
 
-            .password-edit {
-
-                display: none;
-
-                .new-password-error, .repeat-password-error {
-                    display: none;
                 }
 
             }
