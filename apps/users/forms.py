@@ -154,11 +154,7 @@ class ResetPasswordRequestForm(Form):
             )
         except ObjectDoesNotExist:
             raise ValidationError(
-                message=(
-                    "There is no user with this email address. You "
-                    "can <a href=\"{}\">create<a> it if you like."
-                    .format(reverse('users:create:create'))
-                ),
+                message="Sorry, but this email address is unkown to us.",
                 code='user_not_found'
             )
         else:

@@ -2,7 +2,7 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="css/chordcharts/song-index.css" />
+    <link type="text/css" rel="stylesheet" href="css/chordcharts/index.css" />
 {% endblock %}
 
 {% block javascript %}
@@ -11,13 +11,13 @@
 
 {% block content %}
 
-    <article class="song-index _site-content-width">
+    <article class="chart-index _site-content">
 
         <header>
-            <h1>All songs</h1>
+            <h1>All charts</h1>
         </header>
 
-        <ul class="song-list">
+        <ul class="chart-list">
             {% for song in songs %}
                 {% if song.charts.all|length > 0 %}
                     <li>

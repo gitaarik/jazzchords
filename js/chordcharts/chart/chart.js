@@ -18,7 +18,7 @@ var chart = new Chart(GLOBALS.chart_data);
 // Bind views and models to existing HTML
 
 var chartView = new ChartView({
-    el: '.chord-chart .chart',
+    el: '._base-content .chord-chart-page .chord-chart .chart',
     model: chart
 });
 

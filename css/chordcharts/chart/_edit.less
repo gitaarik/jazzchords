@@ -1,79 +1,37 @@
-.song-name {
+.chord-chart {
 
-    h1 {
+    header {
 
-        span {
-            cursor: pointer;
-        }
+        .song-name {
 
-    }
+            h1 {
 
-    .song-name-change {
-
-        display: none;
-        width: 300px;
-        margin: 15px 0 0 -150px;
-        left: 50%;
-
-        .arrow-up {
-            left: 132px;
-        }
-
-        label {
-
-            span {
-                display: block;
-                margin-bottom: 10px;
-            }
-
-            input {
-                width: 100%;
-            }
-
-        }
-
-    }
-
-}
-
-.chart {
-
-    .section {
-
-        .section-header {
-
-            .name,
-            .key {
-                cursor: pointer;
-            }
-
-            .section-edit-buttons {
-
-                float: left;
-                margin: 5px 0 0 5px;
-
-                .move-down,
-                .move-up,
-                .remove {
-                    float: left;
-                    margin-left: 5px;
+                span {
                     cursor: pointer;
                 }
 
             }
 
-        }
+            .song-name-change {
 
-        .section-sidebar {
+                display: none;
+                width: 300px;
+                margin: 15px 0 0 -150px;
+                left: 50%;
 
-            .section-sidebar-part {
+                .arrow-up {
+                    left: 132px;
+                }
 
-                cursor: pointer;
+                label {
 
-                &.inactive {
+                    span {
+                        display: block;
+                        margin-bottom: 10px;
+                    }
 
-                    .letter {
-                        color: #CCC;
+                    input {
+                        width: 100%;
                     }
 
                 }
@@ -82,27 +40,29 @@
 
         }
 
-        .lines {
+    }
 
-            .line {
+    .chart {
 
-                .measure {
+        .section {
+
+            .section-header {
+
+                .name,
+                .key {
                     cursor: pointer;
                 }
 
-                .measure-add {
+                .section-edit-buttons {
 
-                    padding: 0;
+                    float: left;
+                    margin: 5px 0 0 5px;
 
-                    .plus {
-                        padding: 5px;
-                        background: #EEE;
+                    .move-down,
+                    .move-up,
+                    .remove {
                         float: left;
-                        height: 50px;
-                        line-height: 50px;
-                        border: solid 1px #000;
-                        border-width: 1px 1px 1px 0;
-                        border-radius: 0 6px 6px 0;
+                        margin-left: 5px;
                         cursor: pointer;
                     }
 
@@ -110,26 +70,74 @@
 
             }
 
-        }
+            .section-sidebar {
 
-        .line-add {
+                .section-sidebar-part {
 
-            td {
-
-                padding: 0;
-
-                .plus {
-                    margin-left: 19px;
-                    line-height: 20px;
-                    padding: 0 5px;
-                    background: #EEE;
-                    float: left;
-                    width: 50px;
-                    text-align: center;
-                    border: solid 1px #000;
-                    border-width: 0 1px 1px 1px;
-                    border-radius: 0 0 6px 6px;
                     cursor: pointer;
+
+                    &.inactive {
+
+                        .letter {
+                            color: #CCC;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            .lines {
+
+                .line {
+
+                    .measure {
+                        cursor: pointer;
+                    }
+
+                    .measure-add {
+
+                        padding: 0;
+
+                        .plus {
+                            padding: 5px;
+                            background: #EEE;
+                            float: left;
+                            height: 50px;
+                            line-height: 50px;
+                            border: solid 1px #000;
+                            border-width: 1px 1px 1px 0;
+                            border-radius: 0 6px 6px 0;
+                            cursor: pointer;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            .line-add {
+
+                td {
+
+                    padding: 0;
+
+                    .plus {
+                        margin-left: 19px;
+                        line-height: 20px;
+                        padding: 0 5px;
+                        background: #EEE;
+                        float: left;
+                        width: 50px;
+                        text-align: center;
+                        border: solid 1px #000;
+                        border-width: 0 1px 1px 1px;
+                        border-radius: 0 0 6px 6px;
+                        cursor: pointer;
+                    }
+
                 }
 
             }

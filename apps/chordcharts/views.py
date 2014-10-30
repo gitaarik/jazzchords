@@ -17,13 +17,13 @@ from .settings import BOXED_CHART
 from .helpers.keys_json import keys_json
 
 
-def song_index(request):
+def index(request):
 
     context = {
         'songs': Song.objects.all()
     }
 
-    return render(request, 'chordcharts/song-index.html', context)
+    return render(request, 'chordcharts/index.html', context)
 
 
 def chart(request, song_slug, chart_id, key_tonic=None, edit=False):

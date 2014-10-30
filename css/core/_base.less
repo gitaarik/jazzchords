@@ -18,7 +18,7 @@
 
             a {
                 text-decoration: none;
-                color: #000;
+                color: inherit;
             }
 
         }
@@ -33,7 +33,7 @@
 
                 input {
 
-                    width: 250px;
+                    width: 225px;
                     height: 39px;
 
                     // Position the text inside the input:
@@ -76,30 +76,32 @@
             .nav-item {
 
                 float: left;
-                margin-left: 20px;
-
-                a {
-                    text-decoration: none;
-                    color: #000;
-                }
-
-            }
-
-            .help {
-
+                margin-right: 5px;
                 position: relative;
 
-                .help-popup {
+                span.fa {
+                    margin-right: 5px;
+                }
+
+                .text {
+
+                    padding: 5px 8px;
+                    border: solid 1px #FFF;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    color: inherit;
+
+                    &:hover {
+                        border: solid 1px #999;
+                    }
+
+                }
+
+                .nav-item-popup {
 
                     position: absolute;
-                    left: -70px;
-                    top: 40px;
+                    top: 50px;
                     padding: 10px;
-                    width: 120px;
-
-                    .arrow-up {
-                        left: 65px;
-                    }
 
                     .sub-button {
 
@@ -108,6 +110,11 @@
                         padding: 5px;
                         white-space: nowrap;
 
+                        a {
+                            text-decoration: none;
+                            color: inherit;
+                        }
+
                         &:hover {
                             background: #EEE;
                             border-radius: 3px;
@@ -115,6 +122,32 @@
 
                     }
 
+                }
+
+                &.help .nav-item-popup {
+
+                    width: 120px;
+                    left: -60px;
+
+                    .arrow-up {
+                        left: 65px;
+                    }
+
+                }
+
+                &.user .nav-item-popup {
+
+                    width: 90px;
+                    left: -20px;
+
+                    .arrow-up {
+                        left: 50px;
+                    }
+
+                }
+
+                &:last-child {
+                    margin-right: 0;
                 }
 
             }

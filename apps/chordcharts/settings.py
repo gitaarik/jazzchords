@@ -4,8 +4,8 @@
 LINE_MAX_MEASURES = 8
 
 BOXED_CHART = {
-    'box_width': 100,
-    'box_height': 100,
+    'box_width': 93,
+    'box_height': 93,
     'border_width': 1,
     'section_sidebar_width': 40,
 }

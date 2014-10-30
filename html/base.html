@@ -20,6 +20,7 @@
                     <h1>
                         <a href="{% url "core:frontpage" %}">{{ core__settings.WEBSITE_NAME }}</a>
                     </h1>
+
                     <div class="search">
                         <div class="search-term">
                             <input type="text" class="_text-input" placeholder="Search charts">
@@ -31,28 +32,34 @@
 
                     <nav>
 
-                        <div class="nav-item help _popup-box-opener">
+                        <div class="nav-item all-charts">
+                            <a class="text" href="{% url "chordcharts:index" %}">all charts</a>
+                        </div>
 
-                            <div class="label">
-                                <span class="text">help</span>
+                        {% if user.is_authenticated %}
+
+                            <div class="nav-item new-chart">
+                                <a class="text" href="{% url "chordcharts:new_chart" %}">create chart</a>
                             </div>
 
-                            <div class="help-popup _popup-box">
+                        {% endif %}
+
+                        <div class="nav-item help _popup-box-opener">
+
+                            <span class="text">help</span>
+
+                            <div class="nav-item-popup _popup-box">
 
                                 <div class="arrow-up"></div>
 
                                 <div class="sub-buttons">
 
                                     <div class="sub-button delete">
-                                        <div class="text">
-                                            <a href="{% url "chordcharts:how_to_read" %}">How to read</a>
-                                        </div>
+                                        <a href="{% url "chordcharts:how_to_read" %}">How to read</a>
                                     </div>
 
                                     <div class="sub-button delete">
-                                        <div class="text">
-                                            <a href="{% url "chordcharts:chord_symbols" %}">Chord symbols</a>
-                                        </div>
+                                        <a href="{% url "chordcharts:chord_symbols" %}">Chord symbols</a>
                                     </div>
 
                                 </div>
@@ -61,16 +68,47 @@
 
                         </div>
 
-                        <div class="nav-item login">
-                            <a href="{% url "users:login" %}">
-                                <span class="text">log in</span>
-                            </a>
-                        </div>
+                        {% if user.is_authenticated %}
 
-                        <div class="nav-item signup">
-                            <a href="{% url "users:signup:signup" %}">
-                                <span class="text">sign up</span>
-                            </a>
+                            <div class="nav-item user _popup-box-opener">
+
+                                <span class="text">
+                                    <span class="fa fa-user"></span>
+                                    {{ user.username }}
+                                </span>
+
+                                <div class="nav-item-popup _popup-box">
+
+                                    <div class="arrow-up"></div>
+
+                                    <div class="sub-buttons">
+
+                                        <div class="sub-button delete">
+                                            <a href="{% url "users:home" %}">My account</a>
+                                        </div>
+
+                                        <div class="sub-button delete">
+                                            <a href="{% url "users:logout" %}">Sign out</a>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="nav-item login">
+                                <a class="text" href="{% url "users:login" %}">log in</a>
+                            </div>
+
+                            <div class="nav-item signup">
+                                <a class="text" href="{% url "users:signup:signup" %}">sign up</a>
+                            </div>
+
+                        {% endif %}
+
                         </div>
 
                     </nav>

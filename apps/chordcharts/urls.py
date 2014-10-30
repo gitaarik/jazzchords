@@ -3,7 +3,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^index/$', views.song_index, name='song_index'),
+    url(r'^index/$', views.index, name='index'),
     url(
         '^(?P<chart_id>\d+)/'
         '(?:(?P<song_slug>[a-z0-9-_]+)/)?'

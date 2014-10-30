@@ -69,6 +69,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(DJANGO_ROOT, 'media'),
     os.path.join(DEV_ROOT, 'static'),
 )
 
@@ -169,4 +170,4 @@ AUTHENTICATION_BACKENDS = ('users.auth_backends.UserBackend',)
 LOGIN_URL = 'users:login'
 
 WEBSITE_NAME = 'JazzChords'
-WEBSITE_NAME_DOMAIN = '{}.com'.format(WEBSITE_NAME)
+WEBSITE_NAME_DOMAIN = '{}.org'.format(WEBSITE_NAME)

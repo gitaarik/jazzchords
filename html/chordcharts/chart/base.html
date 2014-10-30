@@ -73,15 +73,21 @@
 
 {% block content %}
 
-    <article class="chord-chart{% if edit %} edit-on{% endif %}">
+    <div class="chord-chart-page{% if edit %} edit-on{% endif %}">
 
-        {% include "chordcharts/chart/header.html" %}
-        {% include "chordcharts/chart/chart.html" %}
+        <article class="chord-chart">
 
-        {% if edit %}
-            {% include "chordcharts/chart/edit-widgets.html" %}
-        {% endif %}
+            {% include "chordcharts/chart/header.html" %}
+            {% include "chordcharts/chart/chart.html" %}
 
-    </article>
+            {% if edit %}
+                {% include "chordcharts/chart/edit-widgets.html" %}
+            {% endif %}
+
+        </article>
+
+        {% include "chordcharts/chart/sidebar.html" %}
+
+    </div>
 
 {% endblock %}

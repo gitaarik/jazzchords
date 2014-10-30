@@ -98,13 +98,6 @@
 
             {% else %}
 
-                <div class="button new">
-                    <a href="{% url "chordcharts:new_chart" %}">
-                        <span class="text">New</span>
-                        <span class="fa fa-file-o"></span>
-                    </a>
-                </div>
-
                 <div class="button edit">
                     <a href="{% url "chordcharts:edit_chart" chart_id=chart.id song_slug=chart.song.slug %}">
                         <span class="text">Edit</span>
