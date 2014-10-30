@@ -5,7 +5,7 @@ var LineEditView = require('../views/_line-edit.js');
 var lineEdit = new LineEdit();
 
 new LineEditView({
-    el: '.chord-chart .line-edit',
+    el: GLOBALS.base_el_selector + ' .line-edit',
     model: lineEdit
 });
 
@@ -20,14 +20,12 @@ $('html').on('click', function(event) {
         // Check if the click wasn't a click to open the widget,
         // or a click inside the widget.
         if (
-            !target
-                .closest('.section-sidebar-part')
-                .closest('.chord-chart')
-                .length &&
-            !target
-                .closest('.line-edit')
-                .closest('.chord-chart')
-                .length
+            !target.closest(
+                GLOBALS.base_el_selector + ' .section-sidebar-part'
+            ).length &&
+            !target.closest(
+                GLOBALS.base_el_selector + ' .line-edit'
+            ).length
         ) {
             // close the widget
             lineEdit.set('visible', false);

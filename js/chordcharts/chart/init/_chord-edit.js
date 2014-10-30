@@ -5,7 +5,7 @@ var ChordEditView = require('../views/_chord-edit.js');
 var chordEdit = new ChordEdit();
 
 new ChordEditView({
-    el: '.chord-chart .chord-edit',
+    el: GLOBALS.base_el_selector + ' .chord-edit',
     model: chordEdit
 });
 
@@ -21,13 +21,10 @@ $('html').on('click', function(event) {
         // or a click inside the widget.
         if (
             !(
-                target.closest('.chord-chart').length &&
-                target.hasClass('chord-name')
+                target.hasClass('chord-name') &&
+                target.closest(GLOBALS.base_el_selector).length
             ) &&
-            !target
-                .closest('.chord-edit')
-                .closest('.chord-chart')
-                .length
+            !target.closest(GLOBALS.base_el_selector + ' .chord-edit').length
         ) {
             // close the widget
             chordEdit.set('visible', false);

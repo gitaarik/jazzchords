@@ -5,7 +5,7 @@ var SectionKeyView = require('../views/_section-key.js');
 var sectionKey = new SectionKey();
 
 new SectionKeyView({
-    el: '.chord-chart .section-key',
+    el: GLOBALS.base_el_selector + ' .section-key',
     model: sectionKey
 });
 
@@ -22,17 +22,15 @@ $('html').on('click', function(event) {
         if (
             !(
                 // click was to open the widget
-                target
-                    .closest('.section-header')
-                    .closest('.chord-chart')
-                    .length &&
+                target.closest(
+                    GLOBALS.base_el_selector + ' .section-header'
+                ).length &&
                 target.hasClass('key')
             ) &&
             // click was in the widget
-            !target
-                .closest('.section-key')
-                .closest('.chord-chart')
-                .length
+            !target.closest(
+                GLOBALS.base_el_selector + ' .section-key'
+            ).length
         ) {
             // close the widget
             sectionKey.set('visible', false);

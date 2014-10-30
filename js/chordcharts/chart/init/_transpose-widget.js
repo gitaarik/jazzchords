@@ -5,7 +5,7 @@ var TransposeWidgetView = require('../views/_transpose-widget.js');
 var transposeWidget = new TransposeWidget();
 
 new TransposeWidgetView({
-    el: $('.chord-chart .key-select'),
+    el: GLOBALS.base_el_selector + ' .key-select',
     model: transposeWidget
 });
 
@@ -20,15 +20,12 @@ $('html').on('click', function(event) {
         // Check if the click wasn't a click to open the widget,
         // or a click inside the widget.
         if (
-            !target
-                .closest('.key-select')
-                .closest('.chord-chart')
-                .length &&
-            !target
-                .closest('.current-key')
-                .closest('.open')
-                .closest('.chord-chart')
-                .length
+            !target.closest(
+                GLOBALS.base_el_selector + ' .key-select'
+            ).length &&
+            !target.closest(
+                GLOBALS.base_el_selector + ' .open .current-key'
+            ).length
         ) {
             transposeWidget.set('visible', false);
         }

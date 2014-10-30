@@ -5,7 +5,7 @@ var MeasureEditView = require('../views/_measure-edit.js');
 var measureEdit = new MeasureEdit();
 
 new MeasureEditView({
-    el: '.chord-chart .measure-edit',
+    el: GLOBALS.base_el_selector + ' .measure-edit',
     model: measureEdit
 });
 
@@ -21,22 +21,18 @@ $('html').on('click', function(event) {
             // Check if the click wasn't a click to open the widget,
             // or a click inside the widget.
             (
-                !target
-                    .closest('.measure-edit')
-                    .closest('.chord-chart')
-                    .length &&
-                !target
-                    .closest('.measure')
-                    .closest('.chord-chart')
-                    .length
+                !target.closest(
+                    GLOBALS.base_el_selector + ' .measure-edit'
+                ).length &&
+                !target.closest(
+                    GLOBALS.base_el_selector + ' .measure'
+                ).length
             ) ||
             // Or the click was on a chord (which is also inside
             // a measure).
-            target
-                .closest('.chord-name')
-                .closest('.chord')
-                .closest('.chord-chart')
-                .length
+            target.closest(
+                GLOBALS.base_el_selector + ' .chord .chord-name'
+            ).length
         ) {
             // close the widget
             measureEdit.set('visible', false);

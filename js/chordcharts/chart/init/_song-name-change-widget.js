@@ -5,7 +5,7 @@ var SongNameChangeWidgetView = require('../views/_song-name-change-widget.js');
 var songNameChangeWidget = new SongNameChangeWidget();
 
 new SongNameChangeWidgetView({
-    el: $('.chord-chart .chord-chart-header .song-name'),
+    el: GLOBALS.base_el_selector + ' .chord-chart-header .song-name',
     model: songNameChangeWidget
 });
 
@@ -16,17 +16,12 @@ $('html').on('click', function(event) {
         var target = $(event.target);
 
         if (
-            !target
-                .closest('.song-name-change')
-                .closest('.song-name')
-                .closest('.chord-chart')
-                .length &&
-            !target
-                .closest('span')
-                .closest('h1')
-                .closest('.song-name')
-                .closest('.chord-chart')
-                .length
+            !target.closest(
+                GLOBALS.base_el_selector + ' .song-name .song-name-change'
+            ).length &&
+            !target.closest(
+                GLOBALS.base_el_selector + ' .song-name h1 span'
+            ).length
         ) {
             songNameChangeWidget.set('visible', false);
         }

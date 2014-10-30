@@ -5,7 +5,7 @@ var SectionNameView = require('../views/_section-name.js');
 var sectionName = new SectionName();
 
 new SectionNameView({
-    el: '.chord-chart .section-name',
+    el: GLOBALS.base_el_selector + ' .section-name',
     model: sectionName
 });
 
@@ -22,17 +22,15 @@ $('html').on('click', function(event) {
         if (
             !(
                 // click was to open the widget
-                target
-                    .closest('.section-header')
-                    .closest('.chord-chart')
-                    .length &&
+                target.closest(
+                    GLOBALS.base_el_selector + ' .section-header'
+                ).length &&
                 target.hasClass('name')
             ) &&
             // click was in the widget
-            !target
-                .closest('.section-name')
-                .closest('.chord-chart')
-                .length
+            !target.closest(
+                GLOBALS.base_el_selector + ' .section-name'
+            ).length
         ) {
             // close the widget
             sectionName.set('visible', false);

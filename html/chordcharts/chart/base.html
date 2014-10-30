@@ -18,8 +18,9 @@
             all_keys: {{ all_keys_json|safe }},
             chord_types: {{ chord_types_json|safe }},
             edit: {% if edit %}true{% else %}false{% endif %},
-            parsed: false
-        }
+            parsed: false,
+            base_el_selector: '._base-content .chord-chart'
+        };
 
     </script>
 

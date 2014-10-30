@@ -4,8 +4,8 @@ Create header, navigation and footer:
       sidebar on the right.
 
 Chart:
-    - Namespace JS css class selectors in chordcharts to
-      `_base-content`.
+    - Use 'Escape' alongside 'Esc' JS button matching.
+    - Songname widget isn't closable through 'x' close button in widget.
     - Only allow edit when you're owner of the chart.
     - Move key switcher, edit and settings buttons to sidebar.
     - Move title to left.

@@ -11,11 +11,9 @@ $('html').click(function(event) {
     menu_el.find('.button').each(function() {
 
         if (
-            !$(event.target)
-                .closest('.button')
-                .closest('.chart-menu')
-                .closest('.chord-chart')
-                .length ||
+            !$(event.target).closest(
+                GLOBALS.base_el_selector + ' .chart-menu .button'
+            ).length ||
             this !== clicked_button_el
         ) {
             $(this).find('.widget').hide();

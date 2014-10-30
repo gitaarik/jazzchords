@@ -28,8 +28,6 @@ module.exports = Backbone.View.extend({
 
         var song_name = this.$el.find('.song-name-input').val();
 
-        console.log('model url:');
-        console.log(this.model.url);
         this.model.set('song_name', song_name);
         this.model.save();
 
