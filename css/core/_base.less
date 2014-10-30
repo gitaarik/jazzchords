@@ -3,151 +3,158 @@
     padding: 30px 0 20px;
     height: 45px;
 
-    .content {
+    .container {
 
         margin: 0 auto;
-        width: @site-content-width;
+        width: @site-content-width + 2 * @chart-section-sidebar-width;
 
-        h1 {
+        .content {
 
-            float: left;
-            font-weight: 100;
-            font-size: 32px;
-            line-height: 32px;
-            margin: 0 25px 0 0;
+            margin: 0 auto;
+            width: @site-content-width;
 
-            a {
-                text-decoration: none;
-                color: inherit;
-            }
-
-        }
-
-        .search {
-
-            float: left;
-
-            .search-term {
+            h1 {
 
                 float: left;
+                font-weight: 100;
+                font-size: 32px;
+                line-height: 32px;
+                margin: 0 25px 0 0;
 
-                input {
-
-                    width: 225px;
-                    height: 39px;
-
-                    // Position the text inside the input:
-                    // http://stackoverflow.com/a/19539920/1248175
-                    line-height: normal;
-                    padding-top: 10px;
-                    padding-bottom: 6px;
-
-                    border-radius: 5px 0 0 5px;
-                    &:focus::-webkit-input-placeholder { color:transparent; }
-                    &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
-                    &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
-                    &:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
-
-                }
-
-            }
-
-            .search-button {
-
-                float: left;
-
-                button {
-                    font-size: 20px;
-                    height: 39px;
-                    padding-top: 5px;
-                    border-radius: 0 5px 5px 0;
-                    border-left-width: 0;
-                }
-
-            }
-
-        }
-
-        nav {
-
-            float: right;
-            margin-top: 10px;
-
-            .nav-item {
-
-                float: left;
-                margin-right: 5px;
-                position: relative;
-
-                span.fa {
-                    margin-right: 5px;
-                }
-
-                .text {
-
-                    padding: 5px 8px;
-                    border: solid 1px #FFF;
-                    border-radius: 4px;
+                a {
                     text-decoration: none;
                     color: inherit;
+                }
 
-                    &:hover {
-                        border: solid 1px #999;
+            }
+
+            .search {
+
+                float: left;
+
+                .search-term {
+
+                    float: left;
+
+                    input {
+
+                        width: 225px;
+                        height: 39px;
+
+                        // Position the text inside the input:
+                        // http://stackoverflow.com/a/19539920/1248175
+                        line-height: normal;
+                        padding-top: 10px;
+                        padding-bottom: 6px;
+
+                        border-radius: 5px 0 0 5px;
+                        &:focus::-webkit-input-placeholder { color:transparent; }
+                        &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+                        &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+                        &:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+
                     }
 
                 }
 
-                .nav-item-popup {
+                .search-button {
 
-                    position: absolute;
-                    top: 50px;
-                    padding: 10px;
+                    float: left;
 
-                    .sub-button {
+                    button {
+                        font-size: 20px;
+                        height: 39px;
+                        padding-top: 5px;
+                        border-radius: 0 5px 5px 0;
+                        border-left-width: 0;
+                    }
 
-                        cursor: pointer;
-                        overflow: hidden;
-                        padding: 5px;
-                        white-space: nowrap;
+                }
 
-                        a {
-                            text-decoration: none;
-                            color: inherit;
-                        }
+            }
+
+            nav {
+
+                float: right;
+                margin-top: 10px;
+
+                .nav-item {
+
+                    float: left;
+                    margin-right: 5px;
+                    position: relative;
+
+                    span.fa {
+                        margin-right: 5px;
+                    }
+
+                    .text {
+
+                        padding: 5px 8px;
+                        border: solid 1px #FFF;
+                        border-radius: 4px;
+                        text-decoration: none;
+                        color: inherit;
 
                         &:hover {
-                            background: #EEE;
-                            border-radius: 3px;
+                            border: solid 1px #999;
                         }
 
                     }
 
-                }
+                    .nav-item-popup {
 
-                &.help .nav-item-popup {
+                        position: absolute;
+                        top: 50px;
+                        padding: 10px;
 
-                    width: 120px;
-                    left: -60px;
+                        .sub-button {
 
-                    .arrow-up {
-                        left: 65px;
+                            cursor: pointer;
+                            overflow: hidden;
+                            padding: 5px;
+                            white-space: nowrap;
+
+                            a {
+                                text-decoration: none;
+                                color: inherit;
+                            }
+
+                            &:hover {
+                                background: #EEE;
+                                border-radius: 3px;
+                            }
+
+                        }
+
                     }
 
-                }
+                    &.help .nav-item-popup {
 
-                &.user .nav-item-popup {
+                        width: 120px;
+                        left: -60px;
 
-                    width: 90px;
-                    left: -20px;
+                        .arrow-up {
+                            left: 65px;
+                        }
 
-                    .arrow-up {
-                        left: 50px;
                     }
 
-                }
+                    &.user .nav-item-popup {
 
-                &:last-child {
-                    margin-right: 0;
+                        width: 90px;
+                        left: -20px;
+
+                        .arrow-up {
+                            left: 50px;
+                        }
+
+                    }
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
                 }
 
             }

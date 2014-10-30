@@ -5,7 +5,7 @@ var TransposeWidgetView = require('../views/_transpose-widget.js');
 var transposeWidget = new TransposeWidget();
 
 new TransposeWidgetView({
-    el: GLOBALS.base_el_selector + ' .key-select',
+    el: GLOBALS.base_el_selector + ' .key-select .widget',
     model: transposeWidget
 });
 
@@ -21,7 +21,7 @@ $('html').on('click', function(event) {
         // or a click inside the widget.
         if (
             !target.closest(
-                GLOBALS.base_el_selector + ' .key-select'
+                GLOBALS.base_el_selector + ' .key-select .widget'
             ).length &&
             !target.closest(
                 GLOBALS.base_el_selector + ' .open .current-key'
