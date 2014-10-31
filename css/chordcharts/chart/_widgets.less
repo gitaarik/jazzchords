@@ -1,17 +1,9 @@
 @import "../../core/widgets/_tab-header.less";
 
-._popup-box {
-    z-index: 10;
-    padding: 10px 0;
-}
-
 .chord-edit {
 
     display: none;
-
-    .padding {
-        padding: 0 10px;
-    }
+    padding: 10px 0;
 
     .chord-edit-header {
 
@@ -26,6 +18,7 @@
             float: left;
             list-style: none;
             overflow: hidden;
+            padding: 0 0 0 10px;
 
             li {
 
@@ -63,6 +56,8 @@
     }
 
     .chord-settings {
+
+        padding: 0 10px;
 
         ul {
 
@@ -330,24 +325,13 @@
 .section-name {
 
     display: none;
-    padding: 0;
 
-    .close {
-        margin: 10px;
-    }
+    label {
 
-    .content {
-
-        margin: 10px 0;
-
-        label {
-
-            span {
-                display: block;
-                margin-bottom: 10px;
-                font-size: 16px;
-            }
-
+        span {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
         }
 
     }
@@ -357,15 +341,8 @@
 .section-key {
 
     display: none;
-    padding: 0;
-
-    .close {
-        margin: 10px;
-    }
 
     .content {
-
-        margin: 10px 0;
 
         label {
 
@@ -393,7 +370,6 @@
 .line-edit {
 
     display: none;
-    padding: 10px;
 
     .arrow-up {
         left: 10px;

@@ -2,64 +2,29 @@
 
     <div class="content">
 
-        <div class="edit-toggle">
-
-            {% if edit %}
-
-                <div class="button _button-small">
-                    <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug %}">
-                        <span class="text">Done editing</span>
-                        <span class="fa fa-check"></span>
-                    </a>
-                </div>
-
-            {% else %}
-
-                <div class="button edit _button-small">
-                    <a href="{% url "chordcharts:edit_chart" chart_id=chart.id song_slug=chart.song.slug %}">
-                        <span class="text">Modify chart</span>
-                        <span class="fa fa-pencil"></span>
-                    </a>
-                </div>
-
-            {% endif %}
-
-        </div>
-
         <div class="chart-menu">
 
-            <div class="key-select">
+            <div class="key-select menu-item _button-small _popup-box-opener">
 
-                <div class="label">Key:</div>
+                <span class="text"><span class="key-name">Transpose</span></span>
+                <span class="fa fa-lg fa-caret-down"></span>
 
-                <div class="widget">
+                <div class="transpose-widget _popup-box">
 
-                    <div class="closed">
-                        <div class="current-key">
-                            <span class="text"><span class="key-name">{{ chart.key.name }}</span></span>
-                            <span class="fa fa-lg fa-caret-down"></span>
-                        </div>
-                    </div>
+                    <div class="arrow-up"></div>
 
-                    <div class="open">
-                        <div class="current-key">
-                            <span class="text"><span class="key-name">{{ chart.key.name }}</span></span>
-                            <span class="fa fa-lg fa-caret-up"></span>
-                        </div>
-                        <hr>
-                        <div>Transpose to:</div>
-                        <ul class="key-tonics box-choice-list">
-                            {% for key in chart_keys %}
-                                <li data-key-tonic="{{ key.tonic }}"{% if chart.key.id == key.id %} class="selected"{% endif %}>
-                                    {% if edit %}
-                                        <a>{{ key.tonic }}</a>
-                                    {% else %}
-                                        <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_tonic=key.tonic %}">{{ key.tonic }}</a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    <div>Transpose to:</div>
+                    <ul class="key-tonics box-choice-list">
+                        {% for key in chart_keys %}
+                            <li data-key-tonic="{{ key.tonic }}"{% if chart.key.id == key.id %} class="selected"{% endif %}>
+                                {% if edit %}
+                                    <a>{{ key.tonic }}</a>
+                                {% else %}
+                                    <a href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug key_tonic=key.tonic %}">{{ key.tonic }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
 
                 </div>
 
@@ -67,34 +32,46 @@
 
             {% if edit %}
 
-                <div class="button settings _popup-box-opener" href="">
+                <div class="settings menu-item _button-small _popup-box-opener">
 
                     <span class="text">Settings</span>
                     <span class="fa fa-cog"></span>
 
-                    <div class="widget _popup-box">
+                    <div class="_popup-box">
 
                         <div class="arrow-up"></div>
 
-                        <div class="sub-buttons">
+                        <div class="button delete">
 
-                            <div class="sub-button delete">
+                            <span class="text">Delete chart</span>
+                            <span class="fa fa-times"></span>
 
-                                <div class="text">Delete chart</div>
-                                <span class="fa fa-times"></span>
-
-                                <form method="POST" action="{% url "chordcharts:delete_chart" chart_id=chart.id song_slug=chart.song.slug %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="song_name" value="{{ chart.song.name }}">
-                                </form>
-
-                            </div>
+                            <form method="POST" action="{% url "chordcharts:delete_chart" chart_id=chart.id song_slug=chart.song.slug %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="song_name" value="{{ chart.song.name }}">
+                            </form>
 
                         </div>
 
                     </div>
 
                 </div>
+
+            {% endif %}
+
+            {% if edit %}
+
+                <a class="menu-item _button-small" href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug %}">
+                    <span class="text">Done editing</span>
+                    <span class="fa fa-check"></span>
+                </a>
+
+            {% else %}
+
+                <a class="menu-item _button-small" href="{% url "chordcharts:edit_chart" chart_id=chart.id song_slug=chart.song.slug %}">
+                    <span class="text">Modify chart</span>
+                    <span class="fa fa-pencil"></span>
+                </a>
 
             {% endif %}
 

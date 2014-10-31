@@ -4,24 +4,15 @@
 
 ._base-content {
 
-    .chord-chart-page {
+    .chord-chart {
 
         margin: 0 auto;
         width: @chart-width + @site-sidebar-width + @chart-section-sidebar-width;
 
-        .chord-chart {
-
-            float: left;
-            width: @chart-width;
-            user-select: none;
-
-            @import "_header.less";
-            @import "_chart.less";
-            @import "_widgets.less";
-
-        }
-
+        @import "_header.less";
+        @import "_chart.less";
         @import "_sidebar.less";
+        @import "_widgets.less";
 
         &.edit-on {
             @import "_edit.less";

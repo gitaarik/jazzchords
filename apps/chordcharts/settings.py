@@ -7,7 +7,7 @@ BOXED_CHART = {
     'box_width': 93,
     'box_height': 93,
     'border_width': 1,
-    'section_sidebar_width': 40,
+    'section_sidebar_width': 30,
 }
 
 BOXED_CHART['chart_width'] = (

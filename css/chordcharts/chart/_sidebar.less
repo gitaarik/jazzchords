@@ -4,135 +4,80 @@
 
     .content {
 
-        padding-left: 20px;
+        margin: 9px 0 0 20px;
 
-        .edit-toggle {
-            margin: 25px 0 40px;
+        .menu-item {
+
+            display: block;
+            text-align: center;
+            margin-bottom: 10px;
+
+            .button {
+
+                padding: 5px;
+
+                &:hover {
+                    background: #EEE;
+                    border-radius: 3px;
+                }
+
+            }
+
+            ._popup-box {
+                margin-top: 15px;
+                text-align: left;
+            }
+
         }
 
         .key-select {
 
-            display: inline-block;
+            .transpose-widget {
 
-            .label {
-                margin-bottom: 5px;
-                font-size: 20px;
-            }
+                left: -80px;
+                padding: 10px;
+                border: solid 1px #000;
+                background: #FFF;
+                border-radius: 5px;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+                z-index: 10;
 
-            .widget {
-
-                position: relative;
+                .arrow-up {
+                    left: auto;
+                    right: 50px;
+                }
 
                 .current-key {
-                    cursor: pointer;
-                    font-size: 20px;
+                    margin-bottom: 10px;
                 }
 
-                .open {
-                    position: absolute;
-                    top: 0;
-                }
+                ul {
 
-                .open {
+                    margin-top: 10px;
+                    padding: 0;
 
-                    display: none;
-                    top: -11px; // padding + border
-                    left: -11px; // padding + border
-                    padding: 10px;
-                    border: solid 1px #000;
-                    background: #FFF;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-                    z-index: 10;
-                    width: 198px;
+                    li {
 
-                    .current-key {
-                        margin-bottom: 10px;
-                    }
+                        a {
+                            display: block;
+                            width: 40px;
+                            height: 40px;
+                            line-height: 40px;
+                            text-align: center;
+                            color: inherit;
+                            text-decoration: none;
+                        }
 
-                    ul {
+                        &:nth-child(4n) {
+                            margin: 0;
+                        }
 
-                        margin-top: 10px;
-                        padding: 0;
-
-                        li {
-
-                            a {
-                                display: block;
-                                width: 40px;
-                                height: 40px;
-                                line-height: 40px;
-                                text-align: center;
-                                color: inherit;
-                                text-decoration: none;
-                            }
-
-                            &:nth-child(4n) {
-                                margin: 0;
-                            }
-
-                            &:nth-child(4n+1) {
-                                clear: both;
-                            }
-
+                        &:nth-child(4n+1) {
+                            clear: both;
                         }
 
                     }
 
-                }
-
-            }
-
-        }
-
-        .button {
-
-            clear: both;
-            position: relative;
-
-            .text {
-                float: left;
-                padding-right: 6px;
-            }
-
-            a {
-                text-decoration: none;
-                color: #000;
-            }
-
-            .widget {
-
-                position: absolute;
-                display: none;
-                left: -50px;
-                top: 40px;
-                padding: 10px;
-                width: 120px;
-
-                .arrow-up {
-                    left: 65px;
-                }
-
-                .sub-button {
-
-                    cursor: pointer;
-                    overflow: hidden;
-                    padding: 5px;
-                    white-space: nowrap;
-
-                    &:hover {
-                        background: #EEE;
-                        border-radius: 3px;
-                    }
-
-                }
-
-            }
-
-            &.settings.widget.delete {
-
-                form {
-                    display: none;
                 }
 
             }
