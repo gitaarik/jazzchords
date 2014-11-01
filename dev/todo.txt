@@ -4,7 +4,11 @@ Create header, navigation and footer:
       sidebar on the right.
 
 Chart:
+    - Also do chart 'cleanup' when "done editing" is hit, sometimes this
+      is necessary.
+    - Don't allow '%' after repeating measures.
     - Use 'Escape' alongside 'Esc' JS button matching.
+    - Make the enter key close the song name edit field.
     - Songname widget isn't closable through 'x' close button in widget.
     - Only allow edit when you're owner of the chart.
     - Move key switcher, edit and settings buttons to sidebar.
