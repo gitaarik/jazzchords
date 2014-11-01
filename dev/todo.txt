@@ -2,7 +2,6 @@ Create header, navigation and footer:
     - Use good html5 tags like <main> <menu> <nav> etc.
     - Make site wider, put chordchart on left side so there's space for
       sidebar on the right.
-    - At help page the canvas stuff is incorrect.
 
 Chart:
     - Use 'Escape' alongside 'Esc' JS button matching.
