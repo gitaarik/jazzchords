@@ -18,17 +18,25 @@
         <div class="content">
 
             <div class="text">
+
                 <h2>
-                    A free database of chordcharts, build by the
+                    An open database of chordcharts, build by the
                     community, which <a href="{% url "users:signup:signup" %}">you can be a part of</a>.
                 </h2>
+
+                <h2>
+                    <a href="{% url "chordcharts:index" %}">Explore the list of chordcharts</a>
+                    and learn new songs to play.
+                </h2>
+
                 <h2>
                     Missing a song? <a href="{% url "users:signup:signup" %}">Add it yourself</a>!
                 </h2>
+
             </div>
 
             <div class="image">
-                <img src="{% static "images/singin-in-the-bathtub-edit-view.png" %}" width="400">
+                <img src="{% static "images/preview.png" %}" width="440">
             </div>
 
         </div>

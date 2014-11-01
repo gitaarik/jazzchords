@@ -241,7 +241,10 @@ def delete_chart(request, song_slug, chart_id):
 
 
 def how_to_read(request):
-    return render(request, 'chordcharts/how-to-read.html')
+    context = {
+        'settings_json': json.dumps(BOXED_CHART),
+    }
+    return render(request, 'chordcharts/how-to-read.html', context)
 
 
 def chord_symbols(request):

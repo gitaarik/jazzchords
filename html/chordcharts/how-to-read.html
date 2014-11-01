@@ -6,8 +6,19 @@
 {% endblock %}
 
 {% block javascript %}
+
     {{ block.super }}
+
+    <script>
+
+        var GLOBALS = {
+            settings: {{ settings_json|safe }}
+        };
+
+    </script>
+
     <script src="{{ STATIC_URL }}js/chordcharts/how-to-read.js"></script>
+
 {% endblock %}
 
 {% block content %}
