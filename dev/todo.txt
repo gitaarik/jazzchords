@@ -1,11 +1,7 @@
-Create header, navigation and footer:
-    - Use good html5 tags like <main> <menu> <nav> etc.
-    - Make site wider, put chordchart on left side so there's space for
-      sidebar on the right.
+Search charts:
+    Be able to search for charts.
 
 Chart:
-    - Also do chart 'cleanup' when "done editing" is hit, sometimes this
-      is necessary.
     - Don't allow '%' after repeating measures.
     - Use 'Escape' alongside 'Esc' JS button matching.
     - Make the enter key close the song name edit field.
@@ -13,9 +9,6 @@ Chart:
     - Only allow edit when you're owner of the chart.
     - Move key switcher, edit and settings buttons to sidebar.
     - Move title to left.
-
-Search charts:
-    Be able to search for charts.
 
 Make things ready for alpha release:
     - Finish ansible stuff

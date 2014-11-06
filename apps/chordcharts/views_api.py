@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
@@ -180,3 +180,21 @@ class SectionKeyView(views.APIView):
         section.update_key(key)
 
         return HttpResponse('Successfully changed section key')
+
+
+class SearchCharts(views.APIView):
+
+    def get(self, request):
+
+        charts = Chart.objects.filter(
+            song__name__icontains=request.GET.get('search-term')
+        )
+
+        return JsonResponse({
+            'results': [
+                {
+                    'id': chart.id,
+                    'song_name': chart.song.name,
+                } for chart in charts
+            ]
+        })

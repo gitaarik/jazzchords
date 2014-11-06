@@ -1,8 +1,15 @@
 from django.conf.urls import url, include
 from rest_framework_nested import routers
 from .views_api import (
-    ChartViewSet, SectionViewSet, LineViewSet, MeasureViewSet,
-    ChordViewSet, ChartSongNameView, ChartTransposeView, SectionKeyView
+    ChartViewSet,
+    SectionViewSet,
+    LineViewSet,
+    MeasureViewSet,
+    ChordViewSet,
+    ChartSongNameView,
+    ChartTransposeView,
+    SectionKeyView,
+    SearchCharts
 )
 
 charts_router = routers.SimpleRouter(trailing_slash=False)
@@ -40,5 +47,6 @@ urlpatterns = [
     url('^', include(chords_router.urls)),
     url('^chart-song-name/(?P<chart_id>\d+)/$', ChartSongNameView.as_view()),
     url('^chart-transpose/(?P<chart_id>\d+)/$', ChartTransposeView.as_view()),
-    url('^section-key/(?P<section_id>\d+)/$', SectionKeyView.as_view())
+    url('^section-key/(?P<section_id>\d+)/$', SectionKeyView.as_view()),
+    url('^search/$', SearchCharts.as_view())
 ]

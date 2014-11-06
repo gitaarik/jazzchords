@@ -30,24 +30,53 @@
 
             .search {
 
+                position: relative;
                 float: left;
+                border: solid 1px #999;
+                border-radius: 5px;
+
+                @search-input-width: 250px;
+                @search-button-width: 50px;
+
+                &.focussed {
+                    background-color: @input-hover-background-color;
+                    border-color: @input-hover-border-color;
+                    box-shadow: 0 0 3px #999;
+                    box-shadow-width: 1px 1px 1px 0;
+                }
+
+                &.results-on {
+                    border-radius: 5px 5px 0 0;
+                }
 
                 .search-term {
 
                     float: left;
 
-                    input {
+                    .before-search-term,
+                    .behind-search-term {
+                        float: left;
+                        width: 0;
+                        padding: 0;
+                        border: 0;
+                    }
 
-                        width: 225px;
+                    .search-term-input {
+
+                        float: left;
+                        width: @search-input-width;
                         height: 39px;
+                        background: transparent;
+                        border: none;
+                        border-radius: 5px;
+                        box-shadow: none;
 
-                        // Position the text inside the input:
-                        // http://stackoverflow.com/a/19539920/1248175
-                        line-height: normal;
-                        padding-top: 10px;
-                        padding-bottom: 6px;
+                        &:hover, &:focus {
+                            background: transparent;
+                            border: none;
+                            box-shadow: none;
+                        }
 
-                        border-radius: 5px 0 0 5px;
                         &:focus::-webkit-input-placeholder { color:transparent; }
                         &:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
                         &:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
@@ -64,11 +93,37 @@
                     button {
                         font-size: 20px;
                         height: 39px;
+                        width: @search-button-width;
                         padding-top: 5px;
-                        border-radius: 0 5px 5px 0;
-                        border-left-width: 0;
+                        background: transparent;
+                        border: none;
+                        border-radius: 5px;
                     }
 
+                }
+
+                .search-results {
+
+                    display: none;
+                    position: absolute;
+                    top: 39px;
+                    left: -1px;
+                    width: @search-input-width + @search-button-width;
+                    border: 1px solid #999;
+                    border-radius: 0px 0px 5px 5px;
+                    padding: 0;
+                    list-style: none;
+                    background: #FFF;
+
+                    li {
+                        padding: 8px 10px;
+                        border-bottom: solid 1px #999;
+                    }
+
+                }
+
+                &.results-on .search-results {
+                    display: block;
                 }
 
             }
