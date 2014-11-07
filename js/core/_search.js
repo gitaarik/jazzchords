@@ -109,19 +109,7 @@ Search.prototype.select_result = function(offset) {
 
     if (this.search_results.length) {
 
-        if (this.selected_search_result_index == null) {
-            this.selected_search_result_index = offset - 1;
-        } else {
-            this.selected_search_result_index += offset;
-        }
-
-        if (this.selected_search_result_index < 0) {
-            this.selected_search_result_index = null;
-        }
-
-        if (this.selected_search_result_index >= this.search_results.length) {
-            this.selected_search_result_index = this.search_results.length - 1;
-        }
+        this.reinit_selected_search_result_index(offset);
 
         if (this.selected_search_result_index == null) {
             this.search_term_input_el.val(this.search_term);
@@ -134,8 +122,39 @@ Search.prototype.select_result = function(offset) {
             this.search_term_input_el.val(selected_search_result_song_name);
             this.last_search_term_input_value = selected_search_result_song_name;
 
+            var all_search_result_elements = this.search_results_el.find('li');
+            var selected_search_result_el = (
+                all_search_result_elements.eq(
+                    this.selected_search_result_index
+                )
+            );
+
+            all_search_result_elements.removeClass('selected');
+            selected_search_result_el.addClass('selected');
+
         }
 
+    }
+
+}
+
+/**
+ * Sets the `selected_search_result_index` for the given `offset`.
+ */
+Search.prototype.reinit_selected_search_result_index = function(offset) {
+
+    if (this.selected_search_result_index == null) {
+        this.selected_search_result_index = offset - 1;
+    } else {
+        this.selected_search_result_index += offset;
+    }
+
+    if (this.selected_search_result_index < 0) {
+        this.selected_search_result_index = null;
+    }
+
+    if (this.selected_search_result_index >= this.search_results.length) {
+        this.selected_search_result_index = this.search_results.length - 1;
     }
 
 }
