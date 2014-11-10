@@ -3,7 +3,7 @@
     padding: 30px 0 20px;
     height: 45px;
 
-    .container {
+    .header-container {
 
         margin: 0 auto;
         width: @site-content-width + 2 * @chart-section-sidebar-width;
@@ -32,21 +32,22 @@
 
                 position: relative;
                 float: left;
-                border: solid 1px #999;
-                border-radius: 5px;
 
                 @search-input-width: 250px;
                 @search-button-width: 50px;
 
-                &.focussed {
+                .search-container {
+                    position: absolute;
+                    border: solid 1px #999;
+                    border-radius: 5px;
+                    width: @search-input-width + @search-button-width;
+                }
+
+                &.focussed .search-container {
                     background-color: @input-hover-background-color;
                     border-color: @input-hover-border-color;
                     box-shadow: 0 0 3px #999;
                     box-shadow-width: 1px 1px 1px 0;
-                }
-
-                &.results-on {
-                    border-radius: 5px 5px 0 0;
                 }
 
                 .search-term {
@@ -105,20 +106,17 @@
                 .search-results {
 
                     display: none;
-                    position: absolute;
-                    top: 39px;
-                    left: -1px;
+                    clear: both;
                     width: @search-input-width + @search-button-width;
-                    border: 1px solid #999;
-                    border-radius: 0px 0px 5px 5px;
                     padding: 0;
                     list-style: none;
                     background: #FFF;
+                    border-radius: 5px;
 
                     li {
 
                         padding: 8px 10px;
-                        border-bottom: solid 1px #999;
+                        border-top: solid 1px #999;
 
                         &.selected {
                             background: #EEE;
