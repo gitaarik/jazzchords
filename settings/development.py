@@ -1,4 +1,5 @@
-from .general import INSTALLED_APPS
+import os
+from .general import INSTALLED_APPS, DEV_ROOT
 
 
 DEBUG = True
@@ -18,3 +19,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DOMAIN_NAME = 'localhost'
 WEBSITE_URL = 'http://{}:8000'.format(DOMAIN_NAME)
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(DEV_ROOT, 'whoosh_index'),
+        'INCLUDE_SPELLING': True
+    },
+}

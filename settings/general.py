@@ -5,7 +5,8 @@ import sys
 
 
 DJANGO_ROOT = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), os.path.pardir))
+    os.path.dirname(__file__), os.path.pardir
+))
 sys.path.insert(0, os.path.join(DJANGO_ROOT, 'apps'))
 DEV_ROOT = os.path.join(DJANGO_ROOT, 'dev')
 
@@ -127,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'rest_framework',
+    'haystack',
     'core',
     'users',
     'songs',

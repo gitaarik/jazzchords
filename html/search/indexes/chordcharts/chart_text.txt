@@ -1,0 +1,2 @@
+{{ object.song.name }}
+{{ object.short_description }}

@@ -1,9 +1,11 @@
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
+from haystack.query import SearchQuerySet
 
 from songs.models import Song
 from .serializers import (
@@ -186,15 +188,27 @@ class SearchCharts(views.APIView):
 
     def get(self, request):
 
-        charts = Chart.objects.filter(
-            song__name__icontains=request.GET.get('search-term')
+        search_term = request.GET.get('search-term')
+        search_results = SearchQuerySet().models(Chart).autocomplete(
+            content_auto=search_term
         )
+        results_dict = []
 
-        return JsonResponse({
-            'results': [
-                {
-                    'id': chart.id,
-                    'song_name': chart.song.name,
-                } for chart in charts
-            ]
-        })
+        for search_result in search_results:
+
+            chart = search_result.object
+            song = chart.song
+            url = reverse(
+                'chordcharts:chart',
+                kwargs={
+                    'chart_id': chart.id,
+                    'song_slug': song.slug,
+                }
+            )
+
+            results_dict.append({
+                'url': url,
+                'song_name': song.name,
+            })
+
+        return JsonResponse({'results': results_dict})

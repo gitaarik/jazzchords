@@ -10,19 +10,21 @@ var Search = function() {
     this.last_search_term_input_value = '';
     this.search_results = {};
     this.tab_pressed = false;
+    this.mouse_over_search_results = false;
     this.selected_search_result_index;
 
     this.search_term_input_el.focus(function() {
         that.search_el.addClass('focussed');
-        that.search_term_changed();
+        that.process_search_term();
     });
 
     this.search_term_input_el.focusout(function() {
         that.hide_search_results()
+        that.search_el.removeClass('focussed');
     });
 
     this.search_term_input_el.on('keyup', function() {
-        that.search_term_changed();
+        that.process_search_term();
     });
 
     this.search_term_el.find('.before-search-term').focus(function() {
@@ -37,9 +39,25 @@ var Search = function() {
         that.search_term_input_el.focus();
     });
 
+    this.search_results_el.mouseenter(function() {
+        that.mouse_over_search_results = true;
+    });
+
+    this.search_results_el.mouseleave(function() {
+        that.mouse_over_search_results = false;
+        if (!that.search_term_input_el.is(':focus')) {
+            that.hide_search_results();
+        }
+    });
+
 }
 
-Search.prototype.search_term_changed = function() {
+/**
+ * Processes the results for the current search term, or shows the
+ * results for the current search term if it didn't change since last
+ * time this method was called.
+ */
+Search.prototype.process_search_term = function() {
 
     var new_search_term_input_value = (
         this.search_term_input_el.val().trim()
@@ -47,13 +65,19 @@ Search.prototype.search_term_changed = function() {
 
     if (this.last_search_term_input_value != new_search_term_input_value) {
         this.search_term = new_search_term_input_value;
-        this.show_search_results();
+        this.process_results();
         this.last_search_term_input_value = new_search_term_input_value;
+    } else {
+        this.show_search_results();
     }
 
 };
 
-Search.prototype.show_search_results = function() {
+/**
+ * Gets the results for the current search term and processes them into
+ * the results widget.
+ */
+Search.prototype.process_results = function() {
 
     var that = this;
 
@@ -66,18 +90,25 @@ Search.prototype.show_search_results = function() {
                 var result_els = [];
                 that.search_results = response.results;
 
-                for (var i = 0; i < that.search_results.length; i++) {
-                    result_els.push(
-                        '<li>' + that.search_results[i].song_name + '</li>'
-                    );
-                }
+                if (that.search_results.length) {
 
-                if (result_els.length) {
+                    var result;
+
+                    for (var i = 0; i < that.search_results.length; i++) {
+                        result = that.search_results[i];
+                        result_els.push(
+                            '<li><a href="' + result.url + '">' +
+                                result.song_name +
+                            '</a></li>'
+                        );
+                    }
+
                     that.search_results_el.html(result_els.join(''));
-                    that.search_el.addClass('results-on');
+                    that.show_search_results();
                     that.selected_search_result_index = null;
+
                 } else {
-                    that.search_el.removeClass('results-on');
+                    that.hide_search_results();
                 }
 
             }
@@ -90,21 +121,40 @@ Search.prototype.show_search_results = function() {
 
 }
 
+/**
+ * Shows the results widget if there are any results.
+ */
+Search.prototype.show_search_results = function() {
+    if (this.search_results.length) {
+        this.search_el.addClass('results-on');
+    }
+};
+
+/**
+ * Hides the results widget.
+ */
 Search.prototype.hide_search_results = function() {
 
     var that = this;
 
-    setTimeout(function() {
-        if (!that.tab_pressed) {
-            that.search_el.removeClass('focussed');
-            that.search_el.removeClass('results-on');
-        } else {
-            that.tab_pressed = false;
-        }
-    }, 0);
+    if (!this.mouse_over_search_results) {
+
+        setTimeout(function() {
+            if (!that.tab_pressed) {
+                that.search_el.removeClass('results-on');
+            } else {
+                that.tab_pressed = false;
+            }
+        }, 0);
+
+    }
 
 }
 
+/**
+ * Selects the resuls with the given `offset` relative to the currently
+ * selected result.
+ */
 Search.prototype.select_result = function(offset) {
 
     if (this.search_results.length) {

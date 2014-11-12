@@ -7,8 +7,8 @@ Chart:
     - Make the enter key close the song name edit field.
     - Songname widget isn't closable through 'x' close button in widget.
     - Only allow edit when you're owner of the chart.
-    - Move key switcher, edit and settings buttons to sidebar.
-    - Move title to left.
+    - Make methods on the model `view_url()` and `edit_url()` to easily
+      get the view and edit urls.
 
 Make things ready for alpha release:
     - Finish ansible stuff
