@@ -37,18 +37,17 @@
                 @search-input-width: 250px;
                 @search-button-width: 50px;
 
-                .search-container {
-                    position: absolute;
+                .search-form {
+                    float: left;
                     border: solid 1px #999;
                     border-radius: 5px;
                     width: @search-input-width + @search-button-width;
                 }
 
-                &.focussed .search-container {
-                    background-color: @input-hover-background-color;
+                &.focussed .search-form {
+                    //background-color: @input-hover-background-color;
                     border-color: @input-hover-border-color;
                     box-shadow: 0 0 3px #999;
-                    box-shadow-width: 1px 1px 1px 0;
                 }
 
                 .search-term {
@@ -107,24 +106,36 @@
                 .search-results {
 
                     display: none;
+                    position: absolute;
+                    top: 45px;
                     clear: both;
                     width: @search-input-width + @search-button-width;
-                    padding: 0;
+                    padding: 5px 0;
                     list-style: none;
-                    background: #FFF;
+                    background: #EEE;
+                    border: solid 1px #333;
                     border-radius: 5px;
+                    box-shadow: 0 0 8px 1px #333;
 
                     li {
 
-                        padding: 8px 10px;
-                        border-top: solid 1px #999;
+                        padding: 0;
 
-                        &.selected {
-                            background: #EEE;
+                        a, span {
+                            display: block;
+                            padding: 4px 10px;
+                            color: #000;
+                            text-decoration: none;
                         }
 
-                        &:last-child {
-                            border-radius: 0 0 5px 5px;
+                        span {
+                            font-style: italic;
+                        }
+
+                        a:hover,
+                        &.selected a {
+                            background: #165CE0;
+                            color: #FFF;
                         }
 
                     }

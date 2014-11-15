@@ -2,7 +2,8 @@ var Search = function() {
 
     var that = this;
     this.search_el = $('._base-header .search');
-    this.search_term_el = this.search_el.find('.search-term');
+    this.search_form_el = this.search_el.find('.search-form');
+    this.search_term_el = this.search_form_el.find('.search-term');
     this.search_term_input_el = this.search_term_el.find('.search-term-input');
     this.search_results_el = this.search_el.find('.search-results');
 
@@ -23,8 +24,16 @@ var Search = function() {
         that.search_el.removeClass('focussed');
     });
 
-    this.search_term_input_el.on('keyup', function() {
-        that.process_search_term();
+    this.search_term_input_el.on('keyup', function(event) {
+
+        if ($.inArray(event.key, ['Down', 'ArrowDown']) > -1) {
+            that.select_result(1);
+        } else if ($.inArray(event.key, ['Up', 'ArrowUp']) > -1) {
+            that.select_result(-1);
+        } else {
+            that.process_search_term();
+        }
+
     });
 
     this.search_term_el.find('.before-search-term').focus(function() {
@@ -45,12 +54,20 @@ var Search = function() {
 
     this.search_results_el.mouseleave(function() {
         that.mouse_over_search_results = false;
+    });
+
+    this.search_el.mouseleave(function() {
         if (!that.search_term_input_el.is(':focus')) {
             that.hide_search_results();
         }
     });
 
-}
+    this.search_form_el.submit(function() {
+        that.open_search_result();
+        return false;
+    });
+
+};
 
 /**
  * Processes the results for the current search term, or shows the
@@ -107,8 +124,12 @@ Search.prototype.process_results = function() {
                     that.show_search_results();
                     that.selected_search_result_index = null;
 
+                    if (that.search_results.length == 1) {
+                        that.select_result(1, false);
+                    }
+
                 } else {
-                    that.hide_search_results();
+                    that.show_no_results_message();
                 }
 
             }
@@ -119,7 +140,12 @@ Search.prototype.process_results = function() {
         this.search_el.removeClass('results-on');
     }
 
-}
+};
+
+Search.prototype.show_no_results_message = function() {
+    this.search_el.addClass('results-on');
+    this.search_results_el.html('<li><span>No charts found</span></li>');
+};
 
 /**
  * Shows the results widget if there are any results.
@@ -149,15 +175,22 @@ Search.prototype.hide_search_results = function() {
 
     }
 
-}
+};
 
 /**
  * Selects the resuls with the given `offset` relative to the currently
  * selected result.
  */
-Search.prototype.select_result = function(offset) {
+Search.prototype.select_result = function(offset, autocomplete_input) {
+
+    if (autocomplete_input == null) {
+        autocomplete_input = true;
+    }
 
     if (this.search_results.length) {
+
+        var all_search_result_elements = this.search_results_el.find('li');
+        all_search_result_elements.removeClass('selected');
 
         this.reinit_selected_search_result_index(offset);
 
@@ -169,24 +202,25 @@ Search.prototype.select_result = function(offset) {
                 this.search_results[this.selected_search_result_index].song_name
             );
 
-            this.search_term_input_el.val(selected_search_result_song_name);
+            if (autocomplete_input) {
+                this.search_term_input_el.val(selected_search_result_song_name);
+            }
+
             this.last_search_term_input_value = selected_search_result_song_name;
 
-            var all_search_result_elements = this.search_results_el.find('li');
             var selected_search_result_el = (
                 all_search_result_elements.eq(
                     this.selected_search_result_index
                 )
             );
 
-            all_search_result_elements.removeClass('selected');
             selected_search_result_el.addClass('selected');
 
         }
 
     }
 
-}
+};
 
 /**
  * Sets the `selected_search_result_index` for the given `offset`.
@@ -194,20 +228,53 @@ Search.prototype.select_result = function(offset) {
 Search.prototype.reinit_selected_search_result_index = function(offset) {
 
     if (this.selected_search_result_index == null) {
-        this.selected_search_result_index = offset - 1;
+
+        if (offset > 0) {
+            this.selected_search_result_index = offset - 1;
+        } else {
+            this.selected_search_result_index = this.search_results.length - 1;
+        }
+
     } else {
+
         this.selected_search_result_index += offset;
+
+        if (this.selected_search_result_index < 0) {
+            this.selected_search_result_index = null;
+        }
+
+        if (this.selected_search_result_index >= this.search_results.length) {
+            this.selected_search_result_index = null;
+        }
+
     }
 
-    if (this.selected_search_result_index < 0) {
-        this.selected_search_result_index = null;
+};
+
+/**
+ * Opens the selected search result.
+ */
+Search.prototype.open_search_result = function() {
+
+    if (this.search_results.length) {
+
+        var open_search_result;
+
+        if (this.search_results.length == 1) {
+            open_search_result = this.search_results[0];
+        } else if (this.selected_search_result_index != null) {
+            open_search_result = this.search_results[
+                this.selected_search_result_index
+            ];
+        }
+
+        if (open_search_result) {
+            window.location = open_search_result.url;
+        }
+
     }
 
-    if (this.selected_search_result_index >= this.search_results.length) {
-        this.selected_search_result_index = this.search_results.length - 1;
-    }
-
-}
+};
 
 $(function() {
     new Search();
