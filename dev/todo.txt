@@ -1,5 +1,8 @@
-Search charts:
-    Be able to search for charts.
+Search:
+    - When pressing the search button when no result is selected, it
+      should blink the results box or something.
+    - When new search results are loading, it should be indicated in the
+      results box by a loader icon or something.
 
 Chart:
     - Don't allow '%' after repeating measures.
