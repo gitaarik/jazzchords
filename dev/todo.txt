@@ -1,10 +1,14 @@
 Search:
-    - When pressing the search button when no result is selected, it
-      should blink the results box or something.
     - When new search results are loading, it should be indicated in the
       results box by a loader icon or something.
+    - Use POST instead of GET for the search API, because GET needs URL
+      encoding.
 
 Chart:
+    - When adding a section it seems the second section has smaller
+      boxes, weird.
+    - When transposing from C Major to B Major, weird stuff happens when
+      you've got two measures with the same chord.
     - Don't allow '%' after repeating measures.
     - Use 'Escape' alongside 'Esc' JS button matching.
     - Make the enter key close the song name edit field.
@@ -12,6 +16,8 @@ Chart:
     - Only allow edit when you're owner of the chart.
     - Make methods on the model `view_url()` and `edit_url()` to easily
       get the view and edit urls.
+    - Make widget in sidebar to switch between different charts of the
+      same song.
 
 Make things ready for alpha release:
     - Finish ansible stuff
