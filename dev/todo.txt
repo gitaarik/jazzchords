@@ -2,8 +2,6 @@ Search:
     - Index charts when they get added/deleted/changed.
 
 Chart:
-    - When adding a section it seems the second section has smaller
-      boxes, weird.
     - When transposing from C Major to B Major, weird stuff happens when
       you've got two measures with the same chord.
     - When you edit something in the name of the chart, it always jumps
