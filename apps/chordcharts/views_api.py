@@ -186,9 +186,9 @@ class SectionKeyView(views.APIView):
 
 class SearchCharts(views.APIView):
 
-    def get(self, request):
+    def post(self, request):
 
-        search_term = request.GET.get('search-term')
+        search_term = request.POST.get('search_term')
         search_results = SearchQuerySet().models(Chart).autocomplete(
             content_auto=search_term
         )

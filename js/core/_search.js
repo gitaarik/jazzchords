@@ -95,7 +95,7 @@ Search.prototype.process_search_term = function() {
 
     if (this.last_search_term_input_value != new_search_term_input_value) {
         this.search_term = new_search_term_input_value;
-        this.process_results();
+        this.fetch_results();
         this.last_search_term_input_value = new_search_term_input_value;
     }
 
@@ -105,48 +105,28 @@ Search.prototype.process_search_term = function() {
  * Gets the results for the current search term and processes them into
  * the results widget.
  */
-Search.prototype.process_results = function() {
+Search.prototype.fetch_results = function() {
 
     var that = this;
 
     if (this.search_term) {
 
-        this.show_loading_indicator();
+        if (this.search_term in this.results_cache) {
+            this.process_results(this.results_cache[this.search_term]);
+        } else {
 
-        $.get(
-            '/api/chordcharts/search/?search-term=' + this.search_term,
-            function(response) {
+            this.show_loading_indicator();
 
-                var result_els = [];
-                that.search_results = response.results;
-
-                if (that.search_results.length) {
-
-                    var result;
-
-                    for (var i = 0; i < that.search_results.length; i++) {
-                        result = that.search_results[i];
-                        result_els.push(
-                            '<li><a href="' + result.url + '">' +
-                                result.song_name +
-                            '</a></li>'
-                        );
-                    }
-
-                    that.search_results_el.html(result_els.join(''));
-                    that.show_search_results();
-                    that.selected_result_index = null;
-
-                    if (that.search_results.length == 1) {
-                        that.select_result(0, false);
-                    }
-
-                } else {
-                    that.show_no_results_message();
+            $.post(
+                '/api/chordcharts/search/',
+                {'search_term': this.search_term},
+                function(response) {
+                    that.results_cache[that.search_term] = response.results;
+                    that.process_results(response.results);
                 }
+            );
 
-            }
-        );
+        }
 
     } else {
         this.search_results_el.html('');
@@ -155,8 +135,40 @@ Search.prototype.process_results = function() {
 
 };
 
+Search.prototype.process_results = function(results) {
+
+    this.search_results = results;
+    var result_els = [];
+
+    if (this.search_results.length) {
+
+        var result;
+
+        for (var i = 0; i < this.search_results.length; i++) {
+            result = this.search_results[i];
+            result_els.push(
+                '<li><a href="' + result.url + '">' +
+                    result.song_name +
+                '</a></li>'
+            );
+        }
+
+        this.search_results_el.html(result_els.join(''));
+        this.show_search_results();
+        this.selected_result_index = null;
+
+        if (this.search_results.length == 1) {
+            this.select_result(0, false);
+        }
+
+    } else {
+        this.show_no_results_message();
+    }
+
+};
+
 Search.prototype.show_loading_indicator = function() {
-    this.search_results_el.html('<li><span>Loading...</span></li>');
+    this.search_results_el.html('<li><span class="loading"></span></li>');
     this.search_el.addClass('results-on');
 };
 

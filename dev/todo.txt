@@ -1,14 +1,13 @@
 Search:
-    - When new search results are loading, it should be indicated in the
-      results box by a loader icon or something.
-    - Use POST instead of GET for the search API, because GET needs URL
-      encoding.
+    - Index charts when they get added/deleted/changed.
 
 Chart:
     - When adding a section it seems the second section has smaller
       boxes, weird.
     - When transposing from C Major to B Major, weird stuff happens when
       you've got two measures with the same chord.
+    - When you edit something in the name of the chart, it always jumps
+      to the end of the input.
     - Don't allow '%' after repeating measures.
     - Use 'Escape' alongside 'Esc' JS button matching.
     - Make the enter key close the song name edit field.
