@@ -36,7 +36,6 @@ module.exports = Backbone.View.extend({
             this.show();
         } else {
             this.$el.hide();
-            this.model.get('section').save();
         }
 
     },
