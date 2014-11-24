@@ -113,8 +113,10 @@ module.exports = Backbone.View.extend({
             chord_data.alt_bass = false;
         }
 
-        this.model.get('chord').set(chord_data);
-        this.model.get('chord').save();
+        var chord = this.model.get('chord');
+        chord.set(chord_data);
+        chord.save();
+        chord.parseNextMeasure();
 
     },
 

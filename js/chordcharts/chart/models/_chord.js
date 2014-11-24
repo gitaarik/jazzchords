@@ -23,7 +23,6 @@ module.exports = Backbone.Model.extend({
 
     initListeners: function() {
         this.stopListening();
-        this.listenTo(this, 'change', this.parseNextMeasure);
         this.listenTo(this, 'change:chord_type_id', this.initChordType);
     },
 
