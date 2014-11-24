@@ -1,5 +1,5 @@
-Search:
-    - Index charts when they get added/deleted/changed.
+CSS:
+    - Use border-box everywhere?
 
 Chart:
     - When transposing from C Major to B Major, weird stuff happens when

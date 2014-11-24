@@ -166,6 +166,8 @@ LOGGING = {
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 # Django Auth settings
 AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = ('users.auth_backends.UserBackend',)
