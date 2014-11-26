@@ -1,6 +1,3 @@
-CSS:
-    - Use border-box everywhere?
-
 Chart:
     - Use 'Escape' alongside 'Esc' JS button matching.
     - Make the enter key close the song name edit field.
