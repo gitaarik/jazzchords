@@ -36,7 +36,10 @@ $('html').on('click', function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (transposeWidget.get('visible') && event.key == 'Esc') {
+    if (
+        transposeWidget.get('visible') &&
+        $.inArray(event.key, ['Esc', 'Escape']) > -1
+    ) {
         transposeWidget.set('visible', false);
     }
 

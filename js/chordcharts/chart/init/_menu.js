@@ -25,7 +25,7 @@ $('html').click(function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (event.key == 'Esc') {
+    if ($.inArray(event.key, ['Esc', 'Escape']) > -1) {
 
         menu_el.find('.button .widget').each(function() {
 

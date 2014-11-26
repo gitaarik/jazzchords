@@ -44,7 +44,10 @@ $('html').on('click', function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (measureEdit.get('visible') && event.key == 'Esc') {
+    if (
+        measureEdit.get('visible') &&
+        $.inArray(event.key, ['Esc', 'Escape']) > -1
+    ) {
         measureEdit.set('visible', false);
     }
 

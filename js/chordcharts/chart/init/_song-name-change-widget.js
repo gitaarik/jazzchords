@@ -32,7 +32,10 @@ $('html').on('click', function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (songNameChangeWidget.get('visible') && event.key == 'Esc') {
+    if (
+        songNameChangeWidget.get('visible') &&
+        $.inArray(event.key, ['Esc', 'Escape']) > -1
+    ) {
         songNameChangeWidget.set('visible', false);
     }
 

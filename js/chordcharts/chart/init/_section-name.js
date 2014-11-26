@@ -42,7 +42,10 @@ $('html').on('click', function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (sectionName.get('visible') && event.key == 'Esc') {
+    if (
+        sectionName.get('visible') &&
+        $.inArray(event.key, ['Esc', 'Escape']) > -1
+    ) {
         sectionName.set('visible', false);
     }
 

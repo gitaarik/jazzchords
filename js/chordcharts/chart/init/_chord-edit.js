@@ -36,7 +36,10 @@ $('html').on('click', function(event) {
 
 $('html').on('keyup', function(event) {
 
-    if (chordEdit.get('visible') && event.key == 'Esc') {
+    if (
+        chordEdit.get('visible') &&
+        $.inArray(event.key, ['Esc', 'Escape']) > -1
+    ) {
         chordEdit.set('visible', false);
     }
 
