@@ -2,9 +2,6 @@ CSS:
     - Use border-box everywhere?
 
 Chart:
-    - When you edit something in the name of the chart, it always jumps
-      to the end of the input.
-    - Don't allow '%' after repeating measures.
     - Use 'Escape' alongside 'Esc' JS button matching.
     - Make the enter key close the song name edit field.
     - Songname widget isn't closable through 'x' close button in widget.

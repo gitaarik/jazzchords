@@ -833,10 +833,11 @@ class Line(models.Model):
             Returns whether this line can contain repeating measures
             based on the previous line.
 
-            If there is a previous line and it merges with this one, it
-            should have repeating measures over the full length of the
-            line. Otherwise you'll get repeating measures in the second
-            line of a subsection, which is confusing.
+            If there is a previous line and it merges with this one,
+            that line should already have repeating measures over the
+            full length of the line. Otherwise you'll get repeating
+            measures in the second line of a subsection, which is
+            confusing.
             """
 
             if self.prev_line and self.merge_with_prev_line:
@@ -893,16 +894,24 @@ class Line(models.Model):
             """
 
             equal_count = 0
+            repeat_prev_measures = 0
 
             for line_measure, this_line_measure in (
                 zip(line.measures.all(), self.measures.all())
             ):
                 if line_measure.equal_to(this_line_measure):
+
                     equal_count += 1
+
+                    if this_line_measure.next().repeating_prev_measure():
+                        repeat_prev_measures += 1
+                    else:
+                        repeat_prev_measures = 0
+
                 else:
                     break
 
-            return equal_count
+            return equal_count - repeat_prev_measures
 
         def make_match(line, equal_count):
             """
@@ -1057,6 +1066,17 @@ class Measure(models.Model):
         except IndexError:
             return None
 
+    def next(self):
+        """
+        Returns the next measure.
+        """
+        try:
+            return self.line.measures.filter(
+                number__gt=self.number
+            )[0]
+        except IndexError:
+            return None
+
     def equal_to(self, measure):
         """
         Returns a boolean indicating if the given `measure` is equal to
@@ -1076,6 +1096,41 @@ class Measure(models.Model):
             is_equal = False
 
         return is_equal
+
+    def repeating_prev_measure(self):
+        """
+        Returns a boolean indicating if this measure should show a
+        repetition sign to repeat the previous measure.
+        """
+
+        chord = self.chords.all()[0]
+
+        if (
+            self.previous() and
+            chord.beats == self.time_signature.beats
+        ):
+
+            prev_measure_chord = self.previous().chords.all()[0]
+
+            if (
+                (chord.rest and prev_measure_chord.rest) or
+                (
+                    prev_measure_chord.beats == self.time_signature.beats and
+                    chord.chord_pitch == prev_measure_chord.chord_pitch and
+                    chord.chord_type == prev_measure_chord.chord_type and
+                    (
+                        not chord.alt_bass or
+                        (
+                            chord.alt_bass and
+                            chord.alt_bass_pitch ==
+                            prev_measure_chord.alt_bass_pitch
+                        )
+                    )
+                )
+            ):
+                return True
+
+        return False
 
     def cleanup(self):
         """
@@ -1206,31 +1261,12 @@ class Chord(models.Model):
         The way the chord will be displayed on the chart. This can either be
         the original chord notation or the repeat sign.
         """
-
         if self.rest:
             return 'REST'
-
-        time_signature_beats = self.time_signature.beats
-
-        if self.beats == time_signature_beats and self.measure.previous():
-
-            prev_chord = self.measure.previous().chords.all()[0]
-
-            if (
-                prev_chord.beats == time_signature_beats and
-                self.chord_pitch == prev_chord.chord_pitch and
-                self.chord_type == prev_chord.chord_type and
-                (
-                    not self.alt_bass or
-                    (
-                        self.alt_bass and
-                        self.alt_bass_pitch == prev_chord.alt_bass_pitch
-                    )
-                )
-            ):
-                return '%'
-
-        return self.chord_notation
+        elif self.measure.repeating_prev_measure():
+            return '%'
+        else:
+            return self.chord_notation
 
     @property
     def chart_fontsize(self):
