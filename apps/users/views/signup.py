@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 
 from core.helpers.fields_maxlength import fields_maxlength
 from core.helpers.form_errors import copy_global_error, remove_empty_errors
@@ -21,11 +21,11 @@ def signup(request):
 
     if request.method == 'POST':
 
-        if signup_form.is_valid():
-            user = signup_form.signup()
+        if signup_form.is_valid() and signup_form.signup():
             request.session['signup_email'] = user.email
             response = redirect('users:signup:validate_email')
         else:
+            copy_global_error(signup_form, 'integrity', 'username')
             copy_global_error(signup_form, 'passwords_dont_match', 'password1')
             remove_empty_errors(signup_form)
             context.update({

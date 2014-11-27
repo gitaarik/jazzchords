@@ -1,7 +1,3 @@
-Users:
-    - When trying to register with a already taken username, you get a
-      unique constraint error.
-
 Chart:
     - Make the enter key close the song name edit field.
     - Songname widget isn't closable through 'x' close button in widget.

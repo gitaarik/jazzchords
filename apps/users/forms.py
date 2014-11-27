@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.contrib.auth import authenticate
@@ -22,8 +23,9 @@ class SignUpForm(ModelForm):
                 "A username can at most have {} characters."
                 .format(fields.UsernameField.MAX_LENGTH)
             ),
-            'unique': "Sorry, this username is already taken.",
-            'username_is_email': "Please don't use an email address as a username"
+            'username_is_email': (
+                "Please don't use an email address as a username"
+            )
         }
     )
 
@@ -59,7 +61,7 @@ class SignUpForm(ModelForm):
                 "An email address can at most have {} characters."
                 .format(fields.EmailField.MAX_LENGTH)
             ),
-            'invalid': "Sorry but this email address is not valid."
+            'invalid': "Sorry but this email address is not valid.",
         }
     )
 
@@ -70,11 +72,25 @@ class SignUpForm(ModelForm):
     def signup(self):
         """
         Creates the user model, calls `signup()` on it and returns
-        it.
+        it, or returns `False` in case of failure.
         """
+
         user = self.save(commit=False)
-        user.signup()
-        return user
+
+        try:
+            user.signup()
+        except IntegrityError as error:
+            self.add_error(
+                None,
+                ValidationError(
+                    "Sorry, there was a technical error. Please try "
+                    "again.",
+                    'integrity'
+                )
+            )
+            return False
+        else:
+            return user
 
     def save(self, *args, **kwargs):
         """
@@ -93,6 +109,20 @@ class SignUpForm(ModelForm):
             model.save()
 
         return model
+
+    def clean_username(self):
+
+        username = self.cleaned_data.get('username')
+
+        if User.objects.filter(username=username).exists():
+            raise ValidationError(
+                "This username is already taken. If you forgot your "
+                "password, you can <a href=\"{}\">reset it over "
+                "here</a>.".format(reverse('users:reset_password:request')),
+                'unique'
+            )
+
+        return email
 
     def clean_email(self):
 
