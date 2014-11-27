@@ -1,5 +1,4 @@
 Chart:
-    - Make the enter key close the song name edit field.
     - Songname widget isn't closable through 'x' close button in widget.
     - Only allow edit when you're owner of the chart.
     - Make methods on the model `view_url()` and `edit_url()` to easily
