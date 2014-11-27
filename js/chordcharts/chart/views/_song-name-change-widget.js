@@ -6,7 +6,8 @@ module.exports = Backbone.View.extend({
 
     events: {
         'click h1': 'toggle',
-        'keyup .song-name-input': 'updateSongName'
+        'keyup .song-name-input': 'updateSongName',
+        'click .close': 'close'
     },
 
     toggle: function() {
@@ -22,6 +23,10 @@ module.exports = Backbone.View.extend({
             this.$el.find('.song-name-change').hide();
         }
 
+    },
+
+    close: function() {
+        this.model.set('visible', false);
     },
 
     updateSongName: function() {
