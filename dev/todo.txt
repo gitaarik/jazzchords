@@ -1,3 +1,7 @@
+Users:
+    - When trying to register with a already taken username, you get a
+      unique constraint error.
+
 Chart:
     - Make the enter key close the song name edit field.
     - Songname widget isn't closable through 'x' close button in widget.
@@ -6,8 +10,10 @@ Chart:
       get the view and edit urls.
     - Make widget in sidebar to switch between different charts of the
       same song.
-    - The note widget of the key change widget of a section has too much
-      padding.
+
+Footer:
+    There should be a footer to have at least some spacing at the
+    bottom.
 
 Make things ready for alpha release:
     - Finish ansible stuff
