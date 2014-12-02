@@ -2,7 +2,8 @@ import json
 
 from django.shortcuts import render, redirect
 from django.http import (
-    HttpResponse, HttpResponseBadRequest, HttpResponsePermanentRedirect
+    HttpResponse, HttpResponseBadRequest, HttpResponseRedirect,
+    HttpResponsePermanentRedirect, HttpResponseForbidden
 )
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -75,18 +76,25 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
             [chord_type.client_data() for chord_type in chord_types]
         )
 
-    def get_redirect_wrong_slugs(chart, key, song_slug, key_tonic):
+    def get_redirect(chart, key, song_slug, key_tonic, edit, can_edit):
         """
-        Returns a redirect response in case the given `song_slug` isn't
-        equal to the chart's song's slug, and/or if the given
-        `key_tonic` is invalid. Otherwise returns `None`.
+        Returns a redirect response in case it's necessary.
+
+        It can be necessary if the given `song_slug` isn't equal to the
+        chart's song's slug, and/or if the given `key_tonic` is invalid,
+        and/or `edit` is `True` but `can_edit` is `False`. Otherwise
+        returns `None`.
         """
 
         redirect = False
         reverse_kwargs = {}
 
+        if edit and not can_edit:
+            redirect = 'temporary'
+            edit = False
+
         if song_slug != chart.song.slug:
-            redirect = True
+            redirect = 'permanent'
 
         if key_tonic:
             if key:
@@ -95,30 +103,35 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
                 # If `key` is `None`, it means that the `key_tonic` was
                 # invalid. In this case we want to redirect, so it will
                 # go to the default key.
-                redirect = True
+                redirect = 'temporary'
 
         if redirect:
 
             reverse_kwargs['chart_id'] = chart.id
             reverse_kwargs['song_slug'] = chart.song.slug
 
+            if redirect == 'permanent':
+                redirect_class = HttpResponsePermanentRedirect
+            else:
+                redirect_class = HttpResponseRedirect
+
             if edit:
                 view = 'chordcharts:edit_chart'
             else:
                 view = 'chordcharts:chart'
 
-            return HttpResponsePermanentRedirect(
-                reverse(view, kwargs=reverse_kwargs)
-            )
+            return redirect_class(reverse(view, kwargs=reverse_kwargs))
 
     chart = get_object_or_404(Chart, id=chart_id)
     key = get_key(chart, key_tonic)
-    redirect_wrong_slugs = get_redirect_wrong_slugs(
-        chart, key, song_slug, key_tonic
+    can_edit = request.user.has_perm('change', chart)
+    redirect_response = get_redirect(
+        chart, key, song_slug, key_tonic, edit, can_edit
     )
+    edit = edit and can_edit
 
-    if redirect_wrong_slugs:
-        return redirect_wrong_slugs
+    if redirect_response:
+        return redirect_response
     else:
 
         if edit:
@@ -141,6 +154,7 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
             'all_keys_json': keys_json(all_keys),
             'chord_types_sets': get_chord_types_sets(chord_types),
             'chord_types_json': get_chord_types_json(chord_types),
+            'can_edit': can_edit,
             'edit': edit,
             'key_select_tonics': Key.TONIC_CHOICES
         }
@@ -176,7 +190,7 @@ def new_chart(request):
     if request.method == 'POST':
 
         if create_chart_form.is_valid():
-            chart = create_chart_form.save()
+            chart = create_chart_form.save(request.user)
             response = redirect(
                 'chordcharts:edit_chart',
                 song_slug=chart.song.slug,
@@ -218,21 +232,26 @@ def delete_chart(request, song_slug, chart_id):
             response = HttpResponseBadRequest('Song not found')
         else:
 
-            song = chart.song
-            chart.delete()
+            if request.user.has_perm('delete', chart):
 
-            if song.charts.count() == 0:
-                song.delete()
+                song = chart.song
+                chart.delete()
 
-            context = {
-                'song_name': request.POST.get('song_name')
-            }
+                if song.charts.count() == 0:
+                    song.delete()
 
-            response = render(
-                request,
-                'chordcharts/chart-deleted.html',
-                context
-            )
+                context = {
+                    'song_name': request.POST.get('song_name')
+                }
+
+                response = render(
+                    request,
+                    'chordcharts/chart-deleted.html',
+                    context
+                )
+
+            else:
+                response = HttpResponseForbidden()
 
     else:
         response = HttpResponse(status=405)

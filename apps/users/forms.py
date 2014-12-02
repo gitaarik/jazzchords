@@ -122,7 +122,7 @@ class SignUpForm(ModelForm):
                 'unique'
             )
 
-        return email
+        return username
 
     def clean_email(self):
 

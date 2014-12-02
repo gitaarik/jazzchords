@@ -1,5 +1,10 @@
+Upgrade rest framework to v3
+
 Chart:
-    - Only allow edit when you're owner of the chart.
+    - If there's only 1 section, the title is never shown.
+    - The key isn't shown for the first section, even if the section
+      section is in a different key.
+    - If an API request fails, you should see it in the interface.
     - Make methods on the model `view_url()` and `edit_url()` to easily
       get the view and edit urls.
     - Make widget in sidebar to switch between different charts of the

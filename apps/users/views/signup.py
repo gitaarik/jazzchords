@@ -21,7 +21,12 @@ def signup(request):
 
     if request.method == 'POST':
 
-        if signup_form.is_valid() and signup_form.signup():
+        if signup_form.is_valid():
+            user = signup_form.signup()
+        else:
+            user = None
+
+        if user:
             request.session['signup_email'] = user.email
             response = redirect('users:signup:validate_email')
         else:

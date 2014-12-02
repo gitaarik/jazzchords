@@ -15,8 +15,9 @@ class CreateChartForm(ModelForm):
         model = Chart
         fields = ['short_description', 'video_url', 'lyrics_url']
 
-    def save(self, *args, **kwargs):
+    def save(self, user, *args, **kwargs):
 
+        self.instance.owner = user
         self.instance.song = self.get_song()
         key = Key.objects.get(
             tonic=self.cleaned_data['key_tonic'],

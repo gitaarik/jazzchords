@@ -1,6 +1,7 @@
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.backends import ModelBackend
+from chordcharts.models import Chart
 from .models import User
 
 
@@ -40,8 +41,23 @@ class UserBackend(ModelBackend):
             pass
         else:
 
-            if validation_token and validation_token == user.validation_token:
+            if validation_token and user.validate_with_token(validation_token):
                 return user
 
             if password and user.check_password(password):
                 return user
+
+    def has_perm(self, user_obj, perm, obj=None):
+        """
+        If `obj` is not None, it will check if the user has permission
+        for this specific object by calling the `has_permission` method
+        on that object if it's there. Otherwise, will do the default
+        behavior
+        """
+        if (
+            obj and hasattr(obj, 'has_permission') and
+            obj.has_permission(user_obj, perm)
+        ):
+            return True
+        else:
+            return super().has_perm(user_obj, perm, obj)

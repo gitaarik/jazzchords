@@ -2,6 +2,7 @@
 from django.db import models
 
 from core.helpers.number_to_ordinal import number_to_ordinal
+from users.models import User
 from songs.models import Song
 from .settings import BOXED_CHART
 
@@ -229,7 +230,17 @@ class ChordType(models.Model):
         }
 
 
-class Chart(models.Model):
+class PermissionMixin():
+
+    def has_permission(self, user, permission):
+        """
+        Returns a boolean indicating whether the given `user` has
+        permission to change this instance.
+        """
+        return user == self.owner
+
+
+class Chart(models.Model, PermissionMixin):
     """
     A chord chart.
 
@@ -239,6 +250,7 @@ class Chart(models.Model):
         sections - The sections on this chart.
     """
 
+    owner = models.ForeignKey(User, related_name='charts')
     song = models.ForeignKey(Song, related_name='charts')
     short_description = models.CharField(
         max_length=150, default="", blank=True
@@ -348,7 +360,7 @@ class TimeSignature(models.Model):
         return '{}/{}'.format(self.beats, self.beat_unit)
 
 
-class Section(models.Model):
+class Section(models.Model, PermissionMixin):
     """
     A section in a chart.
 
@@ -392,6 +404,8 @@ class Section(models.Model):
     time_signature = models.ForeignKey(TimeSignature)
     show_sidebar = models.BooleanField(default=False)
 
+    related_field_permissions = ['chart']
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.set_default_time_signature()
@@ -419,6 +433,10 @@ class Section(models.Model):
             'key': self.key.client_data(),
             'lines': [l.client_data(edit=edit) for l in self.lines.all()]
         }
+
+    @property
+    def owner(self):
+        return self.chart.owner
 
     @property
     def height(self):
@@ -562,7 +580,7 @@ class Section(models.Model):
             self.delete()
 
 
-class Line(models.Model):
+class Line(models.Model, PermissionMixin):
     """
     A line in a section.
 
@@ -607,6 +625,8 @@ class Line(models.Model):
         )
     )
 
+    related_field_permissions = ['section']
+
     # Preferably don't use this field directly, but use the property
     # `merge_with_next_line`.
     _merge_with_next_line = models.BooleanField(
@@ -625,6 +645,10 @@ class Line(models.Model):
 
     class Meta:
         ordering = ('number',)
+
+    @property
+    def owner(self):
+        return self.section.owner
 
     @property
     def merge_with_next_line(self):
@@ -984,7 +1008,7 @@ class Line(models.Model):
             self.delete()
 
 
-class Measure(models.Model):
+class Measure(models.Model, PermissionMixin):
     """
     A measure in a line.
 
@@ -1022,6 +1046,8 @@ class Measure(models.Model):
         )
     )
 
+    related_field_permissions = ['line']
+
     def __str__(self):
         return "Measure {}".format(self.number)
 
@@ -1035,6 +1061,10 @@ class Measure(models.Model):
             'beat_schema': self.beat_schema,
             'chords': [c.client_data() for c in self.chords.all()]
         }
+
+    @property
+    def owner(self):
+        return self.line.owner
 
     @property
     def key(self):
@@ -1142,7 +1172,7 @@ class Measure(models.Model):
             self.delete()
 
 
-class Chord(models.Model):
+class Chord(models.Model, PermissionMixin):
     """
     A chord in a measure.
     """
@@ -1207,12 +1237,18 @@ class Chord(models.Model):
         )
     )
 
+    related_field_permissions = ['measure']
+
     def __str__(self):
         return self.chord_notation
 
     class Meta:
         ordering = ('number',)
         unique_together = ('measure', 'number')
+
+    @property
+    def owner(self):
+        return self.measure.owner
 
     def client_data(self):
         return {

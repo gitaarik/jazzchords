@@ -3,11 +3,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, PermissionDenied
 from rest_framework.response import Response
 from haystack.query import SearchQuerySet
 
 from songs.models import Song
+from users.permissions import UserPermissions
 from .serializers import (
     ChartSerializer, SectionSerializer, LineSerializer,
     MeasureSerializer, ChordSerializer
@@ -16,6 +17,7 @@ from .models import Key, Chart, Section, Line, Measure, Chord
 
 
 class ChartViewSet(viewsets.ModelViewSet):
+    permission_classes = (UserPermissions,)
     model = Chart
     serializer_class = ChartSerializer
     queryset = Chart.objects.all()
@@ -23,6 +25,7 @@ class ChartViewSet(viewsets.ModelViewSet):
 
 class SectionViewSet(viewsets.ModelViewSet):
 
+    permission_classes = (UserPermissions,)
     model = Section
     serializer_class = SectionSerializer
 
@@ -37,6 +40,7 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 class LineViewSet(viewsets.ModelViewSet):
 
+    permission_classes = (UserPermissions,)
     model = Line
     serializer_class = LineSerializer
 
@@ -54,6 +58,7 @@ class LineViewSet(viewsets.ModelViewSet):
 
 class MeasureViewSet(viewsets.ModelViewSet):
 
+    permission_classes = (UserPermissions,)
     model = Measure
     serializer_class = MeasureSerializer
 
@@ -72,6 +77,7 @@ class MeasureViewSet(viewsets.ModelViewSet):
 
 class ChordViewSet(viewsets.ModelViewSet):
 
+    permission_classes = (UserPermissions,)
     model = Chord
     serializer_class = ChordSerializer
 
@@ -102,6 +108,7 @@ class ChartSongNameView(views.APIView):
     def post(self, request, chart_id):
 
         chart = get_object_or_404(Chart, id=chart_id)
+        require_permission(request, chart, 'change')
 
         old_song = chart.song
         new_song = self.get_new_song(request)
@@ -111,7 +118,9 @@ class ChartSongNameView(views.APIView):
         if old_song.charts.count() == 0:
             old_song.delete()
 
-        return HttpResponse('Successfully changed song name')
+        response = HttpResponse("Successfully changed song name.")
+
+        return response
 
     def get_new_song(self, request):
 
@@ -141,6 +150,7 @@ class ChartTransposeView(views.APIView):
     def post(self, request, chart_id):
 
         chart = get_object_or_404(Chart, id=chart_id)
+        require_permission(request, chart, 'change')
 
         try:
             key = Key.objects.get(
@@ -156,10 +166,15 @@ class ChartTransposeView(views.APIView):
 
 
 class SectionKeyView(views.APIView):
+    """
+    View to update the section key without transposing the chords.
+    """
 
     def post(self, request, section_id):
 
         section = get_object_or_404(Section, id=section_id)
+        require_permission(request, section, 'change')
+
         tonality_word = request.DATA.get('tonality')
 
         if type(tonality_word) == int:
@@ -185,6 +200,9 @@ class SectionKeyView(views.APIView):
 
 
 class SearchCharts(views.APIView):
+    """
+    View to search for charts.
+    """
 
     def post(self, request):
 
@@ -212,3 +230,7 @@ class SearchCharts(views.APIView):
             })
 
         return JsonResponse({'results': results_dict})
+
+def require_permission(request, obj, permission):
+    if not obj.has_permission(request.user, permission):
+        raise PermissionDenied()
