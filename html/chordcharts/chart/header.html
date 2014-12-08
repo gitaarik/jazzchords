@@ -26,4 +26,12 @@
 
     </div>
 
+    {% if not edit %}
+        <div class="key">
+            <span>Key of {{ chart.sections.0.key.name }}</span>
+        </div>
+    {% endif %}
+
+    <div class="_clearfix"></div>
+
 </header>
