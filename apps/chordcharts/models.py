@@ -923,11 +923,13 @@ class Line(models.Model, PermissionMixin):
             for line_measure, this_line_measure in (
                 zip(line.measures.all(), self.measures.all())
             ):
+
                 if line_measure.equal_to(this_line_measure):
 
                     equal_count += 1
+                    next_measure = this_line_measure.next()
 
-                    if this_line_measure.next().repeating_prev_measure():
+                    if next_measure and next_measure.repeating_prev_measure():
                         repeat_prev_measures += 1
                     else:
                         repeat_prev_measures = 0
