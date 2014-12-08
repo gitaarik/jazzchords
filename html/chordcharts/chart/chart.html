@@ -5,7 +5,7 @@
         <section class="section">
 
             <header class="section-header">
-                {% if edit or chart.sections|length > 1 %}
+                {% if edit or section.name %}
                     {% include "chordcharts/chart/section-header.html" with section_name=section.name show_key=section.show_key key_name=section.key.name move_down=section.can_move_down move_up=section.can_move_up remove=section.can_delete %}
                 {% endif %}
             </header>
