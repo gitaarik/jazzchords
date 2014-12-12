@@ -1,3 +1,6 @@
+var syncError = require('../init/_sync-error.js');
+
+
 module.exports = Backbone.View.extend({
 
     initialize: function() {
@@ -33,10 +36,16 @@ module.exports = Backbone.View.extend({
 
         var song_name = this.$el.find('.song-name-input').val();
 
-        this.model.set('song_name', song_name);
-        this.model.save();
+        if (this.model.get('song_name') != song_name) {
 
-        this.$el.find('h1 span').text(song_name);
+            this.model.set('song_name', song_name);
+            this.model.save().fail(function(response) {
+                syncError.show();
+            });
+
+            this.$el.find('h1 span').text(song_name);
+
+        }
 
     }
 

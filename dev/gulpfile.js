@@ -3,7 +3,6 @@ var minimist = require('minimist');
 var glob = require('glob');
 var es = require('event-stream');
 var source = require('vinyl-source-stream')
-var path = require('path');
 var less = require('gulp-less');
 var browserify = require('browserify');
 
@@ -45,7 +44,7 @@ function parse_static(options) {
 
     }
 
-    streams = all_files.map(function(file) {
+    var streams = all_files.map(function(file) {
         options.build_stream_func(file)
         .pipe(gulp.dest(options.dest_dir))
     });
@@ -62,9 +61,7 @@ gulp.task('parsecss', function() {
         build_stream_func: function(file) {
             return gulp.src(file, { base: '.' }).pipe(less());
         },
-        parse_func: less,
-        dest_dir: static_dir + 'css',
-        dest_ext: 'css'
+        dest_dir: static_dir + 'css'
     });
 
 });
@@ -77,16 +74,14 @@ gulp.task('parsejs', function() {
         build_stream_func: function(file) {
             return browserify(file).bundle().pipe(source(file));
         },
-        parse_func: browserify,
-        dest_dir: static_dir + 'js',
-        dest_ext: 'js'
+        dest_dir: static_dir + 'js'
     });
 
 });
 
 gulp.task('parsestatic', ['parsecss', 'parsejs']);
 
-gulp.task('watchit', function () {
+gulp.task('watchit', function() {
 
     var args = minimist(process.argv);
     var extra_filters = args.f;

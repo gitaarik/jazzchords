@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
@@ -118,9 +118,7 @@ class ChartSongNameView(views.APIView):
         if old_song.charts.count() == 0:
             old_song.delete()
 
-        response = HttpResponse("Successfully changed song name.")
-
-        return response
+        return Response({})
 
     def get_new_song(self, request):
 
@@ -196,7 +194,7 @@ class SectionKeyView(views.APIView):
 
         section.update_key(key)
 
-        return HttpResponse('Successfully changed section key')
+        return Response({})
 
 
 class SearchCharts(views.APIView):
@@ -229,8 +227,8 @@ class SearchCharts(views.APIView):
                 'song_name': song.name,
             })
 
-        return JsonResponse({'results': results_dict})
+        return Response({'results': results_dict})
 
 def require_permission(request, obj, permission):
-    if not obj.has_permission(request.user, permission):
+    if not request.user.has_perm(permission, obj):
         raise PermissionDenied()

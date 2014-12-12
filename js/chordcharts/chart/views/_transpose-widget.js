@@ -1,4 +1,5 @@
 var ChartTranspose = require('../models/_chart-transpose.js');
+var syncError = require('../init/_sync-error.js');
 
 
 module.exports = Backbone.View.extend({
@@ -63,7 +64,9 @@ module.exports = Backbone.View.extend({
             // the page, you would transpose the chart again,
             // which is not what you want.
             location.reload();
-        }});
+        }}).fail(function() {
+            syncError.show();
+        });
 
     }
 

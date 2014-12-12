@@ -1,3 +1,6 @@
+var syncError = require('../init/_sync-error.js');
+
+
 module.exports = Backbone.View.extend({
 
     tagName: 'div',
@@ -146,7 +149,9 @@ module.exports = Backbone.View.extend({
         var line = this.model.get('line');
 
         line.set('letter', letter);
-        line.save();
+        line.save().fail(function() {
+            syncError.show();
+        });
 
         this.render();
         this.model.get('section_sidebar').trigger('change');
@@ -162,7 +167,9 @@ module.exports = Backbone.View.extend({
             $(event.target).is(':checked')
         );
 
-        prev_line.save();
+        prev_line.save().fail(function() {
+            syncError.show();
+        });
 
     },
 
@@ -175,7 +182,9 @@ module.exports = Backbone.View.extend({
             $(event.target).is(':checked')
         );
 
-        line.save();
+        line.save().fail(function() {
+            syncError.show();
+        });
 
     },
 
@@ -183,7 +192,9 @@ module.exports = Backbone.View.extend({
 
         var section = this.model.get('section');
         section.set('show_sidebar', false);
-        section.save();
+        section.save().fail(function() {
+            syncError.show();
+        });
 
         this.hide();
 

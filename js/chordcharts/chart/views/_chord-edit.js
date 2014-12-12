@@ -4,6 +4,7 @@ var ChordEdit = require('../models/_chord-edit.js');
 var ChordEditNote = require('../models/_chord-edit-note.js');
 var chordTypes = require('../init/_chord-types.js');
 var allKeys = require('../../../core/widgets/_all-keys.js');
+var syncError = require('../init/_sync-error.js');
 var ChordEditNoteView = require('./_chord-edit-note.js');
 var ChordEditChordTypeView = require('./_chord-edit-chord-type.js');
 
@@ -115,8 +116,9 @@ module.exports = Backbone.View.extend({
 
         var chord = this.model.get('chord');
         chord.set(chord_data);
-        chord.save();
-        chord.parseNextMeasure();
+        chord.save().fail(function() {
+            syncError.show();
+        });
 
     },
 

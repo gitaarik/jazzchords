@@ -1,4 +1,5 @@
 var lineEdit = require('../init/_line-edit.js');
+var syncError = require('../init/_sync-error.js');
 
 
 module.exports = Backbone.View.extend({
@@ -87,7 +88,12 @@ module.exports = Backbone.View.extend({
             }
 
         } else {
-            this.model.get('section').set('show_sidebar', true).save();
+            this.model.get('section')
+                .set('show_sidebar', true)
+                .save()
+                .fail(function() {
+                    syncError.show();
+                });
             this.render();
         }
 

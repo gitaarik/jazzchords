@@ -3,6 +3,7 @@ var SectionSidebar = require('../models/_section-sidebar.js');
 var sectionName = require('../init/_section-name.js');
 var sectionKey = require('../init/_section-key.js');
 var transposeWidget = require('../init/_transpose-widget.js');
+var syncError = require('../init/_sync-error.js');
 var SectionSidebarView = require('./_section-sidebar.js');
 var LineView = require('./_line.js');
 
@@ -182,8 +183,12 @@ module.exports = Backbone.View.extend({
         this.model.trigger('change');
         prev_section.trigger('change');
 
-        this.model.save();
-        prev_section.save();
+        this.model.save().fail(function() {
+            syncError.show();
+        });
+        prev_section.save().fail(function() {
+            syncError.show();
+        });
 
     },
 
@@ -211,8 +216,12 @@ module.exports = Backbone.View.extend({
         this.model.trigger('change');
         next_section.trigger('change');
 
-        this.model.save();
-        next_section.save();
+        this.model.save().fail(function() {
+            syncError.show();
+        });
+        next_section.save().fail(function() {
+            syncError.show();
+        });
 
     },
 

@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import Chart, Section, Line, Measure, Chord
+from .models import Chart, Section, Line, Measure, Chord, ChordType, Key
+
+
+class CompleteDataMixin():
+
+    def create(self, data):
+        self.complete_data(data)
+        return super().create(data)
 
 
 class ChartSerializer(serializers.ModelSerializer):
@@ -15,21 +22,18 @@ class ChartSerializer(serializers.ModelSerializer):
         )
 
 
-class SectionSerializer(serializers.ModelSerializer):
+class SectionSerializer(CompleteDataMixin, serializers.ModelSerializer):
 
-    key_id = serializers.PrimaryKeyRelatedField(source='key')
+    key_id = serializers.PrimaryKeyRelatedField(
+        source='key',
+        queryset=Key.objects.all()
+    )
 
     def get_key_id(self, obj):
         return obj.key.id
 
-    def restore_object(self, attrs, instance=None):
-
-        if instance is None:
-            # if `instance` is `None`, it means we're creating a new
-            # object, so we set the `chart_id` field.
-            attrs['chart_id'] = self.context['chart_id']
-
-        return super().restore_object(attrs, instance)
+    def complete_data(self, data):
+        data['chart_id'] = self.context['chart_id']
 
     class Meta:
         model = Section
@@ -43,16 +47,10 @@ class SectionSerializer(serializers.ModelSerializer):
         )
 
 
-class LineSerializer(serializers.ModelSerializer):
+class LineSerializer(CompleteDataMixin, serializers.ModelSerializer):
 
-    def restore_object(self, attrs, instance=None):
-
-        if instance is None:
-            # if `instance` is `None`, it means we're creating a new
-            # object, so we set the `section_id` field.
-            attrs['section_id'] = self.context['section_id']
-
-        return super().restore_object(attrs, instance)
+    def complete_data(self, data):
+        data['section_id'] = self.context['section_id']
 
     merge_with_next_line = serializers.BooleanField()
 
@@ -61,34 +59,25 @@ class LineSerializer(serializers.ModelSerializer):
         fields = ('id', 'number', 'letter', 'merge_with_next_line')
 
 
-class MeasureSerializer(serializers.ModelSerializer):
+class MeasureSerializer(CompleteDataMixin, serializers.ModelSerializer):
 
-    def restore_object(self, attrs, instance=None):
-
-        if instance is None:
-            # if `instance` is `None`, it means we're creating a new
-            # object, so we set the `line_id` field.
-            attrs['line_id'] = self.context['line_id']
-
-        return super().restore_object(attrs, instance)
+    def complete_data(self, data):
+        data['line_id'] = self.context['line_id']
 
     class Meta:
         model = Measure
         fields = ('id', 'number', 'beat_schema')
 
 
-class ChordSerializer(serializers.ModelSerializer):
+class ChordSerializer(CompleteDataMixin, serializers.ModelSerializer):
 
-    chord_type_id = serializers.PrimaryKeyRelatedField(source='chord_type')
+    chord_type_id = serializers.PrimaryKeyRelatedField(
+        source='chord_type',
+        queryset=ChordType.objects.all()
+    )
 
-    def restore_object(self, attrs, instance=None):
-
-        if instance is None:
-            # if `instance` is `None`, it means we're creating a new
-            # object, so we set the `measure_id` field.
-            attrs['measure_id'] = self.context['measure_id']
-
-        return super().restore_object(attrs, instance)
+    def complete_data(self, data):
+        data['measure_id'] = self.context['measure_id']
 
     class Meta:
         model = Chord

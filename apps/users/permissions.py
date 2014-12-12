@@ -1,3 +1,4 @@
+from copy import copy
 from django.db import models
 from rest_framework.permissions import BasePermission
 
@@ -37,36 +38,36 @@ def has_related_field_permissions(view, request):
     that have a `model` or `queryset` attribute.
     """
 
-    obj = get_serializer_object(view, request)
+    obj = get_proposed_obj(view, request)
     allowed = True
 
-    for field_name in getattr(obj, 'related_field_permissions', []):
+    if obj:
 
-        field = getattr(obj, field_name, None)
-        assert field, ("No such related field: {}".format(field_name))
-        field_class = obj._meta.get_field_by_name(field_name)[0]
+        for field_name in getattr(obj, 'related_field_permissions', []):
 
-        if isinstance(field_class, models.ForeignKey):
-            allowed = field.has_permission(request.user, 'change')
-        else:
-            raise Exception(
-                "Related field type `{}` not supported for "
-                "checking related permissions.".format(field)
-            )
+            field = getattr(obj, field_name, None)
+            assert field, ("No such related field: {}".format(field_name))
+            field_class = obj._meta.get_field_by_name(field_name)[0]
 
-        if not allowed:
-            break
+            if isinstance(field_class, models.ForeignKey):
+                allowed = field.has_permission(request.user, 'change')
+            else:
+                raise Exception(
+                    "Related field type `{}` not supported for "
+                    "checking related permissions.".format(field)
+                )
+
+            if not allowed:
+                break
 
     return allowed
 
-def get_serializer_object(view, request):
+def get_proposed_obj(view, request):
     """
-    Returns the serializer object for the given `view` and `request`.
+    Returns the object that the requests is proposing to create
     """
-    serializer = view.get_serializer(
-        data=request.DATA,
-        files=request.FILES
-    )
-    # Call `.is_valid` to instantiate the `.object` on `serializer`
-    serializer.is_valid()
-    return serializer.object
+    serializer = view.get_serializer(data=request.data)
+    if serializer.is_valid() and hasattr(serializer.Meta, 'model'):
+        data = copy(serializer.validated_data)
+        serializer.complete_data(data)
+        return serializer.Meta.model(**data)
