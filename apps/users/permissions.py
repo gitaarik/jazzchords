@@ -64,7 +64,8 @@ def has_related_field_permissions(view, request):
 
 def get_proposed_obj(view, request):
     """
-    Returns the object that the requests is proposing to create
+    Returns the object that the request is proposing to create, or
+    `None` if the data isn't valid or the view has no `model`.
     """
     serializer = view.get_serializer(data=request.data)
     if serializer.is_valid() and hasattr(serializer.Meta, 'model'):
