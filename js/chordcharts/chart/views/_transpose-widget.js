@@ -53,7 +53,7 @@ module.exports = Backbone.View.extend({
 
         new ChartTranspose({
             tonic: target.parent().data('key-tonic')
-        }).save(null, { success: function() {
+        }).save().done(function() {
             // Refresh the page so that the transposition will
             // be visible on the screen. A simple solution for
             // now. We don't want to put the tonic in the URL
@@ -64,7 +64,7 @@ module.exports = Backbone.View.extend({
             // the page, you would transpose the chart again,
             // which is not what you want.
             location.reload();
-        }}).fail(function() {
+        }).fail(function() {
             syncError.show();
         });
 
