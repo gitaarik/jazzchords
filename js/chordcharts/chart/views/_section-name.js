@@ -1,6 +1,5 @@
 var Section = require('../models/_section.js');
 var transposeWidget = require('../init/_transpose-widget.js');
-var syncError = require('../init/_sync-error.js');
 
 
 module.exports = Backbone.View.extend({
@@ -22,9 +21,7 @@ module.exports = Backbone.View.extend({
             this.show();
         } else {
             this.$el.hide();
-            this.model.get('section').save().fail(function() {
-                syncError.show();
-            });
+            this.model.get('section').save();
         }
 
     },

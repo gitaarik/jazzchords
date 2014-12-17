@@ -1,8 +1,11 @@
+var Model = require('../init/_model.js');
+
+
 /*
  * Model specially for the API sync that updates the section's
  * key without changing the chords.
  */
-module.exports = Backbone.Model.extend({
+module.exports = Model.extend({
 
     url: function() {
 

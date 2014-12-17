@@ -1,7 +1,6 @@
 var Section = require('../models/_section.js');
 var SectionKey = require('../models/_section-key.js');
 var transposeWidget = require('../init/_transpose-widget.js');
-var syncError = require('../init/_sync-error.js');
 var KeySelectWidget = require('../../../core/widgets/_key-select.js');
 
 
@@ -65,9 +64,7 @@ module.exports = Backbone.View.extend({
         this.model.get('section').updateKey(new_key);
         new SectionKey({
             section: this.model.get('section')
-        }).save().fail(function() {
-            syncError.show();
-        });
+        }).save();
 
         if (this.model.get('section').get('number') == 1) {
             transposeWidget.set('key', new_key);

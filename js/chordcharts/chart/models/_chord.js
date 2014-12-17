@@ -1,8 +1,9 @@
+var Model = require('../init/_model.js');
 var chordTypes = require('../init/_chord-types.js');
 var allKeys = require('../../../core/widgets/_all-keys.js');
 
 
-module.exports = Backbone.Model.extend({
+module.exports = Model.extend({
 
     initialize: function(attributes) {
         this.initData();

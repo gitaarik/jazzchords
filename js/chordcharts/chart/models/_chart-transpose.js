@@ -1,7 +1,10 @@
+var Model = require('../init/_model.js');
+
+
 /*
  * Model specially for the API sync that transposes the chart.
  */
-module.exports = Backbone.Model.extend({
+module.exports = Model.extend({
 
     url: function() {
 

@@ -1,8 +1,9 @@
+var Model = require('../init/_model.js');
 var Lines = require('../collections/_lines.js');
 var allKeys = require('../../../core/widgets/_all-keys.js');
 
 
-module.exports = Backbone.Model.extend({
+module.exports = Model.extend({
 
     initialize: function() {
         this.initData();

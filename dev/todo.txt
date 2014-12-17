@@ -1,7 +1,4 @@
-Upgrade rest framework to v3
-
 Chart:
-    - If an API request fails, you should see it in the interface.
     - Make methods on the model `view_url()` and `edit_url()` to easily
       get the view and edit urls.
     - Make widget in sidebar to switch between different charts of the

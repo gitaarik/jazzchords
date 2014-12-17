@@ -1,6 +1,3 @@
-var syncError = require('../init/_sync-error.js');
-
-
 module.exports = Backbone.View.extend({
 
     initialize: function() {
@@ -39,9 +36,7 @@ module.exports = Backbone.View.extend({
         if (this.model.get('song_name') != song_name) {
 
             this.model.set('song_name', song_name);
-            this.model.save().fail(function(response) {
-                syncError.show();
-            });
+            this.model.save();
 
             this.$el.find('h1 span').text(song_name);
 

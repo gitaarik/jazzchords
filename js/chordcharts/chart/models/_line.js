@@ -1,7 +1,8 @@
+var Model = require('../init/_model.js');
 var Measures = require('../collections/_measures.js');
 
 
-module.exports = Backbone.Model.extend({
+module.exports = Model.extend({
 
     initialize: function() {
 

@@ -1,7 +1,8 @@
+var Model = require('../init/_model.js');
 var Chords = require('../collections/_chords.js');
 
 
-module.exports = Backbone.Model.extend({
+module.exports = Model.extend({
 
     initialize: function() {
         this.initData();
@@ -173,12 +174,12 @@ module.exports = Backbone.Model.extend({
 
         var that = this;
 
-        this.save(null, { success: function() {
+        this.save().done(function() {
             that.get('chords').url = that.chordsUrl();
             that.get('chords').each(function(chord) {
                 chord.save();
             });
-        }});
+        });
 
     },
 
