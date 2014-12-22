@@ -16,11 +16,15 @@ module.exports = Backbone.View.extend({
 
     render: function() {
 
-        if (this.model.get('visible')) {
-            this.$el.find('.song-name-change').show();
-            this.$el.find('.song-name-input').focusAtEnd()
-        } else {
-            this.$el.find('.song-name-change').hide();
+        if (this.model.hasChanged('visible')) {
+
+            if (this.model.get('visible')) {
+                this.$el.find('.song-name-change').show();
+                this.$el.find('.song-name-input').focusAtEnd()
+            } else {
+                this.$el.find('.song-name-change').hide();
+            }
+
         }
 
     },
