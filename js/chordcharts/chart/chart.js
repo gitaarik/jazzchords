@@ -1,18 +1,13 @@
-var Chart = require('./models/_chart.js');
 var ChartView = require('./views/_chart.js');
 var SectionView = require('./views/_section.js');
 var LineView = require('./views/_line.js');
 var MeasureView = require('./views/_measure.js');
 var ChordView = require('./views/_chord.js');
+var chart = require('./init/_chart.js');
 
 require('./init/_song-name-change-widget.js');
 require('./init/_transpose-widget.js');
 require('./init/_settings-widget.js');
-
-
-// Bind data from server to models/collections
-
-var chart = new Chart(GLOBALS.chart_data);
 
 
 // Bind views and models to existing HTML

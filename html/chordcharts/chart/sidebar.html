@@ -2,6 +2,56 @@
 
     <div class="content">
 
+        {% if chart.short_description %}
+
+            <div class="chart-info _popup-box-opener">
+
+                <h6>
+                    Info
+                    {% if can_edit %}
+                        <span class="edit fa fa-pencil"></span>
+                    {% endif %}
+                </h6>
+
+                <hr>
+
+                <p class="short-description _small">
+                    {{ chart.short_description }}
+                </p>
+
+                {% if chart.lyrics_url or chart.video_url %}
+
+                    <hr>
+
+                    <div class="links">
+
+                        {% if chart.lyrics_url %}
+                            <a href="{{ chart.lyrics_url }}" class="_small" target="_blank">Lyrics</a>
+                        {% endif %}
+
+                        {% if chart.lyrics_url and chart.video_url %}
+                            -
+                        {% endif %}
+
+                        {% if chart.video_url %}
+                            <a href="{{ chart.video_url }}" class="_small" target="_blank">Video</a>
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                {% if can_edit %}
+                    <div class="chart-info-edit-widget _popup-box">
+                        <div>Description:</div>
+                        <textarea>{{ chart.short_description }}</textarea>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
         <div class="chart-menu">
 
             <div class="key-select menu-item _button-small _popup-box-opener">

@@ -5,7 +5,7 @@ var TransposeWidgetView = require('../views/_transpose-widget.js');
 var transposeWidget = new TransposeWidget();
 
 new TransposeWidgetView({
-    el: GLOBALS.base_el_selector + ' .key-select',
+    el: GLOBALS.base_el_selector + ' .key-select .transpose-widget',
     model: transposeWidget
 });
 

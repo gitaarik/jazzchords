@@ -4,76 +4,113 @@
 
     .content {
 
-        margin: 9px 0 0 20px;
+        margin: 9px 0 0 10px;
 
-        .menu-item {
+        .chart-info {
 
-            display: block;
-            text-align: center;
+            position: relative;
             margin-bottom: 10px;
+            border: solid 1px #999;
+            border-radius: 5px;
+            padding: 5px 0;
 
-            .button {
-
-                padding: 5px;
-
-                &:hover {
-                    background: #EEE;
-                    border-radius: 3px;
-                }
-
+            h6 {
+                position: relative;
+                margin: 0 5px;
+                text-align: center;
+                text-transform: capitalize;
             }
 
-            ._popup-box {
-                margin-top: 15px;
-                text-align: left;
+            hr {
+                margin: 3px 0;
+                border: solid 1px #999;
+                border-width: 1px 0 0;
+            }
+
+            .short-description, .links {
+                margin: 0 5px;
+                text-align: center;
+            }
+
+            .chart-info-edit-widget {
+                top: -1px;
+                right: -1px;
             }
 
         }
 
-        .key-select {
+        .chart-menu {
 
-            .transpose-widget {
+            .menu-item {
 
-                left: -80px;
-                padding: 10px;
-                border: solid 1px #000;
-                background: #FFF;
-                border-radius: 5px;
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-                z-index: 10;
+                display: block;
+                text-align: center;
+                margin-bottom: 10px;
 
-                .arrow-up {
-                    left: auto;
-                    right: 50px;
+                .button {
+
+                    padding: 5px;
+
+                    &:hover {
+                        background: #EEE;
+                        border-radius: 3px;
+                    }
+
                 }
 
-                .current-key {
-                    margin-bottom: 10px;
+                ._popup-box {
+                    margin-top: 15px;
+                    text-align: left;
                 }
 
-                ul {
+            }
 
-                    margin-top: 10px;
-                    padding: 0;
+            .key-select {
 
-                    li {
+                .transpose-widget {
 
-                        a {
-                            display: block;
-                            width: 40px;
-                            height: 40px;
-                            line-height: 40px;
-                            text-align: center;
-                            color: inherit;
-                            text-decoration: none;
-                        }
+                    left: -80px;
+                    padding: 10px;
+                    border: solid 1px #000;
+                    background: #FFF;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+                    z-index: 10;
 
-                        &:nth-child(4n) {
-                            margin: 0;
-                        }
+                    .arrow-up {
+                        left: auto;
+                        right: 50px;
+                    }
 
-                        &:nth-child(4n+1) {
-                            clear: both;
+                    .current-key {
+                        margin-bottom: 10px;
+                    }
+
+                    ul {
+
+                        margin-top: 10px;
+                        padding: 0;
+
+                        li {
+
+                            a {
+                                display: block;
+                                width: 40px;
+                                height: 40px;
+                                line-height: 40px;
+                                text-align: center;
+                                color: inherit;
+                                text-decoration: none;
+                            }
+
+                            &:nth-child(4n) {
+                                margin: 0;
+                            }
+
+                            &:nth-child(4n+1) {
+                                clear: both;
+                            }
+
                         }
 
                     }

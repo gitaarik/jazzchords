@@ -8,8 +8,6 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        'click .closed': 'toggle',
-        'click .open .current-key': 'toggle',
         'click .key-tonics li a': 'changeKey'
     },
 
@@ -33,8 +31,8 @@ module.exports = Backbone.View.extend({
 
             this.$el.find('.key-tonics li').removeClass('selected');
             this.$el.find(
-                '.key-tonics li[data-key-tonic=' +
-                    key.get('tonic') +
+                '.key-tonics li[' +
+                    'data-key-tonic=' + key.get('tonic') +
                 ']'
             ).addClass('selected');
 

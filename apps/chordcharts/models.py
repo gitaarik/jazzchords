@@ -287,6 +287,9 @@ class Chart(models.Model, PermissionMixin):
         return {
             'id': self.id,
             'song': self.song.client_data(),
+            'short_description': self.short_description,
+            'lyrics_url': self.lyrics_url,
+            'video_url': self.video_url,
             'key': key.client_data(),
             'sections': sections_client_data
         }
