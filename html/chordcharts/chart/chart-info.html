@@ -17,21 +17,25 @@
 
 {% if lyrics_url or video_url %}
 
-    <hr>
+    <div class="links-container">
 
-    <div class="links">
+        <hr>
 
-        {% if lyrics_url %}
-            <a href="{{ lyrics_url }}" class="_small" target="_blank">Lyrics</a>
-        {% endif %}
+        <div class="links">
 
-        {% if lyrics_url and video_url %}
-            -
-        {% endif %}
+            {% if lyrics_url %}
+                <a href="{{ lyrics_url }}" class="lyrics-url _small" target="_blank">Lyrics</a>
+            {% endif %}
 
-        {% if video_url %}
-            <a href="{{ video_url }}" class="_small" target="_blank">Video</a>
-        {% endif %}
+            {% if lyrics_url and video_url %}
+                <span class="links-separator">-</span>
+            {% endif %}
+
+            {% if video_url %}
+                <a href="{{ video_url }}" class="video-url _small" target="_blank">Video</a>
+            {% endif %}
+
+        </div>
 
     </div>
 

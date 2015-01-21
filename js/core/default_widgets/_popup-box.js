@@ -1,6 +1,11 @@
 $('._popup-box-opener').click(function(event) {
 
-    if (!$(event.target).closest('._popup-box').length) {
+    var target = $(event.target);
+
+    if (!(
+        target.prop('tagName') == 'A' ||
+        target.closest('._popup-box').length
+    )) {
 
         var popup_box = $(this).find('._popup-box');
 
