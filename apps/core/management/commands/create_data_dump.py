@@ -10,5 +10,10 @@ class Command(BaseCommand):
         db_dump_file = os.path.join(settings.DJANGO_ROOT, 'dev/db-dump.json')
 
         with open(db_dump_file, 'w') as output_file:
-            management.call_command('dumpdata', 'chordcharts', 'songs',
-                stdout=output_file)
+            management.call_command(
+                'dumpdata',
+                'chordcharts',
+                'songs',
+                'users',
+                stdout=output_file
+            )
