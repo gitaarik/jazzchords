@@ -9,6 +9,7 @@ class UserPermissions(BasePermission):
 
         if (
             request.method == 'POST' and
+            not request.user.is_superuser and
             not has_related_field_permissions(view, request)
         ):
             return False
@@ -17,7 +18,7 @@ class UserPermissions(BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if request.method == 'GET':
+        if request.method in ['GET', 'OPTIONS']:
             permission = 'read'
         elif request.method in ['PUT', 'PATCH']:
             permission = 'change'

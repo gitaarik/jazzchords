@@ -116,6 +116,7 @@ module.exports = Backbone.View.extend({
         var chord = this.model.get('chord');
         chord.set(chord_data);
         chord.save();
+        chord.parseNextMeasure();
 
     },
 

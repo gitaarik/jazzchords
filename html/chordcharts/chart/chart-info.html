@@ -1,0 +1,38 @@
+<h6>
+    Info
+    {% if can_edit %}
+        <span class="edit fa fa-pencil"></span>
+    {% endif %}
+</h6>
+
+<hr>
+
+<p class="short-description _small">
+    {% if short_description %}
+        {{ short_description }}
+    {% else %}
+        [no info]
+    {% endif %}
+</p>
+
+{% if lyrics_url or video_url %}
+
+    <hr>
+
+    <div class="links">
+
+        {% if lyrics_url %}
+            <a href="{{ lyrics_url }}" class="_small" target="_blank">Lyrics</a>
+        {% endif %}
+
+        {% if lyrics_url and video_url %}
+            -
+        {% endif %}
+
+        {% if video_url %}
+            <a href="{{ video_url }}" class="_small" target="_blank">Video</a>
+        {% endif %}
+
+    </div>
+
+{% endif %}

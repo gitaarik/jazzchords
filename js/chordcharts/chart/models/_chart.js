@@ -1,5 +1,6 @@
 var Model = require('../init/_model.js');
 var Sections = require('../collections/_sections.js');
+var Song = require('../models/_song.js');
 
 
 module.exports = Model.extend({
@@ -13,10 +14,7 @@ module.exports = Model.extend({
             var that = this;
             var sections = new Sections();
 
-            sections.url = (
-                GLOBALS.api_root_url + 'charts/' +
-                this.get('id') + '/sections'
-            );
+            sections.url = this.url() + '/sections';
 
             _.each(this.get('sections'), function(section_data) {
                 section_data.chart = that;
@@ -25,8 +23,25 @@ module.exports = Model.extend({
 
             this.set('sections', sections);
 
+            if (!(this.get('song') instanceof Backbone.Model)) {
+                this.set('song', new Song(this.get('song')));
+            }
+
         }
 
+    },
+
+    url: function() {
+        return GLOBALS.api_root_url + 'charts/' + this.get('id');
+    },
+
+    toJSON: function() {
+        return {
+            song_id: this.get('song').get('id'),
+            short_description: this.get('short_description'),
+            lyrics_url: this.get('lyrics_url'),
+            video_url: this.get('video_url')
+        };
     }
 
 });

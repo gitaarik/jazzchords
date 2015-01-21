@@ -2,49 +2,42 @@
 
     <div class="content">
 
-        {% if chart.short_description %}
+        {% if chart.short_description or can_edit %}
 
-            <div class="chart-info _popup-box-opener">
+            <div class="chart-info-container _popup-box-opener">
 
-                <h6>
-                    Info
-                    {% if can_edit %}
-                        <span class="edit fa fa-pencil"></span>
-                    {% endif %}
-                </h6>
-
-                <hr>
-
-                <p class="short-description _small">
-                    {{ chart.short_description }}
-                </p>
-
-                {% if chart.lyrics_url or chart.video_url %}
-
-                    <hr>
-
-                    <div class="links">
-
-                        {% if chart.lyrics_url %}
-                            <a href="{{ chart.lyrics_url }}" class="_small" target="_blank">Lyrics</a>
-                        {% endif %}
-
-                        {% if chart.lyrics_url and chart.video_url %}
-                            -
-                        {% endif %}
-
-                        {% if chart.video_url %}
-                            <a href="{{ chart.video_url }}" class="_small" target="_blank">Video</a>
-                        {% endif %}
-
-                    </div>
-
-                {% endif %}
+                <div class="chart-info">
+                    {% include "chordcharts/chart/chart-info.html" with short_description=chart.short_description lyrics_url=chart.lyrics_url video_url=chart.video_url %}
+                </div>
 
                 {% if can_edit %}
-                    <div class="chart-info-edit-widget _popup-box">
-                        <div>Description:</div>
-                        <textarea>{{ chart.short_description }}</textarea>
+                    <div class="chart-info-edit _popup-box">
+
+                        <h6>Edit info</h6>
+                        <hr>
+
+                        <form class="info-edit-form">
+
+                            <label class="field description">
+                                <div class="label">Short description:</div>
+                                <input type="text" class="_text-input-small input" name="short_description" />
+                            </label>
+
+                            <label class="field">
+                                <div class="label">Video URL:</div>
+                                <input type="text" class="_text-input-small input" name="video_url" />
+                            </label>
+
+                            <label class="field">
+                                <div class="label">Lyrics URL:</div>
+                                <input type="text" class="_text-input-small input" name="lyrics_url" />
+                            </label>
+
+                            <input type="submit" class="save-button _button-small" value="Save">
+                            <button class="cancel-button _button-small">Cancel</button>
+
+                        </form>
+
                     </div>
                 {% endif %}
 

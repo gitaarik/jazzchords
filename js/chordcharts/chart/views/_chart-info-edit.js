@@ -6,20 +6,54 @@ module.exports = Backbone.View.extend({
     model: ChartInfoEdit,
 
     initialize: function() {
-        this.listenTo(this.model, 'change', this.change);
+        this.listenTo(this.model, 'change', this.render);
     },
 
     events: {
-        'click .close': 'close',
+        'show': 'render',
+        'click .save-button': 'save',
+        'click .cancel-button': 'cancel'
     },
 
-    close: function() {
-        this.model.set('visible', false);
+    render: function() {
+
+        this.$el.find('input[name=short_description]').val(
+            this.model.get('chart').get('short_description')
+        ).focusAtEnd();
+
+        this.$el.find('input[name=video_url]').val(
+            this.model.get('chart').get('video_url')
+        );
+
+        this.$el.find('input[name=lyrics_url]').val(
+            this.model.get('chart').get('lyrics_url')
+        );
+
     },
 
-    change: function() {
+    hide: function() {
+        this.$el.hide();
+    },
 
-        console.log("oomg!");
+    cancel: function(event) {
+        event.preventDefault();
+        this.hide();
+    },
+
+    save: function(event) {
+
+        event.preventDefault();
+
+        var chart = this.model.get('chart');
+
+        chart.set({
+            short_description: this.$el.find('input[name=short_description]').val(),
+            video_url: this.$el.find('input[name=video_url]').val(),
+            lyrics_url: this.$el.find('input[name=lyrics_url]').val()
+        });
+
+        chart.save();
+        this.hide();
 
     }
 

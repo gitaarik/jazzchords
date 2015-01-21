@@ -19,6 +19,7 @@ class Song(models.Model):
 
     def client_data(self):
         return {
+            'id': self.id,
             'name': self.name,
             'slug': self.slug
         }

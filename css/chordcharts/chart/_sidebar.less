@@ -6,35 +6,67 @@
 
         margin: 9px 0 0 10px;
 
-        .chart-info {
+        .chart-info-container {
 
-            position: relative;
-            margin-bottom: 10px;
-            border: solid 1px #999;
-            border-radius: 5px;
-            padding: 5px 0;
+            .chart-info {
 
-            h6 {
                 position: relative;
-                margin: 0 5px;
-                text-align: center;
-                text-transform: capitalize;
-            }
-
-            hr {
-                margin: 3px 0;
+                margin-bottom: 10px;
                 border: solid 1px #999;
-                border-width: 1px 0 0;
+                border-radius: 5px;
+                padding: 5px 0;
+
+                h6 {
+                    position: relative;
+                    margin: 0 5px;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+
+                hr {
+                    margin: 3px 0;
+                    border: solid 1px #999;
+                    border-width: 1px 0 0;
+                }
+
+                .short-description, .links {
+                    margin: 0 5px;
+                    text-align: center;
+                }
+
             }
 
-            .short-description, .links {
-                margin: 0 5px;
-                text-align: center;
-            }
+            .chart-info-edit {
 
-            .chart-info-edit-widget {
                 top: -1px;
                 right: -1px;
+                width: 250px;
+
+                .info-edit-form {
+
+                    font-size: 14px;
+
+                    .field {
+
+                        display: block;
+                        margin: 10px 0;
+
+                        .label {
+                            margin-bottom: 5px;
+                        }
+
+                        .input {
+                            width: 100%;
+                        }
+
+                    }
+
+                    .cancel-button {
+                        float: right;
+                    }
+
+                }
+
             }
 
         }

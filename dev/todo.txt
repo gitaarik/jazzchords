@@ -1,10 +1,10 @@
 Chart:
-    - When you have 2 measures with 1 chord that are the same, when you
-      change the first chord, and when you open de edit widget of the
-      second chord, the selected chord isn't updated.
     - Make edit info box in the sidebar when in edit mode.
+        - When there's no info at all, the info edit box isn't visible
     - Make widget in sidebar to switch between different charts of the
       same song.
+    - Songs don't seem to be deleted when deleting the last chart for
+      a song.
 
 Footer:
     There should be a footer to have at least some spacing at the

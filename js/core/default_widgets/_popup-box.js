@@ -1,7 +1,14 @@
 $('._popup-box-opener').click(function(event) {
 
     if (!$(event.target).closest('._popup-box').length) {
-        $(this).find('._popup-box').toggle();
+
+        var popup_box = $(this).find('._popup-box');
+
+        if (popup_box.is(':visible')) {
+            popup_box.hide().trigger('hide');
+        } else {
+            popup_box.show().trigger('show');
+        }
     }
 
 });
@@ -15,7 +22,7 @@ $('html').click(function(event) {
     $('._popup-box-opener').each(function() {
 
         if (this !== clicked_popupbox_opener) {
-            $(this).find('._popup-box').hide();
+            $(this).find('._popup-box').hide().trigger('hide');
         }
 
     });
@@ -29,7 +36,7 @@ $('html').on('keyup', function(event) {
         $('._popup-box-opener ._popup-box').each(function() {
 
             if ($(this).is(':visible')) {
-                $(this).hide();
+                $(this).hide().trigger('hide');
             }
 
         });
