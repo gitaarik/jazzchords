@@ -6,9 +6,6 @@ Chart:
       1-1-1-1 or 1-1-2 or 2-1-1, a cleanup() seems to be necessary,
       because when hitting 'done' you sometimes see mess on the screen.
 
-Search:
-    - Add short description with elipsis to search results.
-
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so
     editing isn't annoying.
