@@ -2,7 +2,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
-from core.helpers.fields_maxlength import fields_maxlength
 from core.helpers.form_errors import copy_global_error, remove_empty_errors
 from ..models import User
 from ..forms import SignUpForm

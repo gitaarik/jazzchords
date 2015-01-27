@@ -10,7 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 
 from songs.models import Song
-from core.helpers.fields_maxlength import fields_maxlength
 
 from .models import Chart, Key, ChordType
 from .forms import CreateChartForm
@@ -144,6 +143,7 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
         all_keys = Key.objects.all()
         chart_keys = all_keys.filter(tonality=chart.key.tonality)
         chord_types = ChordType.objects.all()
+        has_other_versions = chart.song.charts.count() > 1
 
         context = {
             'settings': BOXED_CHART,
@@ -156,10 +156,22 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
             'chord_types_json': get_chord_types_json(chord_types),
             'can_edit': can_edit,
             'edit': edit,
-            'key_select_tonics': Key.TONIC_CHOICES
+            'key_select_tonics': Key.TONIC_CHOICES,
+            'has_other_versions': has_other_versions
         }
 
         return render(request, 'chordcharts/chart/base.html', context)
+
+
+def versions(request, song_slug):
+
+    song = get_object_or_404(Song, slug=song_slug)
+
+    context = {
+        'song': song
+    }
+
+    return render(request, 'chordcharts/versions.html', context)
 
 
 def new_chart(request):

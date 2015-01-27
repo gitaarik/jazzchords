@@ -23,16 +23,16 @@
 
         <div class="links">
 
-            {% if lyrics_url %}
-                <a href="{{ lyrics_url }}" class="lyrics-url _small" target="_blank">Lyrics</a>
+            {% if video_url %}
+                <a href="{{ video_url }}" class="video-url _small" target="_blank">Video</a>
             {% endif %}
 
-            {% if lyrics_url and video_url %}
+            {% if video_url and lyrics_url %}
                 <span class="links-separator">-</span>
             {% endif %}
 
-            {% if video_url %}
-                <a href="{{ video_url }}" class="video-url _small" target="_blank">Video</a>
+            {% if lyrics_url %}
+                <a href="{{ lyrics_url }}" class="lyrics-url _small" target="_blank">Lyrics</a>
             {% endif %}
 
         </div>

@@ -11,6 +11,11 @@ urlpatterns = [
         views.chart,
         name='chart'
     ),
+    url(
+        r'versions/(?P<song_slug>[a-z0-9-_]+)/',
+        views.versions,
+        name='versions'
+    ),
     url(r'^new/', views.new_chart, name='new_chart'),
     url(
         r'^edit/'

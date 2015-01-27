@@ -1,14 +1,17 @@
 Chart:
-    - Make edit info box in the sidebar when in edit mode.
-        - When there's no info at all, the info edit box isn't visible
-    - Make widget in sidebar to switch between different charts of the
-      same song.
+    - Show author of chart in sidebar.
     - Songs don't seem to be deleted when deleting the last chart for
       a song.
+    - When adding measures with rests or measure beat-schema's like
+      1-1-1-1 or 1-1-2 or 2-1-1, a cleanup() seems to be necessary,
+      because when hitting 'done' you sometimes see mess on the screen.
+
+Search:
+    - Add short description with elipsis to search results.
 
 Footer:
-    There should be a footer to have at least some spacing at the
-    bottom.
+    Make a nice footer, make sure there's spacing at the bottom so
+    editing isn't annoying.
 
 Make things ready for alpha release:
     - Finish ansible stuff
@@ -21,6 +24,14 @@ Repeat section stuff:
     At "I got my love to keep me warm", the section repeating at the
     bottom is a bit weird, it would be more logical if it would just say
     "repeat 2nd A section".
+
+Create chart:
+    When typing the song name, give autocomplete suggestions.
+
+Chart:
+    - Remember the chosen key of a song in a cookie
+    - If the chart is shown in a different key than the original, show
+      the original key in the transpose widget.
 
 Make manage.py command to make prefixes for Key, Note, ChordTypes and
 TimeSignature.

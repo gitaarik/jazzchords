@@ -24,13 +24,13 @@
                             </label>
 
                             <label class="field">
-                                <div class="label">Lyrics URL:</div>
-                                <input type="text" class="_text-input-small input" name="lyrics_url" />
+                                <div class="label">Video URL:</div>
+                                <input type="text" class="_text-input-small input" name="video_url" />
                             </label>
 
                             <label class="field">
-                                <div class="label">Video URL:</div>
-                                <input type="text" class="_text-input-small input" name="video_url" />
+                                <div class="label">Lyrics URL:</div>
+                                <input type="text" class="_text-input-small input" name="lyrics_url" />
                             </label>
 
                             <input type="submit" class="save-button _button-small" value="Save">
@@ -50,7 +50,7 @@
             <div class="key-select menu-item _button-small _popup-box-opener">
 
                 <span class="text"><span class="key-name">Transpose</span></span>
-                <span class="fa fa-lg fa-caret-down"></span>
+                <span class="fa fa-arrows-v"></span>
 
                 <div class="transpose-widget _popup-box">
 
@@ -103,19 +103,22 @@
             {% endif %}
 
             {% if edit %}
-
                 <a class="menu-item _button-small" href="{% url "chordcharts:chart" chart_id=chart.id song_slug=chart.song.slug %}">
                     <span class="text">Done editing</span>
                     <span class="fa fa-check"></span>
                 </a>
-
             {% elif can_edit %}
-
                 <a class="menu-item _button-small" href="{% url "chordcharts:edit_chart" chart_id=chart.id song_slug=chart.song.slug %}">
                     <span class="text">Modify chart</span>
                     <span class="fa fa-pencil"></span>
                 </a>
+            {% endif %}
 
+            {% if not edit and has_other_versions %}
+                <a href="{% url "chordcharts:versions" song_slug=chart.song.slug %}" class="other-versions menu-item _button-small _popup-box-opener">
+                    <span>Other versions</span>
+                    <span class="icon fa fa-list"></span>
+                </a>
             {% endif %}
 
         </div>
