@@ -145,12 +145,26 @@ Search.prototype.process_results = function(results) {
         var result;
 
         for (var i = 0; i < this.search_results.length; i++) {
+
             result = this.search_results[i];
+
+            var short_description_el = '';
+
+            if (result.short_description) {
+                short_description_el = (
+                    '<span class="short-description">' +
+                        ' - ' + result.short_description +
+                    '</span>'
+                );
+            }
+
             result_els.push(
                 '<li><a href="' + result.url + '">' +
-                    result.song_name +
+                    '<span class="song-name">' + result.song_name + '</span>' +
+                    short_description_el +
                 '</a></li>'
             );
+
         }
 
         this.search_results_el.html(result_els.join(''));
@@ -177,7 +191,7 @@ Search.prototype.show_loading_indicator = function() {
  * results found.
  */
 Search.prototype.show_no_results_message = function() {
-    this.search_results_el.html('<li><span>No charts found</span></li>');
+    this.search_results_el.html('<li><span class="no-results">No charts found</span></li>');
     this.search_el.addClass('results-on');
 };
 

@@ -225,6 +225,7 @@ class SearchCharts(views.APIView):
             results_dict.append({
                 'url': url,
                 'song_name': song.name,
+                'short_description': chart.short_description
             })
 
         return Response({'results': results_dict})

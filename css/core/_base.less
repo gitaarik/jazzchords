@@ -153,18 +153,30 @@
 
                         padding: 0;
 
-                        a, span {
-                            display: block;
-                            padding: 4px 10px;
-                            color: #000;
-                            text-decoration: none;
-                        }
-
-                        span.loading {
+                        .loading {
                             display: inline-block;
                             height: 16px;
                             width: 100%;
                             background: url('@{static-root}/images/loading.gif') center center no-repeat;
+                        }
+
+                        .no-results {
+                            padding: 4px 10px;
+                        }
+
+                        a {
+                            display: block;
+                            padding: 4px 10px;
+                            color: #000;
+                            text-decoration: none;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        .short-description {
+                            font-size: 14px;
+                            font-weight: lighter;
                         }
 
                         &.selected a {
