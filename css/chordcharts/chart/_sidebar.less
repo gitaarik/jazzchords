@@ -16,27 +16,6 @@
 
                 position: relative;
                 margin-bottom: 20px;
-                border: solid 1px #999;
-                border-radius: 5px;
-                padding: 5px 0;
-
-                h6 {
-                    position: relative;
-                    margin: 0 5px;
-                    text-align: center;
-                    text-transform: capitalize;
-                }
-
-                hr {
-                    margin: 3px 0;
-                    border: solid 1px #999;
-                    border-width: 1px 0 0;
-                }
-
-                .short-description, .links {
-                    margin: 0 5px;
-                    text-align: center;
-                }
 
             }
 
@@ -75,78 +54,74 @@
 
         }
 
-        .chart-menu {
+        .menu-item {
 
-            .menu-item {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
 
-                display: block;
-                text-align: center;
-                margin-bottom: 20px;
+            .button {
 
-                .button {
+                padding: 5px;
 
-                    padding: 5px;
-
-                    &:hover {
-                        background: #EEE;
-                        border-radius: 3px;
-                    }
-
-                }
-
-                ._popup-box {
-                    margin-top: 15px;
-                    text-align: left;
+                &:hover {
+                    background: #EEE;
+                    border-radius: 3px;
                 }
 
             }
 
-            .key-select {
+            ._popup-box {
+                margin-top: 15px;
+                text-align: left;
+            }
 
-                .transpose-widget {
+        }
 
-                    left: -80px;
-                    padding: 10px;
-                    border: solid 1px #000;
-                    background: #FFF;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-                    z-index: 10;
+        .key-select {
 
-                    .arrow-up {
-                        left: auto;
-                        right: 50px;
-                    }
+            .transpose-widget {
 
-                    .current-key {
-                        margin-bottom: 10px;
-                    }
+                left: -80px;
+                padding: 10px;
+                border: solid 1px #000;
+                background: #FFF;
+                border-radius: 5px;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+                z-index: 10;
 
-                    ul {
+                .arrow-up {
+                    left: auto;
+                    right: 50px;
+                }
 
-                        margin-top: 10px;
-                        padding: 0;
+                .current-key {
+                    margin-bottom: 10px;
+                }
 
-                        li {
+                ul {
 
-                            a {
-                                display: block;
-                                width: 40px;
-                                height: 40px;
-                                line-height: 40px;
-                                text-align: center;
-                                color: inherit;
-                                text-decoration: none;
-                            }
+                    margin-top: 10px;
+                    padding: 0;
 
-                            &:nth-child(4n) {
-                                margin: 0;
-                            }
+                    li {
 
-                            &:nth-child(4n+1) {
-                                clear: both;
-                            }
+                        a {
+                            display: block;
+                            width: 40px;
+                            height: 40px;
+                            line-height: 40px;
+                            text-align: center;
+                            color: inherit;
+                            text-decoration: none;
+                        }
 
+                        &:nth-child(4n) {
+                            margin: 0;
+                        }
+
+                        &:nth-child(4n+1) {
+                            clear: both;
                         }
 
                     }

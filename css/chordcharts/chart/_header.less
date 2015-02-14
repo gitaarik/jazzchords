@@ -1,26 +1,55 @@
 .chord-chart-header {
 
-    width: @site-content-width;
-    margin: 15px auto 20px;
+    @header-width: @chart-width - @chart-section-sidebar-width - 9px;
+
+    width: @header-width;
+    margin: 15px 0 20px @chart-section-sidebar-width;
     padding-bottom: 5px;
     border-bottom: solid 1px #999;
 
-    .song-name {
+    .song-name-short-description {
 
-        position: relative;
-        float: left;
+        width: 100%;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
 
-        h1 {
-            font-size: 30px;
-            margin: 0;
+        .song-name {
+
+            h1 {
+                font-size: 30px;
+                margin: 0;
+            }
+
+        }
+
+        .short-description-links {
+
+            max-width: 300px;
+            text-align: right;
+            vertical-align: bottom;
+            margin-bottom: 3px;
+
+            a {
+                margin-left: 5px;
+                color: black;
+            }
+
         }
 
     }
 
-    .key {
-        float: left;
-        margin-left: 10px;
-        line-height: 39px;
+    .key-author {
+
+        .key {
+            float: left;
+        }
+
+        .author {
+            float: right;
+        }
+
     }
 
 }

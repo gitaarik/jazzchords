@@ -1,38 +1,29 @@
-<h6>
-    Info
-    {% if can_edit %}
-        <span class="edit fa fa-pencil"></span>
-    {% endif %}
-</h6>
-
-<hr>
-
-<p class="short-description _small">
-    {% if short_description %}
+{% if short_description %}
+    <p class="short-description">
         {{ short_description }}
-    {% else %}
-        [no info]
-    {% endif %}
-</p>
+    </p>
+{% endif %}
+
+<p>Author: {{ author }}</p>
 
 {% if lyrics_url or video_url %}
 
     <div class="links-container">
 
-        <hr>
-
         <div class="links">
 
             {% if video_url %}
-                <a href="{{ video_url }}" class="video-url _small" target="_blank">Video</a>
-            {% endif %}
-
-            {% if video_url and lyrics_url %}
-                <span class="links-separator">-</span>
+                <a href="{{ video_url }}" class="video-url menu-item _button-small" target="_blank">
+                    Video
+                    <span class="fa fa-external-link"></span>
+                </a>
             {% endif %}
 
             {% if lyrics_url %}
-                <a href="{{ lyrics_url }}" class="lyrics-url _small" target="_blank">Lyrics</a>
+                <a href="{{ lyrics_url }}" class="lyrics-url menu-item _button-small" target="_blank">
+                    Lyrics
+                    <span class="fa fa-external-link"></span>
+                </a>
             {% endif %}
 
         </div>

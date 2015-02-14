@@ -26,7 +26,8 @@ module.exports = Backbone.View.extend({
             template({
                 short_description: short_description,
                 lyrics_url: chart.get('lyrics_url'),
-                video_url: chart.get('video_url')
+                video_url: chart.get('video_url'),
+                author: chart.get('owner')['username']
             })
         );
 

@@ -1,37 +1,67 @@
 <header class="chord-chart-header">
 
-    <div class="song-name">
+    <div class="chord-chart-header-content">
 
-        <h1>
-            <span>{{ chart.song.name }}</span>
-        </h1>
+        <div class="song-name-short-description">
 
-        {% if edit %}
-            <div class="song-name-change _popup-box">
+            <div class="song-name">
 
-                <div class="arrow-up"></div>
+                <h1>
+                    <span>{{ chart.song.name }}</span>
+                </h1>
 
-                <div class="padding">
-                    <span class="close fa fa-times"></span>
+                {% if edit %}
+                    <div class="song-name-change _popup-box">
 
-                    <label>
-                        <span>Song name:</span>
-                        <input class="song-name-input _text-input" type="text" value="{{ chart.song.name }}">
-                    </label>
+                        <div class="arrow-up"></div>
 
-                </div>
+                        <div class="padding">
+                            <span class="close fa fa-times"></span>
+
+                            <label>
+                                <span>Song name:</span>
+                                <input class="song-name-input _text-input" type="text" value="{{ chart.song.name }}">
+                            </label>
+
+                        </div>
+
+                    </div>
+                {% endif %}
 
             </div>
-        {% endif %}
+
+            <div class="short-description-links">
+
+                {{ chart.short_description }}
+
+                {% if chart.video_url %}
+                    <a href="{{ chart.video_url }}" target="_blank"><span class="fa fa-youtube-play"></span></a>
+                {% endif %}
+
+                {% if chart.lyrics_url %}
+                    <a href="{{ chart.lyrics_url }}" target="_blank"><span class="fa fa-file-text"></span></a>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="key-author">
+
+            {% if not edit %}
+                <div class="key">
+                    Key of {{ chart.sections.0.key.name }}
+                </div>
+            {% endif %}
+
+            <div class="author">
+                Chart by: {{ chart.owner.username }}
+            </div>
+
+            <div class="_clearfix"></div>
+
+        </div>
 
     </div>
-
-    {% if not edit %}
-        <div class="key">
-            <span>Key of {{ chart.sections.0.key.name }}</span>
-        </div>
-    {% endif %}
-
-    <div class="_clearfix"></div>
 
 </header>

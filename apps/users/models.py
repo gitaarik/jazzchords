@@ -28,6 +28,11 @@ class User(PermissionsMixin, AbstractBaseUser):
     def __str__(self):
         return self.username
 
+    def client_data(self):
+        return {
+            'username': self.username
+        }
+
     def get_full_name(self):
         return self.username
 
