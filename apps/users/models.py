@@ -3,6 +3,7 @@ from django.core import validators
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.hashers import check_password, make_password
 
@@ -20,6 +21,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
     validated = models.BooleanField(default=False)
     validation_token = models.CharField(max_length=50, blank=True)
 
