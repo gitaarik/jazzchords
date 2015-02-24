@@ -94,3 +94,5 @@ gulp.task('watchit', function() {
     gulp.watch(root_dir + 'js/**', ['parsejs']);
 
 });
+
+gulp.task('default', ['parsestatic', 'watchit']);

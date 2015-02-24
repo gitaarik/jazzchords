@@ -14,6 +14,7 @@ $('._popup-box-opener').click(function(event) {
         } else {
             popup_box.show().trigger('show');
         }
+
     }
 
 });
@@ -49,4 +50,3 @@ $('html').on('keyup', function(event) {
     }
 
 });
-

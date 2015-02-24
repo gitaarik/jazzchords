@@ -4,7 +4,7 @@
 
         <div class="song-name-short-description">
 
-            <div class="song-name">
+            <div class="song-name{% if edit %} _popup-box-opener{% endif %}">
 
                 <h1>
                     <span>{{ chart.song.name }}</span>
@@ -13,10 +13,11 @@
                 {% if edit %}
                     <div class="song-name-change _popup-box">
 
-                        <div class="arrow-up"></div>
+                        <div class="_arrow-up"></div>
 
                         <div class="padding">
-                            <span class="close fa fa-times"></span>
+
+                            <span class="_close fa fa-times"></span>
 
                             <label>
                                 <span>Song name:</span>
@@ -32,14 +33,37 @@
 
             <div class="short-description-links">
 
-                {{ chart.short_description }}
+                <div class="short-description{% if edit %} _popup-box-opener{% endif %}">
+
+                    <span class="short-description-text">
+                        {% if chart.short_description %}
+                            {{ chart.short_description }}
+                        {% elif edit %}
+                            <span class="_link">add short description</span>
+                        {% endif %}
+                    </span>
+
+                    {% if edit %}
+                        <div class="short-description-change _popup-box">
+
+                            <div class="_arrow-up"></div>
+
+                            <label>
+                                <span>Short description:</span>
+                                <input class="short-description-input _text-input" type="text" value="{{ chart.short_description }}">
+                            </label>
+
+                        </div>
+                    {% endif %}
+
+                </div>
 
                 {% if chart.video_url %}
-                    <a href="{{ chart.video_url }}" target="_blank"><span class="fa fa-youtube-play"></span></a>
+                    <a class="chart-link" href="{{ chart.video_url }}" target="_blank"><span class="fa fa-youtube-play"></span></a>
                 {% endif %}
 
                 {% if chart.lyrics_url %}
-                    <a href="{{ chart.lyrics_url }}" target="_blank"><span class="fa fa-file-text"></span></a>
+                    <a class="chart-link" href="{{ chart.lyrics_url }}" target="_blank"><span class="fa fa-file-text"></span></a>
                 {% endif %}
 
             </div>

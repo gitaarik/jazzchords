@@ -1,5 +1,5 @@
 Chart:
-    - Show author of chart in sidebar.
+    - Be able to edit info/youtube/lyrics links
     - Songs don't seem to be deleted when deleting the last chart for
       a song.
     - When adding measures with rests or measure beat-schema's like

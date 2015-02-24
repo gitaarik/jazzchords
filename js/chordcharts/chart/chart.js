@@ -5,9 +5,8 @@ var MeasureView = require('./views/_measure.js');
 var ChordView = require('./views/_chord.js');
 var chart = require('./init/_chart.js');
 
-require('./init/_song-name-change-widget.js');
-require('./init/_chart-info.js');
-require('./init/_chart-info-edit.js');
+require('./init/_song-name.js');
+require('./init/_short-description.js');
 require('./init/_transpose-widget.js');
 require('./init/_settings-widget.js');
 
