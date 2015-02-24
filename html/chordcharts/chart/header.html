@@ -58,11 +58,49 @@
 
                 </div>
 
-                {% if chart.video_url %}
+                {% if edit %}
+
+                    <div class="chart-link video-url _popup-box-opener">
+
+                        <span class="video-url-icon fa fa-youtube-play"></span>
+
+                        <div class="video-url-change _popup-box">
+
+                            <div class="_arrow-up"></div>
+
+                            <label>
+                                <span>Video URL:</span>
+                                <input class="video-url-input _text-input" type="text" value="{{ chart.video_url }}">
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                {% elif chart.video_url %}
                     <a class="chart-link" href="{{ chart.video_url }}" target="_blank"><span class="fa fa-youtube-play"></span></a>
                 {% endif %}
 
-                {% if chart.lyrics_url %}
+                {% if edit %}
+
+                    <div class="chart-link lyrics-url _popup-box-opener">
+
+                        <span class="lyrics-url-icon fa fa-file-text"></span>
+
+                        <div class="lyrics-url-change _popup-box">
+
+                            <div class="_arrow-up"></div>
+
+                            <label>
+                                <span>Lyrics URL:</span>
+                                <input class="lyrics-url-input _text-input" type="text" value="{{ chart.lyrics_url }}">
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                {% elif chart.lyrics_url %}
                     <a class="chart-link" href="{{ chart.lyrics_url }}" target="_blank"><span class="fa fa-file-text"></span></a>
                 {% endif %}
 

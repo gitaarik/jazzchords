@@ -15,6 +15,10 @@ Footer:
 Search:
     - Investigate error you get in devserver log when searching
 
+Other versions:
+    - Just use video and lyrics icon in other versions instead of the
+      external link icon.
+
 Make things ready for alpha release:
     - Finish ansible stuff
     - Decide to use Gb Major or F# Major:
