@@ -1065,7 +1065,7 @@ class Measure(models.Model, PermissionMixin):
             'id': self.id,
             'number': self.number,
             'beat_schema': self.beat_schema,
-            'chords': [c.client_data() for c in self.chords.all()]
+            'chords': [c.client_data() for c in self.chords.filter(number__lte=self.chords_count)]
         }
 
     @property
@@ -1085,6 +1085,7 @@ class Measure(models.Model, PermissionMixin):
     def time_signature(self):
         return self.line.time_signature
 
+    @property
     def chords_count(self):
         """
         The amount of chords this measure contains.
@@ -1173,7 +1174,7 @@ class Measure(models.Model, PermissionMixin):
         Removes chords that don't fit in the `beat_schema` of this
         measure.
         """
-        self.chords.filter(number__gt=self.chords_count()).delete()
+        self.chords.filter(number__gt=self.chords_count).delete()
         if self.chords.count() == 0:
             self.delete()
 

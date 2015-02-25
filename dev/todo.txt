@@ -1,12 +1,8 @@
 Chart:
-    - Be able to edit info/youtube/lyrics links
     - Songs don't seem to be deleted when deleting the last chart for
       a song.
-    - When adding measures with rests or measure beat-schema's like
-      1-1-1-1 or 1-1-2 or 2-1-1, a cleanup() seems to be necessary,
-      because when hitting 'done' you sometimes see mess on the screen.
-    - When you add a new section, change the key and then try to change
-      the chord it doesn't work.
+    - When you add a new section, change the tonality from Major to
+      Minor and then try to change the chord it doesn't work.
 
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so

@@ -32,6 +32,7 @@ module.exports = Backbone.View.extend({
         ) {
             chordEdit.set('visible', false);
         } else {
+
             chordEdit.set({
                 visible: true,
                 chord: this.model,

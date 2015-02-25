@@ -388,6 +388,8 @@ module.exports = Backbone.View.extend({
                     deselect_button.removeClass('selected');
                 }
 
+                console.log(that.model.get(note_type).id);
+
                 that.editWidgetNotes[note_type].findWhere({
                     note_id: that.model.get(note_type).id
                 }).set('selected', true);
