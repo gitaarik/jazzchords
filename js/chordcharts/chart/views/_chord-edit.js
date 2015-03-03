@@ -449,9 +449,6 @@ module.exports = Backbone.View.extend({
             alt_bass_note = false;
         }
 
-        /*console.log('chord key id:');
-        console.log(chord.get('key_id'));*/
-
         this.model.set({
             note: note,
             chord_type: chord.get('chord_type'),
@@ -463,9 +460,6 @@ module.exports = Backbone.View.extend({
                 }).get('notes')
             )
         });
-
-        /*console.log('note choices:');
-        console.log(this.model.get('note_choices'));*/
 
         // Show the chord type part that has the curent selected chord
         // type.
