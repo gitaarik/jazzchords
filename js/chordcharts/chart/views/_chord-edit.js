@@ -183,14 +183,7 @@ module.exports = Backbone.View.extend({
      */
     show: function() {
 
-        // If the edit widget opens on a different chord than the
-        // last one, then reset the editWidget.
-        if (
-            this.model.previousAttributes().chord !=
-            this.model.get('chord')
-        ) {
-            this.reset();
-        }
+        this.reset();
 
         var offset = this.offset();
 
@@ -426,8 +419,9 @@ module.exports = Backbone.View.extend({
     /**
      * Resets the edit widget to the "start state".
      *
-     * For example, the chosen chord is the chord the edit is on and
-     * the selected tab is the note tab.
+     * For example, the notes get reinitialized with the notes from the
+     * correct key, the chosen chord is the chord the edit is on and the
+     * selected tab is the note tab.
      */
     reset: function() {
 

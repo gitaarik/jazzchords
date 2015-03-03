@@ -1,7 +1,4 @@
 Chart:
-    - When you change the tonality and some chord notations change with
-      that (for example from D Major to D Minor), these changes don't
-      get reflected in the chord edit widget.
     - Songs don't seem to be deleted when deleting the last chart for
       a song.
 
