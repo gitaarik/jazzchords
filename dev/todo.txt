@@ -1,7 +1,3 @@
-Chart:
-    - Songs don't seem to be deleted when deleting the last chart for
-      a song.
-
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so
     editing isn't annoying.
@@ -32,6 +28,9 @@ Chart:
     - Remember the chosen key of a song in a cookie
     - If the chart is shown in a different key than the original, show
       the original key in the transpose widget.
+    - When you try to give a chart a name like "!" we get an error
+      because probably a slug can't be created with only this one
+      character.
 
 Make manage.py command to make prefixes for Key, Note, ChordTypes and
 TimeSignature.

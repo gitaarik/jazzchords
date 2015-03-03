@@ -1,6 +1,7 @@
-from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
 from rest_framework.exceptions import ParseError, PermissionDenied
@@ -105,6 +106,7 @@ class ChartSongNameView(views.APIView):
     deleted.
     """
 
+    @transaction.atomic
     def post(self, request, chart_id):
 
         chart = get_object_or_404(Chart, id=chart_id)
@@ -113,9 +115,11 @@ class ChartSongNameView(views.APIView):
         old_song = chart.song
         new_song = self.get_new_song(request)
         chart.song = new_song
+        print('{} saving new song: {}'.format('-' * 25, new_song.name))
         chart.save()
 
         if old_song.charts.count() == 0:
+            print('{} deleting old song: {}'.format('-' * 25, old_song.name))
             old_song.delete()
 
         return Response({})

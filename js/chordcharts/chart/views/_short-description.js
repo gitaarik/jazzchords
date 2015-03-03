@@ -1,16 +1,22 @@
 module.exports = Backbone.View.extend({
 
     events: {
-        'show .short-description-change': 'show',
+        'show .short-description-change': 'gotShown',
+        'hide .short-description-change': 'gotClosed',
         'keyup .short-description-input': 'shortDescriptionInputKeyup'
     },
 
-    show: function() {
+    gotShown: function() {
         this.$el.find('.short-description-input').focusAtEnd();
     },
 
     close: function() {
         this.$el.find('.short-description-change').hide();
+        this.gotClosed();
+    },
+
+    gotClosed: function() {
+        this.updateShortDescription();
     },
 
     shortDescriptionInputKeyup: function(event) {
@@ -18,20 +24,8 @@ module.exports = Backbone.View.extend({
         if (event.key == "Enter") {
             this.close();
         } else {
-            this.updateShortDescription();
-        }
 
-    },
-
-    updateShortDescription: function() {
-
-        var shortDescription = this.$el.find('.short-description-input').val().trim();
-
-        if (this.model.get('short_description') != shortDescription) {
-
-            this.model.set('short_description', shortDescription);
-            this.model.save();
-
+            var shortDescription = this.$el.find('.short-description-input').val().trim();
             var textEl = this.$el.find('.short-description-text');
 
             if (shortDescription == '') {
@@ -40,12 +34,14 @@ module.exports = Backbone.View.extend({
                 textEl.text(shortDescription);
             }
 
+            this.model.set('short_description', shortDescription);
+
         }
 
     },
 
-    render: function() {
-
+    updateShortDescription: function() {
+        this.model.save();
     }
 
 });

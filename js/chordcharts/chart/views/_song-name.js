@@ -5,18 +5,22 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        'show .song-name-change': 'show',
-        'keyup .song-name-input': 'songNameInputKeyUp',
-        'click .close': 'close'
+        'show .song-name-change': 'gotShown',
+        'hide .song-name-change': 'gotClosed',
+        'keyup .song-name-input': 'songNameInputKeyUp'
     },
 
-    show: function() {
-        this.$el.find('.song-name-change').show();
+    gotShown: function() {
         this.$el.find('.song-name-input').focusAtEnd()
     },
 
     close: function() {
         this.$el.find('.song-name-change').hide();
+        this.gotClosed();
+    },
+
+    gotClosed: function() {
+        this.updateSongName();
     },
 
     songNameInputKeyUp: function(event) {
@@ -24,22 +28,23 @@ module.exports = Backbone.View.extend({
         if (event.key == "Enter") {
             this.close();
         } else {
-            this.updateSongName();
+
+            var newSongName = (
+                this.$el.find('.song-name-input').val().trim()
+                || '- Untitled -'
+            );
+
+            this.model.set('song_name', newSongName);
+            this.$el.find('h1 span').text(this.model.get('song_name'));
+
         }
 
     },
 
     updateSongName: function() {
 
-        var songName = this.$el.find('.song-name-input').val().trim();
-
-        if (songName && this.model.get('song_name') != songName) {
-
-            this.model.set('song_name', songName);
+        if (this.model.get('song_name')) {
             this.model.save();
-
-            this.$el.find('h1 span').text(songName);
-
         }
 
     }

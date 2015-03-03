@@ -1,16 +1,22 @@
 module.exports = Backbone.View.extend({
 
     events: {
-        'show .lyrics-url-change': 'show',
+        'show .lyrics-url-change': 'gotShow',
+        'hide .lyrics-url-change': 'gotClosed',
         'keyup .lyrics-url-input': 'lyricsUrlInputKeyup'
     },
 
-    show: function() {
+    gotShow: function() {
         this.$el.find('.lyrics-url-input').focusAtEnd();
     },
 
     close: function() {
         this.$el.find('.lyrics-url-change').hide();
+        this.gotClosed();
+    },
+
+    gotClosed: function() {
+        this.updatelyricsUrl();
     },
 
     lyricsUrlInputKeyup: function(event) {
@@ -18,20 +24,13 @@ module.exports = Backbone.View.extend({
         if (event.key == "Enter") {
             this.close();
         } else {
-            this.updateLyricsUrl();
+            this.model.set('lyrics_url', this.$el.find('.lyrics-url-input').val().trim());
         }
 
     },
 
-    updateLyricsUrl: function() {
-
-        var lyricsUrl = this.$el.find('.lyrics-url-input').val().trim();
-
-        if (this.model.get('lyrics_url') != lyricsUrl) {
-            this.model.set('lyrics_url', lyricsUrl);
-            this.model.save();
-        }
-
+    updatelyricsUrl: function() {
+        this.model.save();
     }
 
 });

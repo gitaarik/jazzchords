@@ -1,16 +1,22 @@
 module.exports = Backbone.View.extend({
 
     events: {
-        'show .video-url-change': 'show',
+        'show .video-url-change': 'gotShow',
+        'hide .video-url-change': 'gotClosed',
         'keyup .video-url-input': 'videoUrlInputKeyup'
     },
 
-    show: function() {
+    gotShow: function() {
         this.$el.find('.video-url-input').focusAtEnd();
     },
 
     close: function() {
         this.$el.find('.video-url-change').hide();
+        this.gotClosed();
+    },
+
+    gotClosed: function() {
+        this.updateVideoUrl();
     },
 
     videoUrlInputKeyup: function(event) {
@@ -18,20 +24,13 @@ module.exports = Backbone.View.extend({
         if (event.key == "Enter") {
             this.close();
         } else {
-            this.updateVideoUrl();
+            this.model.set('video_url', this.$el.find('.video-url-input').val().trim());
         }
 
     },
 
     updateVideoUrl: function() {
-
-        var videoUrl = this.$el.find('.video-url-input').val().trim();
-
-        if (this.model.get('video_url') != videoUrl) {
-            this.model.set('video_url', videoUrl);
-            this.model.save();
-        }
-
+        this.model.save();
     }
 
 });
