@@ -53,7 +53,7 @@
                             <div class="link-container">
                                 {% if chart.video_url %}
                                     <a href="{{ chart.video_url }}" target="_blank">
-                                        <span class="fa fa-external-link"></span>
+                                        <span class="fa fa-youtube-play"></span>
                                     </a>
                                 {% else %}
                                     <a href="{% url "chordcharts:chart" chart_id=chart.id %}">
@@ -67,7 +67,7 @@
                             <div class="link-container">
                                 {% if chart.lyrics_url %}
                                     <a href="{{ chart.lyrics_url }}" target="_blank">
-                                        <span class="fa fa-external-link"></span>
+                                        <span class="fa fa-file-text"></span>
                                     </a>
                                 {% else %}
                                     <a href="{% url "chordcharts:chart" chart_id=chart.id %}">

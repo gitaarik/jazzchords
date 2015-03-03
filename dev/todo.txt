@@ -1,20 +1,17 @@
-Footer:
-    Make a nice footer, make sure there's spacing at the bottom so
-    editing isn't annoying.
-
-Search:
-    - Investigate error you get in devserver log when searching
-
-Other versions:
-    - Just use video and lyrics icon in other versions instead of the
-      external link icon.
-
 Make things ready for alpha release:
     - Finish ansible stuff
     - Decide to use Gb Major or F# Major:
       https://en.wikipedia.org/wiki/G-flat_major
     - Complete all keys.
     - Configure django settings for production mode
+
+Other versions:
+    - Also include songs with a name that look like the original's chart
+      name, ordered by best matching.
+
+Footer:
+    Make a nice footer, make sure there's spacing at the bottom so
+    editing isn't annoying.
 
 Repeat section stuff:
     At "I got my love to keep me warm", the section repeating at the
