@@ -16,10 +16,6 @@ module.exports = Model.extend({
             this.initChordType();
         }
 
-        if (!this.getKey()) {
-            this.initKey();
-        }
-
     },
 
     initListeners: function() {

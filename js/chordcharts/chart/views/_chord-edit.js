@@ -388,8 +388,6 @@ module.exports = Backbone.View.extend({
                     deselect_button.removeClass('selected');
                 }
 
-                console.log(that.model.get(note_type).id);
-
                 that.editWidgetNotes[note_type].findWhere({
                     note_id: that.model.get(note_type).id
                 }).set('selected', true);
@@ -451,6 +449,9 @@ module.exports = Backbone.View.extend({
             alt_bass_note = false;
         }
 
+        /*console.log('chord key id:');
+        console.log(chord.get('key_id'));*/
+
         this.model.set({
             note: note,
             chord_type: chord.get('chord_type'),
@@ -462,6 +463,9 @@ module.exports = Backbone.View.extend({
                 }).get('notes')
             )
         });
+
+        /*console.log('note choices:');
+        console.log(this.model.get('note_choices'));*/
 
         // Show the chord type part that has the curent selected chord
         // type.

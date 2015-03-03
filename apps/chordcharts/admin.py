@@ -104,6 +104,10 @@ class ChordTypeAdmin(admin.ModelAdmin):
 class NoteInline(admin.TabularInline):
     model = Note
     extra = 0
+    readonly_fields = ('id',)
+
+    def id(self, instance):
+        return instance.id
 
 
 class KeyAdmin(admin.ModelAdmin):

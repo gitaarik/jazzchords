@@ -1,8 +1,11 @@
 Chart:
-    - Songs don't seem to be deleted when deleting the last chart for
-      a song.
     - When you add a new section, change the tonality from Major to
       Minor and then try to change the chord it doesn't work.
+    - When you change the tonality and some chord notations change with
+      that (for example from D Major to D Minor), these changes don't
+      get reflected in the chord edit widget.
+    - Songs don't seem to be deleted when deleting the last chart for
+      a song.
 
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so

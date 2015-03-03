@@ -95,5 +95,7 @@ class ChordSerializer(CompleteDataMixin, serializers.ModelSerializer):
             'chord_pitch',
             'alt_bass',
             'alt_bass_pitch',
-            'rest'
+            'rest',
+            # hier moet key_id bij komen:
+            #'key_id'
         )

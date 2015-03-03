@@ -33,11 +33,15 @@ module.exports = Backbone.View.extend({
             chordEdit.set('visible', false);
         } else {
 
+            console.log('key_id:');
+            console.log(this.model.get('key_id'));
+
             chordEdit.set({
                 visible: true,
                 chord: this.model,
                 offset: this.$el.offset()
             });
+
         }
 
     },
