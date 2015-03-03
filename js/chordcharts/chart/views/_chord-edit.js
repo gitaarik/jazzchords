@@ -459,7 +459,7 @@ module.exports = Backbone.View.extend({
             rest: rest,
             note_choices: (
                 allKeys.findWhere({
-                    id: chord.get('key_id')
+                    id: chord.getKey().get('id')
                 }).get('notes')
             )
         });

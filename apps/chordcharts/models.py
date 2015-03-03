@@ -1266,7 +1266,6 @@ class Chord(models.Model, PermissionMixin):
             'alt_bass_pitch': self.alt_bass_pitch,
             'rest': self.rest,
             'number': self.number,
-            'key_id': self.key.id,
             'note': self.note.client_data(),
             'chord_type_id': self.chord_type.id,
             'alt_bass_note': (
