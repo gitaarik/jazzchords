@@ -1,6 +1,4 @@
 Make things ready for alpha release:
-    - Make manage.py command to make prefixes for Key, Note, ChordTypes
-      and TimeSignature.
     - Finish ansible stuff
     - Complete all keys.
     - Configure django settings for production mode
