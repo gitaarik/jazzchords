@@ -1,17 +1,34 @@
 Make things ready for alpha release:
+    - Make manage.py command to make prefixes for Key, Note, ChordTypes
+      and TimeSignature.
     - Finish ansible stuff
-    - Decide to use Gb Major or F# Major:
-      https://en.wikipedia.org/wiki/G-flat_major
     - Complete all keys.
     - Configure django settings for production mode
 
-Other versions:
-    - Also include songs with a name that look like the original's chart
-      name, ordered by best matching.
+Decide to use Gb Major or F# Major:
+https://en.wikipedia.org/wiki/G-flat_major
 
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so
     editing isn't annoying.
+
+Make arrow-up asset in popup widget transparent.
+
+Chart:
+    - Remember the chosen key of a song in a cookie
+    - If the chart is shown in a different key than the original, show
+      the original key in the transpose widget.
+    - When you try to give a chart a name like "!" we get an error
+      because probably a slug can't be created with only this one
+      character.
+    - If the chord name is really long, sometimes it doesn't fit in it's
+      container. We can probably easily fix this by adjusting the font
+      size.
+    - Make a PDF export, so that people can easily print it out.
+
+Other versions:
+    - Also include songs with a name that look like the original's chart
+      name, ordered by best matching.
 
 Repeat section stuff:
     At "I got my love to keep me warm", the section repeating at the
@@ -21,29 +38,9 @@ Repeat section stuff:
 Create chart:
     When typing the song name, give autocomplete suggestions.
 
-Chart:
-    - Remember the chosen key of a song in a cookie
-    - If the chart is shown in a different key than the original, show
-      the original key in the transpose widget.
-    - When you try to give a chart a name like "!" we get an error
-      because probably a slug can't be created with only this one
-      character.
-
-Make manage.py command to make prefixes for Key, Note, ChordTypes and
-TimeSignature.
-
-Make arrow-up asset in popup widget transparent.
-
 Chord symbol list:
     A list that maps symbols to chord types, as an extention to the 'How
     to read' page.
-
-Fit chord names:
-    If the chord name is really long, sometimes it doesn't fit in it's
-    container. We can probably easily fix this by adjusting the font size.
-
-Make a PDF export:
-    So that people can easily print it out.
 
 Input from people:
     http://www.reddit.com/r/piano/comments/291l58/introducing_jazzchordsorg_a_site_to_create_and/cigpc9k
