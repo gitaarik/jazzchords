@@ -1,6 +1,10 @@
 Create an about and contact page.
     - Line height in h1, h2, h3 etc classes
 
+Chart list:
+    - When songname is so long that it covers 2 lines, the username is not
+      vertically aligned in the middle.
+
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so
     editing isn't annoying.
