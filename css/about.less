@@ -1,6 +1,8 @@
 ._base-content {
 
-    .about {
+    .about-base {
+
+        margin-top: 50px;
 
         nav {
 
@@ -19,6 +21,12 @@
                 width: 33%;
                 font-size: 18px;
                 text-align: center;
+                text-decoration: none;
+                color: #000;
+
+                &:hover {
+                    border-bottom: solid 3px #CCC;
+                }
 
                 &.active {
                     font-weight: normal;
@@ -37,38 +45,61 @@
 
         .content {
 
-            h1 {
-                padding: 50px 0;
-                margin: 0 auto;
-                width: 700px;
-                text-align: center;
-            }
+            .about {
 
-            .part1 {
+                h1 {
+                    margin: 50px 0;
+                    text-align: center;
+                }
 
-                p {
+                .paragraphs {
 
-                    width: 50%;
+                    p {
 
-                    &:nth-child(1) {
-                        float: left;
-                        padding-right: 10px;
-                    }
+                        width: 50%;
 
-                    &:nth-child(2) {
-                        float: right;
-                        padding-left: 10px;
+                        &:nth-child(1) {
+                            float: left;
+                            padding-right: 15px;
+                        }
+
+                        &:nth-child(2) {
+                            float: right;
+                            padding-left: 15px;
+                        }
+
                     }
 
                 }
 
             }
 
-            .part2 {
+            .team {
+
+                h1 {
+                    margin: 50px 0;
+                    text-align: center;
+                }
 
                 p {
-                    margin: 50px auto;
-                    width: 60%;
+                    margin: 0 auto;
+                    width: 700px;
+                    text-align: center;
+                }
+
+            }
+
+            .contribute {
+
+                h1 {
+                    margin: 50px 0;
+                    text-align: center;
+                }
+
+                p {
+                    margin: 0 auto;
+                    width: 700px;
+                    text-align: center;
                 }
 
             }

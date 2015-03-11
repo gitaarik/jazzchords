@@ -1,7 +1,12 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
 
+about_urls = [
+    url(r'^$', 'core.views.about', name='about'),
+    url(r'^team/$', 'core.views.about_team', name='team'),
+    url(r'^contribute/$', 'core.views.about_contribute', name='contribute'),
+]
 
 urlpatterns = [
     url(r'^$', 'core.views.frontpage', name='frontpage'),
-    url(r'^about/$', 'core.views.about', name='about'),
+    url(r'^about/', include(about_urls, namespace='about')),
 ]

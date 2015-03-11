@@ -1,4 +1,5 @@
 Create an about and contact page.
+    - Line height in h1, h2, h3 etc classes
 
 Footer:
     Make a nice footer, make sure there's spacing at the bottom so
