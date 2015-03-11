@@ -7,7 +7,6 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.hashers import check_password, make_password
 
-from core.helpers.lazy import LazyStr
 from .managers import UserManager
 from .helpers import generate_token
 

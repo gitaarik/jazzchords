@@ -1,0 +1,92 @@
+._base-content {
+
+    .chart-search {
+
+        header {
+
+            margin-bottom: 20px;
+
+            h1 {
+                margin-bottom: 0;
+            }
+
+        }
+
+        .charts {
+
+            .chart {
+
+                display: block;
+                width: 700px;
+                border-bottom: solid 1px #EEE;
+                line-height: 20px;
+                display: flex;
+
+                .chart-link {
+                    padding: 20px 10px;
+                    text-decoration: none;
+                    flex-grow: 1;
+                }
+
+                &:hover {
+
+                    .chart-link {
+                        background-image: -o-linear-gradient(left, rgb(230, 230, 230) 66%, rgb(255, 255, 255) 100%);
+                        background-image: -moz-linear-gradient(left, rgb(230, 230, 230) 66%, rgb(255, 255, 255) 100%);
+                        background-image: -webkit-gradient(linear, left, right, color-stop(0, rgb(230, 230, 230)), color-stop(1, rgb(255, 255, 255)));
+                        background-image: -webkit-linear-gradient(left, rgb(230, 230, 230) 66%, rgb(255, 255, 255) 100%);
+                        background-image: -ms-linear-gradient(left, rgb(230, 230, 230) 66%, rgb(255, 255, 255) 100%);
+                        background-image: linear-gradient(left, rgb(230, 230, 230) 66%, rgb(255, 255, 255) 100%);
+                    }
+
+                }
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .song-name,
+                .owner {
+                    font-size: 18px;
+                    color: #000;
+                    text-decoration: none;
+                }
+
+                .song-name {
+                    margin-right: 10px;
+                }
+
+                .creation-date,
+                .owner {
+                    padding: 20px 10px;
+                    align-self: flex-end;
+                }
+
+                .creation-date {
+                    padding-right: 0;
+                }
+
+                .owner a {
+
+                    color: #000;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+
+                }
+
+                .short-description,
+                .creation-date {
+                    color: #AAA;
+                    font-size: 14px;
+                }
+
+            }
+
+        }
+
+    }
+
+}

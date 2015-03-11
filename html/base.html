@@ -38,7 +38,7 @@
                     <nav>
 
                         <div class="nav-item all-charts">
-                            <a class="text" href="{% url "chordcharts:index" %}">all charts</a>
+                            <a class="text" href="{% url "search" %}">all charts</a>
                         </div>
 
                         {% if user.is_authenticated %}
@@ -89,6 +89,10 @@
                                     <div class="sub-buttons">
 
                                         <div class="sub-button delete">
+                                            <a href="{% url "search" %}?user={{ user.username }}">My charts</a>
+                                        </div>
+
+                                        <div class="sub-button delete">
                                             <a href="{% url "users:home" %}">My account</a>
                                         </div>
 
@@ -124,7 +128,18 @@
 
         <main class="_base-content">
             {% block content %}{% endblock %} 
+            <div class="_clearfix"></div>
         </main>
+
+        <footer class="_base-footer">
+
+            <nav>
+                <a href="{% url "core:about" %}">About</a> -
+                <a href="https://www.github.com/gitaarik/jazzchords/" target="_blank">GitHub</a> -
+                <a href="">Contact</a>
+            </nav>
+
+        </footer>
 
         <script src="js/core/core.js"></script>
         {% block javascript %}{% endblock %}

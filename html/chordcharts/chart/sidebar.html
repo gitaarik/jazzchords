@@ -70,7 +70,7 @@
         {% endif %}
 
         {% if not edit and has_other_versions %}
-            <a href="{% url "chordcharts:versions" song_slug=chart.song.slug %}" class="other-versions menu-item _button-small _popup-box-opener">
+            <a href="{% url "search" search_term=chart.song.name %}" class="other-versions menu-item _button-small _popup-box-opener">
                 <span>Other versions</span>
                 <span class="icon fa fa-list"></span>
             </a>

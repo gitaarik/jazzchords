@@ -24,6 +24,11 @@ urlpatterns = [
     url('^admin/', include(admin.site.urls)),
     url('^users/', include('users.urls', namespace='users')),
     url('^chart/', include('chordcharts.urls', namespace='chordcharts')),
+    url(
+        r'^search/(?:(?P<search_term>[^&\?\/]+)/)?$',
+        'chordcharts.views.search',
+        name='search'
+    ),
     url('^ajax/', include(ajax_urls, namespace='ajax')),
     url('^api/', include(api_urls, namespace='api')),
     url(

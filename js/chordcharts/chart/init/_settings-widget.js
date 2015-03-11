@@ -1,6 +1,6 @@
 $(
     GLOBALS.base_el_selector +
-    ' .chart-menu .settings .button.delete'
+    ' .sidebar .settings .button.delete'
 ).click(function() {
 
     if (confirm("Are you really sure you want to delete the chart?")) {

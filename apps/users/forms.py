@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate
 from django.forms import Form, ModelForm
 from django.forms import fields as django_fields
 
-from core.helpers.lazy import LazyStr
 from .models import User
 from . import fields
 

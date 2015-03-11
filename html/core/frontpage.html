@@ -3,7 +3,7 @@
 
 {% block css %}
     {{ block.super }}
-    <link type="text/css" rel="stylesheet" href="css/frontpage/frontpage.css" />
+    <link type="text/css" rel="stylesheet" href="css/frontpage.css" />
 {% endblock %}
 
 {% block content %}
@@ -25,7 +25,7 @@
                 </h2>
 
                 <h2>
-                    <a href="{% url "chordcharts:index" %}">Explore the list of chordcharts</a>
+                    <a href="{% url "search" %}">Explore the list of chordcharts</a>
                     and learn new songs to play.
                 </h2>
 

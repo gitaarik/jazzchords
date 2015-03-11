@@ -1,3 +1,16 @@
+Create an about and contact page.
+
+Footer:
+    Make a nice footer, make sure there's spacing at the bottom so
+    editing isn't annoying.
+
+Chart:
+    - You can create a chart when you're not logged in.
+    - Make the edit widgets for song name, short description and video
+      and lyrics urls use a confirm or cancel button so the change
+      doesn't have effect if you click cancel.
+    - The half diminished symbol (0̸) doesn't look good on the page.
+
 Make things ready for alpha release:
     - Finish ansible stuff
     - Complete all keys.
@@ -6,9 +19,8 @@ Make things ready for alpha release:
 Decide to use Gb Major or F# Major:
 https://en.wikipedia.org/wiki/G-flat_major
 
-Footer:
-    Make a nice footer, make sure there's spacing at the bottom so
-    editing isn't annoying.
+User profile:
+    - Create page where you can see all the charts of a certain user.
 
 Make arrow-up asset in popup widget transparent.
 
@@ -24,10 +36,6 @@ Chart:
       size.
     - Make a PDF export, so that people can easily print it out.
 
-Other versions:
-    - Also include songs with a name that look like the original's chart
-      name, ordered by best matching.
-
 Repeat section stuff:
     At "I got my love to keep me warm", the section repeating at the
     bottom is a bit weird, it would be more logical if it would just say
@@ -39,6 +47,9 @@ Create chart:
 Chord symbol list:
     A list that maps symbols to chord types, as an extention to the 'How
     to read' page.
+
+Make a newsletter for Jazzchords.org:
+    https://github.com/ulule/django-courriers
 
 Input from people:
     http://www.reddit.com/r/piano/comments/291l58/introducing_jazzchordsorg_a_site_to_create_and/cigpc9k

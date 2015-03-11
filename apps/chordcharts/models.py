@@ -1,5 +1,6 @@
 # coding=utf8
 from django.db import models
+from django.utils import timezone
 
 from core.helpers.number_to_ordinal import number_to_ordinal
 from users.models import User
@@ -251,6 +252,7 @@ class Chart(models.Model, PermissionMixin):
     """
 
     owner = models.ForeignKey(User, related_name='charts')
+    creation_date = models.DateTimeField(default=timezone.now)
     song = models.ForeignKey(Song, related_name='charts')
     short_description = models.CharField(
         max_length=150, default="", blank=True

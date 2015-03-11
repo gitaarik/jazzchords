@@ -17,15 +17,6 @@ from .settings import BOXED_CHART
 from .helpers.keys_json import keys_json
 
 
-def index(request):
-
-    context = {
-        'songs': Song.objects.all()
-    }
-
-    return render(request, 'chordcharts/index.html', context)
-
-
 def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
     """
     Renders the view for the chart.
@@ -163,15 +154,33 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
         return render(request, 'chordcharts/chart/base.html', context)
 
 
-def versions(request, song_slug):
+def search(request, search_term=None):
 
-    song = get_object_or_404(Song, slug=song_slug)
+    song = None
+
+    if search_term:
+        try:
+            song = Song.objects.get(name=search_term)
+        except ObjectDoesNotExist:
+            pass
+
+    if song:
+        results = song.charts.all()
+    else:
+        results = Chart.objects.all()
+
+    username = request.GET.get('user')
+
+    if username:
+        results = results.filter(owner__username=username)
 
     context = {
-        'song': song
+        'search_term': search_term,
+        'username': username,
+        'results': results
     }
 
-    return render(request, 'chordcharts/versions.html', context)
+    return render(request, 'chordcharts/search.html', context)
 
 
 def new_chart(request):
