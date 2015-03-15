@@ -131,12 +131,14 @@
             <div class="_clearfix"></div>
         </main>
 
-        <footer class="_base-footer">
+        <footer class="_base-footer _site-content">
+
+            <div class="site-name">{{ g__settings.WEBSITE_NAME_DOMAIN }}</div>
 
             <nav>
-                <a href="{% url "core:about:about" %}">About</a> -
-                <a href="https://www.github.com/gitaarik/jazzchords/" target="_blank">GitHub</a> -
-                <a href="">Contact</a>
+                <a href="{% url "core:about:about" %}">About</a>
+                <a href="{% url "core:contact" %}">Contact</a>
+                <a href="https://www.github.com/gitaarik/jazzchords/" target="_blank">GitHub</a>
             </nav>
 
         </footer>

@@ -45,7 +45,7 @@
 
                 <tr>
                     <th>
-                        <label for="song">Song name:</label>
+                        <label for="chart_song">Song name</label>
                     </th>
                     <td>
                         <div class="tooltip-popup _popup-box">
@@ -55,7 +55,7 @@
                                 other, so that people can easily find diffent charts for the same song.
                             </p>
                         </div>
-                        <input type="text" name="song_name" id="song" maxlength="{{ fields.song_name.max_length }}">
+                        <input type="text" name="song_name" id="chart_song" maxlength="{{ fields.song_name.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -72,7 +72,7 @@
 
                 <tr>
                     <th>
-                        <label for="short_description">Short description:</label>
+                        <label for="chart_short_description">Short description</label>
                     </th>
                     <td>
                         <div class="tooltip-popup _popup-box">
@@ -85,7 +85,7 @@
                             </ul>
                             <p>Leave blank if nothing special applies.</p>
                         </div>
-                        <input type="text" name="short_description" id="short_description" placeholder="optional" maxlength="{{ fields.short_description.max_length }}">
+                        <input type="text" name="short_description" id="chart_short_description" placeholder="optional" maxlength="{{ fields.short_description.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -103,7 +103,7 @@
                 <tr>
 
                     <th>
-                        <label for="video_url">Video URL:</label>
+                        <label for="chart_video_url">Video URL</label>
                     </th>
 
                     <td>
@@ -114,7 +114,7 @@
                                 chart.
                             </p>
                         </div>
-                        <input type="text" name="video_url" id="video_url" placeholder="optional" maxlength="{{ fields.video_url.max_length }}">
+                        <input type="text" name="video_url" id="chart_video_url" placeholder="optional" maxlength="{{ fields.video_url.max_length }}">
                     </td>
 
                     <td>
@@ -133,14 +133,14 @@
 
                 <tr>
                     <th>
-                        <label for="lyrics_url">Lyrics URL:</label>
+                        <label for="chart_lyrics_url">Lyrics URL</label>
                     </th>
                     <td>
                         <div class="tooltip-popup _popup-box">
                             <div class="_arrow-up"></div>
                             <p>A URL to lyrics (if there are any) that go along with the chart.</p>
                         </div>
-                        <input type="text" name="lyrics_url" id="lyrics_url" placeholder="optional" maxlength="{{ fields.lyrics_url.max_length }}">
+                        <input type="text" name="lyrics_url" id="chart_lyrics_url" placeholder="optional" maxlength="{{ fields.lyrics_url.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -166,7 +166,7 @@
                 <tr class="key">
 
                     <th>
-                        <label>Key:</label>
+                        <label>Key</label>
                     </th>
                     <td>
 

@@ -7,7 +7,6 @@
     .chord-chart {
 
         margin: 0 auto;
-        padding-bottom: 170px;
         width: @chart-width + @site-sidebar-width + @chart-section-sidebar-width;
 
         @import "_header.less";
@@ -16,7 +15,12 @@
         @import "_widgets.less";
 
         &.edit-on {
+
+            // Make space for the chord edit widget to appear at the bottom:
+            padding-bottom: 30px;
+
             @import "_edit.less";
+
         }
 
     }

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/css" rel="stylesheet" href="css/contact.css" />
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+
+        $(function() {
+
+            var contactFormEl = $('._base-content .contact .contact-form');
+
+            contactFormEl.submit(function() {
+
+                var messageLength = (
+                    contactFormEl.find('.message textarea')
+                    .val().trim().length
+                );
+
+                if (messageLength === 0) {
+                    return false;
+                }
+
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <article class="contact _site-content">
+
+        <h1>Contact {{ g__settings.WEBSITE_NAME }}</h1>
+
+        {% if sent %}
+            <p>
+                Thanks for getting in touch with us. We'll get back to you
+                shortly.
+            </p>
+        {% else %}
+
+            <p>
+                If you have any comments/questions/suggestions or you would
+                like to contribute to {{ g__settings.WEBSITE_NAME }}, feel free
+                to send us a message.
+            </p>
+
+            <form class="contact-form" method="POST">
+
+                {% csrf_token %}
+
+                <table class="_form-table">
+
+                    <tr>
+                        <th>
+                            <label for="contact_name">Name</label>
+                        </th>
+                        <td>
+                            <input type="text" name="name" id="contact_name" maxlength="100">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="contact_email">Email</label>
+                        </th>
+                        <td>
+                            <input type="text" name="email" id="contact_email">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="contact_subject">Subject</label>
+                        </th>
+                        <td>
+                            <input type="text" name="subject" id="contact_subject">
+                        </td>
+                    </tr>
+
+                    <tr class="message">
+                        <th>
+                            <label for="contact_message">Message</label>
+                        </th>
+                        <td>
+                            <textarea name="message" id="contact_message"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input type="submit" value="Send">
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        {% endif %}
+
+    </article>
+
+{% endblock %}
