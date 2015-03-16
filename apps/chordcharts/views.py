@@ -1,13 +1,13 @@
 import json
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseRedirect,
     HttpResponsePermanentRedirect, HttpResponseForbidden
 )
-from django.core.urlresolvers import reverse
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from songs.models import Song
 
@@ -183,6 +183,7 @@ def search(request, search_term=None):
     return render(request, 'chordcharts/search.html', context)
 
 
+@login_required
 def new_chart(request):
     """
     Returns a view where you can create new charts.
