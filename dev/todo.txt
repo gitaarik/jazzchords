@@ -3,9 +3,6 @@ Chart list:
       vertically aligned in the middle.
 
 Chart:
-    - Make the edit widgets for song name, short description and video
-      and lyrics urls use a confirm or cancel button so the change
-      doesn't have effect if you click cancel.
     - The half diminished symbol (0̸) doesn't look good on the page.
 
 Make things ready for alpha release:
