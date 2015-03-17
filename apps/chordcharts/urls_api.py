@@ -19,25 +19,25 @@ sections_router = routers.NestedSimpleRouter(
     charts_router, 'charts',
     lookup='chart', trailing_slash=False
 )
-sections_router.register('sections', SectionViewSet)
+sections_router.register('sections', SectionViewSet, 'section')
 
 lines_router = routers.NestedSimpleRouter(
     sections_router, 'sections',
     lookup='section', trailing_slash=False
 )
-lines_router.register('lines', LineViewSet)
+lines_router.register('lines', LineViewSet, 'line')
 
 measures_router = routers.NestedSimpleRouter(
     lines_router, 'lines',
     lookup='line', trailing_slash=False
 )
-measures_router.register('measures', MeasureViewSet)
+measures_router.register('measures', MeasureViewSet, 'measure')
 
 chords_router = routers.NestedSimpleRouter(
     measures_router, 'measures',
     lookup='measure', trailing_slash=False
 )
-chords_router.register('chords', ChordViewSet)
+chords_router.register('chords', ChordViewSet, 'chord')
 
 urlpatterns = [
     url('^', include(charts_router.urls)),

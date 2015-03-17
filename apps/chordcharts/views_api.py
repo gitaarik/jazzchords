@@ -19,7 +19,6 @@ from .models import Key, Chart, Section, Line, Measure, Chord
 
 class ChartViewSet(viewsets.ModelViewSet):
     permission_classes = (UserPermissions,)
-    model = Chart
     serializer_class = ChartSerializer
     queryset = Chart.objects.all()
 
@@ -27,7 +26,6 @@ class ChartViewSet(viewsets.ModelViewSet):
 class SectionViewSet(viewsets.ModelViewSet):
 
     permission_classes = (UserPermissions,)
-    model = Section
     serializer_class = SectionSerializer
 
     def get_queryset(self, *args, **kwargs):
@@ -42,7 +40,6 @@ class SectionViewSet(viewsets.ModelViewSet):
 class LineViewSet(viewsets.ModelViewSet):
 
     permission_classes = (UserPermissions,)
-    model = Line
     serializer_class = LineSerializer
 
     def get_queryset(self, *args, **kwargs):
@@ -60,7 +57,6 @@ class LineViewSet(viewsets.ModelViewSet):
 class MeasureViewSet(viewsets.ModelViewSet):
 
     permission_classes = (UserPermissions,)
-    model = Measure
     serializer_class = MeasureSerializer
 
     def get_queryset(self, *args, **kwargs):
@@ -79,7 +75,6 @@ class MeasureViewSet(viewsets.ModelViewSet):
 class ChordViewSet(viewsets.ModelViewSet):
 
     permission_classes = (UserPermissions,)
-    model = Chord
     serializer_class = ChordSerializer
 
     def get_queryset(self, *args, **kwargs):
