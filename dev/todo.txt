@@ -1,3 +1,8 @@
+Make things ready for alpha release:
+    - Finish ansible stuff
+    - Complete all keys.
+    - Configure django settings for production mode
+
 Chart list:
     - When songname is so long that it covers 2 lines, the username is not
       vertically aligned in the middle.
@@ -5,21 +10,13 @@ Chart list:
 Chart:
     - The half diminished symbol (0̸) doesn't look good on the page.
 
-Make things ready for alpha release:
-    - Finish ansible stuff
-    - Complete all keys.
-    - Configure django settings for production mode
-
 Decide to use Gb Major or F# Major:
 https://en.wikipedia.org/wiki/G-flat_major
-
-User profile:
-    - Create page where you can see all the charts of a certain user.
 
 Make arrow-up asset in popup widget transparent.
 
 Chart:
-    - Remember the chosen key of a song in a cookie
+    - Remember the chosen key when chart is transposed once.
     - If the chart is shown in a different key than the original, show
       the original key in the transpose widget.
     - When you try to give a chart a name like "!" we get an error
