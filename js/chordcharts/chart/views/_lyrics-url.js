@@ -1,12 +1,12 @@
 module.exports = Backbone.View.extend({
 
     events: {
-        'show .lyrics-url-change': 'gotShow',
+        'show .lyrics-url-change': 'gotShown',
         'hide .lyrics-url-change': 'gotClosed',
         'keyup .lyrics-url-input': 'lyricsUrlInputKeyup'
     },
 
-    gotShow: function() {
+    gotShown: function() {
         this.$el.find('.lyrics-url-input').focusAtEnd();
     },
 
@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend({
     },
 
     updatelyricsUrl: function() {
-        this.model.save();
+        this.model.save(null, {patch: true});
     }
 
 });

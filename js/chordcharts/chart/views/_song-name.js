@@ -1,17 +1,22 @@
 module.exports = Backbone.View.extend({
 
     initialize: function() {
-        this.listenTo(this.model, 'change', this.render);
+        this.songNameEl = this.$el.find('h1 span');
+        this.songNameInputEl = this.$el.find('.song-name-input');
     },
 
     events: {
         'show .song-name-change': 'gotShown',
         'hide .song-name-change': 'gotClosed',
-        'keyup .song-name-input': 'songNameInputKeyUp'
+        'keyup .song-name-input': 'songNameInputKeyUp',
+        'click .buttons .save': 'save',
+        'click .buttons .cancel': 'close'
     },
 
     gotShown: function() {
-        this.$el.find('.song-name-input').focusAtEnd()
+        this.originalSongName = this.songNameEl.text().trim();
+        this.newSongName = this.originalSongName;
+        this.songNameInputEl.val(this.originalSongName).focusAtEnd()
     },
 
     close: function() {
@@ -20,30 +25,40 @@ module.exports = Backbone.View.extend({
     },
 
     gotClosed: function() {
+        this.restoreSongName();
+    },
+
+    save: function() {
         this.updateSongName();
+        this.close();
     },
 
     songNameInputKeyUp: function(event) {
 
         if (event.key == "Enter") {
-            this.close();
+            this.save();
         } else {
 
-            var newSongName = (
-                this.$el.find('.song-name-input').val().trim()
+            this.newSongName = (
+                this.songNameInputEl.val().trim()
                 || '- Untitled -'
             );
 
-            this.model.set('song_name', newSongName);
-            this.$el.find('h1 span').text(this.model.get('song_name'));
+            this.songNameEl.text(this.newSongName);
 
         }
 
     },
 
+    restoreSongName: function() {
+        this.songNameEl.text(this.originalSongName);
+    },
+
     updateSongName: function() {
 
-        if (this.model.get('song_name')) {
+        if (this.newSongName) {
+            this.model.set('song_name', this.newSongName);
+            this.originalSongName = this.newSongName;
             this.model.save();
         }
 

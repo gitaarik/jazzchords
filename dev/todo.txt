@@ -3,8 +3,6 @@ Chart list:
       vertically aligned in the middle.
 
 Chart:
-    - When you first change the song name, then the short description,
-      it doesn't work.
     - Make the edit widgets for song name, short description and video
       and lyrics urls use a confirm or cancel button so the change
       doesn't have effect if you click cancel.

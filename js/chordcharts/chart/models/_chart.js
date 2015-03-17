@@ -37,7 +37,6 @@ module.exports = Model.extend({
 
     toJSON: function() {
         return {
-            song_id: this.get('song').get('id'),
             short_description: this.get('short_description'),
             lyrics_url: this.get('lyrics_url'),
             video_url: this.get('video_url')

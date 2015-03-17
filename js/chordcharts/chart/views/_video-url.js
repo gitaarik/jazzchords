@@ -1,12 +1,12 @@
 module.exports = Backbone.View.extend({
 
     events: {
-        'show .video-url-change': 'gotShow',
+        'show .video-url-change': 'gotShown',
         'hide .video-url-change': 'gotClosed',
         'keyup .video-url-input': 'videoUrlInputKeyup'
     },
 
-    gotShow: function() {
+    gotShown: function() {
         this.$el.find('.video-url-input').focusAtEnd();
     },
 
@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend({
     },
 
     updateVideoUrl: function() {
-        this.model.save();
+        this.model.save(null, {patch: true});
     }
 
 });

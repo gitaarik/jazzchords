@@ -1,13 +1,22 @@
 module.exports = Backbone.View.extend({
 
+    initialize: function() {
+        this.shortDescriptionTextEl = this.$el.find('.short-description-text');
+        this.shortDescriptionInputEl = this.$el.find('.short-description-input');
+    },
+
     events: {
         'show .short-description-change': 'gotShown',
         'hide .short-description-change': 'gotClosed',
-        'keyup .short-description-input': 'shortDescriptionInputKeyup'
+        'keyup .short-description-input': 'shortDescriptionInputKeyup',
+        'click .buttons .save': 'save',
+        'click .buttons .cancel': 'close'
     },
 
     gotShown: function() {
-        this.$el.find('.short-description-input').focusAtEnd();
+        this.originalShortDescription = this.shortDescriptionTextEl.text().trim();
+        this.newShortDescription = this.originalShortDescription;
+        this.shortDescriptionInputEl.val(this.originalShortDescription).focusAtEnd();
     },
 
     close: function() {
@@ -16,32 +25,40 @@ module.exports = Backbone.View.extend({
     },
 
     gotClosed: function() {
+        this.restoreShortDescription();
+    },
+
+    save: function() {
         this.updateShortDescription();
+        this.close();
     },
 
     shortDescriptionInputKeyup: function(event) {
 
         if (event.key == "Enter") {
-            this.close();
+            this.save();
         } else {
 
-            var shortDescription = this.$el.find('.short-description-input').val().trim();
-            var textEl = this.$el.find('.short-description-text');
+            this.newShortDescription = this.shortDescriptionInputEl.val().trim();
 
-            if (shortDescription == '') {
-                textEl.html('<span class="_link">add short description</span>');
+            if (this.newShortDescription == '') {
+                this.shortDescriptionTextEl.html('<span class="_link">add short description</span>');
             } else {
-                textEl.text(shortDescription);
+                this.shortDescriptionTextEl.text(this.newShortDescription);
             }
-
-            this.model.set('short_description', shortDescription);
 
         }
 
     },
 
+    restoreShortDescription: function() {
+        this.shortDescriptionTextEl.text(this.originalShortDescription);
+    },
+
     updateShortDescription: function() {
-        this.model.save();
+        this.model.set('short_description', this.newShortDescription);
+        this.originalShortDescription = this.newShortDescription;
+        this.model.save(null, {patch: true});
     }
 
 });
