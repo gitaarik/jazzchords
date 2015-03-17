@@ -126,7 +126,7 @@ class ChartSongNameView(views.APIView):
 
     def get_new_song(self, request):
 
-        song_name = request.DATA.get('song_name')
+        song_name = request.data.get('song_name')
 
         if not song_name:
             raise ParseError('No songname given')
@@ -156,7 +156,7 @@ class ChartTransposeView(views.APIView):
 
         try:
             key = Key.objects.get(
-                tonic=request.DATA.get('tonic'),
+                tonic=request.data.get('tonic'),
                 tonality=1
             )
         except ObjectDoesNotExist:
@@ -177,7 +177,7 @@ class SectionKeyView(views.APIView):
         section = get_object_or_404(Section, id=section_id)
         require_permission(request, section, 'change')
 
-        tonality_word = request.DATA.get('tonality')
+        tonality_word = request.data.get('tonality')
 
         if type(tonality_word) == int:
             tonality = tonality_word
@@ -190,7 +190,7 @@ class SectionKeyView(views.APIView):
 
         try:
             key = Key.objects.get(
-                tonic=request.DATA.get('tonic'),
+                tonic=request.data.get('tonic'),
                 tonality=tonality
             )
         except ObjectDoesNotExist:
