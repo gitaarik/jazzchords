@@ -1,6 +1,3 @@
-Upgrade Django:
-    https://www.djangoproject.com/weblog/2015/mar/09/security-releases/
-
 Make things ready for alpha release:
     - Finish ansible stuff
     - Complete all keys.
