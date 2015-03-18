@@ -11,32 +11,32 @@ set -e
 # Go to the directory this file is in
 cd $(dirname $0)
 
-echo 
+echo
 echo Creating the virutalenv
 echo ==========================================
 virtualenv --python=python3 virtual-env
 source virtual-env/bin/activate
 
 
-echo 
+echo
 echo Installing pip requirements
 echo ==========================================
 pip install -r pip_requirements.txt
 
 
-echo 
+echo
 echo Installing Node.js inside the virtualenv
 echo ==========================================
 nodeenv -p
 
 
-echo 
+echo
 echo Installing Node.js requirements
 echo ==========================================
 cat node_requirements.txt | while read req; do npm install $req; done
 
 
-echo 
+echo
 echo Compiling JS/CSS
 echo ==========================================
 $(npm bin)/gulp parsestatic
@@ -45,13 +45,19 @@ $(npm bin)/gulp parsestatic
 # Changing to root dir where Django's manage.py is
 cd ..
 
-echo 
+echo
 echo Collect static files from Django
 echo ==========================================
 ./manage.py collectstatic --noinput
 
 
-echo 
+echo
+echo Migrating the database
+echo ==========================================
+./manage.py migrate
+
+
+echo
 echo Importing the base data into the database
 echo ==========================================
 ./manage.py loaddata dev/base-data-dump.json

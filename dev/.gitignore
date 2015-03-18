@@ -1,3 +1,4 @@
 /node_modules/
+/virtual-env/
+/whoosh_index/
 database.sqlite
-whoosh_index
