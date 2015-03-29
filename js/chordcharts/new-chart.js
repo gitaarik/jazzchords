@@ -1,4 +1,5 @@
 require('../core/widgets/_form-table-tooltips.js');
+var AutoComplete = require('./widgets/_auto-complete');
 var KeySelectWidget = require('../core/widgets/_key-select.js');
 
 var keySelectWidgetDelegate = function() {};

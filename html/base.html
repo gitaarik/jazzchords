@@ -21,18 +21,20 @@
                         <a href="{% url "core:frontpage" %}">{{ g__settings.WEBSITE_NAME }}</a>
                     </h1>
 
-                    <div class="search">
-                        <form class="search-form">
-                            <div class="search-term">
-                                <input type="text" class="before-search-term">
-                                <input type="tekt" class="search-term-input _text-input" placeholder="Search charts">
-                                <input type="text" class="behind-search-term">
+                    <div class="search auto-complete">
+
+                        <form>
+                            <div class="input-container">
+                                <input type="text" class="before-input">
+                                <input type="tekt" class="input _text-input" placeholder="Search charts">
+                                <input type="text" class="behind-input">
                             </div>
-                            <div class="search-button">
+                            <div class="submit-button-container">
                                 <button type="submit" class="fa fa-search _button" value="Search"></button>
                             </div>
                         </form>
-                        <ul class="search-results"></ul>
+                        <ul class="results"></ul>
+
                     </div>
 
                     <nav>

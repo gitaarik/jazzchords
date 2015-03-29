@@ -1,5 +1,8 @@
+Create chart:
+    When typing the song name, give autocomplete suggestions.
+
 Chart:
-    - Use html input type url for video/lyrics urls
+    - Use html input type "url" for video/lyrics urls
 
 Make things ready for alpha release:
     - Finish ansible stuff
@@ -34,9 +37,6 @@ Repeat section stuff:
     At "I got my love to keep me warm", the section repeating at the
     bottom is a bit weird, it would be more logical if it would just say
     "repeat 2nd A section".
-
-Create chart:
-    When typing the song name, give autocomplete suggestions.
 
 Chord symbol list:
     A list that maps symbols to chord types, as an extention to the 'How

@@ -1,0 +1,111 @@
+.auto-complete {
+
+    position: relative;
+    float: left;
+    z-index: 90;
+
+    .input-container {
+
+        .input,
+        .before-input,
+        .behind-input {
+            float: left;
+        }
+
+        .before-input,
+        .behind-input {
+            margin: 0;
+            padding: 0;
+            width: 0;
+            height: 0;
+            border: 0;
+        }
+
+    }
+
+    .results {
+
+        display: none;
+        position: absolute;
+        top: 45px;
+        clear: both;
+        padding: 5px 0;
+        list-style: none;
+        background: #EEE;
+        border: solid 1px #333;
+        border-radius: 5px;
+        box-shadow: 0 0 8px -1px #333;
+
+        @keyframes attention-animation {
+            0% {
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1);
+            }
+            10% {
+                -webkit-transform: scale3d(1.02, 1.02, 1.02);
+                transform: scale3d(1.02, 1.02, 1.02);
+            }
+            30% {
+                -webkit-transform: scale3d(0.98, 0.98, 0.98);
+                transform: scale3d(0.98, 0.98, 0.98);
+            }
+            50% {
+                -webkit-transform: scale3d(1.02, 1.02, 1.02);
+                transform: scale3d(1.02, 1.02, 1.02);
+            }
+            60% {
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        &.attention-animation {
+            -webkit-animation-name: attention-animation;
+            animation-name: attention-animation;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+        }
+
+        li {
+
+            padding: 0;
+
+            .loading {
+                display: inline-block;
+                height: 16px;
+                width: 100%;
+                background: url('@{static-root}/images/loading.gif') center center no-repeat;
+            }
+
+            .no-results {
+                padding: 4px 10px;
+            }
+
+            a {
+                display: block;
+                padding: 4px 10px;
+                color: #000;
+                text-decoration: none;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &.selected a {
+                background: #165CE0;
+                color: #FFF;
+            }
+
+        }
+
+    }
+
+    &.results-on .results {
+        display: block;
+    }
+
+}

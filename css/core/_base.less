@@ -1,3 +1,6 @@
+@import "widgets/_auto-complete.less";
+
+
 ._base-header {
 
     padding: 30px 0 20px;
@@ -37,31 +40,23 @@
                 @search-input-width: 250px;
                 @search-button-width: 50px;
 
-                .search-form {
+                form {
                     float: left;
                     border: solid 1px #999;
                     border-radius: 5px;
                     width: @search-input-width + @search-button-width + 2;
                 }
 
-                &.focussed .search-form {
+                &.focussed form {
                     border-color: @input-hover-border-color;
                     box-shadow: 0 0 3px #999;
                 }
 
-                .search-term {
+                .input-container {
 
                     float: left;
 
-                    .before-search-term,
-                    .behind-search-term {
-                        float: left;
-                        width: 0;
-                        padding: 0;
-                        border: 0;
-                    }
-
-                    .search-term-input {
+                    .input {
 
                         float: left;
                         width: @search-input-width;
@@ -86,7 +81,7 @@
 
                 }
 
-                .search-button {
+                .submit-button-container {
 
                     float: left;
 
@@ -101,95 +96,15 @@
 
                 }
 
-                .search-results {
+                .results {
 
-                    display: none;
-                    position: absolute;
-                    top: 45px;
-                    clear: both;
                     width: @search-input-width + @search-button-width;
-                    padding: 5px 0;
-                    list-style: none;
-                    background: #EEE;
-                    border: solid 1px #333;
-                    border-radius: 5px;
-                    box-shadow: 0 0 8px -1px #333;
 
-                    @keyframes attention-animation {
-                        0% {
-                            -webkit-transform: scale3d(1, 1, 1);
-                            transform: scale3d(1, 1, 1);
-                        }
-                        10% {
-                            -webkit-transform: scale3d(1.02, 1.02, 1.02);
-                            transform: scale3d(1.02, 1.02, 1.02);
-                        }
-                        30% {
-                            -webkit-transform: scale3d(0.98, 0.98, 0.98);
-                            transform: scale3d(0.98, 0.98, 0.98);
-                        }
-                        50% {
-                            -webkit-transform: scale3d(1.02, 1.02, 1.02);
-                            transform: scale3d(1.02, 1.02, 1.02);
-                        }
-                        60% {
-                            -webkit-transform: scale3d(1, 1, 1);
-                            transform: scale3d(1, 1, 1);
-                        }
+                    .short-description {
+                        font-size: 14px;
+                        font-weight: lighter;
                     }
 
-                    &.attention-animation {
-                        -webkit-animation-name: attention-animation;
-                        animation-name: attention-animation;
-                        -webkit-animation-duration: 1s;
-                        animation-duration: 1s;
-                        -webkit-animation-fill-mode: both;
-                        animation-fill-mode: both;
-                        -webkit-animation-iteration-count: infinite;
-                        animation-iteration-count: infinite;
-                    }
-
-                    li {
-
-                        padding: 0;
-
-                        .loading {
-                            display: inline-block;
-                            height: 16px;
-                            width: 100%;
-                            background: url('@{static-root}/images/loading.gif') center center no-repeat;
-                        }
-
-                        .no-results {
-                            padding: 4px 10px;
-                        }
-
-                        a {
-                            display: block;
-                            padding: 4px 10px;
-                            color: #000;
-                            text-decoration: none;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                        }
-
-                        .short-description {
-                            font-size: 14px;
-                            font-weight: lighter;
-                        }
-
-                        &.selected a {
-                            background: #165CE0;
-                            color: #FFF;
-                        }
-
-                    }
-
-                }
-
-                &.results-on .search-results {
-                    display: block;
                 }
 
             }
