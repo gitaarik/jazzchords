@@ -5,6 +5,7 @@
 table._form-table input[type=text],
 table._form-table input[type=password],
 table._form-table input[type=email],
+table._form-table input[type=url],
 table._form-table textarea {
 
     background: #FFF;
@@ -36,10 +37,12 @@ table._form-table textarea {
     font-size: 14px;
 }
 
+._text-input._invalid,
 form._submit-attempted ._text-input:invalid,
 form._submit-attempted table._form-table input[type=text]:invalid,
 form._submit-attempted table._form-table input[type=password]:invalid,
-form._submit-attempted table._form-table input[type=email]:invalid {
+form._submit-attempted table._form-table input[type=email]:invalid,
+form._submit-attempted table._form-table input[type=url]:invalid {
     border-color: @input-invalid-after-submit-border-color;
     box-shadow: 0 0 3px @input-invalid-after-submit-border-color;
 }
@@ -70,4 +73,12 @@ form._submit-attempted table._form-table input[type=email]:invalid {
     ._button;
     font-size: 15px;
     padding: 6px 8px 4px 8px;
+}
+
+._form-input-error {
+
+    ._arrow-up {
+        left: 20px;
+    }
+
 }

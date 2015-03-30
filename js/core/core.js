@@ -39,12 +39,12 @@ jQuery.fn.focusAtEnd = function() {
             this.setSelectionRange(len, len);
         } else {
             // ... otherwise replace the contents with itself.
-            // (Doesn't work in Google Chrome)
+            // (Doesn't work in Chrome)
             $(this).val($(this).val());
         }
 
         // Scroll to the bottom, in case we're in a tall textarea
-        // (Necessary for Firefox and Google Chrome)
+        // (Necessary for Firefox and Chrome)
         this.scrollTop = 999999;
 
     });

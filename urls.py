@@ -15,6 +15,7 @@ api_urls = [
         '^chordcharts/',
         include('chordcharts.urls_api', namespace='chordcharts')
     ),
+    url('^songs/', include('songs.urls_api', namespace='songs')),
 ]
 
 urlpatterns = [

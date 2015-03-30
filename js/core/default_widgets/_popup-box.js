@@ -25,13 +25,20 @@ $('._popup-box ._close').click(function() {
 
 $('html').click(function(event) {
 
+    var clickedElement = $(event.target);
+
     var clicked_popupbox_opener = (
-        $(event.target).closest('._popup-box-opener').get(0)
+        clickedElement.closest('._popup-box-opener').get(0)
     );
 
     $('._popup-box-opener').each(function() {
 
-        if (this !== clicked_popupbox_opener) {
+        // If the clicked element isn't the popup box opener, and not a form
+        // input error, then hide it if it's visible.
+        if (
+            this !== clicked_popupbox_opener &&
+            clickedElement.closest('._form-input-error').length == 0
+        ) {
 
             var popBox = $(this).find('._popup-box');
 

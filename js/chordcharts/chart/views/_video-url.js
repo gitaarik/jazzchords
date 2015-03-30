@@ -13,6 +13,7 @@ module.exports = Backbone.View.extend({
     },
 
     gotShown: function() {
+        this.videoUrlInputEl.removeClass('_invalid');
         this.originalVideoUrl = this.videoUrlInputEl.val().trim();
         this.newVideoUrl = this.originalVideoUrl;
         this.$el.find('.video-url-input').focusAtEnd();
@@ -28,8 +29,13 @@ module.exports = Backbone.View.extend({
     },
 
     save: function() {
-        this.updateVideoUrl();
-        this.close();
+        if(this.videoUrlInputEl.get(0).checkValidity()) {
+            this.videoUrlInputEl.removeClass('_invalid');
+            this.updateVideoUrl();
+            this.close();
+        } else {
+            this.videoUrlInputEl.formInputError('Please enter a valid URL');
+        }
     },
 
     videoUrlInputKeyup: function(event) {

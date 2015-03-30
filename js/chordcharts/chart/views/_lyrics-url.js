@@ -13,6 +13,7 @@ module.exports = Backbone.View.extend({
     },
 
     gotShown: function() {
+        this.lyricsUrlInputEl.removeClass('_invalid');
         this.originalLyricsUrl = this.lyricsUrlInputEl.val().trim();
         this.newLyricsUrl = this.originalLyricsUrl;
         this.$el.find('.lyrics-url-input').focusAtEnd();
@@ -28,8 +29,13 @@ module.exports = Backbone.View.extend({
     },
 
     save: function() {
-        this.updateLyricsUrl();
-        this.close();
+        if(this.lyricsUrlInputEl.get(0).checkValidity()) {
+            this.lyricsUrlInputEl.removeClass('_invalid');
+            this.updateLyricsUrl();
+            this.close();
+        } else {
+            this.lyricsUrlInputEl.formInputError('Please enter a valid URL');
+        }
     },
 
     lyricsUrlInputKeyup: function(event) {

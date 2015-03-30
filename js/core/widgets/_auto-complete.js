@@ -1,11 +1,11 @@
-var Autocomplete = function(options) {
+var Autocomplete = function(selector, delegate, options) {
 
     var that = this;
+    this.delegate = delegate;
     this.options = options;
 
-    this.base_el = $(this.options.selector);
-    this.form_el = this.base_el.find('form');
-    this.input_container_el = this.form_el.find('.input-container');
+    this.base_el = $(selector);
+    this.input_container_el = this.base_el.find('.input-container');
     this.input_el = this.input_container_el.find('.input');
     this.results_el = this.base_el.find('.results');
 
@@ -13,31 +13,42 @@ var Autocomplete = function(options) {
     this.last_input_value = '';
     this.results = {};
     this.tab_pressed = false;
+    this.focussed = true;
     this.selected_result_index;
     this.results_cache = {};
 
     this.input_el.focus(function() {
         that.base_el.addClass('focussed');
-        that.show_results();
     });
 
     $(window).click(function(event) {
-        if ($(event.target).closest(that.options.selector).length == 0) {
+
+        if ($(event.target).closest(selector).length == 0) {
             that.hide_results()
             that.base_el.removeClass('focussed');
+            that.focussed = false;
         }
+
     });
 
-    this.input_el.on('keydown', function(event) {
+    this.input_el.focus(function() {
+        that.focussed = true;
+    });
+
+    this.input_el.keydown(function(event) {
+
         if ($.inArray(event.key, ['Esc', 'Escape']) > -1) {
             that.hide_results();
             that.selected_result_index = null;
             that.input_el.val(that.input_val);
             return false;
+        } else if (event.key == 'Enter' && that.results_visible()) {
+            event.preventDefault();
         }
+
     });
 
-    this.input_el.on('keyup', function(event) {
+    this.input_el.keyup(function(event) {
 
         if ($.inArray(event.key, ['Down', 'ArrowDown']) > -1) {
             that.select_result_with_offset(1);
@@ -45,6 +56,11 @@ var Autocomplete = function(options) {
             that.select_result_with_offset(-1);
         } else if ($.inArray(event.key, ['Esc', 'Escape']) > -1) {
             that.input_el.val(that.input_val);
+        } else if (event.key == 'Enter') {
+            if (that.results_visible()) {
+                event.preventDefault();
+                that.choose_result();
+            }
         } else {
             that.process_input_val();
         }
@@ -52,23 +68,66 @@ var Autocomplete = function(options) {
     });
 
     this.input_container_el.find('.before-input').focus(function() {
-        that.tab_pressed = true;
-        that.select_result_with_offset(-1);
-        that.input_el.focus();
+
+        if(that.results_visible()) {
+            that.tab_pressed = true;
+            that.select_result_with_offset(-1);
+            that.input_el.focus();
+            that.tab_pressed = false;
+        } else {
+
+            if (that.focussed) {
+                var nextInput = $(
+                    ':input:eq(' + ($(':input').index(this) - 1) + ')'
+                );
+                that.focussed = false;
+            } else {
+                var nextInput = that.input_el;
+            }
+
+            if (nextInput) nextInput.focus();
+
+        }
+
     });
 
     this.input_container_el.find('.behind-input').focus(function() {
-        that.tab_pressed = true;
-        that.select_result_with_offset(1);
-        that.input_el.focus();
+
+        if (that.results_visible()) {
+            that.tab_pressed = true;
+            that.select_result_with_offset(1);
+            that.input_el.focus();
+            that.tab_pressed = false;
+        } else {
+
+            if (that.focussed) {
+                var nextInput = $(
+                    ':input:eq(' + ($(':input').index(this) + 1) + ')'
+                );
+                that.focussed = false;
+            } else {
+                var nextInput = that.input_el;
+            }
+
+            if (nextInput) nextInput.focus();
+
+        }
+
     });
 
     this.results_el.mousemove(function(event) {
 
+        that.tab_pressed = false;
         var result_el = $(event.target).closest('li');
 
         if (result_el.length) {
-            that.select_result(result_el.index('li'), false, false);
+
+            that.select_result(
+                result_el.parent().find('li').index(result_el),
+                false,
+                true
+            );
+
         }
 
     });
@@ -79,9 +138,9 @@ var Autocomplete = function(options) {
         }
     });
 
-    this.form_el.submit(function() {
-        that.choose_result();
-        return false;
+    this.results_el.click(function() {
+        that.select_result(that.selected_result_index);
+        that.hide_results();
     });
 
 };
@@ -118,7 +177,7 @@ Autocomplete.prototype.fetch_results = function() {
 
             this.show_loading_indicator();
 
-            this.options.get_results_callback(this.input_val, function(results) {
+            this.delegate.get_results(this.input_val, function(results) {
                 that.results_cache[that.input_val] = results;
                 that.process_results(results);
             });
@@ -143,9 +202,11 @@ Autocomplete.prototype.process_results = function(results) {
 
         for (var i = 0; i < this.results.length; i++) {
             result_els.push(
-                this.options.format_result_callback(
-                    this.results[i]
-                )
+                '<li>' +
+                    this.delegate.format_result(
+                        this.results[i]
+                    ) +
+                '</li>'
             );
         }
 
@@ -164,17 +225,35 @@ Autocomplete.prototype.process_results = function(results) {
 };
 
 Autocomplete.prototype.show_loading_indicator = function() {
-    this.results_el.html('<li><span class="loading"></span></li>');
-    this.base_el.addClass('results-on');
+
+    if (this.options && this.options.show_no_results) {
+        this.results_el.html('<li><span class="loading"></span></li>');
+        this.base_el.addClass('results-on');
+    }
+
 };
 
 /**
  * Shows a message in the results box saying there were no results found.
  */
 Autocomplete.prototype.show_no_results_message = function() {
-    this.results_el.html('<li><span class="no-results">No charts found</span></li>');
-    this.base_el.addClass('results-on');
+
+    if (this.options && this.options.show_no_results) {
+        this.results_el.html('<li><span class="no-results">No charts found</span></li>');
+        this.base_el.addClass('results-on');
+    } else {
+        this.hide_results();
+    }
+
 };
+
+/**
+ * Returns a boolean indicating wether the autocomplete suggestion popup is
+ * visible or not.
+ */
+Autocomplete.prototype.results_visible = function() {
+    return this.base_el.hasClass('results-on');
+}
 
 /**
  * Shows the results widget if there are any results.
@@ -257,7 +336,7 @@ Autocomplete.prototype.select_result = function(index, autocomplete_input, updat
         } else {
 
             var selected_result_value = (
-                this.results[index].song_name
+                this.delegate.format_autocomplete(this.results[index])
             );
 
             if (autocomplete_input) {
@@ -293,13 +372,28 @@ Autocomplete.prototype.choose_result = function() {
         }
 
         if (result) {
-            this.options.choose_result_callback(result);
+
+            this.input_val = this.delegate.format_autocomplete(result);
+
+            if (typeof this.delegate.choose_result != "undefined") {
+                this.delegate.choose_result(result);
+            }
+
+            this.hide_results();
+
         } else {
+
             this.input_el.focus();
-            this.results_el.addClass('attention-animation');
-            setTimeout(function() {
-                that.results_el.removeClass('attention-animation');
-            }, 1000);
+
+            if (this.options && this.options.result_option_required) {
+                this.results_el.addClass('attention-animation');
+                setTimeout(function() {
+                    that.results_el.removeClass('attention-animation');
+                }, 1000);
+            } else {
+                this.hide_results();
+            }
+
         }
 
     }

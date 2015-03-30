@@ -30,6 +30,7 @@
         top: 45px;
         clear: both;
         padding: 5px 0;
+        width: 100%;
         list-style: none;
         background: #EEE;
         border: solid 1px #333;
@@ -72,7 +73,7 @@
 
         li {
 
-            padding: 0;
+            padding: 4px 10px;
 
             .loading {
                 display: inline-block;
@@ -81,21 +82,7 @@
                 background: url('@{static-root}/images/loading.gif') center center no-repeat;
             }
 
-            .no-results {
-                padding: 4px 10px;
-            }
-
-            a {
-                display: block;
-                padding: 4px 10px;
-                color: #000;
-                text-decoration: none;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            &.selected a {
+            &.selected {
                 background: #165CE0;
                 color: #FFF;
             }

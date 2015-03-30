@@ -33,19 +33,15 @@
 
             .search {
 
-                position: relative;
-                float: left;
-                z-index: 90;
-
                 @search-input-width: 250px;
                 @search-button-width: 50px;
 
-                form {
-                    float: left;
-                    border: solid 1px #999;
-                    border-radius: 5px;
-                    width: @search-input-width + @search-button-width + 2;
-                }
+                z-index: 130;
+                position: relative;
+                float: left;
+                border: solid 1px #999;
+                border-radius: 5px;
+                width: @search-input-width + @search-button-width + 2;
 
                 &.focussed form {
                     border-color: @input-hover-border-color;
@@ -100,9 +96,34 @@
 
                     width: @search-input-width + @search-button-width;
 
-                    .short-description {
-                        font-size: 14px;
-                        font-weight: lighter;
+                    li {
+
+                        padding: 0;
+
+                        a, .no-results {
+                            padding: 4px 10px;
+                        }
+
+                        a {
+
+                            display: block;
+                            color: #000;
+                            text-decoration: none;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+
+                            .short-description {
+                                font-size: 14px;
+                                font-weight: lighter;
+                            }
+
+                        }
+
+                        &.selected a {
+                            color: #FFF;
+                        }
+
                     }
 
                 }

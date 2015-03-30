@@ -1,13 +1,29 @@
-Create chart:
-    When typing the song name, give autocomplete suggestions.
+Try elasticsearch instead of whoosh to solve duplicate autocomplete results
+bug:
+https://django-haystack.readthedocs.org/en/latest/installing_search_engines.html#elasticsearch
+
+Upgrade Django to 1.8
+    - Use jinja2 as template backend and make use of jinja2's features on
+      places that is now ugly solved with django's template engine.
 
 Chart:
     - Use html input type "url" for video/lyrics urls
+    - Make an public/non-public option in the sidebar. A non-public chart
+      should be visible only to it's owner.
 
 Make things ready for alpha release:
     - Finish ansible stuff
     - Complete all keys.
     - Configure django settings for production mode
+
+Gulp improvements:
+    - Try to only parse the files that need to be parsed when some file
+      changes, so if the file starts with an underscore, check which files
+      need to be parsed for that.
+    - Prevent gulp from exiting on errors
+      https://gist.github.com/floatdrop/8269868
+    - Use browserify's `opts.paths` option to enable absolute imports
+    - Set browserify's `opts.debug` to true for sourcemaps
 
 Chart list:
     - When songname is so long that it covers 2 lines, the username is not

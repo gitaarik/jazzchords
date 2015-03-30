@@ -1,18 +1,18 @@
 var allKeys = require('./_all-keys.js');
 
 
-function KeySelect(key_select_el, delegate) {
+function KeySelect(selector, delegate) {
 
-    this.key_select_el = key_select_el;
+    this.base_el = $(selector);
     this.delegate = delegate;
 
     this.tonic = 'C';
     this.tonality = 1;
 
-    this.tonic_el = this.key_select_el.find('.tonic');
+    this.tonic_el = this.base_el.find('.tonic');
     this.tonic_currently_selected_el = this.tonic_el.find('.currently-selected');
     this.tonic_choices_el = this.tonic_el.find('.tonic-choices');
-    this.tonality_el = this.key_select_el.find('.tonality');
+    this.tonality_el = this.base_el.find('.tonality');
     this.tonality_text_el = this.tonality_el.find('span');
 
     this.initKeyTonic();

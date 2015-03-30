@@ -43,7 +43,7 @@
                     </tr>
                 {% endfor %}
 
-                <tr>
+                <tr class="song-name">
                     <th>
                         <label for="chart_song">Song name</label>
                     </th>
@@ -55,8 +55,14 @@
                                 other, so that people can easily find diffent charts for the same song.
                             </p>
                         </div>
-                        <input type="text" name="song_name" id="chart_song" maxlength="{{ fields.song_name.max_length }}">
-                        <ul class="auto-complete"></ul>
+                        <div class="auto-complete">
+                            <div class="input-container">
+                                <input type="text" class="before-input">
+                                <input type="text" class="input" name="song_name" id="chart_song" maxlength="{{ fields.song_name.max_length }}" autocomplete="off">
+                                <input type="text" class="behind-input">
+                            </div>
+                            <ul class="results"></ul>
+                        </div>
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
@@ -115,7 +121,7 @@
                                 chart.
                             </p>
                         </div>
-                        <input type="text" name="video_url" id="chart_video_url" placeholder="optional" maxlength="{{ fields.video_url.max_length }}">
+                        <input type="url" name="video_url" id="chart_video_url" placeholder="optional" maxlength="{{ fields.video_url.max_length }}">
                     </td>
 
                     <td>
@@ -141,7 +147,7 @@
                             <div class="_arrow-up"></div>
                             <p>A URL to lyrics (if there are any) that go along with the chart.</p>
                         </div>
-                        <input type="text" name="lyrics_url" id="chart_lyrics_url" placeholder="optional" maxlength="{{ fields.lyrics_url.max_length }}">
+                        <input type="url" name="lyrics_url" id="chart_lyrics_url" placeholder="optional" maxlength="{{ fields.lyrics_url.max_length }}">
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
