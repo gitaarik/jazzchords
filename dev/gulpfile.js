@@ -93,7 +93,7 @@ function parseCss() {
 }
 
 
-gulp.task('parsejs', function() { parseJs() });
+gulp.task('parsejs', function() { parseJs(false) });
 gulp.task('parsecss', function() { parseCss() });
 gulp.task('parsestatic', ['parsecss', 'parsejs']);
 

@@ -9,6 +9,7 @@ require('./init/_song-name.js');
 require('./init/_short-description.js');
 require('./init/_video-url.js');
 require('./init/_lyrics-url.js');
+require('./init/_public-switch.js');
 require('./init/_transpose-widget.js');
 require('./init/_settings-widget.js');
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block css %}
+    {{ block.super }}
+    <link type="text/less" rel="stylesheet" href="css/chordcharts/chart-not-public.css" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="chart-not-public _site-content">
+
+        <h1>This chart is not public</h1>
+
+        <p>
+            The owner of this chart hasn't made this chart public. For other
+            people to view this chart, the owner must make this chart public by
+            turning the "public" switch on the right side of the chart.
+        </p>
+
+    </div>
+
+{% endblock %}

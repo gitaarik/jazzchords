@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseRedirect,
-    HttpResponsePermanentRedirect, HttpResponseForbidden
+    HttpResponsePermanentRedirect, HttpResponseForbidden, Http404
 )
 from django.contrib.auth.decorators import login_required
 
@@ -112,17 +112,7 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
 
             return redirect_class(reverse(view, kwargs=reverse_kwargs))
 
-    chart = get_object_or_404(Chart, id=chart_id)
-    key = get_key(chart, key_tonic)
-    can_edit = request.user.has_perm('change', chart)
-    redirect_response = get_redirect(
-        chart, key, song_slug, key_tonic, edit, can_edit
-    )
-    edit = edit and can_edit
-
-    if redirect_response:
-        return redirect_response
-    else:
+    def show_chart(chart, key, edit, can_edit):
 
         if edit:
             # Only clean up the chart in edit mode, because if we always
@@ -153,6 +143,23 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
 
         return render(request, 'chordcharts/chart/base.html', context)
 
+    chart = get_object_or_404(Chart, id=chart_id)
+    can_edit = request.user.has_perm('change', chart)
+    edit = edit and can_edit
+    key = get_key(chart, key_tonic)
+    response = get_redirect(
+        chart, key, song_slug, key_tonic, edit, can_edit
+    )
+
+    if not response:
+
+        if not (chart.public or can_edit):
+            response = render(request, 'chordcharts/chart-not-public.html')
+        else:
+            response = show_chart(chart, key, edit, can_edit)
+
+    return response
+
 
 def search(request, search_term=None):
 
@@ -165,10 +172,11 @@ def search(request, search_term=None):
             pass
 
     if song:
-        results = song.charts.all()
+        results = song.charts
     else:
-        results = Chart.objects.all()
+        results = Chart.objects
 
+    results = results.public_or_owned(request.user)
     username = request.GET.get('user')
 
     if username:

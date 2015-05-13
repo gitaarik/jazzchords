@@ -2,6 +2,16 @@
 
     <div class="content">
 
+        {% if can_edit %}
+            <div class="public-switch switch-state-{% if chart.public %}on{% else %}off{% endif %} menu-item _button-small">
+                <div class="slider-contents">
+                    <span class="on-label">public</span>
+                    <span class="circle"></span>
+                    <span class="off-label">non-public</span>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="key-select menu-item _button-small _popup-box-opener">
 
             <span class="text"><span class="key-name">Transpose</span></span>

@@ -6,6 +6,7 @@ from core.helpers.number_to_ordinal import number_to_ordinal
 from users.models import User
 from songs.models import Song
 from .settings import BOXED_CHART
+from .managers import ChartManager
 
 
 class Key(models.Model):
@@ -259,6 +260,9 @@ class Chart(models.Model, PermissionMixin):
     )
     video_url = models.CharField(max_length=500, default="", blank=True)
     lyrics_url = models.CharField(max_length=500, default="", blank=True)
+    public = models.BooleanField(default=False)
+
+    objects = ChartManager()
 
     def __str__(self):
         return str(self.song)
@@ -290,6 +294,7 @@ class Chart(models.Model, PermissionMixin):
             'id': self.id,
             'owner': self.owner.client_data(),
             'song': self.song.client_data(),
+            'public': self.public,
             'short_description': self.short_description,
             'lyrics_url': self.lyrics_url,
             'video_url': self.video_url,

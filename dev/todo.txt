@@ -7,7 +7,6 @@ Upgrade Django to 1.8
       places that is now ugly solved with django's template engine.
 
 Chart:
-    - Use html input type "url" for video/lyrics urls
     - Make an public/non-public option in the sidebar. A non-public chart
       should be visible only to it's owner.
 

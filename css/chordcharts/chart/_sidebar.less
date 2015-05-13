@@ -35,6 +35,70 @@
 
         }
 
+        .public-switch {
+
+            padding: 0;
+            overflow: hidden;
+            border-radius: 15px;
+
+            @width: 155px;
+            @circle-size: 24px;
+
+            .slider-contents {
+
+                display: flex;
+                width: @width * 2;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: white;
+                cursor: pointer;
+                transition: margin-left 0.5s;
+
+                .on-label,
+                .off-label {
+                    width: @width - @circle-size - 2;
+                    padding: 4px;
+                }
+
+                .on-label {
+                    background: #4BBD4B;
+                    border-color: #4BBD4B;
+                }
+
+                .off-label {
+                    background: red;
+                    border-color: red;
+                }
+
+                .circle {
+
+                    background: linear-gradient(to right, #4BBD4B 0%, red 100%);
+
+                    &:after {
+                        content: '';
+                        display: block;
+                        margin-top: 2px;
+                        width: @circle-size;
+                        height: @circle-size;
+                        background: white;
+                        border-radius: @circle-size / 2;
+                    }
+
+                }
+
+            }
+
+            &.switch-state-off {
+
+               .slider-contents {
+                   margin-left: -(@width - @circle-size - 4);
+               }
+
+            }
+
+        }
+
         .key-select {
 
             .transpose-widget {
