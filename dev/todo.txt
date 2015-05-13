@@ -10,6 +10,10 @@ Chart:
     - Make an public/non-public option in the sidebar. A non-public chart
       should be visible only to it's owner.
 
+Feedback button:
+    - Add a feedback button somewhere so people can give feedback on the
+      platform.
+
 Make things ready for alpha release:
     - Finish ansible stuff
     - Complete all keys.

@@ -42,10 +42,10 @@ class User(PermissionsMixin, AbstractBaseUser):
 
     def validate_with_token(self, validation_token):
         """
-        Try to validate the user with the given `validation_token`.
-        If the validation was succesful, will reset the
-        `validation_token` so it can't be reused, and will return
-        `True`. In case of a unsuccesful validation, returns `False`.
+        Try to validate the user with the given `validation_token`. If the
+        validation was succesful, will reset the `validation_token` so it can't
+        be reused (you should log the user in from this moment), and will
+        return `True`. In case of a unsuccesful validation, returns `False`.
         """
         if validation_token == self.validation_token:
             self.validated = True

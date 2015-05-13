@@ -93,7 +93,7 @@ class SectionInline(admin.StackedInline):
 
 
 class ChartAdmin(admin.ModelAdmin):
-    list_display = ('song', 'key')
+    list_display = ('song', 'key', 'creation_date', 'owner', 'public')
     inlines = (SectionInline,)
 
 

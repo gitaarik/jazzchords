@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 
 class ChartManager(models.Manager):
@@ -9,4 +10,10 @@ class ChartManager(models.Manager):
         `user`. The given `user` can be `None`, then it will only return
         public charts.
         """
-        return self.get_queryset().filter(public=True)
+
+        if user.is_anonymous():
+            filters = Q(public=True)
+        else:
+            filters = (Q(public=True) | Q(owner=user))
+
+        return self.get_queryset().filter(filters)

@@ -59,18 +59,28 @@ def requested(request):
         {'email': email}
     )
 
-@redirect_authenticated
 def confirm(request):
     """
     The page a user comes to from the password reset email.
+
+    Validates the validation token.
+
+    When it's valid:
+        Redirects the user to the reset password page.
+    When it's invalid:
+        Shows an error page in case.
     """
 
-    user = authenticate(
-        username=request.GET.get('email'),
-        validation_token=request.GET.get('validation_token')
-    )
+    if request.user.is_anonymous():
+        user = authenticate(
+            username=request.GET.get('email'),
+            validation_token=request.GET.get('validation_token')
+        )
+    else:
+        user = request.user
 
     if user:
+        login(request, user)
         response = confirm_valid(request, user)
     else:
         response = render(
@@ -80,7 +90,6 @@ def confirm(request):
 
     return response
 
-@redirect_authenticated
 def confirm_valid(request, user):
     """
     The page a validated user comes to from the password reset email.
@@ -95,7 +104,6 @@ def confirm_valid(request, user):
     if request.method == 'POST':
 
         if reset_password_confirm_form.reset_password():
-            login(request, user)
             response = redirect('users:reset_password:completed')
         else:
 
