@@ -2,6 +2,7 @@ from django.core.validators import validate_email as django_validate_email
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from core.helpers.form_errors import copy_global_error
 from ..models import User
@@ -59,6 +60,7 @@ def requested(request):
         {'email': email}
     )
 
+@redirect_authenticated
 def confirm(request):
     """
     The page a user comes to from the password reset email.
@@ -81,7 +83,7 @@ def confirm(request):
 
     if user:
         login(request, user)
-        response = confirm_valid(request, user)
+        response = redirect('users:reset_password:reset')
     else:
         response = render(
             request,
@@ -90,11 +92,13 @@ def confirm(request):
 
     return response
 
-def confirm_valid(request, user):
+@login_required
+def reset(request):
     """
     The page a validated user comes to from the password reset email.
     """
 
+    user = request.user
     response = None
     context = {}
     reset_password_confirm_form = (
