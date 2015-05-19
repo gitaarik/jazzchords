@@ -2,12 +2,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.db import transaction
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
 from rest_framework.exceptions import ParseError, PermissionDenied
 from rest_framework.response import Response
-from haystack.query import SearchQuerySet
 
 from songs.models import Song
 from users.permissions import UserPermissions
@@ -16,6 +14,7 @@ from .serializers import (
     MeasureSerializer, ChordSerializer
 )
 from .models import Key, Chart, Section, Line, Measure, Chord
+from .helpers.search_charts import search_charts
 
 
 class ChartViewSet(viewsets.ModelViewSet):
@@ -204,16 +203,72 @@ class SearchCharts(views.APIView):
 
     def post(self, request):
 
-        if request.user.is_anonymous():
-            filters = Q(public=True)
-        else:
-            filters = Q(public=True) | Q(owner_id=request.user.id)
-
         search_term = request.POST.get('search_term')
-        search_results = SearchQuerySet().models(Chart).filter(
-            filters,
-            content_auto=search_term
+        search_results = search_charts(search_term, request.user)
+        songs = {}
+
+        for search_result in search_results:
+
+            chart = search_result.object
+
+            if chart.song.id in songs:
+                songs[chart.song.id].append(chart)
+            else:
+                songs[chart.song.id] = [chart]
+
+        return Response({'results': self.get_results(songs)})
+
+    def get_results(self, songs):
+
+        results_dict = []
+
+        for charts in songs.values():
+
+            if len(charts) > 1:
+                results_dict.append(
+                    self.get_song_result(charts[0].song)
+                )
+            else:
+                results_dict.append(
+                    self.get_chart_result(charts[0])
+                )
+
+        return results_dict
+
+    def get_chart_result(self, chart):
+
+        song = chart.song
+        url = reverse(
+            'chordcharts:chart',
+            kwargs={
+                'chart_id': chart.id,
+                'song_slug': song.slug
+            }
         )
+
+        return {
+            'url': url,
+            'song_name': song.name,
+            'short_description': chart.short_description
+        }
+
+    def get_song_result(self, song):
+
+        url = reverse(
+            'search',
+            kwargs={
+                'search_term': song.name
+            }
+        )
+
+        return {
+            'url': url,
+            'song_name': song.name,
+            'short_description': ''
+        }
+
+    def show_charts(self, search_results):
+
         results_dict = []
 
         for search_result in search_results:

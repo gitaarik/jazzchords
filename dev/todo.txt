@@ -2,6 +2,14 @@ Try elasticsearch instead of whoosh to solve duplicate autocomplete results
 bug:
 https://django-haystack.readthedocs.org/en/latest/installing_search_engines.html#elasticsearch
 
+Search:
+    - Should be able to get the search results of a search term on the search
+      page.
+    - Show the description if a song search result has only 1 chart, if it has
+      multiple charts, show the number of charts in brackets like `(3)`.
+    - The search button does not work, it works with enter, but not with
+      click...
+
 Upgrade Django to 1.8
     - Use jinja2 as template backend and make use of jinja2's features on
       places that is now ugly solved with django's template engine.
