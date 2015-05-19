@@ -168,8 +168,21 @@ Autocomplete.prototype.process_input_val = function() {
 Autocomplete.prototype.fetch_results = function() {
 
     var that = this;
+    var show_results = true;
 
-    if (this.input_val) {
+    if (!this.input_val) {
+        show_results = false;
+    }
+
+    if (
+        this.options &&
+        this.options.min_input_characters &&
+        this.input_val.length < this.options.min_input_characters
+    ) {
+        show_results = false;
+    }
+
+    if (show_results) {
 
         if (this.input_val in this.results_cache) {
             this.process_results(this.results_cache[this.input_val]);
@@ -177,9 +190,14 @@ Autocomplete.prototype.fetch_results = function() {
 
             this.show_loading_indicator();
 
-            this.delegate.get_results(this.input_val, function(results) {
-                that.results_cache[that.input_val] = results;
-                that.process_results(results);
+            this.delegate.get_results(this.input_val, function(input_val, results) {
+
+                that.results_cache[input_val] = results;
+
+                if(input_val == that.input_val) {
+                    that.process_results(results);
+                }
+
             });
 
         }

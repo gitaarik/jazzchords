@@ -17,7 +17,7 @@ function initSongNameAutoComplete() {
                 '/api/songs/search/',
                 {'search_term': input_val},
                 function(response) {
-                    callback_func(response.results);
+                    callback_func(input_val, response.results);
                 }
             );
 
@@ -33,7 +33,11 @@ function initSongNameAutoComplete() {
 
     };
 
-    new AutoComplete(autoCompleteSelector, songNameAutoCompleteDelegate);
+    new AutoComplete(
+        autoCompleteSelector,
+        songNameAutoCompleteDelegate,
+        { min_input_characters: 3 }
+    );
 
 }
 

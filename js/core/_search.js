@@ -9,7 +9,7 @@ var autoCompleteDelegate = {
             '/api/chordcharts/search/',
             {'search_term': input_val},
             function(response) {
-                callback_func(response.results);
+                callback_func(input_val, response.results);
             }
         );
 
@@ -52,6 +52,7 @@ $(function() {
         '._base-header .search',
         autoCompleteDelegate,
         {
+            min_input_characters: 3,
             show_no_results: true,
             result_option_required: true
         }

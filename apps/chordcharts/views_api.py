@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import views, viewsets
 from rest_framework.exceptions import ParseError, PermissionDenied
@@ -203,8 +204,14 @@ class SearchCharts(views.APIView):
 
     def post(self, request):
 
+        if request.user.is_anonymous():
+            filters = Q(public=True)
+        else:
+            filters = Q(public=True) | Q(owner_id=request.user.id)
+
         search_term = request.POST.get('search_term')
-        search_results = SearchQuerySet().models(Chart).autocomplete(
+        search_results = SearchQuerySet().models(Chart).filter(
+            filters,
             content_auto=search_term
         )
         results_dict = []
@@ -217,7 +224,7 @@ class SearchCharts(views.APIView):
                 'chordcharts:chart',
                 kwargs={
                     'chart_id': chart.id,
-                    'song_slug': song.slug,
+                    'song_slug': song.slug
                 }
             )
 

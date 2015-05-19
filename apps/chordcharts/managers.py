@@ -14,6 +14,6 @@ class ChartManager(models.Manager):
         if user.is_anonymous():
             filters = Q(public=True)
         else:
-            filters = (Q(public=True) | Q(owner=user))
+            filters = Q(public=True) | Q(owner=user)
 
         return self.get_queryset().filter(filters)
