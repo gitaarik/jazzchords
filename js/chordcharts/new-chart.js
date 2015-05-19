@@ -36,7 +36,7 @@ function initSongNameAutoComplete() {
     new AutoComplete(
         autoCompleteSelector,
         songNameAutoCompleteDelegate,
-        { min_input_characters: 3 }
+        { min_input_characters: 2 }
     );
 
 }

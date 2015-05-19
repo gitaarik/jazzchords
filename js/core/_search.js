@@ -52,7 +52,7 @@ $(function() {
         '._base-header .search',
         autoCompleteDelegate,
         {
-            min_input_characters: 3,
+            min_input_characters: 2,
             show_no_results: true,
             result_option_required: true
         }
