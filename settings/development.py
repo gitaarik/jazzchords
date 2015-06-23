@@ -1,9 +1,11 @@
 import os
-from .general import INSTALLED_APPS, DEV_ROOT
+from .general import INSTALLED_APPS, DEV_ROOT, TEMPLATES
 
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+
+#for engine in TEMPLATES:
+#    engine['OPTIONS']['debug'] = True
 
 DATABASES = {
     'default': {

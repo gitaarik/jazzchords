@@ -11,7 +11,6 @@ sys.path.insert(0, os.path.join(DJANGO_ROOT, 'apps'))
 DEV_ROOT = os.path.join(DJANGO_ROOT, 'dev')
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -79,22 +78,11 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '+rg-miwmyvm7@g=-*i3639iea+@e4cy6rp#3s^k&gn&d7amwx4'
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'core.context_processors.default',
-)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -111,12 +99,28 @@ ROOT_URLCONF = 'urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'wsgi.application'
 
-TEMPLATE_DIRS = (
-    os.path.join(DJANGO_ROOT, 'html'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        #'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(DJANGO_ROOT, 'html')],
+        'OPTIONS': {
+            'extensions': [
+                'jdj_tags.extensions.DjangoCompat',
+            ]
+            #'loaders': (
+            #    'django.template.loaders.filesystem.Loader',
+            #    'django.template.loaders.app_directories.Loader',
+            #    # 'django.template.loaders.eggs.Loader',
+            #),
+            #'context_processors': (
+            #    global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+            #        'core.context_processors.default',
+            #    )
+            #),
+        }
+    }
+]
 
 INSTALLED_APPS = (
     'django.contrib.auth',

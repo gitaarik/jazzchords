@@ -47,3 +47,7 @@ def contact(request):
     }
 
     return render(request, 'core/contact.html', context)
+
+
+def test(request):
+    return render(request, 'core/test.html')
