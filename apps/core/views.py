@@ -33,7 +33,9 @@ def contact(request):
 
             send_mail(
                 'Jazzchords contact: {}'.format(subject),
-                message,
+                'Name: {}\n\nMessage:\n\n{}'.format(
+                    name, message
+                ),
                 email,
                 ['gitaarik@gmail.com']
             )
