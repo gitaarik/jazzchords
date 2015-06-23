@@ -1,2 +1,3 @@
 Whoosh==2.6.0
 ipdb
+nodeenv==0.11.1
