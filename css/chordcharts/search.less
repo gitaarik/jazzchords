@@ -21,9 +21,19 @@
                 border-bottom: solid 1px #EEE;
                 line-height: 20px;
                 display: flex;
+                align-items: center;
 
                 .chart-link {
                     padding: 20px 10px;
+                    align-self: flex-end;
+                }
+
+                .creation-date,
+                .owner {
+                    padding: 0 10px;
+                }
+
+                .chart-link {
                     text-decoration: none;
                     flex-grow: 1;
                 }
@@ -56,10 +66,15 @@
                     margin-right: 10px;
                 }
 
-                .creation-date,
-                .owner {
-                    padding: 20px 10px;
-                    align-self: flex-end;
+                .private-chart {
+                    height: 26px;
+                    padding: 3px 5px;
+                    background: red;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 13px;
+                    font-family: Courier;
+                    border-radius: 4px;
                 }
 
                 .creation-date {

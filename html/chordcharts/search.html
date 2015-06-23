@@ -45,6 +45,10 @@
 
                     </a>
 
+                    {% if chart.public == False %}
+                        <span class="private-chart">private</span>
+                    {% endif %}
+
                     <span class="creation-date">{{ chart.creation_date|date:"d F Y" }}</span>
 
                     <span class="owner">
