@@ -20,10 +20,6 @@ Gulp improvements:
     - Use browserify's `opts.paths` option to enable absolute imports
     - Set browserify's `opts.debug` to true for sourcemaps
 
-Chart list:
-    - When songname is so long that it covers 2 lines, the username is not
-      vertically aligned in the middle.
-
 Chart:
     - The half diminished symbol (0̸) doesn't look good on the page.
 
