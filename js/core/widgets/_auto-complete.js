@@ -232,7 +232,11 @@ Autocomplete.prototype.process_results = function(results) {
         this.show_results();
         this.selected_result_index = null;
 
-        if (this.results.length == 1) {
+        if (
+            this.options &&
+            this.options.auto_select_when_1_result &&
+            this.results.length == 1
+        ) {
             this.select_result(0, false);
         }
 

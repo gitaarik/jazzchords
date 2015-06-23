@@ -54,7 +54,8 @@ $(function() {
         {
             min_input_characters: 2,
             show_no_results: true,
-            result_option_required: true
+            result_option_required: true,
+            auto_select_when_1_result: true
         }
     );
 
