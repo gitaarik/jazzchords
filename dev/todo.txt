@@ -2,9 +2,9 @@ Upgrade Django to 1.8
     - Use jinja2 as template backend and make use of jinja2's features on
       places that is now ugly solved with django's template engine.
 
-Chart:
-    - Make an public/non-public option in the sidebar. A non-public chart
-      should be visible only to it's owner.
+Create chart:
+    - If there's only 1 autocomplete suggestion for the song name, it get's
+      auto selected but not auto filled, it shouldn't autoselect or autofill.
 
 Feedback button:
     - Add a feedback button somewhere so people can give feedback on the
