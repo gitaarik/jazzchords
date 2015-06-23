@@ -46,7 +46,7 @@ Installation
         nodeenv -p
 
 6. Install the required global and local node modules in
-   `dev/node_modules.txt`. Make sure to do this from the `dev/`
+   `dev/node_requirements.txt`. Make sure to do this from the `dev/`
    directory, because the `node_modules` directory for the local node
    requirements should be located in there.
 
