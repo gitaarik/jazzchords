@@ -1,7 +1,7 @@
 {% extends "users/signup/base.html" %}
 
 {% block javascript %}
-    {{ block.super }}
+    {{ super() }}
     <script src="{{ STATIC_URL }}js/users/signup.js"></script>
 {% endblock %}
 

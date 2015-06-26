@@ -1,4 +1,4 @@
-from django.conf import global_settings
+# from django.conf import global_settings
 
 import os
 import sys
@@ -102,22 +102,23 @@ WSGI_APPLICATION = 'wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        #'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(DJANGO_ROOT, 'html')],
         'OPTIONS': {
+            'environment': 'core.jinja2_env.environment',
             'extensions': [
                 'jdj_tags.extensions.DjangoCompat',
             ]
-            #'loaders': (
-            #    'django.template.loaders.filesystem.Loader',
-            #    'django.template.loaders.app_directories.Loader',
-            #    # 'django.template.loaders.eggs.Loader',
-            #),
-            #'context_processors': (
-            #    global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-            #        'core.context_processors.default',
-            #    )
-            #),
+            # 'loaders': (
+            #     'django.template.loaders.filesystem.Loader',
+            #     'django.template.loaders.app_directories.Loader',
+            #     # 'django.template.loaders.eggs.Loader',
+            # ),
+            # 'context_processors': (
+            #     global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+            #         'core.context_processors.default',
+            #     )
+            # ),
         }
     }
 ]

@@ -1,12 +1,12 @@
 {% extends "users/base.html" %}
 
 {% block javascript %}
-    {{ block.super }}
+    {{ super() }}
     <script src="{{ STATIC_URL }}js/users/home.js"></script>
 {% endblock %}
 
 {% block css %}
-    {{ block.super }}
+    {{ super() }}
     <link type="text/css" rel="stylesheet" href="css/users/home.css" />
 {% endblock %}
 

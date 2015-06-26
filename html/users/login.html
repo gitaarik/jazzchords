@@ -1,14 +1,14 @@
 {% extends "users/base.html" %}
 
 {% block javascript %}
-    {{ block.super }}
+    {{ super() }}
     <script>
         $('#username-email').focusAtEnd();
     </script>
 {% endblock %}
 
 {% block css %}
-    {{ block.super }}
+    {{ super() }}
     <link type="text/css" rel="stylesheet" href="css/users/login.css" />
 {% endblock %}
 
