@@ -106,9 +106,9 @@ TEMPLATES = [
         'DIRS': [os.path.join(DJANGO_ROOT, 'html')],
         'OPTIONS': {
             'environment': 'core.jinja2_env.environment',
-            'extensions': [
-                'jdj_tags.extensions.DjangoCompat',
-            ]
+            #'extensions': [
+            #    'jdj_tags.extensions.DjangoCompat',
+            #]
             # 'loaders': (
             #     'django.template.loaders.filesystem.Loader',
             #     'django.template.loaders.app_directories.Loader',

@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Chord Charts</title>
-        <base href="{{ STATIC_URL }}">
+        <base href="{{ settings.STATIC_URL }}">
         <link type="text/css" rel="stylesheet" href="css/core/core.css" />
         {% block css %}{% endblock %}
     </head>
@@ -18,7 +18,7 @@
                 <div class="content">
 
                     <h1>
-                        <a href="{% url "core:frontpage" %}">{{ g__settings.WEBSITE_NAME }}</a>
+                        <a href="{{ url('core:frontpage') }}">{{ settings.WEBSITE_NAME }}</a>
                     </h1>
 
                     <div class="search auto-complete">
@@ -40,13 +40,13 @@
                     <nav>
 
                         <div class="nav-item all-charts">
-                            <a class="text" href="{% url "search" %}">all charts</a>
+                            <a class="text" href="{{ url('search') }}">all charts</a>
                         </div>
 
-                        {% if user.is_authenticated %}
+                        {% if request.user.is_authenticated %}
 
                             <div class="nav-item new-chart">
-                                <a class="text" href="{% url "chordcharts:new_chart" %}">create chart</a>
+                                <a class="text" href="{{ url('chordcharts:new_chart') }}">create chart</a>
                             </div>
 
                         {% endif %}
@@ -62,11 +62,11 @@
                                 <div class="sub-buttons">
 
                                     <div class="sub-button delete">
-                                        <a href="{% url "chordcharts:how_to_read" %}">How to read</a>
+                                        <a href="{{ url('chordcharts:how_to_read') }}">How to read</a>
                                     </div>
 
                                     <div class="sub-button delete">
-                                        <a href="{% url "chordcharts:chord_symbols" %}">Chord symbols</a>
+                                        <a href="{{ url('chordcharts:chord_symbols') }}">Chord symbols</a>
                                     </div>
 
                                 </div>
@@ -75,13 +75,13 @@
 
                         </div>
 
-                        {% if user.is_authenticated %}
+                        {% if request.user.is_authenticated %}
 
                             <div class="nav-item user _popup-box-opener">
 
                                 <span class="text">
                                     <span class="fa fa-user"></span>
-                                    {{ user.username }}
+                                    {{ request.user.username }}
                                 </span>
 
                                 <div class="nav-item-popup _popup-box">
@@ -91,15 +91,15 @@
                                     <div class="sub-buttons">
 
                                         <div class="sub-button delete">
-                                            <a href="{% url "search" %}?user={{ user.username }}">My charts</a>
+                                            <a href="{{ url('search') }}?user={{ request.user.username }}">My charts</a>
                                         </div>
 
                                         <div class="sub-button delete">
-                                            <a href="{% url "users:home" %}">My account</a>
+                                            <a href="{{ url('users:home') }}">My account</a>
                                         </div>
 
                                         <div class="sub-button delete">
-                                            <a href="{% url "users:logout" %}">Sign out</a>
+                                            <a href="{{ url('users:logout') }}">Sign out</a>
                                         </div>
 
                                     </div>
@@ -111,11 +111,11 @@
                         {% else %}
 
                             <div class="nav-item login">
-                                <a class="text" href="{% url "users:login" %}">log in</a>
+                                <a class="text" href="{{ url('users:login') }}">log in</a>
                             </div>
 
                             <div class="nav-item signup">
-                                <a class="text" href="{% url "users:signup:signup" %}">sign up</a>
+                                <a class="text" href="{{ url('users:signup:signup') }}">sign up</a>
                             </div>
 
                         {% endif %}
@@ -135,11 +135,11 @@
 
         <footer class="_base-footer _site-content">
 
-            <div class="site-name">{{ g__settings.WEBSITE_NAME_DOMAIN }}</div>
+            <div class="site-name">{{ settings.WEBSITE_NAME_DOMAIN }}</div>
 
             <nav>
-                <a href="{% url "core:about:about" %}">About</a>
-                <a href="{% url "core:contact" %}">Contact</a>
+                <a href="{{ url('core:about:about') }}">About</a>
+                <a href="{{ url('core:contact') }}">Contact</a>
                 <a href="https://www.github.com/gitaarik/jazzchords/" target="_blank">GitHub</a>
             </nav>
 

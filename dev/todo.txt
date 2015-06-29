@@ -2,6 +2,7 @@ Use jinja2
     - Use jinja2 as template backend and make use of jinja2's features on
       places that is now ugly solved with django's template engine.
       http://stackoverflow.com/a/31014985/1248175
+      https://docs.djangoproject.com/en/1.8/ref/csrf/#other-template-engines
 
 Feedback button:
     - Add a feedback button somewhere so people can give feedback on the

@@ -12,13 +12,13 @@
         <nav>
             <div class="_site-content">
 
-                {% url 'core:about:about' as about_url %}
-                {% url 'core:about:team' as team_url %}
-                {% url 'core:about:contribute' as contribute_url %}
+                {% set about_url = url('core:about:about') %}
+                {% set team_url = url('core:about:team') %}
+                {% set contribute_url = url('core:about:contribute') %}
 
-                <a href="{{ about_url }}"{% if g__request.get_full_path == about_url %} class="active"{% endif %}>About JazzChords</a>
-                <a href="{{ team_url }}"{% if g__request.get_full_path == team_url %} class="active"{% endif %}>Our Team</a>
-                <a href="{{ contribute_url }}"{% if g__request.get_full_path == contribute_url %} class="active"{% endif %}>Contribute</a>
+                <a href="{{ about_url }}"{% if request.get_full_path == about_url %} class="active"{% endif %}>About JazzChords</a>
+                <a href="{{ team_url }}"{% if request.get_full_path == team_url %} class="active"{% endif %}>Our Team</a>
+                <a href="{{ contribute_url }}"{% if request.get_full_path == contribute_url %} class="active"{% endif %}>Contribute</a>
 
             </div>
         </nav>

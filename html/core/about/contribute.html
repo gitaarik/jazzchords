@@ -5,17 +5,17 @@
     <div class="contribute">
 
         <h1 class="_h2">
-            Join our team to make {{ g__settings.WEBSITE_NAME }} even better.
+            Join our team to make {{ settings.WEBSITE_NAME }} even better.
         </h1>
 
         <p class="_h4">
-            {{ g__settings.WEBSITE_NAME }} is set up as an open platform that
-            everyone can contribute to. The technology behind {{ g__settings.WEBSITE_NAME }}
+            {{ settings.WEBSITE_NAME }} is set up as an open platform that
+            everyone can contribute to. The technology behind {{ settings.WEBSITE_NAME }}
             is free software, which means everyone is free to read and change
             the source code and improve the platform. If you are interested in
             contributing in any way, look on the
             <a href="https://www.github.com/gitaarik/jazzchords/" target="_blank">GitHub page</a>
-            or <a href="{% url "core:contact" %}">contact us</a>.
+            or <a href="{{ url('core:contact') }}">contact us</a>.
         </p>
 
     </div>

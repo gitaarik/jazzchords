@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from core.jinja2_env import render
 from django.core.mail import send_mail
 
 

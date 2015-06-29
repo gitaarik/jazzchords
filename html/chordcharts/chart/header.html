@@ -138,7 +138,7 @@
 
             <div class="author">
                 Chart by:
-                <a href="{% url "search" %}?user={{ chart.owner.username }}">
+                <a href="{{ url('search') }}?user={{ chart.owner.username }}">
                     {{ chart.owner.username }}
                 </a>
             </div>

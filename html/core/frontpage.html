@@ -20,22 +20,22 @@
 
                 <h2 class="_h4">
                     An open database of chordcharts, build by the
-                    community, which <a href="{% url "users:signup:signup" %}">you can be a part of</a>.
+                    community, which <a href="{{ url('users:signup:signup') }}">you can be a part of</a>.
                 </h2>
 
                 <h2 class="_h4">
-                    <a href="{% url "search" %}">Explore the list of chordcharts</a> and learn<br>
+                    <a href="{{ url('search') }}">Explore the list of chordcharts</a> and learn<br>
                     new songs to play.
                 </h2>
 
                 <h2 class="_h4">
-                    Missing a song? <a href="{% url "chordcharts:new_chart" %}">Add it yourself</a>!
+                    Missing a song? <a href="{{ url('chordcharts:new_chart') }}">Add it yourself</a>!
                 </h2>
 
             </div>
 
             <div class="image">
-                <img src="{% static "images/preview.png" %}" width="440">
+                <img src="{{ static('images/preview.png') }}" width="440">
             </div>
 
         </div>

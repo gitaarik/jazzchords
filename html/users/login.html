@@ -59,14 +59,14 @@
                     <td>
                         <div class="submit"><input type="submit" value="Log in"></div>
                         <div class="forgot-password">
-                            <a href="{% url 'users:reset_password:request' %}">Forgot password</a>
+                            <a href="{{ url('users:reset_password:request') }}">Forgot password</a>
                         </div>
                     </td>
                 </tr>
 
                 <tr class="signup">
                     <td></td>
-                    <td>Don't have an account yet? <a href="{% url "users:signup:signup" %}">Sign up</a>.</td>
+                    <td>Don't have an account yet? <a href="{{ url('users:signup:signup') }}">Sign up</a>.</td>
                 </tr>
 
             </table>

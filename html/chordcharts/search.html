@@ -33,7 +33,7 @@
 
                 <div class="chart">
 
-                    <a class="chart-link" href="{% url "chordcharts:chart" chart_id=chart.id %}">
+                    <a class="chart-link" href="{{ url('chordcharts:chart', kwargs={'chart_id': chart.id}) }}">
 
                         <span class="song-name">{{ chart.song.name }}</span>
 
@@ -49,10 +49,10 @@
                         <span class="private-chart">private</span>
                     {% endif %}
 
-                    <span class="creation-date">{{ chart.creation_date|date:"d F Y" }}</span>
+                    <span class="creation-date">{{ chart.creation_date.strftime('%d %B %Y') }}</span>
 
                     <span class="owner">
-                        <a href="{% url "search" %}?user={{ chart.owner.username }}">
+                        <a href="{{ url('search') }}?user={{ chart.owner.username }}">
                             {{ chart.owner.username }}
                         </a>
                     </span>
