@@ -1,21 +1,25 @@
-<div class="name">
-    {% if not section_name and edit %}
-        Untitled section
-    {% else %}
-        {{ section_name }}
+{% macro section_header(section_name, key_name, move_down=false, move_up=false, remove=false, show_key=false, edit=false) %}
+
+    <div class="name">
+        {% if not section_name and edit %}
+            Untitled section
+        {% else %}
+            {{ section_name|safe }}
+        {% endif %}
+    </div>
+
+    {% if show_key or edit %}
+        <div class="key">
+            Key of {{ key_name|safe }}
+        </div>
     {% endif %}
-</div>
 
-{% if show_key or edit %}
-    <div class="key">
-        Key of {{ key_name }}
-    </div>
-{% endif %}
+    {% if edit %}
+        <div class="section-edit-buttons">
+            {% if move_up %}<span class="move-up fa fa-arrow-up"></span>{% endif %}
+            {% if move_down %}<span class="move-down fa fa-arrow-down"></span>{% endif %}
+            {% if remove %}<span class="remove fa fa-times"></span>{% endif %}
+        </div>
+    {% endif %}
 
-{% if edit %}
-    <div class="section-edit-buttons">
-        {% if move_up %}<span class="move-up fa fa-arrow-up"></span>{% endif %}
-        {% if move_down %}<span class="move-down fa fa-arrow-down"></span>{% endif %}
-        {% if remove %}<span class="remove fa fa-times"></span>{% endif %}
-    </div>
-{% endif %}
+{% endmacro %}

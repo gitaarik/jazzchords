@@ -1,3 +1,28 @@
+def field_info(form, validate=False):
+
+    context = {}
+
+    for name, field in form.fields.items():
+
+        context[name] = {
+            'max_length': field.max_length,
+            'value': '',
+            'errors': []
+        }
+
+    if validate:
+
+        for field, errors in form.errors.items():
+            if field in context:
+                context[field]['errors'] = errors
+
+        for field, value in form.data.items():
+            if field in context:
+                context[field]['value'] = value
+
+    return context
+
+
 def copy_global_error(django_form, code, destination_field):
     """
     Copies a global form error to a field error, if it exists.

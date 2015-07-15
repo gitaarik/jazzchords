@@ -24,11 +24,11 @@
 
         <form method="POST">
 
-            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
             <table class="_form-table">
 
-                {% for error in errors.email %}
+                {% for error in fields.email.errors %}
                     <tr class="error">
                         <td colspan="3">{{ error|safe }}</td>
                     </tr>
@@ -36,7 +36,7 @@
 
                 <tr>
                     <th><label for="email">Email:</label></th>
-                    <td><input id="email" name="email" type="email" value="{{ data.email }}" maxlength="{{ fields.email.max_length }}" required></td>
+                    <td><input id="email" name="email" type="email" value="{{ fields.email.value }}" maxlength="{{ fields.email.max_length }}" required></td>
                     <td><input type="submit" value="Reset password"></td>
                 </tr>
 

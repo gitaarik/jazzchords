@@ -12,12 +12,12 @@
     <script>
 
         var GLOBALS = {
-            settings: {{ settings_json|safe }}
+            settings: {{ chart_settings_json|safe }}
         };
 
     </script>
 
-    <script src="{{ STATIC_URL }}js/chordcharts/how-to-read.js"></script>
+    <script src="{{ static('js/chordcharts/how-to-read.js') }}"></script>
 
 {% endblock %}
 

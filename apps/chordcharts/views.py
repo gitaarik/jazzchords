@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import (
     HttpResponse, HttpResponseBadRequest, HttpResponseRedirect,
-    HttpResponsePermanentRedirect, HttpResponseForbidden, Http404
+    HttpResponsePermanentRedirect, HttpResponseForbidden
 )
 from django.contrib.auth.decorators import login_required
 
@@ -127,8 +127,8 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
         has_other_versions = chart.song.charts.count() > 1
 
         context = {
-            'settings': BOXED_CHART,
-            'settings_json': json.dumps(BOXED_CHART),
+            'chart_settings': BOXED_CHART,
+            'chart_settings_json': json.dumps(BOXED_CHART),
             'chart': chart_data,
             'chart_json': json.dumps(chart_data),
             'chart_keys': chart_keys,
@@ -291,7 +291,7 @@ def delete_chart(request, song_slug, chart_id):
 
 def how_to_read(request):
     context = {
-        'settings_json': json.dumps(BOXED_CHART),
+        'chart_settings_json': json.dumps(BOXED_CHART),
     }
     return render(request, 'chordcharts/how-to-read.html', context)
 

@@ -43,7 +43,7 @@
                             <a class="text" href="{{ url('search') }}">all charts</a>
                         </div>
 
-                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_authenticated() %}
 
                             <div class="nav-item new-chart">
                                 <a class="text" href="{{ url('chordcharts:new_chart') }}">create chart</a>
@@ -75,7 +75,7 @@
 
                         </div>
 
-                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_authenticated() %}
 
                             <div class="nav-item user _popup-box-opener">
 

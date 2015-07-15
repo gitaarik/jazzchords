@@ -13,7 +13,7 @@
 
         var GLOBALS = {
             api_root_url: '/api/chordcharts/',
-            settings: {{ settings_json|safe }},
+            settings: {{ chart_settings_json|safe }},
             chart_data: {{ chart_json|safe }},
             all_keys: {{ all_keys_json|safe }},
             chord_types: {{ chord_types_json|safe }},
@@ -48,7 +48,15 @@
     {% if edit %}
 
         <script type="text/template" id="template-section-header">
-            {% include "chordcharts/chart/section-header.html" with section_name="<%- section_name %>" key_name="<%- key_name %>" move_down=1 move_up=1 remove=1 %}
+            {% import "chordcharts/chart/section-header.html" as section_header %}
+            {{ section_header.section_header(
+                section_name="<%- section_name %>",
+                key_name="<%- key_name %>",
+                move_down=true,
+                move_up=true,
+                remove=true,
+                edit=true
+            ) }}
         </script>
 
         <script type="text/template" id="template-lines">
@@ -59,16 +67,16 @@
 
         <script type="text/template" id="template-section">
             <header class="section-header"></header>
-            <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
+            <div class="section-sidebar" style="width: {{ chart_settings.section_sidebar_width }}px;"></div>
             <table>
                 <tbody class="lines"></tbody>
-                <tfoot>{% include "chordcharts/chart/section-line-add.html" %}</tfoot>
+                {% include "chordcharts/chart/section-line-add.html" %}
             </table>
         </script>
 
     {% endif %}
 
-    <script src="{{ STATIC_URL }}js/chordcharts/chart/chart.js"></script>
+    <script src="{{ static('js/chordcharts/chart/chart.js') }}"></script>
 
 {% endblock %}
 

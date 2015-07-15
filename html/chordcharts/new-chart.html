@@ -17,7 +17,7 @@
 
     </script>
 
-    <script src="{{ STATIC_URL }}js/chordcharts/new-chart.js"></script>
+    <script src="{{ static('js/chordcharts/new-chart.js') }}"></script>
 
 {% endblock %}
 
@@ -31,7 +31,7 @@
 
         <form class="chart-settings" method="POST">
 
-            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
             <table class="_form-table">
 

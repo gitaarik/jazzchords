@@ -2,7 +2,7 @@
 
 {% block javascript %}
     {{ super() }}
-    <script src="{{ STATIC_URL }}js/users/signup.js"></script>
+    <script src="{{ static('js/users/signup.js') }}"></script>
 {% endblock %}
 
 {% block users_content %}
@@ -21,7 +21,7 @@
 
         <form method="POST">
 
-            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
             <table class="_form-table">
 

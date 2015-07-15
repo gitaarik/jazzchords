@@ -1,9 +1,7 @@
 from django.http.response import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
-
-from core.helpers.form_errors import copy_global_error, remove_empty_errors
+from core.helpers.form import copy_global_error, remove_empty_errors
 from .forms import UpdatePasswordForm
 
 

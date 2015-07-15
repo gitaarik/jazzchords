@@ -24,7 +24,7 @@
 
             {% for chord_types in chord_types_sets %}
 
-                <div class="type-part type-part-{{ forloop.counter }}">
+                <div class="type-part type-part-{{ loop.index }}">
 
                     <ul class="box-choice-list">
                         {% for chord_type in chord_types %}
@@ -38,7 +38,7 @@
                         {% endfor %}
                     </ul>
 
-                    {% if forloop.counter == 1 %}
+                    {% if loop.index == 1 %}
                         <div class="toggle">more &rsaquo;</div>
                     {% else %}
                         <div class="toggle">&lsaquo; back</div>

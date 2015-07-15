@@ -21,7 +21,7 @@
 
         <form method="POST">
 
-            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
             <table class="_form-table">
 

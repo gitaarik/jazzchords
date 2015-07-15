@@ -22,30 +22,38 @@
 
         <form method="POST">
 
-            {% csrf_token %}
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
             <table class="_form-table">
 
-                {% for error in errors.username_email %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
+
+                    {% for error in errors.username_email %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                        </tr>
+                    {% endfor %}
+
+                {% endif %}
 
                 <tr>
                     <th><label for="username-email">Username / email:</label></th>
                     <td>
-                        <input name="username_email" id="username-email" type="text" value="{{ data.username_email }}" maxlength="{{ fields.username_email.max_length }}" required>
+                        <input name="username_email" id="username-email" type="text" value="{% if data %}{{ data.username_email }}{% endif %}" maxlength="{{ fields.username_email.max_length }}" required>
                     </td>
                 </tr>
 
-                {% for error in errors.password %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
+
+                    {% for error in errors.password %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                        </tr>
+                    {% endfor %}
+
+                {% endif %}
 
                 <tr>
                     <th><label for="password">Password:</label></th>

@@ -1,5 +1,3 @@
-# from django.conf import global_settings
-
 import os
 import sys
 
@@ -90,8 +88,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -101,24 +98,19 @@ WSGI_APPLICATION = 'wsgi.application'
 
 TEMPLATES = [
     {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+            ]
+        }
+    },
+    {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        # 'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(DJANGO_ROOT, 'html')],
         'OPTIONS': {
             'environment': 'core.jinja2_env.environment',
-            #'extensions': [
-            #    'jdj_tags.extensions.DjangoCompat',
-            #]
-            # 'loaders': (
-            #     'django.template.loaders.filesystem.Loader',
-            #     'django.template.loaders.app_directories.Loader',
-            #     # 'django.template.loaders.eggs.Loader',
-            # ),
-            # 'context_processors': (
-            #     global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-            #         'core.context_processors.default',
-            #     )
-            # ),
         }
     }
 ]

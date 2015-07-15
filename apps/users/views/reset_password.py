@@ -1,11 +1,7 @@
-from django.core.validators import validate_email as django_validate_email
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-
-from core.helpers.form_errors import copy_global_error
-from ..models import User
+from core.helpers import form
 from ..forms import ResetPasswordRequestForm, ResetPasswordConfirmForm
 from ..decorators import redirect_authenticated
 
@@ -17,33 +13,32 @@ def request(request):
     """
 
     response = None
-    context = {}
     reset_password_request_form = ResetPasswordRequestForm(request.POST)
 
     if request.method == 'POST':
 
+        form_submitted = True
         user = reset_password_request_form.reset_password_request()
 
         if user:
             response = redirect('users:reset_password:requested')
             request.session['reset_password_email'] = user.email
-        else:
-            context.update({
-                'data': reset_password_request_form.data,
-                'errors': reset_password_request_form.errors
-            })
+
+    else:
+        form_submitted = False
 
     if not response:
 
-        context['fields'] = reset_password_request_form.fields
+        field_info = form.field_info(reset_password_request_form, form_submitted)
 
         response = render(
             request,
             'users/reset-password/request.html',
-            context
+            context={'fields': field_info}
         )
 
     return response
+
 
 @redirect_authenticated
 def requested(request):
@@ -59,6 +54,7 @@ def requested(request):
         'users/reset-password/requested.html',
         {'email': email}
     )
+
 
 @redirect_authenticated
 def confirm(request):
@@ -92,6 +88,7 @@ def confirm(request):
 
     return response
 
+
 @login_required
 def reset(request):
     """
@@ -111,7 +108,7 @@ def reset(request):
             response = redirect('users:reset_password:completed')
         else:
 
-            copy_global_error(
+            form.copy_global_error(
                 reset_password_confirm_form,
                 'passwords_mismatch',
                 'new_password1'
@@ -133,6 +130,7 @@ def reset(request):
         )
 
     return response
+
 
 def completed(request):
     """

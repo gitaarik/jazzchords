@@ -6,11 +6,20 @@
 
             <header class="section-header">
                 {% if edit or section.name %}
-                    {% include "chordcharts/chart/section-header.html" with section_name=section.name show_key=section.show_key key_name=section.key.name move_down=section.can_move_down move_up=section.can_move_up remove=section.can_delete %}
+                    {% import "chordcharts/chart/section-header.html" as section_header %}
+                    {{ section_header.section_header(
+                        section_name=section.name,
+                        key_name=section.key.name,
+                        move_down=section.can_move_down,
+                        move_up=section.can_move_up,
+                        remove=section.can_delete,
+                        show_key=section.show_key,
+                        edit=edit
+                    ) }}
                 {% endif %}
             </header>
 
-            <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ settings.section_sidebar_width }}px;"></div>
+            <div class="section-sidebar" style="height: {{ section.height }}px; width: {{ chart_settings.section_sidebar_width }}px;"></div>
 
             <table>
 
@@ -27,7 +36,7 @@
                                     <td class="
                                         repeating-measure
 
-                                        {% if forloop.first %}
+                                        {% if loop.first %}
                                             {% if line.repeating_measures.span_prev_line %}
                                                 span-prev-line
                                             {% else %}
@@ -35,16 +44,17 @@
                                             {% endif %}
                                         {% endif %}
 
-                                        {% if forloop.last %}
+                                        {% if loop.last %}
                                             {% if line.repeating_measures.span_next_line %}
                                                 span-next-line
                                             {% else %}
                                                 last
                                             {% endif %}
                                         {% endif %}
+
                                     ">
 
-                                        {% if forloop.first %}
+                                        {% if loop.first %}
                                             <div class="
                                                 repeat-range-heading
                                                 repeat-range-length-{{ line.repeating_measures.measures|length }}
@@ -88,7 +98,7 @@
 
                                 {% if edit %}
 
-                                    <td class="measure-add colspan" colspan="{{ line.total_measures|add:"-8" }}">
+                                    <td class="measure-add colspan" colspan="{{ line.total_measures - 8 }}">
                                         <div class="plus">
                                             <span class="fa fa-plus"></span>
                                         </div>
@@ -96,7 +106,7 @@
 
                                 {% else %}
 
-                                    <td class="colspan" colspan="{{ line.total_measures|add:"-8" }}"></td>
+                                    <td class="colspan" colspan="{{ line.total_measures - 8 }}"></td>
 
                                 {% endif %}
 
@@ -108,11 +118,9 @@
 
                 </tbody>
 
-                <tfoot>
-                    {% if edit %}
-                        {% include "chordcharts/chart/section-line-add.html" %}
-                    {% endif %}
-                </tfoot>
+                {% if edit %}
+                    {% include "chordcharts/chart/section-line-add.html" %}
+                {% endif %}
 
             </table>
 

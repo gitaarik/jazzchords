@@ -1,4 +1,4 @@
-from core.helpers.form_errors import copy_global_error
+from core.helpers.form import copy_global_error
 from django.shortcuts import render, redirect
 from django.contrib.auth import (
     login as django_login,
@@ -6,7 +6,6 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.decorators import login_required
 
-from ..models import User
 from ..forms import LoginForm
 from ..decorators import redirect_authenticated
 
@@ -18,7 +17,10 @@ def login(request):
     """
 
     response = None
-    context = {}
+    context = {
+        'data': None,
+        'errors': None
+    }
     login_form = LoginForm(request.POST)
 
     if request.method == 'POST':
