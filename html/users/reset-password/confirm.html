@@ -25,14 +25,7 @@
 
             <table class="_form-table">
 
-                {% for error in errors_all %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                    </tr>
-                {% endfor %}
-
-                {% for error in errors.new_password1 %}
+                {% for error in fields.new_password1.errors %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>
@@ -44,7 +37,7 @@
                     <td><input id="new_password1" name="new_password1" type="password" maxlength="{{ fields.new_password1.max_length }}" required></td>
                 </tr>
 
-                {% for error in errors.new_password2 %}
+                {% for error in fields.new_password2.errors %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>

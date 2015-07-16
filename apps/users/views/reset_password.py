@@ -34,7 +34,7 @@ def request(request):
         response = render(
             request,
             'users/reset-password/request.html',
-            context={'fields': field_info}
+            {'fields': field_info}
         )
 
     return response
@@ -97,36 +97,34 @@ def reset(request):
 
     user = request.user
     response = None
-    context = {}
     reset_password_confirm_form = (
         ResetPasswordConfirmForm(request.POST, user)
     )
 
     if request.method == 'POST':
 
+        form_submitted = True
+
         if reset_password_confirm_form.reset_password():
             response = redirect('users:reset_password:completed')
         else:
-
             form.copy_global_error(
                 reset_password_confirm_form,
                 'passwords_mismatch',
                 'new_password1'
             )
 
-            context.update({
-                'data': reset_password_confirm_form.data,
-                'errors': reset_password_confirm_form.errors
-            })
+    else:
+        form_submitted = False
 
     if not response:
 
-        context['fields'] = reset_password_confirm_form.fields
+        field_info = form.field_info(reset_password_confirm_form, form_submitted)
 
         response = render(
             request,
             'users/reset-password/confirm.html',
-            context
+            {'fields': field_info}
         )
 
     return response

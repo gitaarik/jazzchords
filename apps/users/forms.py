@@ -78,7 +78,7 @@ class SignUpForm(ModelForm):
 
         try:
             user.signup()
-        except IntegrityError as error:
+        except IntegrityError:
             self.add_error(
                 None,
                 ValidationError(

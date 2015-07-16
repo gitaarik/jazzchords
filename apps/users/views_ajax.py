@@ -1,7 +1,7 @@
 from django.http.response import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from core.helpers.form import copy_global_error, remove_empty_errors
+from core.helpers.form import copy_global_error
 from .forms import UpdatePasswordForm
 
 
@@ -25,7 +25,6 @@ def update_password(request):
             'passwords_mismatch',
             'new_password1'
         )
-        remove_empty_errors(update_password_form)
         errors = update_password_form.errors
 
     return JsonResponse({

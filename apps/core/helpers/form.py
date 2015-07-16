@@ -41,22 +41,3 @@ def get_form_error(django_form, field_name, code):
         for error in django_form.errors[field_name].as_data():
             if error.code == code:
                 return error
-
-
-def remove_empty_errors(django_form):
-    """
-    Removes empty errors from the given `django_form` object.
-
-    This is handy if you want to disable errors for certain fields. You
-    can override the error message to an empty one, then pass the form
-    to this function and the errors will be removed.
-    """
-
-    for field in list(django_form.errors):
-
-        for i, error in enumerate(django_form.errors[field]):
-            if not error:
-                del(django_form.errors[field][i])
-
-        if not len(django_form.errors[field]):
-            del(django_form.errors[field])

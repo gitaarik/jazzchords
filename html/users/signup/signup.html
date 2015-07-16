@@ -25,7 +25,7 @@
 
             <table class="_form-table">
 
-                {% for error in errors.username %}
+                {% for error in fields.username.errors %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>
@@ -43,14 +43,14 @@
                                 when you create a chart, your username will be displayed with it.
                             </p>
                         </div>
-                        <input name="username" id="username" type="text" value="{{ data.username }}" maxlength="{{ fields.username.max_length }}" required>
+                        <input name="username" id="username" type="text" value="{{ fields.username.value }}" maxlength="{{ fields.username.max_length }}" required>
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>
                     </td>
                 </tr>
 
-                {% for error in errors.password1 %}
+                {% for error in fields.password1.errors %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>
@@ -74,7 +74,7 @@
                     </td>
                 </tr>
 
-                {% for error in errors.password2 %}
+                {% for error in fields.password2.errors %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>
@@ -98,7 +98,7 @@
                     </td>
                 </tr>
 
-                {% for error in errors.email %}
+                {% for error in fields.email.errors %}
                     <tr class="error">
                         <td></td>
                         <td>{{ error|safe }}</td>
@@ -116,7 +116,7 @@
                                 lost it.
                             </p>
                         </div>
-                        <input name="email" id="email" type="email" value="{{ data.email }}" maxlength="{{ fields.email.max_length }}" required>
+                        <input name="email" id="email" type="email" value="{{ fields.email.value }}" maxlength="{{ fields.email.max_length }}" required>
                     </td>
                     <td>
                         <div class="tooltip-button"><span>?</span></div>

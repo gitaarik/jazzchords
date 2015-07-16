@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from core.helpers.form import copy_global_error, remove_empty_errors
+from core.helpers import form
 from ..models import User
 from ..forms import SignUpForm
 from ..decorators import redirect_authenticated
@@ -13,10 +13,11 @@ def signup(request):
     """
 
     response = None
-    context = {}
     signup_form = SignUpForm(request.POST)
 
     if request.method == 'POST':
+
+        form_submitted = True
 
         if signup_form.is_valid():
             user = signup_form.signup()
@@ -27,22 +28,20 @@ def signup(request):
             request.session['signup_email'] = user.email
             response = redirect('users:signup:validate_email')
         else:
-            copy_global_error(signup_form, 'integrity', 'username')
-            copy_global_error(signup_form, 'passwords_dont_match', 'password1')
-            remove_empty_errors(signup_form)
-            context.update({
-                'data': signup_form.data,
-                'errors': signup_form.errors
-            })
+            form.copy_global_error(signup_form, 'integrity', 'username')
+            form.copy_global_error(signup_form, 'passwords_dont_match', 'password1')
+
+    else:
+        form_submitted = False
 
     if not response:
 
-        context['fields'] = signup_form.fields
+        field_info = form.field_info(signup_form, form_submitted)
 
         response = render(
             request,
             'users/signup/signup.html',
-            context
+            {'fields': field_info}
         )
 
     return response
