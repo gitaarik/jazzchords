@@ -1,10 +1,3 @@
-Use jinja2
-    - Use jinja2 as template backend and make use of jinja2's features on
-      places that is now ugly solved with django's template engine.
-      http://stackoverflow.com/a/31014985/1248175
-      https://docs.djangoproject.com/en/1.8/ref/csrf/#other-template-engines
-    - short description placeholder in chart edit mode is acting funny
-
 Feedback button:
     - Add a feedback button somewhere so people can give feedback on the
       platform.
@@ -15,9 +8,6 @@ Make things ready for alpha release:
     - Configure django settings for production mode
 
 Gulp improvements:
-    - Try to only parse the files that need to be parsed when some file
-      changes, so if the file starts with an underscore, check which files
-      need to be parsed for that.
     - Prevent gulp from exiting on errors
       https://gist.github.com/floatdrop/8269868
     - Use browserify's `opts.paths` option to enable absolute imports
