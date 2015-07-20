@@ -55,7 +55,7 @@ module.exports = Backbone.View.extend({
     updateVideoUrl: function() {
         this.model.set('video_url', this.newVideoUrl);
         this.originalVideoUrl = this.newVideoUrl;
-        this.model.save(null, {patch: true});
+        this.model.save();
     }
 
 });

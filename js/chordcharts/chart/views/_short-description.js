@@ -14,9 +14,9 @@ module.exports = Backbone.View.extend({
     },
 
     gotShown: function() {
-        this.originalShortDescription = this.shortDescriptionTextEl.text().trim();
+        this.originalShortDescription = this.shortDescriptionInputEl.text().trim();
         this.newShortDescription = this.originalShortDescription;
-        this.shortDescriptionInputEl.val(this.originalShortDescription).focusAtEnd();
+        this.shortDescriptionInputEl.focusAtEnd();
     },
 
     close: function() {
@@ -38,27 +38,30 @@ module.exports = Backbone.View.extend({
         if (event.key == "Enter") {
             this.save();
         } else {
-
             this.newShortDescription = this.shortDescriptionInputEl.val().trim();
-
-            if (this.newShortDescription == '') {
-                this.shortDescriptionTextEl.html('<span class="_link">add short description</span>');
-            } else {
-                this.shortDescriptionTextEl.text(this.newShortDescription);
-            }
-
+            this.setShortDescriptionText(this.newShortDescription);
         }
 
     },
 
     restoreShortDescription: function() {
-        this.shortDescriptionTextEl.text(this.originalShortDescription);
+        this.setShortDescriptionText(this.originalShortDescription);
+    },
+
+    setShortDescriptionText: function(text) {
+
+        if (text == '') {
+            this.shortDescriptionTextEl.html('<span class="_link">add short description</span>');
+        } else {
+            this.shortDescriptionTextEl.text(text);
+        }
+
     },
 
     updateShortDescription: function() {
         this.model.set('short_description', this.newShortDescription);
         this.originalShortDescription = this.newShortDescription;
-        this.model.save(null, {patch: true});
+        this.model.save();
     }
 
 });

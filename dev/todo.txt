@@ -3,6 +3,7 @@ Use jinja2
       places that is now ugly solved with django's template engine.
       http://stackoverflow.com/a/31014985/1248175
       https://docs.djangoproject.com/en/1.8/ref/csrf/#other-template-engines
+    - short description placeholder in chart edit mode is acting funny
 
 Feedback button:
     - Add a feedback button somewhere so people can give feedback on the

@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from songs.models import Song
 from .models import Chart, Section, Line, Measure, Chord, ChordType, Key
 
 
@@ -12,16 +11,10 @@ class CompleteDataMixin():
 
 class ChartSerializer(serializers.ModelSerializer):
 
-    song_id = serializers.PrimaryKeyRelatedField(
-        source='song',
-        queryset=Song.objects.all()
-    )
-
     class Meta:
         model = Chart
         fields = (
             'id',
-            'song_id',
             'public',
             'short_description',
             'video_url',

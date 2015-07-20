@@ -55,7 +55,7 @@ module.exports = Backbone.View.extend({
     updateLyricsUrl: function() {
         this.model.set('lyrics_url', this.newLyricsUrl);
         this.originalLyricsUrl = this.newLyricsUrl;
-        this.model.save(null, {patch: true});
+        this.model.save();
     }
 
 });

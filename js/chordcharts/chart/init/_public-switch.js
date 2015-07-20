@@ -22,6 +22,6 @@ publicSwitchEl.click(function() {
     }
 
     chart.set('public', publicState);
-    chart.save(null, {patch: true});
+    chart.save();
 
 });
