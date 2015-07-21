@@ -1,6 +1,9 @@
+Update django and use new admin style:
+    https://github.com/django/django/commit/35901e64b043733acd1687734274553cf994511b
+
 Make things ready for alpha release:
     - Finish ansible stuff
-    - Complete all keys.
+    - Complete all keys
     - Configure django settings for production mode
 
 Gulp improvements:
@@ -19,14 +22,12 @@ Make arrow-up asset in popup widget transparent.
 
 Chart:
     - Remember the chosen key when chart is transposed once.
-    - If the chart is shown in a different key than the original, show
+    - If the chart is shown in a different key than the original, highlight
       the original key in the transpose widget.
-    - When you try to give a chart a name like "!" we get an error
-      because probably a slug can't be created with only this one
-      character.
+    - When you try to give a chart a name like "!" we get an error because
+      probably a slug can't be created with only this one character.
     - If the chord name is really long, sometimes it doesn't fit in it's
-      container. We can probably easily fix this by adjusting the font
-      size.
+      container. We can probably easily fix this by adjusting the font size.
     - Make a PDF export, so that people can easily print it out.
 
 Repeat section stuff:

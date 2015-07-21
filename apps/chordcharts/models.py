@@ -135,6 +135,7 @@ class Note(models.Model):
 
     alt_name = models.CharField(
         max_length=2,
+        blank=True,
         help_text=(
             """The alternative name for the note. Should be a letter from A to
             G and possibly a flat (♭) or sharp (#) sign."""
@@ -167,6 +168,7 @@ class Note(models.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'alt_name': self.alt_name,
             'distance_from_root': self.distance_from_root
         }
 
@@ -1165,20 +1167,8 @@ class Measure(models.Model, PermissionMixin):
             prev_measure_chord = self.previous().chords.all()[0]
 
             if (
-                (chord.rest and prev_measure_chord.rest) or
-                (
-                    prev_measure_chord.beats == self.time_signature.beats and
-                    chord.chord_pitch == prev_measure_chord.chord_pitch and
-                    chord.chord_type == prev_measure_chord.chord_type and
-                    (
-                        not chord.alt_bass or
-                        (
-                            chord.alt_bass and
-                            chord.alt_bass_pitch ==
-                            prev_measure_chord.alt_bass_pitch
-                        )
-                    )
-                )
+                prev_measure_chord.beats == self.time_signature.beats and
+                chord.equal_to(prev_measure_chord)
             ):
                 return True
 
@@ -1222,10 +1212,11 @@ class Chord(models.Model, PermissionMixin):
         )
     )
 
-    chord_note_alt_notation = models.BooleanField(
+    _chord_note_alt_notation = models.BooleanField(
+        db_column='chord_note_alt_notation',
         default=False,
         help_text=(
-            """Indicates whether the alternative notation for the tone in the
+            """Indicates whether the alternative notation for the note in the
             Key should be used. For example, In C Major, the C# can
             alternatively be written as D♭."""
         )
@@ -1255,6 +1246,16 @@ class Chord(models.Model, PermissionMixin):
         )
     )
 
+    _alt_bass_note_alt_notation = models.BooleanField(
+        db_column='alt_bass_note_alt_notation',
+        default=False,
+        help_text=(
+            """Indicates whether the alternative notation for the note in the
+            Key should be used for the alt bass note. For example, In C Major,
+            the C# can alternatively be written as D♭."""
+        )
+    )
+
     rest = models.BooleanField(
         default=False,
         help_text="If on, this chord is interpreted as a rest"
@@ -1281,21 +1282,34 @@ class Chord(models.Model, PermissionMixin):
     def owner(self):
         return self.measure.owner
 
+    @property
+    def chord_note_alt_notation(self):
+        return bool(self._chord_note_alt_notation and self.note.alt_name)
+
+    @chord_note_alt_notation.setter
+    def chord_note_alt_notation(self, value):
+        self._chord_note_alt_notation = value
+
+    @property
+    def alt_bass_note_alt_notation(self):
+        return bool(self._alt_bass_note_alt_notation and self.alt_bass_note.alt_name)
+
+    @alt_bass_note_alt_notation.setter
+    def alt_bass_note_alt_notation(self, value):
+        self._alt_bass_note_alt_notation = value
+
     def client_data(self):
         return {
             'id': self.id,
             'beats': self.beats,
             'chord_pitch': self.chord_pitch,
+            'chord_note_alt_notation': self.chord_note_alt_notation,
             'alt_bass': self.alt_bass,
             'alt_bass_pitch': self.alt_bass_pitch,
+            'alt_bass_note_alt_notation': self.alt_bass_note_alt_notation,
             'rest': self.rest,
             'number': self.number,
-            'note': self.note.client_data(),
             'chord_type_id': self.chord_type.id,
-            'alt_bass_note': (
-                self.alt_bass_note.client_data()
-                if self.alt_bass else False
-            ),
             'chart_output': self.chart_output,
             'chart_fontsize': self.chart_fontsize
         }
@@ -1311,13 +1325,24 @@ class Chord(models.Model, PermissionMixin):
         - Possibly the alternative bass note.
         """
 
+        if self.chord_note_alt_notation:
+            note_notation = self.note.alt_name
+        else:
+            note_notation = self.note.name
+
         chord_notation = '{}{}'.format(
-            self.note.name,
+            note_notation,
             self.chord_type.chord_output
         )
 
         if self.alt_bass:
-            chord_notation += '/{}'.format(self.alt_bass_note.name)
+
+            if self.alt_bass_note_alt_notation:
+                alt_bass_note_notation = self.alt_bass_note.alt_name
+            else:
+                alt_bass_note_notation = self.alt_bass_note.name
+
+            chord_notation += '/{}'.format(alt_bass_note_notation)
 
         return chord_notation
 

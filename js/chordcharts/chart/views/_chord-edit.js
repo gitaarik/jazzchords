@@ -15,7 +15,7 @@ module.exports = Backbone.View.extend({
     events: {
         'click header .close': 'close',
         'click .tabs li': 'switchTab',
-        'click .chord-settings .setting.note .rest': 'useAsRest',
+        'click .chord-settings .setting.chord-note .rest': 'useAsRest',
         'click .chord-settings .setting.type .toggle': 'toggleChordTypes',
         'click .chord-settings .setting.alt-bass-note .none': 'noAltBass'
     },
@@ -93,24 +93,26 @@ module.exports = Backbone.View.extend({
     applyChanges: function() {
         // Applies the changes made in the edit widget to the chord
 
-        var note = Boolean(this.model.get('note'));
+        var chordNote = Boolean(this.model.get('chord_note'));
         var alt_bass_note = this.model.get('alt_bass_note');
 
         var chord_data = {
             chord_type_id: this.model.get('chord_type').get('id'),
-            rest: !note
+            rest: !chordNote
         };
 
-        if (note) {
-            chord_data.chord_pitch = this.model.get('note').get(
-                'distance_from_root'
-            );
+        if (chordNote) {
+            chord_data.chord_pitch = this.model.get('chord_note').get('distance_from_root');
+            chord_data.chord_note_alt_notation = this.model.get('chord_note_alt_notation');
         }
 
         if (alt_bass_note) {
             chord_data.alt_bass = true;
             chord_data.alt_bass_pitch = (
                 this.model.get('alt_bass_note').get('distance_from_root')
+            );
+            chord_data.alt_bass_note_alt_notation = (
+                this.model.get('alt_bass_note_alt_notation')
             );
         } else {
             chord_data.alt_bass = false;
@@ -119,7 +121,7 @@ module.exports = Backbone.View.extend({
         var chord = this.model.get('chord');
         chord.set(chord_data);
         chord.save();
-        chord.parseNextMeasure();
+        chord.get('measure').parseNextMeasure();
 
     },
 
@@ -151,7 +153,7 @@ module.exports = Backbone.View.extend({
      * Sets this chord to be used as a rest.
      */
     useAsRest: function() {
-        this.model.set('note', false);
+        this.model.set('chord_note', false);
     },
 
     /**
@@ -308,7 +310,7 @@ module.exports = Backbone.View.extend({
     parseNoteChoiceWidgets: function() {
 
         var that = this;
-        var note_types = ['note', 'alt_bass_note'];
+        var noteTypes = ['chord_note', 'alt_bass_note'];
 
         // If the notes are different from the last time, regenerate the
         // models/views.
@@ -319,30 +321,30 @@ module.exports = Backbone.View.extend({
 
             that.editWidgetNotes = [];
 
-            _.each(note_types, function(note_type) {
+            _.each(noteTypes, function(noteType) {
 
-                that.editWidgetNotes[note_type] = new ChordEditNotes();
-                var editWidgetNote;
-                var note_choices = that.$el.find(
+                that.editWidgetNotes[noteType] = new ChordEditNotes();
+                var chordEditNote;
+                var noteChoices = that.$el.find(
                     '.chord-settings ' +
-                    '.setting[data-key=' + note_type + '] ul'
+                    '.setting[data-key=' + noteType + '] ul'
                 );
-                note_choices.html('');
+                noteChoices.html('');
 
                 that.model.get('note_choices').each(function(note) {
 
-                    editWidgetNote = new ChordEditNote({
+                    chordEditNote = new ChordEditNote({
                         note_id: note.get('id'), // used for `findWhere` later on
                         note: note,
-                        note_type: note_type,
+                        note_type: noteType,
                         editWidget: that.model
                     });
 
-                    that.editWidgetNotes[note_type].add(editWidgetNote);
+                    that.editWidgetNotes[noteType].add(chordEditNote);
 
-                    note_choices.append(
+                    noteChoices.append(
                         new ChordEditNoteView({
-                            model: editWidgetNote
+                            model: chordEditNote
                         }).render().el
                     );
 
@@ -353,37 +355,48 @@ module.exports = Backbone.View.extend({
         }
 
         // Select the correct note
-        _.each(note_types, function(note_type) {
+        _.each(noteTypes, function(noteType) {
 
             // Deselect last selected if it exists
-            var current_selected = (
-                that.editWidgetNotes[note_type]
+            var currentSelected = (
+                that.editWidgetNotes[noteType]
                 .findWhere({ selected: true })
             );
 
-            if (current_selected) {
-                current_selected.set('selected', false);
+            if (currentSelected) {
+                currentSelected.set('selected', false);
             }
 
             // Select note if it is set (bass note doesn't have to be set)
 
-            var deselect_button = that.$el.find(
+            var deselectButton = that.$el.find(
                 '.chord-settings ' +
-                '.setting[data-key=' + note_type + '] .deselect'
+                '.setting[data-key=' + noteType + '] .deselect'
             );
 
-            if (that.model.get(note_type)) {
+            if (that.model.get(noteType)) {
 
-                if (deselect_button) {
-                    deselect_button.removeClass('selected');
+                if (deselectButton) {
+                    deselectButton.removeClass('selected');
                 }
 
-                that.editWidgetNotes[note_type].findWhere({
-                    note_id: that.model.get(note_type).id
-                }).set('selected', true);
+                var useAltNotation;
 
-            } else if (deselect_button) {
-                deselect_button.addClass('selected');
+                if (noteType == 'chord_note') {
+                    useAltNotation = that.model.get('chord').get('chord_note_alt_notation')
+                } else {
+                    useAltNotation = that.model.get('chord').get('alt_bass_note_alt_notation')
+                }
+
+                that.editWidgetNotes[noteType].findWhere({
+                    note_id: that.model.get(noteType).get('id')
+                }).set({
+                    'selected': true,
+                    'use_alt_notation': useAltNotation
+                });
+
+            } else if (deselectButton) {
+                deselectButton.addClass('selected');
             }
 
         });
@@ -396,12 +409,12 @@ module.exports = Backbone.View.extend({
     parseChordTypeWidget: function() {
 
         var that = this;
-        var current_selected = this.chordEditChordTypes.findWhere({
+        var currentSelected = this.chordEditChordTypes.findWhere({
             selected: true
         });
 
-        if (current_selected) {
-            current_selected.set('selected', false);
+        if (currentSelected) {
+            currentSelected.set('selected', false);
         }
 
         this.chordEditChordTypes.find(function(chordEditChordType) {
@@ -423,27 +436,33 @@ module.exports = Backbone.View.extend({
     reset: function() {
 
         var chord = this.model.get('chord');
+        var chordNote;
+        var chordNoteAltNotation = false;
+        var altBass = chord.get('alt_bass');
+        var altBassNote;
+        var altBassNoteAltNotation = false;
         var rest = chord.get('rest');
-        var alt_bass = chord.get('alt_bass');
-        var note;
-        var alt_bass_note;
 
         if (rest) {
-            note = false;
+            chordNote = false;
         } else {
-            note = chord.getNote();
+            chordNote = chord.getNote();
+            chordNoteAltNotation = chord.get('chord_note_alt_notation')
         }
 
-        if (alt_bass) {
-            alt_bass_note = chord.getAltBassNote();
+        if (altBass) {
+            altBassNote = chord.getAltBassNote();
+            altBassNoteAltNotation = chord.get('alt_bass_note_alt_notation');
         } else {
-            alt_bass_note = false;
+            altBassNote = false;
         }
 
         this.model.set({
-            note: note,
+            chord_note: chordNote,
+            chord_note_alt_notation: chordNoteAltNotation,
             chord_type: chord.get('chord_type'),
-            alt_bass_note: alt_bass_note,
+            alt_bass_note: altBassNote,
+            alt_bass_note_alt_notation: altBassNoteAltNotation,
             rest: rest,
             note_choices: (
                 allKeys.findWhere({
@@ -463,7 +482,7 @@ module.exports = Backbone.View.extend({
             this.showChordTypePart(1);
         }
 
-        this.openTab('note');
+        this.openTab('chord_note');
 
     }
 

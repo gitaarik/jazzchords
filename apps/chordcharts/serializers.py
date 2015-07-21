@@ -76,6 +76,9 @@ class ChordSerializer(CompleteDataMixin, serializers.ModelSerializer):
         queryset=ChordType.objects.all()
     )
 
+    chord_note_alt_notation = serializers.BooleanField()
+    alt_bass_note_alt_notation = serializers.BooleanField()
+
     def complete_data(self, data):
         data['measure_id'] = self.context['measure_id']
 
@@ -87,7 +90,9 @@ class ChordSerializer(CompleteDataMixin, serializers.ModelSerializer):
             'beats',
             'chord_type_id',
             'chord_pitch',
+            'chord_note_alt_notation',
             'alt_bass',
             'alt_bass_pitch',
+            'alt_bass_note_alt_notation',
             'rest',
         )

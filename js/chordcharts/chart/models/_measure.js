@@ -109,6 +109,9 @@ module.exports = Model.extend({
 
     },
 
+    /**
+     * Triggers the re-rendering of the next measure.
+     */
     renderNextMeasure: function() {
 
         if (
@@ -120,6 +123,62 @@ module.exports = Model.extend({
             // will show or remove the repeat sign ( % ).
             this.get('next_measure').get('chords').first()
                 .set('changed', new Date().getTime());
+        }
+
+    },
+
+    /**
+     * Parses the next measure based on this measure
+     *
+     * If this and the next measure are on the same line and both
+     * have beat_schema '4' then:
+     * - If the chords are the same NOW, then next measure will
+     *   display the repeat sign ( % ).
+     * - If the chord before the change of this measure and the
+     *   next chord were the same, then change the chord of the
+     *   next measure to the chord of the current measure.
+     */
+    parseNextMeasure: function() {
+
+        if (!GLOBALS.parsed) {
+            // only parse next measure if whole chart has been done parsing
+            return;
+        }
+
+        if (
+            this.get('beat_schema') == '4' &&
+            this.has('next_measure') &&
+            this.get('next_measure').get('beat_schema') == '4' &&
+            this.get('line') == this.get('next_measure').get('line')
+        ) {
+
+            var this_chord = this.get('chords').first();
+            var next_chord = this.get('next_measure')
+                .get('chords').first();
+
+            if (this_chord.isEqualTo(next_chord)) {
+
+                // Trigger the `render()` by setting timestamp in
+                // milliseconds in `changed` attribute. Then `render()`
+                // will put the repeat sign ( % ) in.
+                this.get('next_measure').get('chords').first()
+                    .set('changed', new Date().getTime());
+
+            } else if (next_chord.isEqualTo(this_chord.previousAttributes())) {
+
+                next_chord.set({
+                    'chord_pitch': this_chord.get('chord_pitch'),
+                    'chord_note_alt_notation': this_chord.get('chord_note_alt_notation'),
+                    'chord_type': this_chord.get('chord_type'),
+                    'alt_bass': this_chord.get('alt_bass'),
+                    'alt_bass_pitch': this_chord.get('alt_bass_pitch'),
+                    'alt_bass_note_alt_notation': this_chord.get('alt_bass_note_alt_notation')
+                });
+
+                next_chord.save();
+
+            }
+
         }
 
     },
