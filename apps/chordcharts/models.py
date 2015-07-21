@@ -129,7 +129,15 @@ class Note(models.Model):
         max_length=2,
         help_text=(
             """The name for the note. Should be a letter from A to G and
-            possibly a flat (b) or sharp (#) sign."""
+            possibly a flat (♭) or sharp (#) sign."""
+        )
+    )
+
+    alt_name = models.CharField(
+        max_length=2,
+        help_text=(
+            """The alternative name for the note. Should be a letter from A to
+            G and possibly a flat (♭) or sharp (#) sign."""
         )
     )
 
@@ -1211,6 +1219,15 @@ class Chord(models.Model, PermissionMixin):
             """The relative pitch for the chord. This is the amount of half
             notes the chord note is away from the root of the key of the
             section. These half steps should be upwards in the scale."""
+        )
+    )
+
+    chord_note_alt_notation = models.BooleanField(
+        default=False,
+        help_text=(
+            """Indicates whether the alternative notation for the tone in the
+            Key should be used. For example, In C Major, the C# can
+            alternatively be written as D♭."""
         )
     )
 
