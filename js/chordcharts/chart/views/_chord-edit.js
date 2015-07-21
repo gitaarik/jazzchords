@@ -28,16 +28,17 @@ module.exports = Backbone.View.extend({
 
     render: function() {
 
-        // Only show the edit widget when 'visible' is true,
-        // otherwise, hide the edit widget.
+        // Only show the edit widget when 'visible' is true, otherwise, hide
+        // the edit widget.
 
         if (this.model.get('visible')) {
 
             var previousAttributes = this.model.previousAttributes();
 
-            // If the edit widget was already open for this chord,
-            // then apparently something else than the visibility
-            // changed, so we apply the changes.
+            // If the edit widget was already open for this chord, then
+            // apparently something else than the visibility changed, so we
+            // apply the changes. Else, we reset the widget to it's initial
+            // state.
             if (
                 previousAttributes.visible &&
                 this.model.get('chord') == previousAttributes.chord
@@ -58,8 +59,8 @@ module.exports = Backbone.View.extend({
     },
 
     initChordTypes: function() {
-        // Creates the views for the chord type choices and binds them to
-        // the existing HTML
+        // Creates the views for the chord type choices and binds them to the
+        // existing HTML
 
         var that = this;
         this.chordEditChordTypes = new ChordEditChordTypes();
@@ -127,12 +128,10 @@ module.exports = Backbone.View.extend({
     },
 
     switchTab: function(obj) {
-        // Switches to a tab in the edit widget
-        // like 'note', 'type' and 'alt_bass_bass'
-
+        // Switches to a tab in the edit widget like 'note', 'type' and
+        // 'alt_bass_bass'.
         var tab = $(obj.currentTarget);
         this.openTab(tab.data('key'));
-
     },
 
     openTab: function(key) {
@@ -173,15 +172,14 @@ module.exports = Backbone.View.extend({
     },
 
     showChordTypePart: function(number) {
-        // Shows the chord type part of the provided number
-        // The chord type choices are in these parts
+        // Shows the chord type part of the provided number The chord type
+        // choices are in these parts
         this.chord_type_el.find('.type-part').hide();
         this.chord_type_el.find('.type-part-' + number).show();
     },
 
     /**
-     * Parses the settings on the model and render the html
-     * accordingly.
+     * Parses the settings on the model and render the html accordingly
      */
     show: function() {
 
@@ -200,8 +198,8 @@ module.exports = Backbone.View.extend({
     },
 
     offset: function() {
-        // Get the offset for the edit widget based on the chord it was
-        // opened for.
+        // Get the offset for the edit widget based on the chord it was opened
+        // for.
 
         var beat_schema = this.model.get('chord')
             .get('measure').get('beat_schema');
@@ -312,8 +310,8 @@ module.exports = Backbone.View.extend({
         var that = this;
         var note_types = ['note', 'alt_bass_note'];
 
-        // If the notes are different from the last time, regenerate
-        // the models/views.
+        // If the notes are different from the last time, regenerate the
+        // models/views.
         if (
             this.model.get('note_choices') !=
             this.model.previousAttributes().note_choices
@@ -367,8 +365,7 @@ module.exports = Backbone.View.extend({
                 current_selected.set('selected', false);
             }
 
-            // Select note if it is set (bass note doesn't have to be
-            // set).
+            // Select note if it is set (bass note doesn't have to be set)
 
             var deselect_button = that.$el.find(
                 '.chord-settings ' +
@@ -419,9 +416,9 @@ module.exports = Backbone.View.extend({
     /**
      * Resets the edit widget to the "start state".
      *
-     * For example, the notes get reinitialized with the notes from the
-     * correct key, the chosen chord is the chord the edit is on and the
-     * selected tab is the note tab.
+     * For example, the notes get reinitialized with the notes from the correct
+     * key, the chosen chord is the chord the edit is on and the selected tab
+     * is the note tab.
      */
     reset: function() {
 
@@ -455,8 +452,7 @@ module.exports = Backbone.View.extend({
             )
         });
 
-        // Show the chord type part that has the curent selected chord
-        // type.
+        // Show the chord type part that has the curent selected chord type
         var current_chord_type = this.chordEditChordTypes.findWhere({
             chord_type: this.model.get('chord_type')
         });
