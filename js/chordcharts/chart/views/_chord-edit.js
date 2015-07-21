@@ -43,6 +43,8 @@ module.exports = Backbone.View.extend({
                 this.model.get('chord') == previousAttributes.chord
             ) {
                 this.applyChanges();
+            } else {
+                this.reset();
             }
 
             this.show();
@@ -182,8 +184,6 @@ module.exports = Backbone.View.extend({
      * accordingly.
      */
     show: function() {
-
-        this.reset();
 
         var offset = this.offset();
 

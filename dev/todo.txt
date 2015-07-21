@@ -1,7 +1,3 @@
-Feedback button:
-    - Add a feedback button somewhere so people can give feedback on the
-      platform.
-
 Make things ready for alpha release:
     - Finish ansible stuff
     - Complete all keys.
@@ -14,7 +10,7 @@ Gulp improvements:
     - Set browserify's `opts.debug` to true for sourcemaps
 
 Chart:
-    - The half diminished symbol (0̸) doesn't look good on the page.
+    - The half diminished symbol (0̸) doesn't look good on some systems.
 
 Decide to use Gb Major or F# Major:
 https://en.wikipedia.org/wiki/G-flat_major
