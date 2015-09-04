@@ -3,14 +3,10 @@ Update django and use new admin style:
 
 Make things ready for alpha release:
     - Finish ansible stuff
-    - Complete all keys
+    - Complete all keys (alt note notations)
     - Configure django settings for production mode
 
-Gulp improvements:
-    - Prevent gulp from exiting on errors
-      https://gist.github.com/floatdrop/8269868
-    - Use browserify's `opts.paths` option to enable absolute imports
-    - Set browserify's `opts.debug` to true for sourcemaps
+Use webpack and compass instead of gulp shite
 
 Chart:
     - The half diminished symbol (0̸) doesn't look good on some systems.
