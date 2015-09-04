@@ -1,4 +1,4 @@
-Django==1.7.6
+Django==1.8.2
 django-autoslug==1.7.2
 django-grappelli==2.6.3
 django-haystack==2.3.1
