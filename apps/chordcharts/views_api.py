@@ -224,7 +224,14 @@ class SearchCharts(views.APIView):
 
         for charts in songs.values():
 
-            if len(charts) > 1:
+            if len(songs) == 1:
+
+                for chart in charts:
+                    results_dict.append(
+                        self.get_chart_result(chart)
+                    )
+
+            elif len(charts) > 1:
                 results_dict.append(
                     self.get_song_result(charts[0].song)
                 )
@@ -267,29 +274,6 @@ class SearchCharts(views.APIView):
             'short_description': ''
         }
 
-    def show_charts(self, search_results):
-
-        results_dict = []
-
-        for search_result in search_results:
-
-            chart = search_result.object
-            song = chart.song
-            url = reverse(
-                'chordcharts:chart',
-                kwargs={
-                    'chart_id': chart.id,
-                    'song_slug': song.slug
-                }
-            )
-
-            results_dict.append({
-                'url': url,
-                'song_name': song.name,
-                'short_description': chart.short_description
-            })
-
-        return Response({'results': results_dict})
 
 def require_permission(request, obj, permission):
     if not request.user.has_perm(permission, obj):

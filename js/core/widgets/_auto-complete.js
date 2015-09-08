@@ -299,7 +299,7 @@ Autocomplete.prototype.process_submit = function() {
 /**
  * Processes a submit in case there aren't any selected results.
  */
-Autocomplete.prototype.process_submit_no_selected_results = function() { 
+Autocomplete.prototype.process_submit_no_selected_results = function() {
 
     this.hide_results();
 

@@ -15,6 +15,7 @@ from .models import Chart, Key, ChordType
 from .forms import CreateChartForm
 from .settings import BOXED_CHART
 from .helpers.keys_json import keys_json
+from .helpers.search_charts import search_charts
 
 
 def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
@@ -163,24 +164,24 @@ def chart(request, song_slug, chart_id, key_tonic=None, edit=False):
 
 def search(request, search_term=None):
 
-    song = None
-
-    if search_term:
-        try:
-            song = Song.objects.get(name=search_term)
-        except ObjectDoesNotExist:
-            pass
-
-    if song:
-        results = song.charts
-    else:
-        results = Chart.objects
-
-    results = results.public_or_owned(request.user)
+    song = request.GET.get('song')
     username = request.GET.get('user')
 
-    if username:
-        results = results.filter(owner__username=username)
+    if song:
+        song = get_object_or_404(Song, id=song)
+        results = song.charts.public_or_owned(request.user)
+    elif username:
+        results = (
+            Chart.objects
+            .public_or_owned(request.user)
+            .filter(owner__username=username)
+        )
+    elif search_term:
+        results = []
+        for search_result in search_charts(search_term, request.user):
+            results.append(search_result.object)
+    else:
+        results = Chart.objects.public_or_owned(request.user)
 
     context = {
         'search_term': search_term,
