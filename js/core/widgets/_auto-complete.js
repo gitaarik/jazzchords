@@ -57,10 +57,8 @@ var Autocomplete = function(selector, delegate, options) {
         } else if ($.inArray(event.key, ['Esc', 'Escape']) > -1) {
             that.input_el.val(that.input_val);
         } else if (event.key == 'Enter') {
-            if (that.results_visible()) {
-                event.preventDefault();
-                that.choose_result();
-            }
+            event.preventDefault();
+            that.process_submit();
         } else {
             that.process_input_val();
         }
@@ -261,10 +259,52 @@ Autocomplete.prototype.show_loading_indicator = function() {
 Autocomplete.prototype.show_no_results_message = function() {
 
     if (this.options && this.options.show_no_results) {
-        this.results_el.html('<li><span class="no-results">No charts found</span></li>');
+        this.results_el.html('<li><span class="no-results">No results</span></li>');
         this.base_el.addClass('results-on');
     } else {
         this.hide_results();
+    }
+
+};
+
+/**
+ * Processes what should happen when the input was submitted (the user hitted
+ * enter or a possible search button).
+ */
+Autocomplete.prototype.process_submit = function() {
+
+    if (this.results_visible()) {
+
+        if (this.selected_result_index == null) {
+
+            if (
+                this.options &&
+                this.options.result_option_required
+            ) {
+                this.show_attention_animation();
+            } else {
+                this.process_submit_no_selected_results();
+            }
+
+        } else {
+            this.choose_result();
+        }
+
+    } else {
+        this.process_submit_no_selected_results();
+    }
+
+};
+
+/**
+ * Processes a submit in case there aren't any selected results.
+ */
+Autocomplete.prototype.process_submit_no_selected_results = function() { 
+
+    this.hide_results();
+
+    if (typeof this.delegate.no_selected_result_submit != "undefined") {
+        this.delegate.no_selected_result_submit(this.input_val);
     }
 
 };
@@ -275,7 +315,7 @@ Autocomplete.prototype.show_no_results_message = function() {
  */
 Autocomplete.prototype.results_visible = function() {
     return this.base_el.hasClass('results-on');
-}
+};
 
 /**
  * Shows the results widget if there are any results.
@@ -381,44 +421,29 @@ Autocomplete.prototype.choose_result = function() {
 
     var that = this;
 
-    if (this.results.length) {
+    result = this.results[
+        this.selected_result_index
+    ];
 
-        var result;
+    this.input_val = this.delegate.format_autocomplete(result);
 
-        if (this.results.length == 1) {
-            result = this.results[0];
-        } else if (this.selected_result_index != null) {
-            result = this.results[
-                this.selected_result_index
-            ];
-        }
-
-        if (result) {
-
-            this.input_val = this.delegate.format_autocomplete(result);
-
-            if (typeof this.delegate.choose_result != "undefined") {
-                this.delegate.choose_result(result);
-            }
-
-            this.hide_results();
-
-        } else {
-
-            this.input_el.focus();
-
-            if (this.options && this.options.result_option_required) {
-                this.results_el.addClass('attention-animation');
-                setTimeout(function() {
-                    that.results_el.removeClass('attention-animation');
-                }, 1000);
-            } else {
-                this.hide_results();
-            }
-
-        }
-
+    if (typeof this.delegate.choose_result != "undefined") {
+        this.delegate.choose_result(result);
     }
+
+    this.hide_results();
+
+};
+
+Autocomplete.prototype.show_attention_animation = function() {
+
+    var that = this;
+    this.input_el.focus();
+    this.results_el.addClass('attention-animation');
+
+    setTimeout(function() {
+        that.results_el.removeClass('attention-animation');
+    }, 1000);
 
 };
 

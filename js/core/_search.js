@@ -42,6 +42,14 @@ var autoCompleteDelegate = {
 
     choose_result: function(result) {
         window.location = result.url;
+    },
+
+    no_selected_result_submit: function(input_val) {
+
+        if (input_val) {
+            window.location = '/search/' + input_val + '/';
+        }
+
     }
 
 };
