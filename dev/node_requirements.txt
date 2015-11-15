@@ -6,4 +6,5 @@ gulp-rename@1.2.0
 gulp@3.8.10
 gulp@3.8.10
 minimist@1.1.0
+psycopg2==2.6.1
 vinyl-source-stream@1.0.0
