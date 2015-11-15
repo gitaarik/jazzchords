@@ -1,5 +1,5 @@
 try:
-    from environment import ENVIRONMENT
+    from .environment import ENVIRONMENT
 except ImportError:
     ENVIRONMENT = 'development'
 
