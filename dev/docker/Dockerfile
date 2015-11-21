@@ -18,6 +18,7 @@ RUN apt-get install -y elasticsearch nodejs
 RUN git clone https://github.com/gitaarik/jazzchords.git /home/jazzchords/
 RUN echo "ENVIRONMENT = 'production'" > /home/jazzchords/settings/environment.py
 RUN pip3 install -r /home/jazzchords/dev/pip_requirements.txt
+RUN pip3 install -r /home/jazzchords/dev/pip_requirements_production.txt
 RUN cd /home/jazzchords/dev/ && npm install
 RUN cd /home/jazzchords/dev/ && node_modules/.bin/gulp parsestatic
 RUN cd /home/jazzchords/ && ./manage.py migrate
