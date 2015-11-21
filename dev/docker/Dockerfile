@@ -29,6 +29,7 @@ RUN chown jazzchords:jazzchords /home/jazzchords/
 
 # Get the code and make it ready
 USER jazzchords
+RUN export REVISION=2
 RUN git clone https://github.com/gitaarik/jazzchords.git /home/jazzchords/
 RUN echo "ENVIRONMENT = 'production'" > /home/jazzchords/settings/environment.py
 
