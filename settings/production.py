@@ -6,7 +6,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'jazzchords',
         'USER': 'jazzchords',
-        'PASSWORD': 's3cRut@s$H!t',
+        'PASSWORD': '',
         'HOST': 'localhost'
     }
 }
