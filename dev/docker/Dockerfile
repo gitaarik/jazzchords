@@ -43,4 +43,4 @@ RUN pip3 install -r /home/jazzchords/dev/pip_requirements.txt
 RUN pip3 install -r /home/jazzchords/dev/pip_requirements_production.txt
 
 # Migrate
-RUN service postgresql start && cd /home/jazzchords/ && ./manage.py migrate
+RUN service postgresql start && cd /home/jazzchords/ && su jazzchords -c "./manage.py migrate" && su jazzchords -c "./manage.py loaddata dev/data-dump.json"
