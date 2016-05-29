@@ -35,13 +35,15 @@
 
             <table class="_form-table">
 
-                {% for error in errors.song_name %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
+                    {% for error in errors.song_name %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
 
                 <tr class="song-name">
                     <th>
@@ -69,13 +71,15 @@
                     </td>
                 </tr>
 
-                {% for error in errors.short_description %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
+                    {% for error in errors.short_description %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
 
                 <tr>
                     <th>
@@ -99,13 +103,15 @@
                     </td>
                 </tr>
 
-                {% for error in errors.video_url %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
+                    {% for error in errors.video_url %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
 
                 <tr>
 
@@ -130,13 +136,15 @@
 
                 </tr>
 
-                {% for error in errors.lyrics_url %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
+                    {% for error in errors.lyrics_url %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
 
                 <tr>
                     <th>
@@ -154,21 +162,25 @@
                     </td>
                 </tr>
 
-                {% for error in errors.key_tonic %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
+                {% if errors %}
 
-                {% for error in errors.key_tonality %}
-                    <tr class="error">
-                        <td></td>
-                        <td>{{ error|safe }}</td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
+                    {% for error in errors.key_tonic %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for error in errors.key_tonality %}
+                        <tr class="error">
+                            <td></td>
+                            <td>{{ error|safe }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+
+                {% endif %}
 
                 <tr class="key">
 
