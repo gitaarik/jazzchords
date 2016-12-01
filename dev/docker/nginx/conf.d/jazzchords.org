@@ -1,0 +1,13 @@
+server {
+
+    server_name localhost;
+	listen 80;
+
+    root /srv/jazzchords/static/;
+
+    location / {
+        include /etc/nginx/uwsgi_params;
+        uwsgi_pass unix:/srv/jazzchords/uwsgi.sock;
+    }
+
+}
